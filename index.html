@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etsy Listing Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">Etsy Listing Generator</h1>
+      <p class="tagline">Crea listados optimizados para tu tienda Etsy</p>
+      <button type="button" class="link-rules" id="btn-rules" aria-controls="rules-modal">Ver reglas del generador</button>
+    </header>
+
+    <!-- Modal: Reglas del generador -->
+    <div class="modal-overlay" id="rules-modal" role="dialog" aria-labelledby="rules-modal-title" aria-modal="true" hidden>
+      <div class="modal-backdrop" id="rules-backdrop"></div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2 class="modal-title" id="rules-modal-title">Reglas del generador</h2>
+          <button type="button" class="modal-close" id="rules-close" aria-label="Cerrar">×</button>
+        </div>
+        <div class="modal-body" id="rules-content">
+          <!-- Rendered by app.js from generator-rules.js -->
+        </div>
+      </div>
+    </div>
+
+    <main class="main">
+      <!-- Left panel: Input form -->
+      <section class="panel panel-form">
+        <div class="panel-inner">
+          <h2 class="panel-title">Configuración</h2>
+
+          <form id="generator-form" class="form">
+            <!-- Custom dropdown: Product category -->
+            <div class="field">
+              <label class="field-label" for="category-trigger">Categoría del producto</label>
+              <input type="hidden" name="category" id="category-value" value="">
+              <div class="custom-dropdown" id="category-dropdown" data-value="">
+                <button type="button" class="dropdown-trigger" id="category-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="dropdown-value">Selecciona una categoría</span>
+                  <svg class="dropdown-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="dropdown-menu" role="listbox" id="category-menu" hidden>
+                  <!-- Options injected by JS for easy extension -->
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="keyword">Keyword principal (Erank)</label>
+              <input type="text" id="keyword" name="keyword" class="input" placeholder="Ej: printable wall art nursery">
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="short-desc">Descripción breve del producto</label>
+              <textarea id="short-desc" name="short-desc" class="textarea" rows="3" placeholder="Describe brevemente tu producto..."></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="style">Estilo visual</label>
+              <input type="text" id="style" name="style" class="input" placeholder="Ej: moderno, minimalista, colores pastel">
+            </div>
+
+            <div class="field">
+              <span class="field-label">Idioma del listing</span>
+              <div class="toggle-group" role="group" aria-label="Idioma del listing">
+                <input type="radio" id="lang-es" name="language" value="es" checked class="toggle-input">
+                <label for="lang-es" class="toggle-option">Spanish</label>
+                <input type="radio" id="lang-en" name="language" value="en" class="toggle-input">
+                <label for="lang-en" class="toggle-option">English</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-generate" id="btn-generate">
+              <span class="btn-text">Generar Contenido</span>
+              <span class="btn-loader" aria-hidden="true"></span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Right panel: Output -->
+      <section class="panel panel-output">
+        <div class="panel-inner">
+          <h2 class="panel-title">Contenido generado</h2>
+
+          <div class="output" id="output">
+            <!-- Título Etsy -->
+            <div class="output-section">
+              <div class="output-section-header">
+                <h3 class="output-section-title">Título Etsy</h3>
+                <span class="output-section-meta">max 140 caracteres</span>
+                <button type="button" class="btn-copy" data-copy-target="title-content" aria-label="Copiar título">
+                  <span class="btn-copy-text">Copiar</span>
+                  <span class="btn-copy-done" aria-hidden="true">¡Copiado!</span>
+                </button>
+              </div>
+              <p class="output-content" id="title-content">Printable Wall Art, Nursery Decor, Minimalist Kids Room, Digital Download, Pastel Colors — Ejemplo de título optimizado para SEO</p>
+              <p class="char-count"><span id="title-char-count">0</span>/140</p>
+            </div>
+
+            <!-- Tags -->
+            <div class="output-section">
+              <div class="output-section-header">
+                <h3 class="output-section-title">Tags</h3>
+                <button type="button" class="btn-copy btn-copy-tags" data-copy-target="tags-content" aria-label="Copiar tags">
+                  <span class="btn-copy-text">Copiar</span>
+                  <span class="btn-copy-done" aria-hidden="true">¡Copiado!</span>
+                </button>
+              </div>
+              <div class="tags-list" id="tags-content">
+                <span class="tag">printable wall art</span>
+                <span class="tag">nursery decor</span>
+                <span class="tag">digital download</span>
+                <span class="tag">minimalist</span>
+                <span class="tag">pastel colors</span>
+                <span class="tag">kids room</span>
+                <span class="tag">instant download</span>
+                <span class="tag">home decor</span>
+                <span class="tag">wall art print</span>
+                <span class="tag">baby room</span>
+                <span class="tag">modern decor</span>
+                <span class="tag">neutral nursery</span>
+                <span class="tag">gift for mom</span>
+              </div>
+            </div>
+
+            <!-- Descripción completa -->
+            <div class="output-section">
+              <div class="output-section-header">
+                <h3 class="output-section-title">Descripción completa</h3>
+                <button type="button" class="btn-copy" data-copy-target="desc-content" aria-label="Copiar descripción">
+                  <span class="btn-copy-text">Copiar</span>
+                  <span class="btn-copy-done" aria-hidden="true">¡Copiado!</span>
+                </button>
+              </div>
+              <div class="output-content output-content-block" id="desc-content">
+                <p>Transforma la habitación de tu pequeño con este imprimible de pared elegante y moderno. Diseño minimalista en tonos pastel, perfecto para decoración de guardería o habitación infantil.</p>
+                <p>✓ Descarga digital instantánea — listo para imprimir en casa o en tu imprenta local.<br>
+                ✓ Alta resolución para una impresión nítida.<br>
+                ✓ Sin marcas de agua. Uso personal.</p>
+                <p>Ideal como regalo para baby shower o para dar personalidad a cualquier espacio. ¡Descarga hoy y decora en minutos!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Etsy Listing Generator — Genera listados optimizados para tu tienda.</p>
+    </footer>
+  </div>
+
+  <script src="generator-rules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
