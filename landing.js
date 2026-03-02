@@ -157,18 +157,28 @@
   function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Food — glowing pink circle
+    // Food — pulsing neon orb
+    const t = Date.now() / 200;
+    const pulse = 0.85 + Math.sin(t) * 0.2;
+    const glow = 12 + Math.sin(t * 1.3) * 10;
+    const cx = food.x * CELL + CELL / 2;
+    const cy = food.y * CELL + CELL / 2;
+    const r = (CELL / 2.6) * pulse;
+
     ctx.shadowColor = '#ff2d78';
-    ctx.shadowBlur  = 14;
-    ctx.fillStyle   = '#ff2d78';
+    ctx.shadowBlur = glow;
+    ctx.fillStyle = '#ff2d78';
     ctx.beginPath();
-    ctx.arc(
-      food.x * CELL + CELL / 2,
-      food.y * CELL + CELL / 2,
-      CELL / 2.6,
-      0, Math.PI * 2
-    );
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.fill();
+
+    ctx.shadowColor = '#ff6eaa';
+    ctx.shadowBlur = glow * 0.6;
+    ctx.fillStyle = 'rgba(255, 110, 170, 0.6)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 0.7, 0, Math.PI * 2);
+    ctx.fill();
+
     ctx.shadowBlur = 0;
 
     // Snake body
