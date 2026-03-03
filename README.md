@@ -1,22 +1,14 @@
 # AI Proto Lab
 
-A portfolio landing page for AI-built prototypes. Vanilla HTML, CSS, and JavaScript—no build step, no frameworks.
-
-## What’s in here
-
-- **Landing page** — Hero, project cards, footer
-- **Snake game** — Appears on the page; play or lose
-- **Cherry blossom particles** — Animated background
+A portfolio of AI-built prototypes. Each one started as a "what if" — shipped fast, designed to be used.
 
 ## Run it
 
 Open `index.html` in a browser, or use a local server:
 
 ```bash
-# Python
 python3 -m http.server 8080
-
-# Node (npx)
+# or
 npx serve .
 ```
 
@@ -26,45 +18,59 @@ Then open `http://localhost:8080`.
 
 ```
 proto/
-├── index.html    # Main landing page
-├── landing.css   # Styles
-├── landing.js    # Particles, cards, snake game
+├── index.html              Landing page (hub for all projects)
+├── landing.css
+├── landing.js
+├── projects/
+│   ├── bubbles-extension/  Chrome extension: bubbles on any webpage
+│   │   ├── manifest.json
+│   │   ├── content.js
+│   │   ├── content.css
+│   │   ├── popup.html / popup.css / popup.js
+│   │   ├── icons/
+│   │   └── README.md
+│   ├── nighty-night/       Bedtime story generator (coming soon)
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   └── README.md
+│   └── salad-maker/        Ingredient-based recipe builder (coming soon)
+│       ├── index.html
+│       ├── style.css
+│       └── README.md
 └── README.md
 ```
 
 ## Adding a new project
 
-1. Open `index.html` and find the `.grid` section.
-2. Copy the card template (see the HTML comment above the grid).
-3. Insert a new card:
+1. Create a folder under `projects/` (e.g. `projects/my-idea/`).
+2. Add at least `index.html` and `style.css`.
+3. Write a `README.md` with: **Problem**, **Hypothesis**, **Users**, **Metrics**.
+4. Add a card to the landing page grid in `index.html`:
 
 ```html
-<a href="https://your-deployed-url.com" target="_blank" rel="noopener" class="card card--pink">
+<a href="projects/my-idea/" class="card card--pink">
   <div class="card-border"></div>
   <div class="card-body">
-    <h3 class="card-title">Project Name</h3>
+    <h3 class="card-title">My Idea</h3>
     <p class="card-desc">One-line description.</p>
   </div>
 </a>
 ```
 
-4. Change `href` to your deployed URL.
-5. Pick an accent: `card--pink`, `card--cyan`, or `card--purple`.
+Accent options: `card--pink` | `card--cyan` | `card--purple`
 
-Projects live in their own repos and deploy separately; the landing page only links to them.
+## Projects
 
-## Snake game
+| Project | Description | Status |
+|---------|-------------|--------|
+| [BUBBLES](projects/bubbles-extension/) | Chrome extension: pop bubbles on any page | Live |
+| [BUBBLES](projects/bubbles-extension/) | Chrome extension: pop bubbles on any page | Live |
+| [Nighty Night](projects/nighty-night/) | Bedtime story generator | Coming soon |
+| [Salad Maker](projects/salad-maker/) | Pick ingredients, get a recipe | Coming soon |
 
-- **Starts** after ~30 seconds, or when you scroll past the projects section.
-- **Controls**: Arrow keys or WASD; swipe on mobile.
-- **Score**: +1 for each piece of food you eat.
-- **On game over**: Click “Bring the snake back” to play again.
+## Deploy
 
-## Accessibility
-
-- Respects `prefers-reduced-motion`
-- Focus styles on cards
-- Semantic HTML and ARIA where needed
+This is a static site — deploy the entire repo to Vercel, Netlify, or GitHub Pages. Each project lives at `/projects/<name>/` under the same domain.
 
 ## License
 

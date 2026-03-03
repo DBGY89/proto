@@ -41,6 +41,59 @@ body {
   line-height: 1.6;
 }
 
+/* ─── File protocol notice (when opening index.html directly from disk) ─── */
+.file-protocol-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 3rem 1rem 1.5rem;
+  background: rgba(255, 45, 120, .15);
+  border-bottom: 1px solid var(--neon-pink);
+  font-size: .9rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+.file-protocol-notice[hidden] { display: none; }
+.file-protocol-notice p { margin: 0 0 .5rem; }
+.file-protocol-notice p:last-of-type { margin-bottom: 0; }
+.file-protocol-notice code {
+  display: inline-block;
+  margin: .35rem 0;
+  padding: .35rem .6rem;
+  background: rgba(0,0,0,.3);
+  border-radius: 6px;
+  font-size: .85rem;
+  color: var(--neon-cyan);
+}
+.file-protocol-notice a {
+  color: var(--neon-cyan);
+  text-decoration: none;
+}
+.file-protocol-notice a:hover { text-decoration: underline; }
+.dismiss-notice {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+}
+.dismiss-notice:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,.08);
+}
+
 /* ─── Particles ─── */
 .particles {
   position: fixed;

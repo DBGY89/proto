@@ -11,6 +11,13 @@
 </head>
 <body>
 
+  <div id="file-protocol-notice" class="file-protocol-notice" hidden>
+    <p>To open the project pages and play, run a local server from the <strong>proto</strong> folder:</p>
+    <code>python3 -m http.server 8080</code>
+    <p>Then open <a href="http://localhost:8080">http://localhost:8080</a> in your browser.</p>
+    <button type="button" id="dismiss-notice" class="dismiss-notice" aria-label="Dismiss">×</button>
+  </div>
+
   <div id="particles" class="particles" aria-hidden="true"></div>
 
   <!-- ─── Hero ─── -->
@@ -148,15 +155,15 @@
     -->
     <div class="grid">
 
-      <a href="#" class="card card--cyan">
+      <a href="./projects/bubbles-extension/index.html" class="card card--cyan">
         <div class="card-border"></div>
         <div class="card-body">
           <h3 class="card-title">BUBBLES</h3>
-          <p class="card-desc">Pop the bubbles on your screen. Click as fast as you can.</p>
+          <p class="card-desc">Chrome extension — pop soap bubbles on any webpage.</p>
         </div>
       </a>
 
-      <a href="#" class="card card--purple">
+      <a href="./projects/nighty-night/index.html" class="card card--purple">
         <div class="card-border"></div>
         <div class="card-body">
           <h3 class="card-title">Nighty Night</h3>
@@ -164,13 +171,14 @@
         </div>
       </a>
 
-      <a href="#" class="card card--pink">
+      <a href="./projects/salad-maker/index.html" class="card card--pink">
         <div class="card-border"></div>
         <div class="card-body">
           <h3 class="card-title">Salad Maker</h3>
           <p class="card-desc">Pick a few ingredients and get the perfect salad recipe.</p>
         </div>
       </a>
+
 
     </div>
   </main>
@@ -191,5 +199,15 @@
   </footer>
 
   <script src="landing.js"></script>
+  <script>
+    (function () {
+      if (window.location.protocol === 'file:') {
+        var notice = document.getElementById('file-protocol-notice');
+        var btn = document.getElementById('dismiss-notice');
+        if (notice) notice.hidden = false;
+        if (btn && notice) btn.addEventListener('click', function () { notice.hidden = true; });
+      }
+    })();
+  </script>
 </body>
 </html>
