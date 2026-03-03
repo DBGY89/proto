@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUBBLES — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <div class="score-display" id="score-display" hidden>
+      <span class="score-label">Score</span>
+      <span id="score" class="score-value">0</span>
+    </div>
+  </nav>
+
+  <main class="game-area" id="game-area">
+    <div class="splash" id="splash">
+      <h1 class="splash-title">BUBBLES</h1>
+      <p class="splash-desc">Pop the bubbles before they float away. Special ones burst into glitter.</p>
+      <button class="btn-start" id="btn-start">Play</button>
+
+      <div class="extension-cta" id="extension-cta-splash">
+        <p class="extension-cta-text">Like it? Install the <strong>Chrome extension</strong> to play on any webpage and keep it on your computer.</p>
+        <a href="#install" class="extension-cta-link">How to install &darr;</a>
+      </div>
+    </div>
+
+    <div class="game-over" id="game-over" hidden>
+      <p class="go-label">Time's up!</p>
+      <p class="go-score">You popped <span id="final-score">0</span> bubbles</p>
+      <button class="btn-start" id="btn-restart">Play Again</button>
+
+      <div class="extension-cta" id="extension-cta-done">
+        <p class="extension-cta-text">Install the <strong>Chrome extension</strong> to play Bubbles on any site.</p>
+        <a href="#install" class="extension-cta-link">Install instructions &darr;</a>
+      </div>
+    </div>
+  </main>
+
+  <section class="install-section" id="install">
+    <h2 class="install-title">Install the extension</h2>
+    <ol class="install-steps">
+      <li>Open <strong>Chrome</strong> and go to <code>chrome://extensions</code></li>
+      <li>Turn on <strong>Developer mode</strong> (top-right)</li>
+      <li>Click <strong>Load unpacked</strong></li>
+      <li>Select this project folder: <code>projects/bubbles-extension</code> (the folder that contains <code>manifest.json</code>)</li>
+    </ol>
+    <p class="install-note">After that, the Bubbles icon appears in your toolbar. Click it on any webpage and hit Play.</p>
+    <a href="../../index.html" class="back-to-lab">&larr; Back to AI Proto Lab</a>
+  </section>
+
+  <div class="timer-bar" id="timer-bar"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>

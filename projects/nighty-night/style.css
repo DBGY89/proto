@@ -1,0 +1,116 @@
+:root {
+  --bg-deep:    #0a0a1a;
+  --neon-purple: #b24dff;
+  --text-primary:   #e8e8f0;
+  --text-secondary: #9090b0;
+  --text-muted:     #555580;
+  --font-main: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: .75rem 1.5rem;
+  background: #0a0a1acc;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1e1e3a;
+}
+
+.back-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: .88rem;
+  font-weight: 500;
+  transition: color .2s;
+}
+
+.back-link:hover { color: var(--neon-purple); }
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  gap: 3rem;
+}
+
+.hero-block { text-align: center; }
+
+.title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  color: var(--neon-purple);
+  text-shadow:
+    0 0 7px  var(--neon-purple),
+    0 0 20px var(--neon-purple),
+    0 0 42px #b24dff88;
+  margin-bottom: .5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.coming-soon {
+  text-align: center;
+  padding: 3rem 2rem;
+  border: 1px dashed #2a2a55;
+  border-radius: 12px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.cs-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.cs-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: .5rem;
+}
+
+.cs-desc {
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid #1e1e3a;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.footer a:hover { color: var(--neon-purple); }

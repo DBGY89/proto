@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <h1 class="title">BUBBLES</h1>
+
+    <div id="view-idle" class="view">
+      <p class="desc">Pop soap bubbles on this page!</p>
+      <button id="btn-play" class="btn btn--play">Play</button>
+    </div>
+
+    <div id="view-playing" class="view" hidden>
+      <div class="score-block">
+        <span class="score-label">Score</span>
+        <span id="live-score" class="score-value">0</span>
+      </div>
+      <div class="timer-track">
+        <div id="timer-fill" class="timer-fill"></div>
+      </div>
+      <button id="btn-stop" class="btn btn--stop">Stop</button>
+    </div>
+
+    <div id="view-done" class="view" hidden>
+      <p class="done-label">Time's up!</p>
+      <div class="score-block">
+        <span class="score-label">Final Score</span>
+        <span id="final-score" class="score-value score-value--big">0</span>
+      </div>
+      <button id="btn-again" class="btn btn--play">Play Again</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
