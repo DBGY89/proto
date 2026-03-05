@@ -293,17 +293,7 @@ body {
 }
 
 .chef-tip-body {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
   padding: 1rem 1.1rem;
-}
-
-.chef-tip-emoji {
-  font-size: 1.6rem;
-  line-height: 1;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.2));
 }
 
 .chef-tip-text {
@@ -318,6 +308,19 @@ body {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.footer {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.footer a { color: var(--text-secondary); text-decoration: none; }
+
+.footer a:hover { color: var(--neon-pink); }
 
 @media (max-width: 700px) {
   body { height: auto; min-height: 100vh; overflow: auto; }
