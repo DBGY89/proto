@@ -8,6 +8,12 @@
   --neon-cyan: #00f0ff;
   --neon-purple: #b24dff;
   --neon-gold: #ffd700;
+  /* Patronus: ethereal blue like the charm */
+  --patronus-blue: #4dd4ff;
+  --patronus-aqua: #00e5cc;
+  --patronus-white: rgba(255, 255, 255, 0.95);
+  --patronus-glow-outer: rgba(77, 212, 255, 0.25);
+  --patronus-glow-inner: rgba(0, 229, 204, 0.4);
 
   --text-primary: #e8e8f0;
   --text-secondary: #9090b0;
@@ -293,6 +299,9 @@ body {
   text-align: center;
   padding: 1rem 0.75rem;
   position: relative;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 45%, transparent 0%, rgba(0, 10, 25, 0.5) 50%, rgba(0, 5, 15, 0.85) 100%);
+  border-radius: 8px;
 }
 
 .patronus-galaxy {
@@ -371,28 +380,77 @@ body {
   display: none !important;
 }
 
+.patronus-spell-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  font-size: clamp(0.65rem, 2vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--patronus-blue);
+  opacity: 0.15;
+  pointer-events: none;
+  text-shadow: 0 0 20px var(--patronus-glow-outer);
+}
+
 .patronus-glow {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(400px, 70vw);
+  width: min(420px, 75vw);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.22) 0%,
+      var(--patronus-glow-inner) 18%,
+      var(--patronus-glow-outer) 40%,
+      rgba(77, 212, 255, 0.08) 58%,
+      transparent 75%
+    );
+  animation: patronusPulse 3.5s ease-in-out infinite;
+}
+
+.patronus-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
   background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.14) 0%,
-    rgba(0, 240, 255, 0.09) 30%,
-    rgba(178, 77, 255, 0.05) 55%,
-    transparent 72%
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 45%
   );
-  animation: patronusPulse 3s ease-in-out infinite;
+  animation: patronusWisp 4s ease-in-out infinite alternate;
+}
+
+.patronus-glow::after {
+  content: '';
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(0, 229, 204, 0.12) 0%,
+    transparent 50%
+  );
+  filter: blur(8px);
+  animation: patronusWisp 3s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes patronusPulse {
-  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+  0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+}
+
+@keyframes patronusWisp {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.08); }
 }
 
 .patronus-emoji-wrap {
@@ -402,6 +460,7 @@ body {
   margin-bottom: 0.25rem;
   flex-shrink: 0;
   animation: patronusIn 0.7s var(--ease) both;
+  filter: drop-shadow(0 0 60px var(--patronus-glow-outer));
 }
 
 .patronus-emoji {
@@ -409,14 +468,15 @@ body {
   font-size: clamp(8rem, 28vw, 12rem);
   line-height: 1;
   filter:
-    brightness(2.2)
-    saturate(0.15)
-    contrast(1.05)
-    drop-shadow(0 0 12px rgba(255, 255, 255, 0.7))
-    drop-shadow(0 0 28px rgba(255, 255, 255, 0.4))
-    drop-shadow(0 0 48px rgba(0, 240, 255, 0.35))
-    drop-shadow(0 0 80px rgba(178, 77, 255, 0.2));
-  opacity: 0.92;
+    brightness(2.4)
+    saturate(0.08)
+    contrast(1.1)
+    drop-shadow(0 0 4px var(--patronus-white))
+    drop-shadow(0 0 16px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 32px var(--patronus-glow-inner))
+    drop-shadow(0 0 56px var(--patronus-blue))
+    drop-shadow(0 0 80px var(--patronus-glow-outer));
+  opacity: 0.95;
 }
 
 @keyframes patronusIn {
@@ -427,8 +487,8 @@ body {
 .patronus-name {
   font-size: clamp(1.15rem, 3vw, 1.5rem);
   font-weight: 700;
-  color: var(--neon-cyan);
-  text-shadow: 0 0 14px rgba(0, 240, 255, 0.4);
+  color: var(--patronus-blue);
+  text-shadow: 0 0 14px var(--patronus-glow-outer), 0 0 28px var(--patronus-glow-inner);
   margin: 0 0 0.4rem;
   flex-shrink: 0;
 }
@@ -519,6 +579,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .patronus-glow,
+  .patronus-glow::before,
+  .patronus-glow::after,
   .patronus-emoji,
   .galaxy-orb,
   .galaxy-orb::before { animation: none; }

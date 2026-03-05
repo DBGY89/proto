@@ -12,6 +12,7 @@
   const PUBLIC_PROJECTS = [
     'bubbles',
     'salad-bar',
+    'patronus-generator',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
