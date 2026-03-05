@@ -95,6 +95,21 @@
     osc.stop(ctx.currentTime + 0.35);
   }
 
+  function playNoteBacking(index) {
+    if (index < 0 || index > 7) return;
+    var ctx = getAudioContext();
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'triangle';
+    osc.frequency.value = FREQS[index];
+    gain.gain.setValueAtTime(0.14, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.55);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.55);
+  }
+
   function getSpeed() {
     var r = document.querySelector('input[name="speed"]:checked');
     return r ? parseFloat(r.value) : 1;
@@ -160,7 +175,7 @@
 
     el.btnPlay.disabled = true;
     el.btnReplay.hidden = true;
-    setInstruction("Tap the lit key when you see it. You make the music—we just point.", "0 / " + total, true);
+    setInstruction("The melody plays softly in the background—tap the lit key to play it loud.", "0 / " + total, true);
 
     function scheduleStep(step) {
       if (!isPlaying || step >= total) {
@@ -175,7 +190,7 @@
       var note = notes[step];
       var keyEl = getKeyElement(note);
       if (keyEl) keyEl.classList.add('hint');
-      playNote(note);
+      playNoteBacking(note);
       setInstruction("Tap key " + NOTE_NAMES[note] + " (key " + (note + 1) + ")", (step + 1) + " / " + total, true);
       var next = setTimeout(function () { scheduleStep(step + 1); }, noteMs);
       highlightTimeouts.push(next);
@@ -193,11 +208,11 @@
       songNotes = [];
       el.btnPlay.disabled = true;
       el.btnReplay.hidden = true;
-      setInstruction("Pick a song, choose your speed, then hit Play. We'll light the keys—you tap them.", null, false);
+      setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly—you bring it to life.", null, false);
       return;
     }
     el.btnPlay.disabled = false;
-    setInstruction("Ready. Hit Play and we'll show you which keys to tap. You play—we guide.", null, false);
+    setInstruction("Ready. Hit Play—the melody will guide you softly. Tap each lit key to play it loud.", null, false);
     el.btnReplay.hidden = true;
   }
 
@@ -217,5 +232,5 @@
 
   buildKeys();
   el.btnPlay.disabled = true;
-  setInstruction("Pick a song, choose your speed, then hit Play. We'll light the keys—you tap them.", null, false);
+  setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly—you bring it to life.", null, false);
 })();
