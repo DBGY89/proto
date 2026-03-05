@@ -18,3 +18,4 @@ HTML, CSS, JS. Datos en `data.js` (ingredientes y aderezos con recetas). Sin bac
 - `style.css` — Estilos del generador.
 - `data.js` — Lista de ingredientes (con categoría y tags) y aderezos (goesWith + receta).
 - `app.js` — Estado de selección, dibujo del plato, elección de aderezo por coincidencia de tags, render de la receta.
+# saladbar
