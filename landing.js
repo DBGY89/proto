@@ -5,12 +5,30 @@
 (function () {
   'use strict';
 
+  // ───────────────────────────────────────────
+  //  Proyectos visibles en la landing (solo estos se muestran en producción)
+  //  Quita o comenta el id para ocultar; añádelo para publicar.
+  // ───────────────────────────────────────────
+  const PUBLIC_PROJECTS = [
+    'bubbles',
+    'salad-bar',
+    'xylophone',
+  ];
+
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Ocultar tarjetas de proyectos no publicados
+  document.querySelectorAll('.card[data-project]').forEach((card) => {
+    const id = card.getAttribute('data-project');
+    if (!PUBLIC_PROJECTS.includes(id)) {
+      card.classList.add('card--hidden');
+    }
+  });
 
   // ───────────────────────────────────────────
   //  Reveal-on-scroll for cards
   // ───────────────────────────────────────────
-  const cards = document.querySelectorAll('.card');
+  const cards = document.querySelectorAll('.card:not(.card--hidden)');
 
   if (reducedMotion) {
     cards.forEach((c) => c.classList.add('is-visible'));

@@ -347,6 +347,11 @@ body {
   line-height: 1.45;
 }
 
+/* Hidden from landing (unpublished projects) */
+.card--hidden {
+  display: none !important;
+}
+
 /* Coming-soon cards: ghost state */
 .card--soon {
   cursor: default;
