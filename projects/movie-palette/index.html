@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Palette — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="hero">
+      <h1 class="hero-title">Movie Palette</h1>
+      <p class="intro">Choose a film. Get its poster colors. Copy any hex — use it in your next project or just stare at it.</p>
+    </header>
+
+    <section class="picker-section">
+      <label for="movie-select" class="picker-label">Movie</label>
+      <select id="movie-select" class="movie-select" aria-label="Choose movie">
+        <option value="">— Choose a film —</option>
+        <option value="pulp-fiction">Pulp Fiction</option>
+        <option value="forrest-gump">Forrest Gump</option>
+        <option value="big-fish">Big Fish</option>
+        <option value="grand-budapest-hotel">The Grand Budapest Hotel</option>
+        <option value="amelie">Amélie</option>
+        <option value="blade-runner-2049">Blade Runner 2049</option>
+        <option value="la-la-land">La La Land</option>
+        <option value="her">Her</option>
+        <option value="the-matrix">The Matrix</option>
+        <option value="moonrise-kingdom">Moonrise Kingdom</option>
+      </select>
+    </section>
+
+    <div class="palette-panel" id="palette-panel">
+      <p class="palette-placeholder" id="palette-placeholder">Choose a movie above to see its palette.</p>
+      <div class="palette-wrap" id="palette-wrap" hidden>
+        <h2 class="palette-title" id="palette-title"></h2>
+        <div class="swatches" id="swatches"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Part of <a href="../../index.html">AI Proto Lab</a> — colors stolen from the best.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
