@@ -13,7 +13,6 @@
     'bubbles',
     'salad-bar',
     'patronus-generator',
-    'movie-palette',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
