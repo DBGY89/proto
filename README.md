@@ -22,21 +22,16 @@ proto/
 ├── landing.css
 ├── landing.js
 ├── projects/
-│   ├── bubbles-extension/  Chrome extension: bubbles on any webpage
-│   │   ├── manifest.json
-│   │   ├── content.js
-│   │   ├── content.css
-│   │   ├── popup.html / popup.css / popup.js
-│   │   ├── icons/
-│   │   └── README.md
-│   ├── nighty-night/       Bedtime story generator (coming soon)
+│   ├── bubbles/            Pop soap bubbles web game
 │   │   ├── index.html
 │   │   ├── style.css
-│   │   └── README.md
-│   └── salad-maker/        Ingredient-based recipe builder (coming soon)
+│   │   └── app.js
+│   ├── nighty-night/       Bedtime story generator (coming soon)
+│   │   ├── index.html
+│   │   └── style.css
+│   └── salad-bar/          Visual salad bar — plate + hand follows cursor
 │       ├── index.html
-│       ├── style.css
-│       └── README.md
+│       └── style.css
 └── README.md
 ```
 
@@ -63,9 +58,9 @@ Accent options: `card--pink` | `card--cyan` | `card--purple`
 
 | Project | Description | Status |
 |---------|-------------|--------|
-| [BUBBLES](projects/bubbles-extension/) | Chrome extension: pop bubbles on any page | Live |
+| [BUBBLES](projects/bubbles/) | Mini game: pop soap bubbles; special ones burst into glitter | Live |
 | [Nighty Night](projects/nighty-night/) | Bedtime story generator | Coming soon |
-| [Salad Maker](projects/salad-maker/) | Pick ingredients, get a recipe | Coming soon |
+| [Salad Bar](projects/salad-bar/) | Build your salad on a visual bar, hand follows cursor | Live |
 
 ## Deploy on GitHub Pages
 

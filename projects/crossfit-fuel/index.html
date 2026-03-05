@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossFit Fuel — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="api-key-btn" id="api-key-btn" aria-label="API key settings">⚙️</button>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <main class="page" id="main">
+    <!-- ─── Screen 1: Day selector ─── -->
+    <section class="screen screen-selector" id="screen-selector">
+      <header class="hero">
+        <h1 class="hero-title">CrossFit Fuel</h1>
+        <p class="intro">One click. Full day of eats. Know exactly what to put on your plate — and why it matters.</p>
+      </header>
+
+      <div class="day-selector" role="group" aria-label="Choose your day type">
+        <button type="button" class="day-btn day-btn--wod" id="btn-wod" data-day="wod">
+          <span class="day-btn-label">CrossFit Day</span>
+          <span class="day-btn-sublabel">You're training today</span>
+        </button>
+        <button type="button" class="day-btn day-btn--rest" id="btn-rest" data-day="rest">
+          <span class="day-btn-label">Rest Day</span>
+          <span class="day-btn-sublabel">Recovery mode</span>
+        </button>
+      </div>
+
+      <div class="options-row">
+        <button type="button" class="link-btn" id="btn-personalize" aria-expanded="false">Personalize my plan</button>
+        <div class="filters" id="filters" aria-label="Dietary filters">
+          <button type="button" class="filter-chip" data-filter="vegan" aria-pressed="false">Vegan</button>
+          <button type="button" class="filter-chip" data-filter="glutenFree" aria-pressed="false">Gluten-free</button>
+          <button type="button" class="filter-chip" data-filter="dairyFree" aria-pressed="false">Dairy-free</button>
+        </div>
+      </div>
+
+      <div class="personalize-panel hidden" id="personalize-panel">
+        <p class="personalize-disclaimer">This tool provides nutritional inspiration, not medical advice. Consult a registered dietitian for personalized prescriptions.</p>
+        <div class="personalize-grid">
+          <label class="input-label">
+            <span>Weight (kg)</span>
+            <input type="number" id="input-weight" min="40" max="200" placeholder="70" inputmode="decimal">
+          </label>
+          <label class="input-label">
+            <span>Height (cm)</span>
+            <input type="number" id="input-height" min="140" max="220" placeholder="175" inputmode="decimal">
+          </label>
+          <label class="input-label input-label--full">
+            <span>Goal</span>
+            <select id="input-goal">
+              <option value="performance">Performance</option>
+              <option value="fatLoss">Fat loss</option>
+              <option value="muscleGain">Muscle gain</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-generate" id="btn-generate" disabled>Generate my menu</button>
+      </div>
+
+      <p class="demo-hint hidden" id="demo-hint">No API key set. Using demo menu. Add your Anthropic API key in settings (⚙️) for live generation.</p>
+    </section>
+
+    <!-- ─── Screen 2: Menu result ─── -->
+    <section class="screen screen-menu hidden" id="screen-menu">
+      <header class="menu-header">
+        <div class="menu-header-badges">
+          <span class="day-badge" id="result-day-badge"></span>
+          <span class="calorie-badge" id="result-calorie-badge"></span>
+        </div>
+        <p class="allergen-disclaimer">Always verify ingredients for your specific dietary needs and allergies.</p>
+      </header>
+
+      <div class="menu-cards" id="menu-cards"></div>
+
+      <div class="menu-actions">
+        <button type="button" class="btn-secondary" id="btn-shopping-list">Get shopping list</button>
+        <button type="button" class="btn-secondary" id="btn-share-card">Download shareable card</button>
+        <button type="button" class="btn-secondary" id="btn-new-menu">New menu</button>
+      </div>
+    </section>
+
+    <!-- ─── Shopping list overlay ─── -->
+    <div class="overlay hidden" id="shopping-overlay" role="dialog" aria-modal="true" aria-label="Shopping list">
+      <div class="overlay-content overlay-content--list">
+        <div class="overlay-header">
+          <h2 class="overlay-title">Shopping list</h2>
+          <button type="button" class="overlay-close" id="shopping-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="shopping-list" id="shopping-list"></div>
+      </div>
+    </div>
+
+    <!-- ─── Shareable card canvas (hidden, for export) ─── -->
+    <div class="share-card-wrap hidden" id="share-card-wrap">
+      <div class="share-card" id="share-card">
+        <div class="share-card-inner">
+          <span class="share-card-watermark">AI Proto Lab</span>
+          <span class="share-card-day" id="share-card-day"></span>
+          <div class="share-card-meals" id="share-card-meals"></div>
+          <div class="share-card-macros" id="share-card-macros"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── API key modal ─── -->
+    <div class="overlay hidden" id="api-key-overlay" role="dialog" aria-modal="true" aria-label="API key">
+      <div class="overlay-content">
+        <div class="overlay-header">
+          <h2 class="overlay-title">Anthropic API key</h2>
+          <button type="button" class="overlay-close" id="api-key-close" aria-label="Close">&times;</button>
+        </div>
+        <p class="overlay-hint">Stored in your browser only. Used to generate menus with Claude.</p>
+        <label class="input-label input-label--full">
+          <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
+        </label>
+        <button type="button" class="btn-generate" id="api-key-save">Save</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

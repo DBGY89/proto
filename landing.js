@@ -8,42 +8,6 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ───────────────────────────────────────────
-  //  Cherry-blossom particle system
-  // ───────────────────────────────────────────
-  const particlesEl = document.getElementById('particles');
-  const PETAL_COLORS = ['#ff2d78', '#ff6eaa', '#ffaacc', '#b24dff', '#d9a0ff'];
-  const PETAL_COUNT = 12;
-
-  function spawnPetal() {
-    const el = document.createElement('div');
-    el.className = 'petal';
-    const color = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
-    const size = 6 + Math.random() * 10;
-    const left = Math.random() * 100;
-    const dur = 8 + Math.random() * 12;
-    const delay = Math.random() * dur;
-
-    el.style.cssText = `
-      left:${left}%;
-      width:${size}px;
-      height:${size}px;
-      background:${color};
-      animation-duration:${dur}s;
-      animation-delay:${delay}s;
-    `;
-
-    particlesEl.appendChild(el);
-    el.addEventListener('animationend', () => {
-      el.remove();
-      spawnPetal();
-    });
-  }
-
-  if (!reducedMotion) {
-    for (let i = 0; i < PETAL_COUNT; i++) spawnPetal();
-  }
-
-  // ───────────────────────────────────────────
   //  Reveal-on-scroll for cards
   // ───────────────────────────────────────────
   const cards = document.querySelectorAll('.card');

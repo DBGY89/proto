@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Pop Xylophone — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../index.html" class="back-link">&larr; AI Proto Lab</a>
+  </nav>
+
+  <main class="xylo-app">
+    <header class="header">
+      <h1 class="title">K-Pop Xylophone</h1>
+      <p class="subtitle">Pick a song. We play it and light up the keys so you know exactly what to tap. No sheet music, no shame—just follow the glow.</p>
+    </header>
+
+    <section class="song-picker">
+      <label for="song-select" class="song-label">Song</label>
+      <select id="song-select" class="song-select" aria-label="Choose song">
+        <option value="">— Pick a banger —</option>
+        <option value="dynamite">Dynamite — BTS</option>
+        <option value="butter">Butter — BTS</option>
+        <option value="how-you-like-that">How You Like That — BLACKPINK</option>
+        <option value="ddu-du">DDU-DU DDU-DU — BLACKPINK</option>
+        <option value="boy-with-luv">Boy With Luv — BTS</option>
+        <option value="kill-this-love">Kill This Love — BLACKPINK</option>
+        <option value="psycho">Psycho — Red Velvet</option>
+        <option value="love-scenario">Love Scenario — iKON</option>
+      </select>
+      <div class="speed-control">
+        <span class="speed-label">Speed</span>
+        <label class="speed-option"><input type="radio" name="speed" value="1" checked> Real</label>
+        <label class="speed-option"><input type="radio" name="speed" value="0.5"> 0.5×</label>
+      </div>
+      <button type="button" id="btn-play" class="btn btn-play">Play</button>
+      <button type="button" id="btn-replay" class="btn btn-ghost" hidden>Replay</button>
+    </section>
+
+    <section class="instruction-box" id="instruction-box" aria-live="polite">
+      <p class="instruction-text" id="instruction-text">Pick a banger. We'll play it and show you which keys to hit. Your inner idol awaits.</p>
+      <p class="instruction-progress" id="instruction-progress" hidden></p>
+    </section>
+
+    <section class="xylo-keys" id="xylo-keys" role="group" aria-label="Xylophone keys">
+      <!-- Keys 1–8 (C D E F G A B C′) rendered by JS -->
+    </section>
+
+    <p class="key-legend">C — D — E — F — G — A — B — C′</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

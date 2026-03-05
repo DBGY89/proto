@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,23 +13,84 @@
 
   <nav class="topbar">
     <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode" title="Dark / Light">
+      <span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">🌙</span>
+      <span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☀️</span>
+    </button>
   </nav>
 
-  <main class="container">
-    <div class="hero-block">
-      <h1 class="title">Nighty Night</h1>
-      <p class="subtitle">Bedtime story generator for kids. Sweet dreams guaranteed.</p>
-    </div>
+  <div class="bg-pattern" aria-hidden="true"></div>
 
-    <div class="coming-soon">
-      <div class="cs-icon">&#127769;</div>
-      <p class="cs-text">Coming soon</p>
-      <p class="cs-desc">This prototype is being built. Check back next week.</p>
+  <main class="page">
+    <header class="hero">
+      <h1 class="hero-title">Nighty Night</h1>
+      <p class="intro">Short, gentle bedtime stories for little ones. Pick a friend and we'll tell you a simple story to share.</p>
+    </header>
+
+    <div class="flow">
+      <section class="region region-pick" id="pick-section" aria-label="Choose your story">
+        <h2 class="region-title">Who is the hero?</h2>
+        <p class="region-hint">Tap a character. Then pick a theme and length.</p>
+        <div class="options options--characters" id="character-options" role="group" aria-label="Character options">
+          <button type="button" class="option-chip option-chip--big" data-character="bunny" aria-label="Bunny">
+            <span class="option-emoji" aria-hidden="true">🐰</span>
+            <span class="option-label">Bunny</span>
+          </button>
+          <button type="button" class="option-chip option-chip--big" data-character="bear" aria-label="Bear">
+            <span class="option-emoji" aria-hidden="true">🐻</span>
+            <span class="option-label">Bear</span>
+          </button>
+          <button type="button" class="option-chip option-chip--big" data-character="kitty" aria-label="Kitty">
+            <span class="option-emoji" aria-hidden="true">🐱</span>
+            <span class="option-label">Kitty</span>
+          </button>
+          <button type="button" class="option-chip option-chip--big" data-character="puppy" aria-label="Puppy">
+            <span class="option-emoji" aria-hidden="true">🐶</span>
+            <span class="option-label">Puppy</span>
+          </button>
+          <button type="button" class="option-chip option-chip--big" data-character="owl" aria-label="Owl">
+            <span class="option-emoji" aria-hidden="true">🦉</span>
+            <span class="option-label">Owl</span>
+          </button>
+        </div>
+
+        <h3 class="filter-label">Theme</h3>
+        <div class="options" id="theme-options" role="group" aria-label="Story theme">
+          <button type="button" class="option-chip" data-theme="moon" aria-pressed="false">🌙 Moon & stars</button>
+          <button type="button" class="option-chip" data-theme="friend" aria-pressed="false">🐻 With a friend</button>
+          <button type="button" class="option-chip" data-theme="cozy" aria-pressed="false">🛏️ Cozy bed</button>
+        </div>
+
+        <h3 class="filter-label">Length</h3>
+        <div class="options" id="length-options" role="group" aria-label="Story length">
+          <button type="button" class="option-chip selected" data-length="short" aria-pressed="true">Short</button>
+          <button type="button" class="option-chip" data-length="long" aria-pressed="false">A bit longer</button>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-generate" id="btn-generate" disabled>Tell me a story</button>
+        </div>
+      </section>
+
+      <section class="region region-result" id="result-section" aria-label="Your story">
+        <h2 class="region-title region-title--accent">Your story</h2>
+        <div class="story-placeholder" id="story-placeholder">
+          <span class="story-placeholder-emoji" aria-hidden="true">🌙</span>
+          <p>Pick a character on the left and tap <strong>Tell me a story</strong>. A short, simple tale will appear here.</p>
+        </div>
+        <div class="story-card hidden" id="story-card">
+          <div class="story-body" id="story-body"></div>
+          <p class="story-end" id="story-end">The end. Sleep tight! 🌟</p>
+          <button type="button" class="btn-again" id="btn-again">Another story</button>
+        </div>
+      </section>
     </div>
   </main>
 
   <footer class="footer">
-    <p>Part of <a href="../../index.html">AI Proto Lab</a></p>
+    <p>Part of <a href="../../index.html">AI Proto Lab</a> — sweet dreams for little dreamers.</p>
   </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>

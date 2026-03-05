@@ -1,32 +1,21 @@
 # Nighty Night
 
-Bedtime story generator for kids. Pick a character, a setting, and a mood — get a short, soothing story.
+A small web app to generate short, simple bedtime stories for little kids. Pick a character, choose a theme and length, and get a gentle story to read together. No account, no API — just client-side HTML, CSS, and JS.
 
-## Problem
+## What it does
 
-Parents of young kids (2-7) face the same bedtime battle every night. They run out of story ideas, and reading the same book again doesn't cut it. Kids want novelty; parents want sleep.
+1. **Pick a hero** — Tap one of the character chips (Bunny, Bear, Kitty, Puppy, Owl).
+2. **Choose filters** — Theme: Moon & stars, With a friend, or Cozy bed (optional). Length: Short or A bit longer.
+3. **Tell me a story** — One big button generates a story that matches your choices.
+4. **Read together** — Simple words, gentle ending, 3–7 sentences. "Another story" gives a new one.
+5. **Dark / Light mode** — Toggle in the top bar; preference is saved.
 
-## Hypothesis
+Stories are written for very young children: short sentences, repetition, cozy bedtime themes.
 
-An AI-powered generator that creates a unique, short bedtime story from 3 simple choices will reduce bedtime friction and give parents a "magic trick" they look forward to using.
+## Style
 
-## Users
-
-Parents and caregivers of children aged 2-7.
-
-## Planned flow
-
-1. Pick a **character** (bunny, dragon, astronaut, etc.)
-2. Pick a **setting** (forest, space, underwater, etc.)
-3. Pick a **mood** (calm, silly, adventurous)
-4. Get a 2-minute bedtime story generated on the spot.
-
-## Metrics to watch
-
-- **Story generation rate**: how many stories per session
-- **Return rate**: users who come back on a different day
-- **Share rate**: users who send the link to someone else
+Matches AI Proto Lab: dark default theme with purple/cyan accents, Space Grotesk, rounded regions and chips. Optional light mode for daytime reading. Responsive layout (stacked on small screens).
 
 ## Status
 
-Coming soon.
+Story generator with filters and dark/light mode. All stories predefined in the client; no backend. Ready to extend with more stories or a simple API.

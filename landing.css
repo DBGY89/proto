@@ -94,31 +94,6 @@ body {
   background: rgba(255,255,255,.08);
 }
 
-/* ─── Particles ─── */
-.particles {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.petal {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50% 0;
-  opacity: 0;
-  animation: petalFall linear forwards;
-  pointer-events: none;
-}
-
-@keyframes petalFall {
-  0%   { opacity: 0; transform: translateY(-20px) rotate(0deg); }
-  10%  { opacity: .6; }
-  90%  { opacity: .4; }
-  100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
-}
-
 /* ─── Hero — compact so cards peek into view ─── */
 .hero {
   position: relative;
@@ -153,7 +128,9 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 2rem;
+  padding: 2rem 2.5rem;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(10, 10, 26, .75) 0%, rgba(10, 10, 26, .4) 50%, transparent 70%);
+  border-radius: 20px;
 }
 
 .hero-title {
@@ -172,6 +149,8 @@ body {
 .neon-pink {
   color: var(--neon-pink);
   text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 0 4px rgba(0, 0, 0, .9),
     0 0 7px  var(--neon-pink),
     0 0 20px var(--neon-pink),
     0 0 42px #ff2d7888,
@@ -182,6 +161,8 @@ body {
 .neon-cyan {
   color: var(--neon-cyan);
   text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 0 4px rgba(0, 0, 0, .9),
     0 0 7px  var(--neon-cyan),
     0 0 20px var(--neon-cyan),
     0 0 42px #00f0ff88,
@@ -192,6 +173,8 @@ body {
 .neon-purple {
   color: var(--neon-purple);
   text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 0 4px rgba(0, 0, 0, .9),
     0 0 7px  var(--neon-purple),
     0 0 20px var(--neon-purple),
     0 0 42px #b24dff88,
@@ -210,10 +193,14 @@ body {
 
 .hero-subtitle {
   font-size: clamp(.85rem, 1.5vw, 1.05rem);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   max-width: 440px;
   margin: 0 auto;
   animation: fadeInDown .8s .3s var(--ease-out) both;
+  text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 1px 4px rgba(0, 0, 0, .8),
+    0 2px 8px rgba(0, 0, 0, .5);
 }
 
 @keyframes fadeInDown {
@@ -227,22 +214,23 @@ body {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 2rem 3rem;
+  padding: 2.5rem 1.75rem 2rem;
 }
 
 .section-heading {
   font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 700;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   color: var(--text-primary);
 }
 
-/* ─── Card grid ─── */
+/* ─── Card grid: tarjetas compactas, mismas proporciones ─── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
 }
 
 /* ─── Animated border rotation via @property ─── */
@@ -256,12 +244,13 @@ body {
   to { --angle: 360deg; }
 }
 
-/* ─── Card: neon glass panel ─── */
+/* ─── Card: neon glass panel (todas igual tamaño) ─── */
 .card {
   --accent: var(--neon-cyan);
   --accent-dim: #00f0ff22;
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
   background: transparent;
@@ -272,6 +261,7 @@ body {
   transform-style: preserve-3d;
   perspective: 800px;
   transition: transform .35s var(--ease-out);
+  min-height: 0;
 }
 
 .card--pink  { --accent: var(--neon-pink);   --accent-dim: #ff2d7822; }
@@ -308,10 +298,12 @@ body {
   background: var(--bg-deep);
   border: 1px solid var(--bg-card-border);
   border-radius: 2px;
-  padding: 2.4rem 2rem;
+  padding: 1.5rem 1.35rem;
   display: flex;
   flex-direction: column;
-  gap: .6rem;
+  gap: .5rem;
+  flex: 1;
+  min-height: 160px;
   transition:
     border-color .35s ease,
     box-shadow .35s ease,
@@ -337,7 +329,7 @@ body {
 }
 
 .card-title {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
@@ -350,9 +342,9 @@ body {
 }
 
 .card-desc {
-  font-size: .88rem;
+  font-size: .82rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* Coming-soon cards: ghost state */
@@ -405,6 +397,7 @@ body {
   pointer-events: none;
 }
 
+/* ─── Snake: solo estas cajas, no las de proyectos ─── */
 .snake-hud {
   position: fixed;
   top: 1.2rem;
@@ -413,11 +406,11 @@ body {
   display: flex;
   align-items: center;
   gap: .5rem;
-  padding: .45rem .9rem;
-  background: #111128dd;
-  border: 1px solid var(--neon-green);
-  border-radius: 8px;
-  box-shadow: 0 0 14px #39ff1433;
+  padding: .5rem 1rem;
+  background: var(--bg-deep);
+  border: 1px solid var(--bg-card-border);
+  border-radius: 2px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .35);
   pointer-events: none;
   animation: hudIn .4s var(--ease-out) both;
 }
@@ -430,34 +423,36 @@ body {
 }
 
 .snake-hud-label {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  opacity: .9;
 }
 
 .snake-hud-score {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--neon-green);
+  color: var(--neon-cyan);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 8px rgba(0, 240, 255, .4);
 }
 
-/* Revive CTA — bottom-right, appears after snake dies */
 .snake-revive {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
   z-index: 510;
-  padding: .65rem 1.3rem;
+  padding: .65rem 1.35rem;
   font-family: var(--font-main);
   font-size: .88rem;
   font-weight: 600;
   color: var(--text-secondary);
-  background: #111128dd;
-  border: 1px solid #2a2a55;
-  border-radius: 8px;
+  background: var(--bg-deep);
+  border: 1px solid var(--bg-card-border);
+  border-radius: 2px;
   cursor: pointer;
   min-height: 44px;
   transition: border-color .25s ease, color .25s ease, box-shadow .25s ease, transform .15s ease;
   animation: reviveIn .4s var(--ease-out) both;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .35);
 }
 
 .snake-revive[hidden] { display: none; }
@@ -468,9 +463,9 @@ body {
 }
 
 .snake-revive:hover {
-  color: var(--neon-green);
-  border-color: var(--neon-green);
-  box-shadow: 0 0 14px #39ff1433;
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 20px rgba(0, 240, 255, .15), inset 0 0 40px rgba(0, 240, 255, .06);
   transform: translateY(-1px);
 }
 
@@ -478,7 +473,6 @@ body {
 .footer {
   text-align: center;
   padding: 3rem 2rem 3rem;
-  border-top: 1px solid #1e1e3a;
   background:
     radial-gradient(ellipse at 50% 0%, #ff2d780a 0%, transparent 60%),
     var(--bg-deep);
@@ -511,7 +505,6 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .petal { display: none; }
   .card { opacity: 1; transform: none; }
   .card--soon { opacity: .25; }
   .card-border { display: none; }

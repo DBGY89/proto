@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUBBLES — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <div class="score-display" id="score-display" hidden>
+      <span class="score-label">Score</span>
+      <span id="score" class="score-value">0</span>
+    </div>
+  </nav>
+
+  <main class="game-area" id="game-area">
+    <div class="splash" id="splash">
+      <h1 class="splash-title">BUBBLES</h1>
+      <p class="splash-desc">Pop the bubbles before they float away. Special ones burst into glitter.</p>
+      <button class="btn-start" id="btn-start">Play</button>
+    </div>
+
+    <div class="game-over" id="game-over" hidden>
+      <p class="go-label">Time's up!</p>
+      <p class="go-score">You popped <span id="final-score">0</span> bubbles</p>
+      <button class="btn-start" id="btn-restart">Play Again</button>
+    </div>
+  </main>
+
+  <div class="timer-bar" id="timer-bar"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+---
+description: Design principles distilled from Laws of UX — the "Good Taste" standard for every interface decision in this project.
+alwaysApply: true
+---
+
+# Good Taste
+
+Design rules synthesized from the 30 Laws of UX (lawsofux.com). Apply these to every UI decision.
+
+## 1. Kill complexity before it reaches the user
+
+- Remove every element that doesn't serve the user's goal (Occam's Razor).
+- If complexity can't be eliminated, absorb it in the system — never push it to the user (Tesler's Law).
+- People interpret visuals in the simplest way possible; design for that instinct (Law of Prägnanz).
+- Reduce extraneous cognitive load: decorative elements that don't aid understanding are noise (Cognitive Load).
+
+## 2. Respect the limits of attention and memory
+
+- Working memory holds 5–7 chunks at most, and each fades in 20–30 seconds. Never exceed this in any single view (Miller's Law, Working Memory).
+- Break information into meaningful groups — don't present flat lists (Chunking).
+- Favor recognition over recall: show options, don't make users remember them (Working Memory).
+- People filter out what looks irrelevant or ad-like (Selective Attention, Banner Blindness). Make important content look like content, not promotion.
+
+## 3. Group and connect visually
+
+- Place related elements close together; space apart unrelated ones (Law of Proximity).
+- Make elements that share function look the same — color, shape, size (Law of Similarity).
+- Use borders, backgrounds or containers to create clear regions (Law of Common Region).
+- Connect related items with visual lines or shared styling (Law of Uniform Connectedness).
+
+## 4. Make the important thing obvious
+
+- When everything looks the same, nothing stands out. Give the key element a visual break from the pattern (Von Restorff Effect).
+- Place critical actions at the start or end of a sequence — the middle is forgotten (Serial Position Effect).
+- Guide attention deliberately; competing focal points cancel each other out (Selective Attention).
+
+## 5. Fewer choices, faster decisions
+
+- Every additional option increases decision time logarithmically. Show only what's needed now (Hick's Law, Choice Overload).
+- Highlight a recommended default so users don't freeze (Hick's Law).
+- Use progressive disclosure: reveal complexity only when the user asks for it.
+- Never simplify to the point of abstraction — clarity, not minimalism for its own sake.
+
+## 6. Be fast and feel fast
+
+- System feedback must appear within 400ms or it feels broken (Doherty Threshold).
+- Use animation and progress indicators to make waits tolerable, not invisible.
+- A deliberate short delay (e.g. loading shimmer) can increase perceived quality — instant isn't always best (Doherty Threshold).
+- Don't let tasks inflate: constrain time and steps to what users expect (Parkinson's Law).
+
+## 7. Design for the moment they remember
+
+- People judge the entire experience by its emotional peak and its ending (Peak-End Rule).
+- Invest design effort in the highest-tension moment (first use, checkout, empty states) and the final moment (confirmation, success screen).
+- Negative peaks are remembered more vividly than positive ones — prevent frustration above all.
+
+## 8. Follow conventions, earn trust
+
+- Users spend most of their time on other sites. Match the patterns they already know (Jakob's Law, Mental Models).
+- When introducing something new, let users keep the familiar version temporarily (Jakob's Law).
+- Accept messy input gracefully; output clean results (Postel's Law).
+- Users never read instructions — they jump in immediately. Make everything self-evident (Paradox of the Active User).
+
+## 9. Beauty is not decoration — it's function
+
+- Aesthetically pleasing interfaces are perceived as easier to use and more trustworthy (Aesthetic-Usability Effect).
+- Beauty buys forgiveness for minor usability issues, but never use it to mask real problems.
+- Visual polish signals care; care signals reliability.
+
+## 10. Motivate through progress
+
+- Show how far users have come and how close they are to finishing (Goal-Gradient Effect, Zeigarnik Effect).
+- Even artificial head starts (e.g. "Step 2 of 4" instead of "Step 1 of 3") increase completion rates.
+- Unfinished tasks stick in memory — use this to pull users back, not to frustrate them.
+- Focus 80% of effort on the 20% of features that serve most users (Pareto Principle).
+
+## 11. Design for flow, not friction
+
+- Flow happens when challenge matches skill. Too easy = boredom, too hard = frustration (Flow).
+- Remove unnecessary steps, but provide feedback at every meaningful action.
+- Make touch targets large enough and well-spaced — small targets slow users down and cause errors (Fitts's Law).
+- Beware of your own cognitive biases when making design decisions; test with real users (Cognitive Bias).
+
+## 12. Tensions — when rules pull in opposite directions
+
+These laws are forces, not commandments. When two pull against each other, the right answer depends on context. Name the tension, make a conscious choice, and move on.
+
+- **Simplicity vs. Beauty.** Occam's Razor says cut everything that doesn't serve the goal. The Aesthetic-Usability Effect says visual richness *is* serving a goal — trust, emotion, perceived quality. Resolution: an element earns its place if it contributes to understanding OR to emotional resonance. If it does neither, cut it.
+- **Convention vs. Memorability.** Jakob's Law says follow familiar patterns. Von Restorff says break the pattern so the key thing stands out. Resolution: follow convention for structure and navigation (people shouldn't have to learn your layout). Break convention for the one thing you want them to remember.
+- **Fewer choices vs. Irreducible complexity.** Hick's Law says reduce options. Tesler's Law says some complexity can't be removed, only moved. Resolution: progressive disclosure — but only if the user has a reason to dig deeper. If they don't, the hidden features don't exist to them.
+- **Users skip everything vs. Progressive disclosure.** The Paradox of the Active User says people never read and jump straight in. Progressive disclosure says hide complexity behind layers. Resolution: the default path must work without discovery. Disclosed layers are a bonus, never a requirement.
+- **Peak moments vs. Consistent quality.** The Peak-End Rule says invest in the high point and the ending. The Aesthetic-Usability Effect says polish everywhere builds trust. Resolution: never let the middle be *bad* — but pour extra craft into first impressions, emotional peaks, and the last thing the user sees.
+- **Instant response vs. Intentional weight.** Doherty Threshold says respond within 400ms. But a deliberate pause can make an action feel more substantial. Resolution: use speed for browsing and feedback; use weight for commitments (submit, purchase, delete). The user should feel the gravity of important actions.

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salad Bar — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="hero">
+      <h1 class="hero-title">Salad Bar</h1>
+      <p class="intro">Build your salad. We'll match it with a dressing that actually works — plus a kitchen trick you didn't see coming.</p>
+    </header>
+
+    <div class="layout">
+      <section class="region region-pick" aria-label="Build your salad">
+        <h2 class="region-title">Your salad</h2>
+        <div class="ingredient-grid" id="ingredient-grid"></div>
+        <p class="picker-hint" id="picker-hint">Tap what you want; tap again to remove.</p>
+        <div class="summary-wrap hidden" id="summary-section">
+          <h3 class="summary-label">Your pick</h3>
+          <div class="summary-card" id="summary-card">
+            <p class="summary-text" id="summary-text"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="region region-result" id="dressing-section" aria-label="Your secret ingredient">
+          <h2 class="region-title region-title--accent">Your secret ingredient</h2>
+          <div class="dressing-placeholder" id="dressing-placeholder">Pick something on the left. We'll tell you which dressing fits. No joke.</div>
+          <div class="dressing-card hidden" id="dressing-card">
+            <h3 class="dressing-name" id="dressing-name"></h3>
+            <div class="recipe">
+              <h4 class="recipe-heading">Dressing recipe</h4>
+              <ul class="recipe-ingredients" id="recipe-ingredients"></ul>
+              <ol class="recipe-steps" id="recipe-steps"></ol>
+            </div>
+          </div>
+          <div class="chef-tip hidden" id="chef-tip">
+            <span class="chef-tip-label">Chef's trick</span>
+            <div class="chef-tip-body">
+              <span class="chef-tip-emoji" id="chef-tip-emoji" aria-hidden="true"></span>
+              <p class="chef-tip-text" id="chef-tip-text"></p>
+            </div>
+          </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

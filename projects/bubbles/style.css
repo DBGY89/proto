@@ -1,4 +1,4 @@
-/* BUBBLES — standalone web game */
+/* BUBBLES — web game */
 :root {
   --bg-deep: #0a0a1a;
   --neon-cyan: #00f0ff;
@@ -132,80 +132,6 @@ body {
 }
 .btn-start:active { transform: translateY(0); }
 
-/* ─── Extension CTA ─── */
-.extension-cta {
-  margin-top: 2rem;
-  padding: 1.25rem 1.5rem;
-  background: rgba(0, 240, 255, .06);
-  border: 1px solid rgba(0, 240, 255, .25);
-  border-radius: 10px;
-  text-align: center;
-}
-.extension-cta-text {
-  font-size: .9rem;
-  color: var(--text-secondary);
-  margin-bottom: .75rem;
-  line-height: 1.5;
-}
-.extension-cta-text strong { color: var(--neon-cyan); }
-.extension-cta-link {
-  display: inline-block;
-  font-size: .85rem;
-  font-weight: 600;
-  color: var(--neon-cyan);
-  text-decoration: none;
-  transition: text-shadow .2s;
-}
-.extension-cta-link:hover { text-shadow: 0 0 10px rgba(0,240,255,.5); }
-
-/* ─── Install section ─── */
-.install-section {
-  position: relative;
-  z-index: 10;
-  margin-top: 100vh;
-  padding: 3rem 2rem 4rem;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
-  background: var(--bg-deep);
-  border-top: 1px solid #1e1e3a;
-}
-.install-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
-}
-.install-steps {
-  list-style: decimal;
-  padding-left: 1.5rem;
-  font-size: .95rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-.install-steps code {
-  background: rgba(255,255,255,.06);
-  padding: .15em .45em;
-  border-radius: 4px;
-  font-size: .88em;
-}
-.install-note {
-  font-size: .88rem;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-}
-.back-to-lab {
-  display: inline-block;
-  font-size: .9rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color .2s;
-}
-.back-to-lab:hover { color: var(--neon-cyan); }
-
 /* ─── Timer bar ─── */
 .timer-bar {
   position: fixed;
@@ -223,7 +149,7 @@ body {
 }
 .timer-bar.active { opacity: 1; }
 
-/* ─── Bubbles (game area is the overlay when playing) ─── */
+/* ─── Bubbles ─── */
 .game-area.is-playing .splash,
 .game-area.is-playing .game-over { display: none; }
 .game-area.is-playing { padding: 0; align-items: stretch; justify-content: stretch; }
