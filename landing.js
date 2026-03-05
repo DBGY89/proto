@@ -12,7 +12,6 @@
   const PUBLIC_PROJECTS = [
     'bubbles',
     'salad-bar',
-    'xylophone',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
