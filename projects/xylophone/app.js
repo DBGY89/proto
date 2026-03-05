@@ -8,8 +8,8 @@
     golden: {
       name: 'Golden',
       artist: 'Huntrix',
-      noteLength: 340,
-      notes: [4, 5, 6, 5, 4, 3, 4, 4, 3, 2, 3, 4, 5, 5, 4, 4, 3, 3]
+      noteLength: 250,
+      notes: [2, 4, 5, 6, 7, 6, 5, 4, 5, 6, 7, 1, 2, 1, 7, 6, 5, 4, 5, 6, 7, 6, 5, 4, 2]
     },
     'your-idol': {
       name: 'Your Idol',
