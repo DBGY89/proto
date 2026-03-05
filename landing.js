@@ -12,7 +12,6 @@
   const PUBLIC_PROJECTS = [
     'bubbles',
     'salad-bar',
-    'patronus-generator',
     'movie-palette',
   ];
 

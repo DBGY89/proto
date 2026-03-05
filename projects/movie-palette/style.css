@@ -113,25 +113,17 @@ body {
   border: 1px solid var(--border);
   border-radius: 10px;
   cursor: pointer;
-  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%239090b0' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
-  animation: selectHint 2.5s ease-in-out infinite;
 }
 
 .movie-select:hover {
   border-color: var(--neon-cyan);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
-  transform: translateY(-2px);
-  animation: none;
-}
-
-@keyframes selectHint {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
-  50% { box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2); }
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.12);
 }
 
 .movie-select:focus {
@@ -312,7 +304,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .movie-select { animation: none; }
   .palette-wrap { animation: none; }
   .swatch { animation: none; transition: none; }
   .swatch::after { transition: none; }
