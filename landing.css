@@ -538,11 +538,96 @@ body {
   .card-border { display: none; }
 }
 
-/* ─── Responsive ─── */
+/* ─── Responsive: fit in one screen on mobile (no scroll) ─── */
 @media (max-width: 640px) {
-  .hero { min-height: 20vh; }
-  .hero-title { letter-spacing: -.02em; }
-  .grid { grid-template-columns: 1fr; }
-  .projects { padding: 2.5rem 1.25rem 2.5rem; }
+  body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero {
+    min-height: 14vh;
+    max-height: 18vh;
+    flex-shrink: 0;
+  }
+
+  .hero .skyline {
+    opacity: 0.35;
+  }
+
+  .hero-content {
+    padding: 0.75rem 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.7rem;
+    max-width: 280px;
+  }
+
+  .projects {
+    flex: 1;
+    min-height: 0;
+    padding: 0.5rem 1rem 0.75rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-heading {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    flex: 1;
+    min-height: 0;
+    align-content: start;
+  }
+
+  .card-body {
+    padding: 0.5rem 0.65rem;
+    min-height: 0;
+    gap: 0.2rem;
+  }
+
+  .card-title {
+    font-size: 0.88rem;
+  }
+
+  .card-desc {
+    font-size: 0.68rem;
+    line-height: 1.25;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .footer {
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+  }
+
+  .footer-headline {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .footer-line,
+  .footer-cta {
+    font-size: 0.75rem;
+    margin-bottom: 0.2rem;
+  }
+
   .snake-revive { bottom: 1rem; right: 1rem; }
 }

@@ -181,13 +181,10 @@ body {
   flex-shrink: 0;
 }
 
-/* Una sola fila, swatches altos */
+/* Columna vertical: los 5 colores en fila sin romper layout */
 .swatches {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: stretch;
-  align-items: stretch;
+  flex-direction: column;
   gap: 0.5rem;
   flex: 1;
   min-height: 240px;
@@ -198,17 +195,17 @@ body {
   --swatch-color: #333;
   position: relative;
   flex: 1 1 0;
-  min-width: 0;
-  min-height: 240px;
+  min-height: 0;
+  min-width: 100%;
   border-radius: 12px;
   background: var(--swatch-color);
   box-shadow:
     0 6px 24px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.06) inset;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0.6rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.75rem;
   overflow: visible;
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
   animation: swatchIn 0.5s var(--ease) both;
@@ -249,8 +246,9 @@ body {
 }
 
 .swatch-copy {
-  width: 100%;
-  padding: 0.45rem 0.5rem;
+  width: auto;
+  min-width: 4.5rem;
+  padding: 0.45rem 0.65rem;
   font-family: var(--font);
   font-size: 0.7rem;
   font-weight: 600;
@@ -300,8 +298,6 @@ body {
 @media (max-width: 640px) {
   .page { padding: 0 1.25rem 1.5rem; }
   .movie-select { max-width: none; }
-  .swatches { flex-wrap: wrap; min-height: 180px; }
-  .swatch { min-width: calc(50% - 0.25rem); min-height: 140px; flex: 1 1 calc(50% - 0.25rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
