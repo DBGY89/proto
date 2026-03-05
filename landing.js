@@ -50,10 +50,32 @@
   }
 
   // ───────────────────────────────────────────
+  //  Tease: iluminar una tarjeta al azar para incitar a clicar (mismo efecto que hover)
+  // ───────────────────────────────────────────
+  const TEASE_DURATION_MS = 1800;
+  const TEASE_INTERVAL_MS = 3500;
+
+  function teaseRandomCard() {
+    const visible = Array.from(document.querySelectorAll('.card:not(.card--hidden)'));
+    if (visible.length === 0) return;
+    const card = visible[Math.floor(Math.random() * visible.length)];
+    card.classList.add('card--tease');
+    setTimeout(() => card.classList.remove('card--tease'), TEASE_DURATION_MS);
+  }
+
+  let teaseTimer;
+  if (!reducedMotion && cards.length > 0) {
+    teaseTimer = setInterval(teaseRandomCard, TEASE_INTERVAL_MS);
+    // Primera iluminación un poco después de que las tarjetas sean visibles
+    setTimeout(teaseRandomCard, TEASE_INTERVAL_MS * 0.8);
+  }
+
+  // ───────────────────────────────────────────
   //  3D tilt on card hover
   // ───────────────────────────────────────────
   cards.forEach((card) => {
     if (card.classList.contains('card--soon')) return;
+    card.addEventListener('mouseenter', () => card.classList.remove('card--tease'));
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width  - 0.5;

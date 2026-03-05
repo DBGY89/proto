@@ -328,6 +328,29 @@ body {
   transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
 }
 
+/* Tease: mismo efecto que hover, para animación de “llamada” aleatoria */
+.card--tease .card-border {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.card--tease .card-body {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 20px var(--accent-dim),
+    inset 0 0 40px var(--accent-dim);
+  background: #0a0a1aee;
+}
+
+.card--tease {
+  transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
+}
+
+.card--tease .card-title {
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent-dim);
+}
+
 .card-title {
   font-size: 1.1rem;
   font-weight: 700;
