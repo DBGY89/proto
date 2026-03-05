@@ -5,6 +5,30 @@
   var FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
 
   var SONGS = {
+    golden: {
+      name: 'Golden',
+      artist: 'Huntrix',
+      noteLength: 340,
+      notes: [4, 5, 6, 5, 4, 3, 4, 4, 3, 2, 3, 4, 5, 5, 4, 4, 3, 3]
+    },
+    'your-idol': {
+      name: 'Your Idol',
+      artist: 'Huntrix',
+      noteLength: 360,
+      notes: [3, 4, 5, 4, 3, 2, 3, 4, 4, 3, 2, 2, 3, 4, 5, 4, 3, 3]
+    },
+    apt: {
+      name: 'APT',
+      artist: 'Bruno Mars & Rose',
+      noteLength: 320,
+      notes: [5, 4, 3, 4, 5, 6, 5, 4, 3, 2, 3, 4, 4, 3, 2, 2]
+    },
+    money: {
+      name: 'Money',
+      artist: 'Lisa',
+      noteLength: 340,
+      notes: [4, 4, 5, 4, 3, 2, 3, 4, 4, 3, 2, 2, 3, 4, 5, 4, 4]
+    },
     dynamite: {
       name: 'Dynamite',
       artist: 'BTS',
