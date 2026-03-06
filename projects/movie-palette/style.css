@@ -282,6 +282,36 @@ body {
   color: var(--bg-deep) !important;
 }
 
+.download-btn {
+  margin-top: 1rem;
+  padding: 0.65rem 1.25rem;
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--bg-deep);
+  background: var(--neon-gold);
+  box-shadow: 0 0 18px rgba(232, 197, 71, 0.35);
+  transition:
+    transform 0.18s var(--ease),
+    box-shadow 0.18s var(--ease),
+    opacity 0.18s var(--ease);
+  align-self: center;
+}
+
+.download-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 26px rgba(232, 197, 71, 0.45);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 14px rgba(232, 197, 71, 0.3);
+}
+
 .footer {
   flex-shrink: 0;
   text-align: center;
@@ -296,10 +326,18 @@ body {
 .footer a:hover { color: var(--neon-gold); }
 
 @media (max-width: 640px) {
-  .page { padding: 0 1.25rem 1.5rem; }
+  .page {
+    padding: 0 1.25rem 1.5rem;
+    gap: .75rem;
+  }
   .movie-select { max-width: none; }
-  .swatches { max-width: 100%; min-height: 180px; }
-  .swatch { min-height: 60px; }
+  .swatches {
+    max-width: 100%;
+    min-height: 160px;
+  }
+  .swatch {
+    min-height: 52px;
+  }
   .intro {
     font-size: .95rem;
   }
@@ -314,7 +352,7 @@ body {
   }
 
   .palette-panel:has(.palette-wrap:not([hidden])) {
-    min-height: min(380px, 70vh);
+    min-height: min(340px, 65vh);
   }
 
   .swatch-copy {
@@ -335,6 +373,12 @@ body {
 
   .swatch:active {
     transform: scale(1.02);
+  }
+
+  .download-btn {
+    width: 100%;
+    max-width: 320px;
+    margin-top: 0.75rem;
   }
 }
 

@@ -20,6 +20,8 @@
   var paletteWrap = document.getElementById('palette-wrap');
   var paletteTitle = document.getElementById('palette-title');
   var swatchesEl = document.getElementById('swatches');
+  var downloadBtn = document.getElementById('download-palette');
+  var currentMovieId = null;
 
   function getLuminance(hex) {
     var r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -54,8 +56,11 @@
     if (!movie) {
       palettePlaceholder.hidden = false;
       paletteWrap.hidden = true;
+      currentMovieId = null;
+      if (downloadBtn) downloadBtn.hidden = true;
       return;
     }
+    currentMovieId = movieId;
     palettePlaceholder.hidden = true;
     paletteWrap.hidden = false;
     paletteTitle.textContent = movie.name + ' (' + movie.year + ')';
@@ -76,7 +81,66 @@
       swatch.appendChild(copyBtn);
       swatchesEl.appendChild(swatch);
     });
+
+    if (downloadBtn) downloadBtn.hidden = false;
+  }
+
+  function downloadPaletteAsJpeg(movieId) {
+    var movie = MOVIES[movieId];
+    if (!movie) return;
+
+    var width = 800;
+    var height = 420;
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#0a0a1a';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = '#e8e8f0';
+    ctx.font = '28px \"Space Grotesk\", -apple-system, BlinkMacSystemFont, system-ui, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    var title = movie.name + ' (' + movie.year + ')';
+    ctx.fillText(title, 28, 28);
+
+    var swatchCount = movie.palette.length;
+    var marginX = 32;
+    var top = 120;
+    var swatchHeight = 180;
+    var gap = 12;
+    var totalWidth = width - marginX * 2;
+    var swatchWidth = (totalWidth - gap * (swatchCount - 1)) / swatchCount;
+
+    movie.palette.forEach(function (hex, index) {
+      var x = marginX + index * (swatchWidth + gap);
+      ctx.fillStyle = hex;
+      ctx.fillRect(x, top, swatchWidth, swatchHeight);
+
+      ctx.fillStyle = getLuminance(hex) < 0.4 ? 'rgba(255,255,255,0.9)' : 'rgba(10,10,26,0.9)';
+      ctx.font = '14px \"Space Grotesk\", -apple-system, BlinkMacSystemFont, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(hex, x + swatchWidth / 2, top + swatchHeight / 2);
+    });
+
+    var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    var link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = (movie.name + '-palette').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   if (movieSelect) movieSelect.addEventListener('change', function () { renderPalette(movieSelect.value || null); });
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      if (!currentMovieId) return;
+      downloadPaletteAsJpeg(currentMovieId);
+    });
+  }
 })();
