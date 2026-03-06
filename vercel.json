@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/:project", "destination": "/projects/:project/index.html" }
+  ]
+}
