@@ -352,6 +352,7 @@ body {
   .modal-overlay.is-open { align-items: center; padding: 2rem; }
 }
 .modal-panel {
+  position: relative;
   width: 100%;
   max-height: 85vh;
   background: var(--bg-deep);
@@ -364,6 +365,17 @@ body {
   transition: transform 0.35s var(--ease);
   overflow: hidden;
 }
+/* Neon bar top: shared (desktop gets it in min-width below) */
+.modal-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+  z-index: 1;
+}
 .modal-overlay.is-open .modal-panel {
   transform: translateY(0);
 }
@@ -374,8 +386,33 @@ body {
     border-radius: 16px;
     transform: scale(0.95);
   }
+  .modal-panel::before {
+    border-radius: 16px 16px 0 0;
+  }
   .modal-overlay.is-open .modal-panel {
     transform: scale(1);
+  }
+  /* Desktop: same neon design as mobile (bar top) */
+  .modal-title {
+    text-shadow: 0 0 20px rgba(255, 45, 120, 0.3);
+  }
+  .modal-close {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+  }
+  .modal-body .label {
+    color: var(--neon-cyan);
+    opacity: 0.9;
+  }
+  .modal-cta .btn-primary {
+    box-shadow: 0 0 20px rgba(255, 45, 120, 0.25);
+  }
+  .modal-cta .btn-secondary {
+    color: var(--neon-cyan);
+    border-color: rgba(0, 240, 255, 0.35);
+  }
+  .modal-cta .btn-secondary:hover {
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
   }
 }
 .modal-drag {
@@ -480,6 +517,46 @@ body {
 .modal-cta .btn-secondary:hover {
   color: var(--neon-cyan);
   border-color: var(--neon-cyan);
+}
+
+/* ─── Mobile: Neon bar bottom sheet design ─── */
+@media (max-width: 639px) {
+  .modal-panel {
+    border-radius: 20px 20px 0 0;
+  }
+  .modal-panel::before {
+    border-radius: 20px 20px 0 0;
+  }
+  .modal-drag {
+    width: 48px;
+    height: 4px;
+    margin: 0.7rem auto 0;
+  }
+  .modal-header {
+    padding: 0.85rem 1rem;
+  }
+  .modal-title {
+    text-shadow: 0 0 20px rgba(255, 45, 120, 0.3);
+  }
+  .modal-close {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+  }
+  .modal-body .label {
+    color: var(--neon-cyan);
+    opacity: 0.9;
+  }
+  .modal-cta .btn-primary {
+    box-shadow: 0 0 20px rgba(255, 45, 120, 0.25);
+  }
+  .modal-cta .btn-secondary {
+    color: var(--neon-cyan);
+    border-color: rgba(0, 240, 255, 0.35);
+  }
+  .modal-cta .btn-secondary:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+  }
 }
 
 .footer {
