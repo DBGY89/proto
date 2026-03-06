@@ -300,6 +300,42 @@ body {
   .movie-select { max-width: none; }
   .swatches { max-width: 100%; min-height: 180px; }
   .swatch { min-height: 60px; }
+  .intro {
+    font-size: .95rem;
+  }
+
+  .palette-placeholder {
+    font-size: 1rem;
+  }
+
+  .palette-panel {
+    min-height: 260px;
+    padding: 1.25rem 1.25rem;
+  }
+
+  .palette-panel:has(.palette-wrap:not([hidden])) {
+    min-height: min(380px, 70vh);
+  }
+
+  .swatch-copy {
+    font-size: .85rem;
+    padding: .55rem .9rem;
+    min-height: 40px;
+  }
+
+  .back-link {
+    padding: .25rem .5rem;
+    margin: -.25rem -.5rem;
+  }
+
+  .topbar {
+    padding-inline: 1.25rem;
+    padding-top: calc(.75rem + env(safe-area-inset-top));
+  }
+
+  .swatch:active {
+    transform: scale(1.02);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

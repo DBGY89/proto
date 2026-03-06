@@ -326,6 +326,38 @@ body {
   body { height: auto; min-height: 100vh; overflow: auto; }
   .layout { grid-template-columns: 1fr; }
   .hero-title { font-size: clamp(1.75rem, 6vw, 2.5rem); }
+  .page { padding: 0 1rem 1.25rem; }
+
+  .intro {
+    font-size: .98rem;
+  }
+
+  .ingredient-chip {
+    min-height: 36px;
+    padding: .5rem .95rem;
+    font-size: .9rem;
+  }
+
+  .ingredient-chip:active {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.16);
+  }
+
+  .recipe-ingredients,
+  .recipe-steps {
+    font-size: .9rem;
+    line-height: 1.6;
+  }
+
+  .summary-text {
+    font-size: .9rem;
+    line-height: 1.6;
+  }
+
+  .back-link {
+    padding: .25rem .5rem;
+    margin: -.25rem -.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

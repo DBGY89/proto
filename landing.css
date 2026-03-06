@@ -542,7 +542,46 @@ body {
 @media (max-width: 640px) {
   .hero { min-height: 20vh; }
   .hero-title { letter-spacing: -.02em; }
+  .hero-subtitle {
+    font-size: .95rem;
+  }
+
   .grid { grid-template-columns: 1fr; }
   .projects { padding: 2.5rem 1.25rem 2.5rem; }
-  .snake-revive { bottom: 1rem; right: 1rem; }
+
+  .card-desc {
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+
+  /* Larger tap feedback on cards, only on small screens */
+  .card:active {
+    transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
+  }
+  .card:active .card-border {
+    opacity: 1;
+    animation-play-state: running;
+  }
+  .card:active .card-body {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 20px var(--accent-dim),
+      inset 0 0 40px var(--accent-dim);
+    background: #0a0a1aee;
+  }
+
+  /* File notice breathing room on small widths */
+  .file-protocol-notice {
+    padding: .75rem 1.25rem;
+  }
+
+  /* Snake HUD + revive button respect safe areas on mobile */
+  .snake-hud {
+    top: calc(1rem + env(safe-area-inset-top));
+    right: 1rem;
+  }
+  .snake-revive {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    right: 1rem;
+  }
 }
