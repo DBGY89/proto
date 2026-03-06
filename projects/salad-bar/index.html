@@ -14,7 +14,8 @@
 
   <nav class="topbar">
     <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
-    <button type="button" class="cta-case" id="cta-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" id="cta-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
   </nav>
 
   <div class="bg-pattern" aria-hidden="true"></div>
@@ -95,9 +96,9 @@
   <script>
   (function () {
     var overlay = document.getElementById('case-modal');
-    var openBtn = document.getElementById('cta-case');
+    var openBtns = document.querySelectorAll('.js-open-case');
     var closeBtn = document.querySelector('.js-close-modal');
-    if (!overlay || !openBtn || !closeBtn) return;
+    if (!overlay || !openBtns.length || !closeBtn) return;
     function openModal() {
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
@@ -109,7 +110,7 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
-    openBtn.addEventListener('click', openModal);
+    openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) closeModal();

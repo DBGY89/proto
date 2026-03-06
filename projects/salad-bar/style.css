@@ -77,6 +77,11 @@ body {
   flex-shrink: 0;
 }
 .cta-case:hover { color: var(--neon-cyan); }
+.cta-case-mobile { display: none; }
+@media (max-width: 640px) {
+  .cta-case-desktop { display: none; }
+  .cta-case-mobile { display: inline; }
+}
 
 /* Hero: título prominente (Von Restorff — lo que destaca) */
 .hero {
