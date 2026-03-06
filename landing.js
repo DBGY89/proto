@@ -26,6 +26,22 @@
   });
 
   // ───────────────────────────────────────────
+  //  Card ratings from localStorage (rating_{projectName})
+  // ───────────────────────────────────────────
+  document.querySelectorAll('.card-rating[data-project]').forEach((el) => {
+    const project = el.getAttribute('data-project');
+    const key = 'rating_' + project;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw == null || raw === '') return;
+      const value = parseInt(raw, 10);
+      if (value >= 1 && value <= 5) {
+        el.textContent = '★ ' + value.toFixed(1) + ' · 1 rating';
+      }
+    } catch (_) {}
+  });
+
+  // ───────────────────────────────────────────
   //  Reveal-on-scroll for cards
   // ───────────────────────────────────────────
   const cards = document.querySelectorAll('.card:not(.card--hidden)');

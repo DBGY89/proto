@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rating system — 5 prototypes (desktop + mobile)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0a1a;
+      --border: #1e1e3a;
+      --neon-pink: #ff2d78;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --grey: #666;
+      --font: 'Space Grotesk', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: #12121a;
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem 1rem 2rem;
+    }
+    h1 { text-align: center; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.35rem; color: #fff; }
+    .subtitle { text-align: center; font-size: 0.8rem; color: var(--grey); margin-bottom: 1.25rem; }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .tabs button {
+      font-family: var(--font);
+      font-size: 0.75rem;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg-deep);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .tabs button.is-active { color: var(--neon-pink); border-color: var(--neon-pink); }
+    .two-up {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .two-up { grid-template-columns: 1fr; }
+    }
+    .column-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 0.5rem;
+    }
+    .desktop-mock {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .phone-wrap {
+      max-width: 320px;
+      margin: 0 auto;
+      border-radius: 28px;
+      padding: 10px;
+      background: #0d0d0d;
+      box-shadow: 0 0 0 2px #333;
+    }
+    .phone-screen {
+      aspect-ratio: 390 / 700;
+      background: var(--bg-deep);
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+    .proj-topbar { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); }
+    .proj-hero { padding: 0.6rem 1rem; text-align: center; }
+    .proj-hero h2 { font-size: 1.1rem; color: var(--neon-pink); margin: 0 0 0.2rem; }
+    .proj-hero p { font-size: 0.75rem; color: var(--text-secondary); margin: 0; }
+    .proj-result {
+      margin: 0 1rem;
+      padding: 0.75rem;
+      background: rgba(17, 17, 40, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+    .proj-result .name { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .proj-result .recipe { font-size: 0.75rem; color: var(--text-secondary); }
+    .vote-widget {
+      font: inherit;
+      color: var(--text-secondary);
+      background: transparent;
+      padding: 0.75rem 1rem;
+      border: none;
+    }
+    .vote-widget .label { font-size: 0.8rem; color: var(--grey); margin-right: 0.5rem; }
+    .vote-widget .nums { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.95rem; }
+    .vote-widget .num {
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.15s;
+      min-width: 1.2em;
+      text-align: center;
+    }
+    .vote-widget .num:hover { color: var(--neon-pink); }
+    .vote-widget .num.selected { color: var(--neon-pink); }
+    .vote-widget .num.grey { color: var(--grey); }
+    .vote-widget .thanks { font-size: 0.75rem; color: var(--grey); margin-left: 0.5rem; }
+    .proj-footer { padding: 0.5rem 1rem; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--grey); text-align: center; }
+
+    /* Card mock (home) */
+    .card-mock {
+      background: rgba(17, 17, 40, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .card-mock .card-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.35rem; }
+    .card-mock .card-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; margin: 0; }
+    .card-mock .card-rating { font-size: 0.75rem; color: var(--grey); margin-top: 0.4rem; }
+    .card-mock .card-rating.none { display: none; }
+
+    /* Desktop project layout */
+    .desktop-proj { padding: 1rem; }
+    .desktop-proj .proj-topbar { margin: -1rem -1rem 0; border-radius: 12px 12px 0 0; }
+    .desktop-proj .proj-hero h2 { font-size: 1.35rem; }
+    .desktop-proj .proj-hero p { font-size: 0.88rem; }
+    .desktop-proj .proj-result { margin-left: 0; margin-right: 0; font-size: 0.88rem; }
+    .desktop-proj .proj-footer { margin: 0 -1rem -1rem; border-radius: 0 0 12px 12px; }
+
+    /* Prototype variants */
+    .p1 .vote-widget .nums { gap: 0.5rem; }
+    .p2 .vote-widget { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; }
+    .p2 .vote-widget .nums { gap: 0.6rem; }
+    .p3 .vote-widget .label { display: block; margin-bottom: 0.35rem; margin-right: 0; }
+    .p3 .vote-widget .nums { gap: 0.55rem; }
+    .p4 .vote-widget .label { font-size: 0.72rem; margin-right: 0.4rem; }
+    .p4 .vote-widget .nums { gap: 0.4rem; font-size: 0.9rem; }
+    .p5 .vote-widget { text-align: right; }
+    .p5 .vote-widget .label { display: block; margin-bottom: 0.25rem; margin-right: 0; }
+    .p5 .vote-widget .nums { justify-content: flex-end; gap: 0.5rem; }
+    .p5 .card-mock .card-rating { text-align: right; }
+  </style>
+</head>
+<body>
+  <h1>Rating system — 5 prototypes</h1>
+  <p class="subtitle">Desktop + mobile at once · Vote widget + card rating</p>
+  <div class="tabs" role="tablist">
+    <button type="button" class="is-active" data-p="1">1</button>
+    <button type="button" data-p="2">2</button>
+    <button type="button" data-p="3">3</button>
+    <button type="button" data-p="4">4</button>
+    <button type="button" data-p="5">5</button>
+  </div>
+
+  <div class="two-up">
+    <div>
+      <div class="column-label">Desktop</div>
+      <div class="desktop-mock desktop-proj p1" id="desktop-1">
+        <div class="proj-topbar">← AI Proto Lab · How this went from idea to prototype →</div>
+        <div class="proj-hero">
+          <h2>Salad Bar</h2>
+          <p>Build your salad. We'll match it with a dressing that actually works.</p>
+        </div>
+        <div class="proj-result">
+          <div class="name">Lemon–herb vinaigrette</div>
+          <div class="recipe">Olive oil, lemon juice, Dijon, garlic, herbs…</div>
+        </div>
+        <div class="vote-widget" data-project="salad-bar">
+          <span class="label">Rate this prototype</span>
+          <span class="nums">
+            <span class="num" data-value="1">1</span>
+            <span class="num" data-value="2">2</span>
+            <span class="num" data-value="3">3</span>
+            <span class="num" data-value="4">4</span>
+            <span class="num" data-value="5">5</span>
+          </span>
+          <span class="thanks" style="display:none;">Thanks ✓</span>
+        </div>
+        <div class="proj-footer">Part of AI Proto Lab — no boring salads.</div>
+        <div class="card-mock" style="margin:1rem 1rem 0;">
+          <div class="card-title">SALAD BAR</div>
+          <p class="card-desc">Pick ingredients, see your salad on a plate, and get a dressing that fits — with the recipe.</p>
+          <div class="card-rating">★ 4.2 · 38 ratings</div>
+        </div>
+      </div>
+      <div class="desktop-mock desktop-proj p2" id="desktop-2" style="display:none;">
+        <div class="proj-topbar">← AI Proto Lab · How this went from idea to prototype →</div>
+        <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad. We'll match it with a dressing that actually works.</p></div>
+        <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon juice, Dijon, garlic, herbs…</div></div>
+        <div class="vote-widget" data-project="salad-bar-p2"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+        <div class="proj-footer">Part of AI Proto Lab — no boring salads.</div>
+        <div class="card-mock" style="margin:1rem 1rem 0;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, see your salad on a plate, and get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+      </div>
+      <div class="desktop-mock desktop-proj p3" id="desktop-3" style="display:none;">
+        <div class="proj-topbar">← AI Proto Lab · How this went from idea to prototype →</div>
+        <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad. We'll match it with a dressing that actually works.</p></div>
+        <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon juice, Dijon, garlic, herbs…</div></div>
+        <div class="vote-widget" data-project="salad-bar-p3"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+        <div class="proj-footer">Part of AI Proto Lab — no boring salads.</div>
+        <div class="card-mock" style="margin:1rem 1rem 0;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, see your salad on a plate, and get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+      </div>
+      <div class="desktop-mock desktop-proj p4" id="desktop-4" style="display:none;">
+        <div class="proj-topbar">← AI Proto Lab · How this went from idea to prototype →</div>
+        <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad. We'll match it with a dressing that actually works.</p></div>
+        <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon juice, Dijon, garlic, herbs…</div></div>
+        <div class="vote-widget" data-project="salad-bar-p4"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+        <div class="proj-footer">Part of AI Proto Lab — no boring salads.</div>
+        <div class="card-mock" style="margin:1rem 1rem 0;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, see your salad on a plate, and get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+      </div>
+      <div class="desktop-mock desktop-proj p5" id="desktop-5" style="display:none;">
+        <div class="proj-topbar">← AI Proto Lab · How this went from idea to prototype →</div>
+        <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad. We'll match it with a dressing that actually works.</p></div>
+        <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon juice, Dijon, garlic, herbs…</div></div>
+        <div class="vote-widget" data-project="salad-bar-p5"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+        <div class="proj-footer">Part of AI Proto Lab — no boring salads.</div>
+        <div class="card-mock" style="margin:1rem 1rem 0;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, see your salad on a plate, and get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="column-label">Mobile</div>
+      <div class="phone-wrap">
+        <div class="phone-screen p1" id="mobile-1">
+          <div class="proj-topbar">← AI Proto Lab · The story →</div>
+          <div class="proj-hero">
+            <h2>Salad Bar</h2>
+            <p>Build your salad…</p>
+          </div>
+          <div class="proj-result">
+            <div class="name">Lemon–herb vinaigrette</div>
+            <div class="recipe">Olive oil, lemon…</div>
+          </div>
+          <div class="vote-widget" data-project="salad-bar-m">
+            <span class="label">Rate this prototype</span>
+            <span class="nums">
+              <span class="num" data-value="1">1</span>
+              <span class="num" data-value="2">2</span>
+              <span class="num" data-value="3">3</span>
+              <span class="num" data-value="4">4</span>
+              <span class="num" data-value="5">5</span>
+            </span>
+            <span class="thanks" style="display:none;">Thanks ✓</span>
+          </div>
+          <div class="proj-footer">Part of AI Proto Lab</div>
+          <div class="card-mock" style="margin:0.75rem; padding:0.75rem;">
+            <div class="card-title">SALAD BAR</div>
+            <p class="card-desc">Pick ingredients, get a dressing that fits — with the recipe.</p>
+            <div class="card-rating">★ 4.2 · 38 ratings</div>
+          </div>
+        </div>
+        <div class="phone-screen p2" id="mobile-2" style="display:none;">
+          <div class="proj-topbar">← AI Proto Lab · The story →</div>
+          <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad…</p></div>
+          <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon…</div></div>
+          <div class="vote-widget" data-project="salad-bar-m2"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+          <div class="proj-footer">Part of AI Proto Lab</div>
+          <div class="card-mock" style="margin:0.75rem; padding:0.75rem;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+        </div>
+        <div class="phone-screen p3" id="mobile-3" style="display:none;">
+          <div class="proj-topbar">← AI Proto Lab · The story →</div>
+          <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad…</p></div>
+          <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon…</div></div>
+          <div class="vote-widget" data-project="salad-bar-m3"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+          <div class="proj-footer">Part of AI Proto Lab</div>
+          <div class="card-mock" style="margin:0.75rem; padding:0.75rem;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+        </div>
+        <div class="phone-screen p4" id="mobile-4" style="display:none;">
+          <div class="proj-topbar">← AI Proto Lab · The story →</div>
+          <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad…</p></div>
+          <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon…</div></div>
+          <div class="vote-widget" data-project="salad-bar-m4"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+          <div class="proj-footer">Part of AI Proto Lab</div>
+          <div class="card-mock" style="margin:0.75rem; padding:0.75rem;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+        </div>
+        <div class="phone-screen p5" id="mobile-5" style="display:none;">
+          <div class="proj-topbar">← AI Proto Lab · The story →</div>
+          <div class="proj-hero"><h2>Salad Bar</h2><p>Build your salad…</p></div>
+          <div class="proj-result"><div class="name">Lemon–herb vinaigrette</div><div class="recipe">Olive oil, lemon…</div></div>
+          <div class="vote-widget" data-project="salad-bar-m5"><span class="label">Rate this prototype</span><span class="nums"><span class="num" data-value="1">1</span><span class="num" data-value="2">2</span><span class="num" data-value="3">3</span><span class="num" data-value="4">4</span><span class="num" data-value="5">5</span></span><span class="thanks" style="display:none;">Thanks ✓</span></div>
+          <div class="proj-footer">Part of AI Proto Lab</div>
+          <div class="card-mock" style="margin:0.75rem; padding:0.75rem;"><div class="card-title">SALAD BAR</div><p class="card-desc">Pick ingredients, get a dressing that fits — with the recipe.</p><div class="card-rating">★ 4.2 · 38 ratings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="max-width: 600px; margin: 1rem auto 0; font-size: 0.78rem; color: var(--grey); line-height: 1.5;">
+    <strong>Spec:</strong> "Rate this prototype" + 1–5 (plain, spaced, clickable). Hover: pink. Click: selected pink, rest grey, "Thanks ✓" next to it. One vote per user per project (localStorage <code>rating_{projectName}</code>). Card: "★ 4.2 · 38 ratings" below description, grey #666; hide if no votes. Flat, no borders/shadows.
+  </p>
+
+  <p style="max-width: 700px; margin: 0.75rem auto 0; font-size: 0.72rem; color: var(--grey); line-height: 1.5;">
+    <strong>1</strong> Inline, medium spacing · <strong>2</strong> Wrap, more spacing · <strong>3</strong> Label above numbers · <strong>4</strong> Tighter, smaller label · <strong>5</strong> Right-aligned widget + rating
+  </p>
+
+  <script>
+    (function () {
+      function bindVote(wrapper) {
+        if (!wrapper) return;
+        wrapper.querySelectorAll('.vote-widget').forEach(function (widget) {
+          var key = 'rating_' + (widget.getAttribute('data-project') || 'salad-bar');
+          var nums = widget.querySelectorAll('.num');
+          var thanks = widget.querySelector('.thanks');
+          var saved = localStorage.getItem(key);
+          if (saved) {
+            var v = parseInt(saved, 10);
+            nums.forEach(function (n) {
+              var val = parseInt(n.getAttribute('data-value'), 10);
+              n.classList.toggle('selected', val === v);
+              n.classList.toggle('grey', val !== v);
+            });
+            if (thanks) thanks.style.display = 'inline';
+          }
+          nums.forEach(function (n) {
+            n.addEventListener('click', function () {
+              var v = parseInt(this.getAttribute('data-value'), 10);
+              localStorage.setItem(key, String(v));
+              nums.forEach(function (x) {
+                var val = parseInt(x.getAttribute('data-value'), 10);
+                x.classList.toggle('selected', val === v);
+                x.classList.toggle('grey', val !== v);
+              });
+              if (thanks) thanks.style.display = 'inline';
+            });
+          });
+        });
+      }
+      function switchProto(num) {
+        document.querySelectorAll('.tabs button').forEach(function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-p') === String(num));
+        });
+        document.querySelectorAll('[id^="desktop-"]').forEach(function (el) {
+          el.style.display = el.id === 'desktop-' + num ? 'block' : 'none';
+        });
+        document.querySelectorAll('[id^="mobile-"]').forEach(function (el) {
+          el.style.display = el.id === 'mobile-' + num ? 'block' : 'none';
+        });
+        bindVote(document.getElementById('desktop-' + num));
+        bindVote(document.getElementById('mobile-' + num));
+      }
+      document.querySelectorAll('.tabs button').forEach(function (btn) {
+        btn.addEventListener('click', function () { switchProto(btn.getAttribute('data-p')); });
+      });
+      bindVote(document.getElementById('desktop-1'));
+      bindVote(document.getElementById('mobile-1'));
+    })();
+  </script>
+</body>
+</html>

@@ -370,6 +370,18 @@ body {
   line-height: 1.45;
 }
 
+/* Card rating (option 5: right-aligned below description) */
+.card-rating {
+  display: block;
+  font-size: .75rem;
+  color: #666;
+  text-align: right;
+  margin-top: .35rem;
+}
+.card-rating:empty {
+  display: none;
+}
+
 /* Hidden from landing (unpublished projects) */
 .card--hidden {
   display: none !important;
