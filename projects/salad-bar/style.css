@@ -477,11 +477,15 @@ body.demo-layouts {
 }
 .modal-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 0.75rem;
   padding: 1rem 1.25rem 0.75rem;
   flex-shrink: 0;
   border-bottom: 1px solid var(--border);
+}
+.modal-header-text {
+  min-width: 0;
 }
 .modal-title {
   font-size: 1rem;
