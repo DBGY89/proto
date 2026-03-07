@@ -13,7 +13,6 @@
     'bubbles',
     'salad-bar',
     'movie-palette',
-    'snowcheck',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -19,7 +19,7 @@
 
   <div class="bg-pattern" aria-hidden="true"></div>
 
-  <main class="page">
+  <main class="page" id="main-page">
     <header class="hero">
       <h1 class="hero-title">Salad Bar</h1>
       <p class="intro">Build your salad. We'll match it with a dressing that actually works — plus a kitchen trick you didn't see coming.</p>
@@ -104,6 +104,13 @@
 
   <script src="./data.js"></script>
   <script src="./app.js"></script>
+  <script>
+  (function () {
+    var match = /[?&]layout=([1-5])/.exec(window.location.search);
+    var main = document.getElementById('main-page');
+    if (match && main) main.classList.add('layout-desk-' + match[1]);
+  })();
+  </script>
   <script>
   (function () {
     var project = 'salad-bar';

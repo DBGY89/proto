@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salad Bar — 5 layouts desktop (sin scroll)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .demo-page { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; font-family: var(--font); }
+    .demo-page h1 { font-size: 1.5rem; color: var(--neon-pink); margin: 0 0 0.5rem; }
+    .demo-page p { font-size: 0.9rem; color: var(--text-secondary); margin: 0 0 2rem; }
+    .demo-list { list-style: none; padding: 0; margin: 0; }
+    .demo-list li { margin-bottom: 1rem; }
+    .demo-list a {
+      display: block;
+      padding: 1rem 1.25rem;
+      background: rgba(17, 17, 40, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .demo-list a:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.1);
+    }
+    .demo-list span { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); margin-top: 0.35rem; }
+    .demo-back { margin-bottom: 1.5rem; }
+    .demo-back a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    .demo-back a:hover { color: var(--neon-cyan); }
+  </style>
+</head>
+<body class="demo-layouts">
+  <div class="demo-page">
+    <p class="demo-back"><a href="../../index.html">&larr; AI Proto Lab</a> · <a href="./index.html">Salad Bar</a></p>
+    <h1>5 layouts desktop (sin scroll)</h1>
+    <p>Abre cada enlace en escritorio para ver la opción. En la app, usa <code>?layout=1</code> … <code>?layout=5</code> o añade la clase <code>layout-desk-2</code> … <code>layout-desk-5</code> a <code>&lt;main class="page"&gt;</code>.</p>
+    <ul class="demo-list">
+      <li><a href="./index.html?layout=1"><strong>Opción 1</strong> — Por defecto<span>Dos columnas 50/50, hero estándar.</span></a></li>
+      <li><a href="./index.html?layout=2"><strong>Opción 2</strong> — Hero compacto<span>Más espacio para las dos regiones.</span></a></li>
+      <li><a href="./index.html?layout=3"><strong>Opción 3</strong> — Título e intro en una línea<span>Máximo espacio vertical para ingredientes y resultado.</span></a></li>
+      <li><a href="./index.html?layout=4"><strong>Opción 4</strong> — Barra lateral estrecha<span>Ingredientes a la izquierda (220px), resultado ocupa el resto.</span></a></li>
+      <li><a href="./index.html?layout=5"><strong>Opción 5</strong> — Ultra compacto<span>Todo más denso; ideal para viewports justos.</span></a></li>
+    </ul>
+  </div>
+</body>
+</html>

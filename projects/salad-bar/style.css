@@ -30,6 +30,10 @@ body {
   flex-direction: column;
   position: relative;
 }
+body.demo-layouts {
+  height: auto;
+  overflow: auto;
+}
 
 .bg-pattern {
   position: fixed;
@@ -616,9 +620,203 @@ body {
 
 .footer a:hover { color: var(--neon-pink); }
 
+/* ─── Desktop: 5 opciones de layout sin scroll (aplica clase en .page, ej. layout-desk-2) ─── */
+@media (min-width: 701px) {
+  /* Opción 1: actual (por defecto) — dos columnas 50/50, hero estándar */
+  /* Sin clase = layout por defecto */
+
+  /* Opción 2: hero compacto — más espacio para las regiones */
+  .page.layout-desk-2 .hero {
+    padding: 0.5rem 1rem 0.5rem;
+  }
+  .page.layout-desk-2 .hero-title {
+    font-size: 1.65rem;
+    margin-bottom: 0.25rem;
+  }
+  .page.layout-desk-2 .intro {
+    font-size: 0.85rem;
+    max-width: 380px;
+  }
+  .page.layout-desk-2 .layout {
+    gap: 1rem;
+  }
+  .page.layout-desk-2 .region {
+    padding: 0.9rem 1rem;
+  }
+  .page.layout-desk-2 .vote-widget {
+    padding: 0.4rem 1.25rem;
+  }
+
+  /* Opción 3: título e intro en una línea — máximo espacio vertical para contenido */
+  .page.layout-desk-3 .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0.4rem;
+    text-align: left;
+  }
+  .page.layout-desk-3 .hero-title {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  .page.layout-desk-3 .intro {
+    margin: 0;
+    font-size: 0.8rem;
+    max-width: none;
+  }
+  .page.layout-desk-3 .layout {
+    gap: 1rem;
+  }
+  .page.layout-desk-3 .region-title,
+  .page.layout-desk-3 .ingredient-chip,
+  .page.layout-desk-3 .picker-hint {
+    font-size: 0.8rem;
+  }
+  .page.layout-desk-3 .region {
+    padding: 0.75rem 1rem;
+  }
+  .page.layout-desk-3 .ingredient-chip {
+    padding: 0.35rem 0.65rem;
+  }
+  .page.layout-desk-3 .vote-widget {
+    padding: 0.35rem 1.25rem;
+  }
+
+  /* Opción 4: barra lateral estrecha — ingredientes a la izquierda (ancho fijo), resultado ocupa el resto */
+  .page.layout-desk-4 .hero {
+    padding: 0.4rem 1rem 0.35rem;
+  }
+  .page.layout-desk-4 .hero-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
+  .page.layout-desk-4 .intro {
+    font-size: 0.8rem;
+  }
+  .page.layout-desk-4 .layout {
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+  }
+  .page.layout-desk-4 .region-pick {
+    padding: 0.65rem 0.85rem;
+  }
+  .page.layout-desk-4 .region-result {
+    padding: 0.85rem 1rem;
+  }
+  .page.layout-desk-4 .region-title {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+  .page.layout-desk-4 .ingredient-grid {
+    gap: 0.35rem;
+  }
+  .page.layout-desk-4 .ingredient-chip {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+  .page.layout-desk-4 .picker-hint {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+  .page.layout-desk-4 .dressing-name {
+    font-size: 0.95rem;
+  }
+  .page.layout-desk-4 .chef-tip-label {
+    font-size: 0.65rem;
+  }
+  .page.layout-desk-4 .chef-tip-body {
+    padding: 0.65rem 0.85rem;
+  }
+  .page.layout-desk-4 .chef-tip-text {
+    font-size: 0.82rem;
+  }
+  .page.layout-desk-4 .vote-widget {
+    padding: 0.35rem 1.25rem;
+  }
+
+  /* Opción 5: ultra compacto — todo más denso, vote integrado en footer */
+  .page.layout-desk-5 .hero {
+    padding: 0.35rem 1rem 0.25rem;
+  }
+  .page.layout-desk-5 .hero-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.15rem;
+  }
+  .page.layout-desk-5 .intro {
+    font-size: 0.78rem;
+  }
+  .page.layout-desk-5 {
+    padding: 0 1.25rem 0.75rem;
+  }
+  .page.layout-desk-5 .layout {
+    gap: 0.85rem;
+  }
+  .page.layout-desk-5 .region {
+    padding: 0.6rem 0.9rem;
+  }
+  .page.layout-desk-5 .region-title {
+    font-size: 0.82rem;
+    margin-bottom: 0.4rem;
+  }
+  .page.layout-desk-5 .ingredient-grid {
+    gap: 0.35rem;
+    margin-bottom: 0.35rem;
+  }
+  .page.layout-desk-5 .ingredient-chip {
+    padding: 0.28rem 0.55rem;
+    font-size: 0.78rem;
+  }
+  .page.layout-desk-5 .picker-hint {
+    font-size: 0.68rem;
+    margin-bottom: 0.4rem;
+  }
+  .page.layout-desk-5 .summary-label {
+    font-size: 0.7rem;
+  }
+  .page.layout-desk-5 .dressing-name {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .page.layout-desk-5 .recipe-heading {
+    font-size: 0.68rem;
+  }
+  .page.layout-desk-5 .recipe-ingredients,
+  .page.layout-desk-5 .recipe-steps {
+    font-size: 0.78rem;
+  }
+  .page.layout-desk-5 .chef-tip {
+    margin-top: 0.6rem;
+  }
+  .page.layout-desk-5 .chef-tip-body {
+    padding: 0.5rem 0.75rem;
+  }
+  .page.layout-desk-5 .chef-tip-text {
+    font-size: 0.8rem;
+  }
+  .page.layout-desk-5 .vote-widget {
+    padding: 0.25rem 1.25rem;
+  }
+  .page.layout-desk-5 .footer {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
 @media (max-width: 700px) {
   body { height: auto; min-height: 100vh; overflow: auto; }
   .layout { grid-template-columns: 1fr; }
+  .page.layout-desk-2 .hero,
+  .page.layout-desk-3 .hero,
+  .page.layout-desk-4 .hero,
+  .page.layout-desk-5 .hero {
+    display: block;
+    text-align: center;
+    padding: 1.25rem 1rem 1rem;
+  }
+  .page.layout-desk-3 .intro { max-width: 420px; margin-left: auto; margin-right: auto; }
+  .page.layout-desk-4 .layout { grid-template-columns: 1fr; }
   .hero-title { font-size: clamp(1.75rem, 6vw, 2.5rem); }
   .page { padding: 0 1rem 1.25rem; }
 
