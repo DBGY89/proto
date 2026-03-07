@@ -202,6 +202,12 @@ body {
   box-shadow: 0 0 32px rgba(232, 197, 71, 0.08);
 }
 
+/* Solo uno visible: el [hidden] debe ganar sobre display: flex */
+.palette-placeholder[hidden],
+.palette-wrap[hidden] {
+  display: none !important;
+}
+
 /* Empty state: swatches apagados (mismas dimensiones que la paleta real) */
 .palette-placeholder {
   width: 100%;
@@ -209,6 +215,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: center;
   gap: 1rem;
   flex: 1;
   min-height: 0;
