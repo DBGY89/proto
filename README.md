@@ -35,10 +35,19 @@ proto/
 └── README.md
 ```
 
+## Why projects use `./style.css` and `./app.js`
+
+Project pages use **relative paths with `./`** (e.g. `href="./style.css"`, `src="./app.js"`) and **no `<base>` tag**. That way:
+
+- **Local (file://):** The browser loads CSS/JS from the same folder as the HTML.
+- **GitHub Pages:** The same paths resolve correctly from `https://user.github.io/repo/projects/name/`.
+
+Using `<base href="/something/">` or bare `href="style.css"` can break in one of the two environments. Keep the `./` prefix for assets in each project’s `index.html`.
+
 ## Adding a new project
 
 1. Create a folder under `projects/` (e.g. `projects/my-idea/`).
-2. Add at least `index.html` and `style.css`.
+2. Add at least `index.html` and `style.css`. In the HTML use `href="./style.css"` and `src="./app.js"` (no `<base>`).
 3. Write a `README.md` with: **Problem**, **Hypothesis**, **Users**, **Metrics**.
 4. Add a card to the landing page grid in `index.html`:
 
