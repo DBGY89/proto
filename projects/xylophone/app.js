@@ -199,7 +199,7 @@
 
     el.btnPlay.disabled = true;
     el.btnReplay.hidden = true;
-    setInstruction("The melody plays softly in the background—tap the lit key to play it loud.", "0 / " + total, true);
+    setInstruction("The melody plays softly in the background. Tap the lit key to play it loud.", "0 / " + total, true);
 
     function scheduleStep(step) {
       if (!isPlaying || step >= total) {
@@ -232,11 +232,11 @@
       songNotes = [];
       el.btnPlay.disabled = true;
       el.btnReplay.hidden = true;
-      setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly—you bring it to life.", null, false);
+      setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly. You bring it to life.", null, false);
       return;
     }
     el.btnPlay.disabled = false;
-    setInstruction("Ready. Hit Play—the melody will guide you softly. Tap each lit key to play it loud.", null, false);
+    setInstruction("Ready. Hit Play. The melody will guide you softly. Tap each lit key to play it loud.", null, false);
     el.btnReplay.hidden = true;
   }
 
@@ -256,5 +256,5 @@
 
   buildKeys();
   el.btnPlay.disabled = true;
-  setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly—you bring it to life.", null, false);
+  setInstruction("Pick a song, choose your speed, then hit Play. The melody plays softly. You bring it to life.", null, false);
 })();

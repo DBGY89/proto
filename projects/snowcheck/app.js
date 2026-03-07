@@ -10,9 +10,9 @@
     boitaull:      { name: 'Boí Taüll',            lat: 42.53, lon: 0.89,  elevation: 1600, region: 'Pirineo Catalán',  km: 45  },
     formigal:      { name: 'Formigal',              lat: 42.77, lon: -0.40, elevation: 1510, region: 'Pirineo Aragonés', km: 143 },
     cerler:        { name: 'Cerler',                lat: 42.60, lon: 0.53,  elevation: 1500, region: 'Pirineo Aragonés', km: 81  },
-    astun:         { name: 'Astún — Candanchú',     lat: 42.79, lon: -0.52, elevation: 1700, region: 'Pirineo Aragonés', km: 101 },
+    astun:         { name: 'Astún, Candanchú',     lat: 42.79, lon: -0.52, elevation: 1700, region: 'Pirineo Aragonés', km: 101 },
     grandvalira:   { name: 'Grandvalira',           lat: 42.53, lon: 1.73,  elevation: 1710, region: 'Andorra',          km: 210 },
-    vallnord:      { name: 'Vallnord — Pal Arinsal', lat: 42.57, lon: 1.48, elevation: 1550, region: 'Andorra',          km: 63  },
+    vallnord:      { name: 'Vallnord, Pal Arinsal', lat: 42.57, lon: 1.48, elevation: 1550, region: 'Andorra',          km: 63  },
     ordino:        { name: 'Ordino Arcalís',        lat: 42.60, lon: 1.54,  elevation: 1940, region: 'Andorra',          km: 30  },
     sierra_nevada: { name: 'Sierra Nevada',         lat: 37.09, lon: -3.39, elevation: 2100, region: 'Sur de España',   km: 112 }
   };
@@ -339,7 +339,7 @@
       var title = document.getElementById('stationTitle').textContent;
       var verdictEl = document.getElementById('scoreVerdict');
       var dayLabel = getDayIndex() === 0 ? 'hoy' : 'mañana';
-      var text = title + ' ' + dayLabel + ': ' + num + '/100 — ' + (verdictEl ? verdictEl.textContent : '') + ' ❄️ (SnowCheck)';
+      var text = title + ' ' + dayLabel + ': ' + num + '/100. ' + (verdictEl ? verdictEl.textContent : '') + ' ❄️ (SnowCheck)';
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function () {
           shareBtn.textContent = '¡Copiado!';

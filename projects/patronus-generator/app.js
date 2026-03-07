@@ -3,7 +3,7 @@
 
   var PATRONUS_MAP = {
     sofa_humor: [
-      { emoji: '🐱', name: 'Cat', desc: 'You don\'t chase the crown — the crown is the couch. Everyone else is just visiting your kingdom.' },
+      { emoji: '🐱', name: 'Cat', desc: 'You don\'t chase the crown. The crown is the couch. Everyone else is just visiting your kingdom.' },
       { emoji: '🐹', name: 'Hamster', desc: 'Nap, snack, run in a circle, repeat. You\'ve cracked the code and you\'re not sharing.' }
     ],
     sofa_silence: [
@@ -23,7 +23,7 @@
       { emoji: '🐒', name: 'Monkey', desc: 'You find the punchline in everything. Sometimes you are the punchline. You\'re fine with both.' }
     ],
     nature_silence: [
-      { emoji: '🦌', name: 'Stag', desc: 'You don\'t need to announce yourself. You walk in and the vibe shifts. That\'s not arrogance — it\'s math.' },
+      { emoji: '🦌', name: 'Stag', desc: 'You don\'t need to announce yourself. You walk in and the vibe shifts. That\'s not arrogance. It\'s math.' },
       { emoji: '🦫', name: 'Beaver', desc: 'While others debate the plan, you\'ve already built the dam. Quiet efficiency is your love language.' }
     ],
     nature_hug: [
@@ -43,11 +43,11 @@
       { emoji: '🦋', name: 'Butterfly', desc: 'You flit in, make an impression, flit out. Next week they\'re still talking about you. As intended.' }
     ],
     party_hug: [
-      { emoji: '🦄', name: 'Unicorn', desc: 'Rare, a bit extra, and everyone wants a photo. You lean in. That\'s not vanity — that\'s generosity.' },
+      { emoji: '🦄', name: 'Unicorn', desc: 'Rare, a bit extra, and everyone wants a photo. You lean in. That\'s not vanity. That\'s generosity.' },
       { emoji: '🐘', name: 'Elephant', desc: 'You never forget. You never let them forget either. Your hugs are memorable. So are your receipts.' }
     ],
     party_stare: [
-      { emoji: '🐉', name: 'Dragon', desc: 'The music stops. You didn\'t say anything. You didn\'t have to. That\'s not intimidation — that\'s presence.' },
+      { emoji: '🐉', name: 'Dragon', desc: 'The music stops. You didn\'t say anything. You didn\'t have to. That\'s not intimidation. That\'s presence.' },
       { emoji: '🦁', name: 'Lion', desc: 'You don\'t ask for the aux. You take it. The room is better for it. They\'ll admit it later.' }
     ],
     kitchen_humor: [
@@ -139,7 +139,7 @@
   }
 
   function getShareText(patronus) {
-    return 'My Patronus is a ' + patronus.name + ' ' + patronus.emoji + ' — ' + patronus.desc;
+    return 'My Patronus is a ' + patronus.name + ' ' + patronus.emoji + ': ' + patronus.desc;
   }
 
   function getShareUrl() {

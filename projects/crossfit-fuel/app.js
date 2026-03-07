@@ -19,7 +19,7 @@
         dishName: 'Power Oat Bowl with Banana & Almond Butter',
         ingredients: ['rolled oats', 'banana', 'almond butter', 'honey', 'chia seeds', 'cinnamon'],
         macros: { protein: 18, carbs: 72, fat: 22 },
-        fuelStory: 'Oats deliver steady glucose so your energy doesn\'t spike and crash before the WOD. The banana tops off muscle glycogen. Almond butter and chia add staying power — you\'ll feel this at rep 50.',
+        fuelStory: 'Oats deliver steady glucose so your energy doesn\'t spike and crash before the WOD. The banana tops off muscle glycogen. Almond butter and chia add staying power. You\'ll feel this at rep 50.',
         impactCopy: 'The oats hit your bloodstream like a slow drip, not a sugar bomb. Your muscles get the refill they need without the crash. That almond butter? It\'s keeping you from bonking when the clock is running. Don\'t skip it.'
       },
       {
@@ -27,8 +27,8 @@
         dishName: 'Grilled Chicken & Sweet Potato with Greens',
         ingredients: ['chicken breast', 'sweet potato', 'spinach', 'olive oil', 'lemon', 'garlic'],
         macros: { protein: 42, carbs: 48, fat: 14 },
-        fuelStory: 'Chicken restocks the amino pool your muscles used during the WOD. Sweet potato restores glycogen. The greens bring anti-inflammatory compounds — your body is repairing right now.',
-        impactCopy: 'That chicken is literally building back what you broke down. Sweet potato hits your glycogen stores like a restock notification — your muscles are waiting for this. The greens are putting out the fire so you can go again tomorrow.'
+        fuelStory: 'Chicken restocks the amino pool your muscles used during the WOD. Sweet potato restores glycogen. The greens bring anti-inflammatory compounds. Your body is repairing right now.',
+        impactCopy: 'That chicken is literally building back what you broke down. Sweet potato hits your glycogen stores like a restock notification. Your muscles are waiting for this. The greens are putting out the fire so you can go again tomorrow.'
       },
       {
         mealType: 'dinner',
@@ -36,7 +36,7 @@
         ingredients: ['salmon fillet', 'jasmine rice', 'broccoli', 'tamari', 'ginger', 'sesame oil'],
         macros: { protein: 38, carbs: 52, fat: 18 },
         fuelStory: 'Salmon\'s omega-3s support recovery and keep inflammation in check. Rice refills glycogen. Broccoli adds fiber and micronutrients that help your body use everything you\'re giving it.',
-        impactCopy: 'The salmon is doing the quiet work — recovery, hormones, cell membranes. Rice is your overnight glycogen top-up. You\'re not just eating; you\'re rebuilding.'
+        impactCopy: 'The salmon is doing the quiet work: recovery, hormones, cell membranes. Rice is your overnight glycogen top-up. You\'re not just eating; you\'re rebuilding.'
       },
       {
         mealType: 'snack',
@@ -59,7 +59,7 @@
         ingredients: ['eggs', 'avocado', 'sourdough bread', 'cherry tomatoes', 'salt', 'pepper'],
         macros: { protein: 22, carbs: 28, fat: 28 },
         fuelStory: 'On rest days you don\'t need the same carb load. Eggs and avocado give you quality fat and protein for satiety and repair without spiking insulin. Your body is in recovery mode.',
-        impactCopy: 'You\'re not fueling a WOD today — you\'re maintaining. The eggs are still building; the fat keeps you full and supports hormone production. No need to eat like it\'s game day.'
+        impactCopy: 'You\'re not fueling a WOD today. You\'re maintaining. The eggs are still building; the fat keeps you full and supports hormone production. No need to eat like it\'s game day.'
       },
       {
         mealType: 'lunch',
@@ -74,7 +74,7 @@
         dishName: 'Lean Beef Stir-Fry with Vegetables',
         ingredients: ['lean beef', 'bell peppers', 'broccoli', 'snap peas', 'soy sauce', 'rice', 'garlic'],
         macros: { protein: 40, carbs: 38, fat: 12 },
-        fuelStory: 'Beef brings creatine and iron; the veggies add volume and micronutrients. Moderate carbs — you\'re not depleting today. This supports repair and keeps you ready for tomorrow.',
+        fuelStory: 'Beef brings creatine and iron; the veggies add volume and micronutrients. Moderate carbs. You\'re not depleting today. This supports repair and keeps you ready for tomorrow.',
         impactCopy: 'Beef is rest-day gold: heme iron, creatine, full amino profile. You\'re not burning through glycogen, so you don\'t need to pile it on. This is repair fuel, not performance fuel.'
       },
       {
