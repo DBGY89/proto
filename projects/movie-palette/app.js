@@ -94,7 +94,8 @@
     if (!movie) return;
 
     var width = 800;
-    var height = 420;
+    var headerHeight = 42;
+    var height = 420 + headerHeight;
     var canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -104,16 +105,33 @@
     ctx.fillStyle = '#0a0a1a';
     ctx.fillRect(0, 0, width, height);
 
+    /* Letterhead: AI Proto Lab | Movie Palette */
+    ctx.fillStyle = 'rgba(30, 30, 58, 0.9)';
+    ctx.fillRect(0, 0, width, headerHeight);
+    ctx.strokeStyle = 'rgba(30, 30, 90, 0.8)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, headerHeight);
+    ctx.lineTo(width, headerHeight);
+    ctx.stroke();
+    ctx.fillStyle = '#9090b0';
+    ctx.font = '13px \"Space Grotesk\", -apple-system, BlinkMacSystemFont, system-ui, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('AI Proto Lab', 28, headerHeight / 2);
+    ctx.textAlign = 'right';
+    ctx.fillText('Movie Palette', width - 28, headerHeight / 2);
+
     ctx.fillStyle = '#e8e8f0';
     ctx.font = '28px \"Space Grotesk\", -apple-system, BlinkMacSystemFont, system-ui, sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
     var title = movie.year ? movie.name + ' (' + movie.year + ')' : movie.name;
-    ctx.fillText(title, 28, 28);
+    ctx.fillText(title, 28, 28 + headerHeight);
 
     var swatchCount = movie.palette.length;
     var marginX = 32;
-    var top = 120;
+    var top = 120 + headerHeight;
     var swatchHeight = 180;
     var gap = 12;
     var totalWidth = width - marginX * 2;

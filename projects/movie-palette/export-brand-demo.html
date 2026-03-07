@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Palette — 5 ideas: AI Proto Lab en el PNG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    body.export-brand-demo-page { min-height: 100vh; }
+    .export-brand-demo {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+    .export-brand-demo h1 {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .export-brand-demo p.demo-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .export-brand-demo-section {
+      margin-bottom: 2rem;
+    }
+    .export-brand-demo-section h2 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--neon-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .export-brand-demo-section p.idea-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+    /* Preview = mini PNG (mismas proporciones que 800x420, escalado) */
+    .png-preview {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 800 / 420;
+      background: #0a0a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .png-preview__title {
+      position: absolute;
+      top: 6.7%;
+      left: 3.5%;
+      font-family: var(--font);
+      font-size: clamp(12px, 3.5vw, 14px);
+      font-weight: 700;
+      color: #e8e8f0;
+    }
+    .png-preview__swatches {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      top: 28.6%;
+      bottom: 22%;
+      display: flex;
+      gap: 1.5%;
+    }
+    .png-preview__swatch {
+      flex: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 6%;
+      font-family: var(--font);
+      font-size: 8px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 0 2px rgba(0,0,0,0.8);
+    }
+    .png-preview__swatch--dark { color: rgba(255,255,255,0.9); }
+    .png-preview__swatch--light { color: rgba(10,10,26,0.9); }
+    /* 1. Footer */
+    .png-preview__brand--footer {
+      position: absolute;
+      bottom: 5%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--font);
+      font-size: 9px;
+      font-weight: 500;
+      color: #9090b0;
+    }
+    /* 2. Under title */
+    .png-preview__brand--under-title {
+      position: absolute;
+      top: 13%;
+      left: 3.5%;
+      font-family: var(--font);
+      font-size: 8px;
+      font-weight: 500;
+      color: #9090b0;
+    }
+    /* 3. Letterhead */
+    .png-preview__brand--letterhead {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10%;
+      background: rgba(30,30,58,0.6);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3.5%;
+      font-family: var(--font);
+      font-size: 8px;
+      font-weight: 600;
+      color: #9090b0;
+    }
+    .png-preview--letterhead .png-preview__title { top: 16%; }
+    .png-preview--letterhead .png-preview__swatches { top: 38%; }
+    /* 4. Watermark */
+    .png-preview__brand--watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font);
+      font-size: clamp(24px, 8vw, 48px);
+      font-weight: 700;
+      color: rgba(255,255,255,0.06);
+      transform: rotate(-18deg);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    /* 5. Badge */
+    .png-preview__brand--badge {
+      position: absolute;
+      bottom: 5%;
+      left: 3.5%;
+      font-family: var(--font);
+      font-size: 8px;
+      font-weight: 600;
+      color: #9090b0;
+      background: rgba(30,30,58,0.8);
+      border: 1px solid var(--border);
+      padding: 0.35em 0.6em;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body class="export-brand-demo-page">
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="./index.html" class="back-link" style="margin-left: auto;">Movie Palette</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="export-brand-demo">
+    <h1>5 ideas: incluir AI Proto Lab en el PNG exportado</h1>
+    <p class="demo-desc">Cada bloque es una previsualización de cómo quedaría la imagen descargada con la marca en distinta posición.</p>
+
+    <!-- 1. Footer -->
+    <section class="export-brand-demo-section">
+      <h2>1. Pie de imagen</h2>
+      <p class="idea-desc">"AI Proto Lab" en pequeño, centrado bajo los swatches. Firma discreta.</p>
+      <div class="png-preview">
+        <span class="png-preview__title">Pulp Fiction (1994)</span>
+        <div class="png-preview__swatches">
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#0D0D0D">#0D0D0D</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F5C518">#F5C518</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#B22222">#B22222</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#2A2A2A">#2A2A2A</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F8F0E3">#F8F0E3</div>
+        </div>
+        <span class="png-preview__brand--footer">AI Proto Lab</span>
+      </div>
+    </section>
+
+    <!-- 2. Under title -->
+    <section class="export-brand-demo-section">
+      <h2>2. Debajo del título</h2>
+      <p class="idea-desc">Segunda línea bajo el nombre de la película: "from AI Proto Lab".</p>
+      <div class="png-preview">
+        <span class="png-preview__title">Pulp Fiction (1994)</span>
+        <span class="png-preview__brand--under-title">from AI Proto Lab</span>
+        <div class="png-preview__swatches">
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#0D0D0D">#0D0D0D</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F5C518">#F5C518</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#B22222">#B22222</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#2A2A2A">#2A2A2A</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F8F0E3">#F8F0E3</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Letterhead -->
+    <section class="export-brand-demo-section">
+      <h2>3. Cabecera tipo letterhead</h2>
+      <p class="idea-desc">Barra fina arriba con "AI Proto Lab" y "Movie Palette".</p>
+      <div class="png-preview png-preview--letterhead">
+        <div class="png-preview__brand--letterhead">
+          <span>AI Proto Lab</span>
+          <span>Movie Palette</span>
+        </div>
+        <span class="png-preview__title">Pulp Fiction (1994)</span>
+        <div class="png-preview__swatches">
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#0D0D0D">#0D0D0D</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F5C518">#F5C518</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#B22222">#B22222</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#2A2A2A">#2A2A2A</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F8F0E3">#F8F0E3</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Watermark -->
+    <section class="export-brand-demo-section">
+      <h2>4. Marca de agua</h2>
+      <p class="idea-desc">"AI Proto Lab" en diagonal, muy baja opacidad, detrás del contenido.</p>
+      <div class="png-preview">
+        <span class="png-preview__brand--watermark">AI Proto Lab</span>
+        <span class="png-preview__title">Pulp Fiction (1994)</span>
+        <div class="png-preview__swatches">
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#0D0D0D">#0D0D0D</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F5C518">#F5C518</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#B22222">#B22222</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#2A2A2A">#2A2A2A</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F8F0E3">#F8F0E3</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Badge -->
+    <section class="export-brand-demo-section">
+      <h2>5. Badge en esquina</h2>
+      <p class="idea-desc">Recuadro con "AI Proto Lab" en una esquina (abajo izquierda).</p>
+      <div class="png-preview">
+        <span class="png-preview__title">Pulp Fiction (1994)</span>
+        <div class="png-preview__swatches">
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#0D0D0D">#0D0D0D</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F5C518">#F5C518</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#B22222">#B22222</div>
+          <div class="png-preview__swatch png-preview__swatch--dark" style="background:#2A2A2A">#2A2A2A</div>
+          <div class="png-preview__swatch png-preview__swatch--light" style="background:#F8F0E3">#F8F0E3</div>
+        </div>
+        <span class="png-preview__brand--badge">AI Proto Lab</span>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
