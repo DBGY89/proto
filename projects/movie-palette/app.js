@@ -89,7 +89,7 @@
     if (downloadBtn) downloadBtn.hidden = false;
   }
 
-  function downloadPaletteAsJpeg(movieId) {
+  function downloadPaletteAsPng(movieId) {
     var movie = MOVIES[movieId];
     if (!movie) return;
 
@@ -131,10 +131,10 @@
       ctx.fillText(hex, x + swatchWidth / 2, top + swatchHeight / 2);
     });
 
-    var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    var dataUrl = canvas.toDataURL('image/png');
     var link = document.createElement('a');
     link.href = dataUrl;
-    link.download = (movie.name + '-palette').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.jpg';
+    link.download = (movie.name + '-palette').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -177,7 +177,7 @@
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
       if (!currentMovieId) return;
-      downloadPaletteAsJpeg(currentMovieId);
+      downloadPaletteAsPng(currentMovieId);
     });
   }
 })();
