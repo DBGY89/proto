@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing mobile — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0a1a;
+      --bg-card-border: #1e1e3a;
+      --neon-pink: #ff2d78;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #b24dff;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --font-main: 'Space Grotesk', sans-serif;
+      --ease-out: cubic-bezier(.23, 1, .32, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background: #1a1a2e;
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .preview-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    /* Marco móvil 375px */
+    .mobile-frame {
+      width: 375px;
+      min-height: 600px;
+      background: var(--bg-deep);
+      border-radius: 28px;
+      border: 2px solid var(--bg-card-border);
+      box-shadow: 0 25px 80px rgba(0,0,0,.5);
+      overflow: hidden;
+    }
+    .mobile-inner {
+      width: 100%;
+      min-height: 100%;
+    }
+    /* Hero — con overrides mobile ya aplicados */
+    .hero {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 20vh;
+      text-align: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 30% 20%, #ff2d7812 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, #00f0ff0a 0%, transparent 50%),
+        var(--bg-deep);
+    }
+    .skyline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 140px;
+      opacity: 0.65;
+      pointer-events: none;
+    }
+    .skyline svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1.5rem;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(10, 10, 26, .75) 0%, rgba(10, 10, 26, .4) 50%, transparent 70%);
+      border-radius: 20px;
+    }
+    .hero-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 0.75rem;
+    }
+    .neon-pink { color: var(--neon-pink); text-shadow: 0 0 7px var(--neon-pink), 0 0 20px #ff2d7888; }
+    .neon-cyan { color: var(--neon-cyan); text-shadow: 0 0 7px var(--neon-cyan), 0 0 20px #00f0ff88; }
+    .neon-purple { color: var(--neon-purple); text-shadow: 0 0 7px var(--neon-purple), 0 0 20px #b24dff88; }
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      max-width: 320px;
+      margin: 0 auto;
+      line-height: 1.45;
+    }
+    /* Projects — padding reducido (1.25rem top), pill */
+    .projects {
+      max-width: 100%;
+      padding: 1.25rem 1.25rem 2.5rem;
+    }
+    .section-heading {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding: 0.35rem 0.75rem;
+      background: rgba(255, 255, 255, .06);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .card {
+      --accent: var(--neon-cyan);
+      --accent-dim: #00f0ff22;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      background: transparent;
+      border: none;
+      border-radius: 2px;
+      padding: 2px;
+      cursor: pointer;
+    }
+    .card-body {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-deep);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 2px;
+      padding: 1.5rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 120px;
+    }
+    .card--pink { --accent: var(--neon-pink); --accent-dim: #ff2d7822; }
+    .card--cyan { --accent: var(--neon-cyan); --accent-dim: #00f0ff22; }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+    .card-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55; }
+  </style>
+</head>
+<body>
+  <p class="preview-label">Vista móvil (375px) — Skyline alargada, pill Projects, menos espacio</p>
+  <div class="mobile-frame">
+    <div class="mobile-inner">
+      <header class="hero">
+        <div class="skyline" aria-hidden="true">
+          <svg viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ff2d7833"/>
+                <stop offset="100%" stop-color="#00f0ff11"/>
+              </linearGradient>
+            </defs>
+            <rect width="1440" height="220" fill="url(#skyGrad)" opacity=".5"/>
+            <rect x="30" y="90" width="40" height="130" rx="2" fill="#252548" stroke="#ff2d78aa" stroke-width="1"/>
+            <rect x="90" y="40" width="55" height="180" rx="2" fill="#252548" stroke="#00f0ff99" stroke-width="1"/>
+            <rect x="170" y="70" width="35" height="150" rx="2" fill="#252548" stroke="#b24dff99" stroke-width="1"/>
+            <rect x="230" y="50" width="45" height="170" rx="2" fill="#252548" stroke="#ff2d7899" stroke-width="1"/>
+            <rect x="340" y="20" width="8" height="200" rx="2" fill="#252548" stroke="#ff2d78cc" stroke-width="1.2"/>
+            <rect x="330" y="15" width="28" height="12" rx="3" fill="#252548" stroke="#ff2d78dd" stroke-width="1"/>
+            <circle cx="344" cy="10" r="4" fill="#ff2d78aa" stroke="#ff2d78" stroke-width=".8"/>
+            <rect x="320" y="120" width="48" height="100" rx="2" fill="#252548" stroke="#00f0ff99" stroke-width="1"/>
+            <rect x="400" y="60" width="50" height="160" rx="2" fill="#252548" stroke="#00f0ff99" stroke-width="1"/>
+            <rect x="530" y="45" width="60" height="175" rx="2" fill="#252548" stroke="#ff2d7899" stroke-width="1"/>
+            <rect x="680" y="30" width="50" height="190" rx="2" fill="#252548" stroke="#00f0ffaa" stroke-width="1"/>
+            <rect x="760" y="75" width="40" height="145" rx="2" fill="#252548" stroke="#ff2d7899" stroke-width="1"/>
+            <rect x="830" y="55" width="45" height="165" rx="2" fill="#252548" stroke="#ffd70099" stroke-width="1"/>
+            <rect x="960" y="40" width="55" height="180" rx="2" fill="#252548" stroke="#b24dff99" stroke-width="1"/>
+            <rect x="1100" y="50" width="50" height="170" rx="2" fill="#252548" stroke="#00f0ff99" stroke-width="1"/>
+            <rect x="1230" y="60" width="50" height="160" rx="2" fill="#252548" stroke="#ff2d7899" stroke-width="1"/>
+            <rect x="1370" y="70" width="45" height="150" rx="2" fill="#252548" stroke="#00f0ff99" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="neon-pink">AI</span>
+            <span class="neon-cyan">Proto</span>
+            <span class="neon-purple">Lab</span>
+          </h1>
+          <p class="hero-subtitle">Prototypes I build with AI: late nights, wild ideas, and living in 2075 already.</p>
+        </div>
+      </header>
+      <main class="projects">
+        <h2 class="section-heading">Projects</h2>
+        <div class="grid">
+          <a href="#" class="card card--cyan">
+            <div class="card-body">
+              <h3 class="card-title">BUBBLES</h3>
+              <p class="card-desc">Mini game: pop soap bubbles before they float away. Special ones burst into glitter.</p>
+            </div>
+          </a>
+          <a href="#" class="card card--pink">
+            <div class="card-body">
+              <h3 class="card-title">SALAD BAR</h3>
+              <p class="card-desc">Pick ingredients, get a dressing that fits, plus the recipe and one chef's trick.</p>
+            </div>
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

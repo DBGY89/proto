@@ -559,7 +559,19 @@ body {
   }
 
   .grid { grid-template-columns: 1fr; }
-  .projects { padding: 2.5rem 1.25rem 2.5rem; }
+  .projects { padding: 1.25rem 1.25rem 2.5rem; }
+
+  /* Skyline más alta en mobile: edificios alargados hacia abajo; menos hueco hasta la pill */
+  .hero .skyline {
+    height: 140px;
+    opacity: 0.65;
+  }
+  .hero .skyline svg {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+  }
 
   /* Projects como pill: ocupa poco espacio, estilo etiqueta */
   .section-heading {
