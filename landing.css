@@ -521,9 +521,7 @@ body {
 .footer {
   text-align: center;
   padding: 3rem 2rem 3rem;
-  background:
-    radial-gradient(ellipse at 50% 0%, #ff2d780a 0%, transparent 60%),
-    var(--bg-deep);
+  background: var(--bg-deep);
 }
 
 .footer-headline {
