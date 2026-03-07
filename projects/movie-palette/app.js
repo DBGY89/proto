@@ -13,7 +13,7 @@
     'her': { name: 'Her', year: '2013', palette: ['#E64A19', '#E8A0A0', '#5D4037', '#BCAAA4', '#FFF3E0'] },
     'the-matrix': { name: 'The Matrix', year: '1999', palette: ['#00FF41', '#0D0D0D', '#001A00', '#00E676', '#1B5E20'] },
     'moonrise-kingdom': { name: 'Moonrise Kingdom', year: '2012', palette: ['#F9A825', '#E65100', '#C62828', '#1A237E', '#FFF8E1'] },
-    'the-fall': { name: 'The Fall', year: '2006', palette: ['#006064', '#D84315', '#0D47A1', '#4A148C', '#C9A227'] },
+    'the-fall': { name: 'The Fall', palette: ['#006064', '#D84315', '#0D47A1', '#4A148C', '#C9A227'] },
     'gladiator': { name: 'Gladiator', year: '2000', palette: ['#8B4513', '#D4A574', '#C9A227', '#5D4037', '#1A0A0A'] }
   };
 
@@ -65,7 +65,7 @@
     currentMovieId = movieId;
     palettePlaceholder.hidden = true;
     paletteWrap.hidden = false;
-    paletteTitle.textContent = movie.name + ' (' + movie.year + ')';
+    paletteTitle.textContent = movie.year ? movie.name + ' (' + movie.year + ')' : movie.name;
     swatchesEl.innerHTML = '';
     movie.palette.forEach(function (hex, i) {
       var isDark = getLuminance(hex) < 0.4;
@@ -106,7 +106,7 @@
     ctx.font = '28px \"Space Grotesk\", -apple-system, BlinkMacSystemFont, system-ui, sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    var title = movie.name + ' (' + movie.year + ')';
+    var title = movie.year ? movie.name + ' (' + movie.year + ')' : movie.name;
     ctx.fillText(title, 28, 28);
 
     var swatchCount = movie.palette.length;
