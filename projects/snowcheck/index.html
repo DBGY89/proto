@@ -178,6 +178,7 @@
   </div>
 
   <script src="./app.js"></script>
+  <script src="/rating-vote.js"></script>
   <script>
   (function () {
     var project = 'snowcheck';
@@ -200,7 +201,7 @@
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
           var v = parseInt(this.getAttribute('data-value'), 10);
-          localStorage.setItem(key, String(v));
+          if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {
             var val = parseInt(x.getAttribute('data-value'), 10);
             x.classList.toggle('vote-selected', val === v);

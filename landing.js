@@ -26,19 +26,16 @@
   });
 
   // ───────────────────────────────────────────
-  //  Card ratings from localStorage (rating_{projectName})
+  //  Card ratings from Supabase (getRatings in rating-display.js), fallback localStorage
   // ───────────────────────────────────────────
   document.querySelectorAll('.card-rating[data-project]').forEach((el) => {
     const project = el.getAttribute('data-project');
-    const key = 'rating_' + project;
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw == null || raw === '') return;
-      const value = parseInt(raw, 10);
-      if (value >= 1 && value <= 5) {
-        el.textContent = '★ ' + value.toFixed(1) + ' · 1 rating';
-      }
-    } catch (_) {}
+    if (typeof getRatings !== 'function') return;
+    getRatings(project).then(function (res) {
+      if (res.count === 0) return;
+      var label = res.count === 1 ? ' rating' : ' ratings';
+      el.textContent = '★ ' + res.average.toFixed(1) + ' · ' + res.count + label;
+    }).catch(function () {});
   });
 
   // ───────────────────────────────────────────
