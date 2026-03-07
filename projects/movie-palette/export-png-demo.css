@@ -1,0 +1,133 @@
+/* Demo: 5 prototipos para explicar "exporta PNG" */
+body.export-png-demo-page { min-height: 100vh; }
+.export-png-demo {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+.export-png-demo h1 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.export-png-demo p.demo-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.export-png-demo-section {
+  margin-bottom: 2rem;
+}
+.export-png-demo-section h2 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--neon-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+}
+.export-png-demo-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .export-png-demo-row { grid-template-columns: 1fr; }
+}
+.export-png-demo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.export-png-demo-col .label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.export-png-demo-col .mock-panel {
+  background: rgba(17, 17, 40, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  min-height: 80px;
+}
+.export-png-demo-col .mock-panel--mobile {
+  align-items: center;
+}
+
+/* Prototipo 1: Hover = "Export as PNG" (desktop); en mobile siempre "Export as PNG" */
+.export-png-demo--1 .export-cta__label-default { display: inline; }
+.export-png-demo--1 .export-cta__label-hover { display: none; }
+.export-png-demo--1 .export-cta:hover .export-cta__label-default { display: none; }
+.export-png-demo--1 .export-cta:hover .export-cta__label-hover { display: inline; }
+.export-png-demo--1 .export-cta__label { min-width: 0; }
+.export-png-demo--1 .mobile-only-label .export-cta__label-default { display: none; }
+.export-png-demo--1 .mobile-only-label .export-cta__label-hover { display: inline; }
+
+/* Prototipo 2: Siempre "Export as PNG" */
+.export-png-demo--2 .export-cta__label-default { display: none; }
+.export-png-demo--2 .export-cta__label-hover { display: inline; position: static; opacity: 1; }
+
+/* Prototipo 3: Botón "Export" + subtítulo "PNG image" */
+.export-png-demo--3 .export-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+.export-png-demo--3 .export-cta-caption {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.export-png-demo--3 .mock-panel--mobile .export-cta-wrap { align-items: center; }
+
+/* Prototipo 4: Badge "PNG" junto al botón */
+.export-png-demo--4 .export-cta-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.export-png-demo--4 .export-cta-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.06);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+}
+.export-png-demo--4 .export-cta__label-hover { display: none; }
+.export-png-demo--4 .mock-panel--mobile .export-cta-badge-wrap { justify-content: center; }
+
+/* Prototipo 5: Tooltip al hover / focus */
+.export-png-demo--5 .export-cta-wrap { position: relative; }
+.export-png-demo--5 .export-cta__label-hover { display: none; }
+.export-png-demo--5 .export-cta-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  font-size: 0.7rem;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease);
+  margin-bottom: 2px;
+}
+.export-png-demo--5 .export-cta-wrap:hover .export-cta-tooltip,
+.export-png-demo--5 .export-cta:focus-visible + .export-cta-tooltip { opacity: 1; }
+.export-png-demo--5 .mock-panel--mobile .export-cta-tooltip { left: 50%; }

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Palette — 5 prototipos: explicar "exporta PNG"</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./export-png-demo.css">
+</head>
+<body class="export-png-demo-page">
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="./index.html" class="back-link" style="margin-left: auto;">Movie Palette</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="export-png-demo">
+    <h1>5 prototipos: cómo explicar que Export → PNG</h1>
+    <p class="demo-desc">Desktop y mobile. El mismo botón, distintas formas de dejar claro que se descarga una imagen PNG.</p>
+
+    <!-- 1. Hover (desktop) / siempre "Export as PNG" (mobile) -->
+    <section class="export-png-demo-section export-png-demo--1">
+      <h2>1. Hover en desktop; en mobile texto largo siempre</h2>
+      <div class="export-png-demo-row">
+        <div class="export-png-demo-col">
+          <span class="label">Desktop</span>
+          <div class="mock-panel">
+            <button type="button" class="export-cta" aria-label="Export palette as PNG">
+              <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span class="export-cta__label"><span class="export-cta__label-default">Export</span><span class="export-cta__label-hover">Export as PNG</span></span>
+            </button>
+          </div>
+        </div>
+        <div class="export-png-demo-col">
+          <span class="label">Mobile</span>
+          <div class="mock-panel mock-panel--mobile mobile-only-label">
+            <button type="button" class="export-cta" aria-label="Export palette as PNG">
+              <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span class="export-cta__label"><span class="export-cta__label-default">Export</span><span class="export-cta__label-hover">Export as PNG</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Siempre "Export as PNG" -->
+    <section class="export-png-demo-section export-png-demo--2">
+      <h2>2. Siempre "Export as PNG"</h2>
+      <div class="export-png-demo-row">
+        <div class="export-png-demo-col">
+          <span class="label">Desktop</span>
+          <div class="mock-panel">
+            <button type="button" class="export-cta" aria-label="Export palette as PNG">
+              <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span class="export-cta__label"><span class="export-cta__label-default">Export</span><span class="export-cta__label-hover">Export as PNG</span></span>
+            </button>
+          </div>
+        </div>
+        <div class="export-png-demo-col">
+          <span class="label">Mobile</span>
+          <div class="mock-panel mock-panel--mobile">
+            <button type="button" class="export-cta" aria-label="Export palette as PNG">
+              <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span class="export-cta__label"><span class="export-cta__label-default">Export</span><span class="export-cta__label-hover">Export as PNG</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Botón "Export" + subtítulo "PNG image" -->
+    <section class="export-png-demo-section export-png-demo--3">
+      <h2>3. Botón "Export" + subtítulo debajo</h2>
+      <div class="export-png-demo-row">
+        <div class="export-png-demo-col">
+          <span class="label">Desktop</span>
+          <div class="mock-panel">
+            <div class="export-cta-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-caption">PNG image</span>
+            </div>
+          </div>
+        </div>
+        <div class="export-png-demo-col">
+          <span class="label">Mobile</span>
+          <div class="mock-panel mock-panel--mobile">
+            <div class="export-cta-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-caption">PNG image</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Badge "PNG" al lado -->
+    <section class="export-png-demo-section export-png-demo--4">
+      <h2>4. Badge "PNG" junto al botón</h2>
+      <div class="export-png-demo-row">
+        <div class="export-png-demo-col">
+          <span class="label">Desktop</span>
+          <div class="mock-panel">
+            <div class="export-cta-badge-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-badge">PNG</span>
+            </div>
+          </div>
+        </div>
+        <div class="export-png-demo-col">
+          <span class="label">Mobile</span>
+          <div class="mock-panel mock-panel--mobile">
+            <div class="export-cta-badge-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-badge">PNG</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Tooltip al hover / focus -->
+    <section class="export-png-demo-section export-png-demo--5">
+      <h2>5. Tooltip al hover (desktop) o al tocar (mobile)</h2>
+      <div class="export-png-demo-row">
+        <div class="export-png-demo-col">
+          <span class="label">Desktop</span>
+          <div class="mock-panel">
+            <div class="export-cta-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-tooltip" role="tooltip">Download as PNG</span>
+            </div>
+          </div>
+        </div>
+        <div class="export-png-demo-col">
+          <span class="label">Mobile (tap para ver tooltip)</span>
+          <div class="mock-panel mock-panel--mobile">
+            <div class="export-cta-wrap">
+              <button type="button" class="export-cta" aria-label="Export palette as PNG">
+                <svg class="export-cta__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span class="export-cta__label">Export</span>
+              </button>
+              <span class="export-cta-tooltip" role="tooltip">Download as PNG</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
