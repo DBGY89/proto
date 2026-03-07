@@ -500,3 +500,47 @@ body {
   .btn-generate,
   .btn-again { transition: none; }
 }
+
+/* Vote widget */
+.vote-widget {
+  font: inherit;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  text-align: right;
+  margin-left: auto;
+  width: fit-content;
+}
+.vote-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary, #9090b0);
+  margin-bottom: 0.25rem;
+}
+.vote-nums {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+.vote-num {
+  cursor: pointer;
+  color: var(--text-secondary, #9090b0);
+  transition: color 0.15s;
+  min-width: 1.2em;
+  text-align: center;
+}
+.vote-num:hover {
+  color: var(--neon-pink, #ff2d78);
+}
+.vote-num.vote-selected {
+  color: var(--neon-pink, #ff2d78);
+}
+.vote-num.vote-grey {
+  color: var(--text-muted, #666);
+}
+.vote-thanks {
+  font-size: 0.75rem;
+  color: var(--text-muted, #666);
+  margin-left: 0.5rem;
+}

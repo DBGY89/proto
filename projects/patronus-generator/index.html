@@ -82,6 +82,18 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </aside>
+
+    <div class="vote-widget" data-project="patronus-generator" aria-label="Rate this prototype">
+      <span class="vote-label">Rate this prototype</span>
+      <span class="vote-nums">
+        <span class="vote-num" data-value="1">1</span>
+        <span class="vote-num" data-value="2">2</span>
+        <span class="vote-num" data-value="3">3</span>
+        <span class="vote-num" data-value="4">4</span>
+        <span class="vote-num" data-value="5">5</span>
+      </span>
+      <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+    </div>
   </main>
 
   <!-- Footer: Part of AI Proto Lab — product tagline -->
@@ -90,5 +102,40 @@
   </footer>
 
   <script src="./app.js"></script>
+  <script src="/rating-vote.js"></script>
+  <script>
+  (function () {
+    var project = 'patronus-generator';
+    var key = 'rating_' + project;
+    var widget = document.querySelector('.vote-widget');
+    var thanks = document.getElementById('vote-thanks');
+    if (widget && thanks) {
+      var nums = widget.querySelectorAll('.vote-num');
+      thanks.style.display = 'none';
+      var saved = localStorage.getItem(key);
+      if (saved) {
+        var v = parseInt(saved, 10);
+        nums.forEach(function (n) {
+          var val = parseInt(n.getAttribute('data-value'), 10);
+          n.classList.toggle('vote-selected', val === v);
+          n.classList.toggle('vote-grey', val !== v);
+        });
+        thanks.style.display = 'inline';
+      }
+      nums.forEach(function (n) {
+        n.addEventListener('click', function () {
+          var v = parseInt(this.getAttribute('data-value'), 10);
+          if (typeof saveRating === 'function') saveRating(project, v);
+          nums.forEach(function (x) {
+            var val = parseInt(x.getAttribute('data-value'), 10);
+            x.classList.toggle('vote-selected', val === v);
+            x.classList.toggle('vote-grey', val !== v);
+          });
+          thanks.style.display = 'inline';
+        });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
