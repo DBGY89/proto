@@ -181,23 +181,22 @@ body {
   flex-shrink: 0;
 }
 
-/* Columna vertical: los 5 colores uno debajo del otro, sin romper layout */
+/* Desktop: fila horizontal que abarca toda la caja */
 .swatches {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.5rem;
   flex: 1;
   min-height: 200px;
   width: 100%;
-  max-width: 420px;
 }
 
 .swatch {
   --swatch-color: #333;
   position: relative;
   flex: 1 1 0;
-  min-height: 72px;
-  width: 100%;
+  min-width: 0;
+  min-height: 200px;
   border-radius: 12px;
   background: var(--swatch-color);
   box-shadow:
@@ -282,34 +281,167 @@ body {
   color: var(--bg-deep) !important;
 }
 
-.download-btn {
-  margin-top: 1rem;
-  padding: 0.65rem 1.25rem;
+/* ——— Export CTA: sutil, sin color que compita con la paleta ——— */
+.export-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
   font-family: var(--font);
   font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  border: none;
-  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   cursor: pointer;
-  color: var(--bg-deep);
-  background: var(--neon-gold);
-  box-shadow: 0 0 18px rgba(232, 197, 71, 0.35);
-  transition:
-    transform 0.18s var(--ease),
-    box-shadow 0.18s var(--ease),
-    opacity 0.18s var(--ease);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+
+.export-cta:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.export-cta:active {
+  opacity: 0.85;
+}
+
+.export-cta__icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.export-cta__label {
+  white-space: nowrap;
+}
+
+/* ——— Layout option 1 (default): bajo la paleta, alineado a la derecha ——— */
+.palette-panel .export-cta {
+  margin-top: 1rem;
+  align-self: flex-end;
+}
+
+/* ——— Layout option 2: esquina superior derecha del panel ——— */
+.palette-panel.export-layout-corner {
+  position: relative;
+}
+.palette-panel.export-layout-corner .export-cta {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin-top: 0;
+  z-index: 2;
+}
+@media (max-width: 640px) {
+  .palette-panel.export-layout-corner .export-cta {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}
+
+/* ——— Layout option 3: misma línea que el título (desktop); debajo título (mobile) ——— */
+.palette-panel.export-layout-title-row .palette-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "title export" "swatches swatches";
+  align-items: start;
+  gap: 0.5rem 1rem;
+}
+.palette-panel.export-layout-title-row .palette-title {
+  grid-area: title;
+  text-align: left;
+}
+.palette-panel.export-layout-title-row .export-cta {
+  grid-area: export;
+  margin-top: 0;
   align-self: center;
 }
-
-.download-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 26px rgba(232, 197, 71, 0.45);
+.palette-panel.export-layout-title-row .swatches {
+  grid-area: swatches;
+}
+@media (max-width: 640px) {
+  .palette-panel.export-layout-title-row .palette-wrap {
+    grid-template-columns: 1fr;
+    grid-template-areas: "title" "swatches" "export";
+  }
+  .palette-panel.export-layout-title-row .palette-title {
+    text-align: center;
+  }
+  .palette-panel.export-layout-title-row .export-cta {
+    justify-self: center;
+  }
 }
 
-.download-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 0 14px rgba(232, 197, 71, 0.3);
+/* ——— Layout option 4: barra sutil bajo los swatches (footer del panel) ——— */
+.palette-panel.export-layout-footer {
+  flex-direction: column;
+  align-items: stretch;
+}
+.palette-panel.export-layout-footer .export-cta {
+  margin-top: auto;
+  align-self: flex-end;
+  padding-top: 0.75rem;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  margin-bottom: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 640px) {
+  .palette-panel.export-layout-footer .export-cta {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    margin-bottom: -1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* ——— Layout option 5: al final de la fila de swatches (desktop); debajo (mobile) ——— */
+.palette-panel.export-layout-inline .palette-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+.palette-panel.export-layout-inline .palette-title {
+  width: 100%;
+  flex-shrink: 0;
+}
+.palette-panel.export-layout-inline .swatches {
+  flex: 1;
+  min-width: 0;
+}
+.palette-panel.export-layout-inline .export-cta {
+  margin-top: 0;
+  align-self: stretch;
+  min-width: 100px;
+  flex-shrink: 0;
+  justify-content: center;
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+@media (max-width: 640px) {
+  .palette-panel.export-layout-inline .palette-wrap {
+    flex-direction: column;
+  }
+  .palette-panel.export-layout-inline .export-cta {
+    min-width: 0;
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+    margin-top: 0.5rem;
+  }
 }
 
 .footer {
@@ -332,11 +464,13 @@ body {
   }
   .movie-select { max-width: none; }
   .swatches {
+    flex-direction: column;
     max-width: 100%;
     min-height: 160px;
   }
   .swatch {
     min-height: 52px;
+    width: 100%;
   }
   .intro {
     font-size: .95rem;
@@ -375,9 +509,7 @@ body {
     transform: scale(1.02);
   }
 
-  .download-btn {
-    width: 100%;
-    max-width: 320px;
+  .palette-panel .export-cta {
     margin-top: 0.75rem;
   }
 }

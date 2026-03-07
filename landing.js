@@ -13,6 +13,7 @@
     'bubbles',
     'salad-bar',
     'movie-palette',
+    'snowcheck',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -287,7 +288,7 @@
 
   reviveBtn.addEventListener('click', () => launch());
 
-  // Trigger: 30s or scroll past projects — whichever first
+  // Trigger: 10s or scroll past projects — whichever first
   let snakeLaunched = false;
 
   function triggerSnake() {
@@ -296,7 +297,7 @@
     launch();
   }
 
-  const snakeTimer = setTimeout(triggerSnake, 30000);
+  const snakeTimer = setTimeout(triggerSnake, 10000);
 
   if ('IntersectionObserver' in window) {
     const proj = document.getElementById('projects');

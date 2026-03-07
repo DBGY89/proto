@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnowCheck — AI Proto Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Cómo pasó de idea a prototipo">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Cómo pasó de idea a prototipo">The story →</button>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="hero">
+      <h1 class="hero-title">SnowCheck</h1>
+      <p class="intro">Elige estación y día. Te damos un score 0–100, tipo de nieve y comparativa con otras estaciones. Sin registro.</p>
+    </header>
+
+    <section class="picker-section" aria-label="Elegir estación y día">
+      <div class="day-toggle" role="group" aria-label="Día a consultar">
+        <button type="button" class="day-btn day-btn--today is-active" data-day="0" id="dayToday">Hoy</button>
+        <button type="button" class="day-btn day-btn--tomorrow" data-day="1" id="dayTomorrow">Mañana</button>
+      </div>
+      <div class="picker-row">
+        <select id="stationSelect" class="station-select" aria-label="Estación">
+          <option value="">— Elige estación —</option>
+          <optgroup label="Pirineo Catalán">
+            <option value="baqueira">Baqueira Beret</option>
+            <option value="masella">La Molina / Masella</option>
+            <option value="boitaull">Boí Taüll</option>
+          </optgroup>
+          <optgroup label="Pirineo Aragonés">
+            <option value="formigal">Formigal</option>
+            <option value="cerler">Cerler</option>
+            <option value="astun">Astún — Candanchú</option>
+          </optgroup>
+          <optgroup label="Andorra">
+            <option value="grandvalira">Grandvalira</option>
+            <option value="vallnord">Vallnord — Pal Arinsal</option>
+            <option value="ordino">Ordino Arcalís</option>
+          </optgroup>
+          <optgroup label="Sur de España">
+            <option value="sierra_nevada">Sierra Nevada</option>
+          </optgroup>
+        </select>
+        <button type="button" class="check-btn" id="checkBtn" aria-label="Consultar">Consultar</button>
+      </div>
+      <p class="last-station-wrap hidden" id="lastStationWrap">
+        <button type="button" class="last-station-btn" id="lastStationBtn"></button>
+      </p>
+    </section>
+
+    <p class="data-source" id="dataSource" aria-live="polite"></p>
+
+    <div class="result-wrap hidden" id="resultWrap">
+      <section class="score-hero" aria-label="Score principal">
+        <div class="score-hero-main">
+          <span class="score-number" id="scoreNumber">—</span>
+          <span class="score-slash">/100</span>
+        </div>
+        <h2 class="station-title" id="stationTitle"></h2>
+        <p class="score-verdict" id="scoreVerdict"></p>
+        <p class="score-summary" id="scoreSummary"></p>
+        <div class="snowfall-highlight hidden" id="snowfallHighlight"></div>
+        <div class="station-meta" id="stationMeta"></div>
+        <div class="hero-actions">
+          <button type="button" class="share-btn" id="shareBtn" aria-label="Copiar resultado">Compartir</button>
+        </div>
+      </section>
+
+      <section class="sub-scores" aria-label="Desglose del score">
+        <div class="sub-card" id="subSnow">
+          <span class="sub-label">Nieve</span>
+          <span class="sub-value" id="valSnow">—</span>
+          <div class="sub-bar"><span class="sub-bar-fill" id="barSnow"></span></div>
+        </div>
+        <div class="sub-card" id="subWeather">
+          <span class="sub-label">Clima</span>
+          <span class="sub-value" id="valWeather">—</span>
+          <div class="sub-bar"><span class="sub-bar-fill" id="barWeather"></span></div>
+        </div>
+        <div class="sub-card" id="subCrowd">
+          <span class="sub-label">Masificación</span>
+          <span class="sub-value" id="valCrowd">—</span>
+          <div class="sub-bar"><span class="sub-bar-fill" id="barCrowd"></span></div>
+        </div>
+        <div class="sub-card" id="subBase">
+          <span class="sub-label">Base</span>
+          <span class="sub-value" id="valBase">—</span>
+          <div class="sub-bar"><span class="sub-bar-fill" id="barBase"></span></div>
+        </div>
+      </section>
+
+      <section class="week-section" aria-label="Pronóstico 7 días">
+        <h3 class="section-head">Próximos 7 días</h3>
+        <div class="week-grid" id="weekGrid"></div>
+      </section>
+
+      <section class="compare-section" aria-label="Comparar con otras estaciones">
+        <h3 class="section-head">Comparativa</h3>
+        <div class="compare-grid" id="compareGrid"></div>
+      </section>
+
+      <section class="webcam-section" aria-label="Webcams">
+        <h3 class="section-head">Webcams</h3>
+        <div class="webcam-grid" id="webcamGrid"></div>
+      </section>
+    </div>
+
+    <div class="placeholder-result" id="placeholderResult">
+      <p>Elige una estación y pulsa Consultar.</p>
+    </div>
+
+    <div class="vote-widget" data-project="snowcheck" aria-label="Valorar este prototipo">
+      <span class="vote-label">Rate this prototype</span>
+      <span class="vote-nums">
+        <span class="vote-num" data-value="1">1</span>
+        <span class="vote-num" data-value="2">2</span>
+        <span class="vote-num" data-value="3">3</span>
+        <span class="vote-num" data-value="4">4</span>
+        <span class="vote-num" data-value="5">5</span>
+      </span>
+      <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+    </div>
+
+    <button type="button" class="easter-egg-btn" id="easterEggBtn" aria-label="Easter egg">❄️</button>
+  </main>
+
+  <footer class="footer">
+    <p>Part of <a href="../../index.html">AI Proto Lab</a> — check the snow, then go.</p>
+  </footer>
+
+  <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <span class="modal-drag" aria-hidden="true"></span>
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+        <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="label">What problem & for whom</p>
+        <p><strong>For whom:</strong> Skiers and snowboarders who check several apps and websites before deciding where to go — they want one place for score, snow type, and a quick compare.</p>
+        <p><strong>Problem:</strong> "Is it worth driving to Baqueira today? What about Cerler?" They need a simple 0–100 score, no sign-up, no clutter.</p>
+        <p><strong>This:</strong> Pick station + today/tomorrow → get score, verdict, 7-day forecast, compare with 2 random stations, webcam links. One click.</p>
+        <p class="label">Design decisions</p>
+        <p>Single API (Open-Meteo), no key. All scoring is client-side. Last station in localStorage so returning users get one-tap. Share copies to clipboard.</p>
+        <p class="label">Get in touch</p>
+        <div class="modal-cta">
+          <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+          <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="gameModal" role="dialog" aria-modal="true" aria-labelledby="gameModalTitle" aria-hidden="true">
+    <div class="modal-panel modal-panel--game">
+      <div class="modal-header">
+        <h2 class="modal-title" id="gameModalTitle">Slalom</h2>
+        <button type="button" class="modal-close js-close-game" aria-label="Cerrar">×</button>
+      </div>
+      <div class="game-hud">
+        <span>Score: <span id="scoreDisplay">0</span></span>
+        <span>Récord: <span id="bestDisplay">0</span></span>
+      </div>
+      <canvas id="slalomCanvas" width="340" height="480" aria-label="Juego de slalom"></canvas>
+      <button type="button" class="game-restart" id="gameRestart">Reiniciar</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+  (function () {
+    var project = 'snowcheck';
+    var key = 'rating_' + project;
+    var widget = document.querySelector('.vote-widget');
+    var thanks = document.getElementById('vote-thanks');
+    if (widget && thanks) {
+      var nums = widget.querySelectorAll('.vote-num');
+      thanks.style.display = 'none';
+      var saved = localStorage.getItem(key);
+      if (saved) {
+        var v = parseInt(saved, 10);
+        nums.forEach(function (n) {
+          var val = parseInt(n.getAttribute('data-value'), 10);
+          n.classList.toggle('vote-selected', val === v);
+          n.classList.toggle('vote-grey', val !== v);
+        });
+        thanks.style.display = 'inline';
+      }
+      nums.forEach(function (n) {
+        n.addEventListener('click', function () {
+          var v = parseInt(this.getAttribute('data-value'), 10);
+          localStorage.setItem(key, String(v));
+          nums.forEach(function (x) {
+            var val = parseInt(x.getAttribute('data-value'), 10);
+            x.classList.toggle('vote-selected', val === v);
+            x.classList.toggle('vote-grey', val !== v);
+          });
+          thanks.style.display = 'inline';
+        });
+      });
+    }
+  })();
+  </script>
+  <script>
+  (function () {
+    var overlay = document.getElementById('case-modal');
+    var openBtns = document.querySelectorAll('.js-open-case');
+    var closeBtn = document.querySelector('.js-close-modal');
+    if (!overlay || !openBtns.length || !closeBtn) return;
+    function openModal() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+    });
+  })();
+  </script>
+</body>
+</html>
