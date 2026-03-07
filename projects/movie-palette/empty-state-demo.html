@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Palette — 5 empty state prototypes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./empty-state-demo.css">
+</head>
+<body class="empty-state-demo-page">
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="./index.html" class="back-link" style="margin-left: auto;">Movie Palette</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="empty-state-demo">
+    <h1>Movie Palette — 5 prototipos de empty state</h1>
+    <p class="demo-desc">Distintas formas de mostrar el panel cuando aún no se ha elegido película. Misma zona y proporciones que el panel real.</p>
+
+    <!-- 1. Solo texto (actual) -->
+    <section class="empty-state-demo-section empty-state-demo--text">
+      <h2>1. Solo texto</h2>
+      <div class="demo-panel">
+        <p class="demo-placeholder">Choose a movie above to see its palette.</p>
+      </div>
+    </section>
+
+    <!-- 2. Swatches apagados -->
+    <section class="empty-state-demo-section empty-state-demo--muted">
+      <h2>2. Swatches apagados</h2>
+      <div class="demo-panel">
+        <div class="demo-placeholder">
+          <div class="demo-placeholder-row">
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Ghost / contorno punteado -->
+    <section class="empty-state-demo-section empty-state-demo--ghost">
+      <h2>3. Ghost (contorno punteado)</h2>
+      <div class="demo-panel">
+        <div class="demo-placeholder">
+          <div class="demo-placeholder-row">
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+            <span class="demo-swatch"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Icono + texto -->
+    <section class="empty-state-demo-section empty-state-demo--icon">
+      <h2>4. Icono + texto</h2>
+      <div class="demo-panel">
+        <div class="demo-placeholder">
+          <div class="demo-placeholder-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <circle cx="17" cy="8" r="2"/>
+              <circle cx="7" cy="9" r="2"/>
+              <circle cx="9" cy="16" r="2"/>
+              <circle cx="15" cy="15" r="2"/>
+            </svg>
+          </div>
+          <p class="demo-placeholder-text">Pick a film above and its palette appears here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Banda gradiente -->
+    <section class="empty-state-demo-section empty-state-demo--gradient">
+      <h2>5. Banda gradiente</h2>
+      <div class="demo-panel">
+        <div class="demo-placeholder">
+          <p class="demo-placeholder-text">Choose a movie above to see its palette.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>

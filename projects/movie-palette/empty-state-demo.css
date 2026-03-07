@@ -1,0 +1,190 @@
+/* Demo: 5 prototipos de empty state */
+body.empty-state-demo-page { min-height: 100vh; }
+.empty-state-demo {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+.empty-state-demo h1 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.empty-state-demo p.demo-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.empty-state-demo-section {
+  margin-bottom: 2rem;
+}
+.empty-state-demo-section h2 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--neon-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+}
+.empty-state-demo-section .demo-panel {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 17, 40, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.empty-state-demo--muted .demo-panel,
+.empty-state-demo--ghost .demo-panel {
+  justify-content: stretch;
+  min-height: 360px;
+}
+.empty-state-demo--muted .demo-placeholder,
+.empty-state-demo--ghost .demo-placeholder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Prototipo 1: solo texto (actual) */
+.empty-state-demo--text .demo-placeholder {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+}
+
+/* Prototipo 2: swatches apagados/desaturados */
+.empty-state-demo--muted .demo-placeholder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  min-height: 200px;
+}
+.empty-state-demo--muted .demo-placeholder-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex: 1;
+  min-height: 200px;
+  width: 100%;
+}
+.empty-state-demo--muted .demo-swatch {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 200px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0.7;
+  filter: saturate(0.4);
+}
+.empty-state-demo--muted .demo-swatch:nth-child(1) { background: linear-gradient(145deg, #1e1e32 0%, #252540 100%); }
+.empty-state-demo--muted .demo-swatch:nth-child(2) { background: linear-gradient(145deg, #2a2a3e 0%, #2e2e48 100%); }
+.empty-state-demo--muted .demo-swatch:nth-child(3) { background: linear-gradient(145deg, #222236 0%, #2a2a44 100%); }
+.empty-state-demo--muted .demo-swatch:nth-child(4) { background: linear-gradient(145deg, #26263a 0%, #303050 100%); }
+.empty-state-demo--muted .demo-swatch:nth-child(5) { background: linear-gradient(145deg, #242440 0%, #2c2c4a 100%); }
+
+/* Prototipo 3: ghost / contorno punteado */
+.empty-state-demo--ghost .demo-panel { min-height: 320px; }
+.empty-state-demo--ghost .demo-placeholder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  min-height: 200px;
+}
+.empty-state-demo--ghost .demo-placeholder-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex: 1;
+  min-height: 200px;
+  width: 100%;
+}
+.empty-state-demo--ghost .demo-swatch {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 200px;
+  border-radius: 12px;
+  border: 2px dashed rgba(144, 144, 176, 0.35);
+  background: rgba(17, 17, 40, 0.3);
+}
+.empty-state-demo--ghost .demo-swatch::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: transparent;
+}
+
+/* Prototipo 4: icono + texto corto */
+.empty-state-demo--icon .demo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.empty-state-demo--icon .demo-placeholder-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(232, 197, 71, 0.15) 0%, rgba(232, 197, 71, 0.05) 100%);
+  border: 1px solid rgba(232, 197, 71, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neon-gold);
+  opacity: 0.9;
+}
+.empty-state-demo--icon .demo-placeholder-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.5;
+}
+.empty-state-demo--icon .demo-placeholder-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 260px;
+  line-height: 1.45;
+}
+
+/* Prototipo 5: banda gradiente suave */
+.empty-state-demo--gradient .demo-placeholder {
+  width: 100%;
+  flex: 1;
+  min-height: 200px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 30, 56, 0.9) 0%,
+    rgba(45, 42, 72, 0.85) 20%,
+    rgba(55, 48, 85, 0.8) 40%,
+    rgba(50, 52, 78, 0.85) 60%,
+    rgba(42, 45, 70, 0.9) 80%,
+    rgba(28, 30, 52, 0.95) 100%
+  );
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty-state-demo--gradient .demo-placeholder-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+  opacity: 0.9;
+}
