@@ -592,8 +592,21 @@ body {
     top: calc(1rem + env(safe-area-inset-top));
     right: 1rem;
   }
+
+  /* Opción 2: barra ancha — botón ocupa el ancho con márgenes, no choca con el footer */
   .snake-revive {
     bottom: calc(1rem + env(safe-area-inset-bottom));
+    left: 1rem;
     right: 1rem;
+    width: auto;
+    text-align: center;
+    animation: reviveInMobileBar .4s var(--ease-out) both;
+  }
+  .snake-revive:hover {
+    transform: translateY(-1px);
+  }
+  @keyframes reviveInMobileBar {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 }

@@ -251,7 +251,9 @@
     reviveBtn.hidden = true;
     running = true;
     draw();
-    gameLoop = setInterval(step, 110);
+    // Mobile: serpiente a la mitad de velocidad (220 ms por paso en vez de 110)
+    var stepMs = window.matchMedia('(max-width: 640px)').matches ? 220 : 110;
+    gameLoop = setInterval(step, stepMs);
   }
 
   function die() {
