@@ -1,11 +1,11 @@
 (function () {
   'use strict';
 
-  const GAME_DURATION = 45000;
+  const GAME_DURATION = 30000;
   const SPAWN_INTERVAL_START = 800;
   const SPAWN_INTERVAL_END = 300;
-  const FRENZY_START = 15000;
-  const FRENZY_DURATION = 10000;
+  const FRENZY_START = 12000;
+  const FRENZY_DURATION = 6000;
   const SPECIAL_CHANCE = 0.15;
   const SPECIAL_POINTS = 3;
   const GLITTER_COUNT = 45;

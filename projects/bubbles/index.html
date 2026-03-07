@@ -37,19 +37,18 @@
     <div class="game-over" id="game-over" hidden>
       <p class="go-label">Time's up!</p>
       <p class="go-score">You popped <span id="final-score">0</span> bubbles</p>
+      <div class="vote-widget vote-widget--go" data-project="bubbles" aria-label="Rate this prototype">
+        <span class="vote-label">Rate this prototype</span>
+        <span class="vote-nums">
+          <span class="vote-num" data-value="1">1</span>
+          <span class="vote-num" data-value="2">2</span>
+          <span class="vote-num" data-value="3">3</span>
+          <span class="vote-num" data-value="4">4</span>
+          <span class="vote-num" data-value="5">5</span>
+        </span>
+        <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+      </div>
       <button class="btn-start" id="btn-restart">Play Again</button>
-    </div>
-
-    <div class="vote-widget" data-project="bubbles" aria-label="Rate this prototype">
-      <span class="vote-label">Rate this prototype</span>
-      <span class="vote-nums">
-        <span class="vote-num" data-value="1">1</span>
-        <span class="vote-num" data-value="2">2</span>
-        <span class="vote-num" data-value="3">3</span>
-        <span class="vote-num" data-value="4">4</span>
-        <span class="vote-num" data-value="5">5</span>
-      </span>
-      <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
     </div>
   </main>
 

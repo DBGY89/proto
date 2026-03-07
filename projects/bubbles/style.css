@@ -151,9 +151,17 @@ body {
 .go-score {
   font-size: 1.1rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .go-score span { color: var(--neon-cyan); font-weight: 700; }
+
+.game-over .vote-widget--go {
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+.game-over .vote-widget--go .vote-nums {
+  justify-content: center;
+}
 
 .btn-start {
   padding: .8rem 2.5rem;
