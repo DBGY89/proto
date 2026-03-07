@@ -1,0 +1,202 @@
+/* Demo page layout */
+body.dropdown-demo-page { min-height: 100vh; }
+.dropdown-demo {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+.dropdown-demo h1 {
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.dropdown-demo p.demo-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.dropdown-demo-section {
+  margin-bottom: 2.5rem;
+}
+.dropdown-demo-section h2 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--neon-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+/* Fila: Cerrado | Abierto */
+.dropdown-demo-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .dropdown-demo-row { grid-template-columns: 1fr; }
+}
+.dropdown-demo-state {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.state-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Trigger (botón cerrado) base ─── */
+.dd-trigger {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  border: none;
+}
+.dd-trigger-text { flex: 1; }
+.dd-trigger-icon {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+/* Trigger 1: Google — minimal, borde inferior */
+.dd-trigger--google {
+  padding: 0.75rem 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}
+.dd-trigger--google:hover { border-bottom-color: var(--text-secondary); }
+.dd-trigger--google:focus {
+  outline: none;
+  border-bottom-color: var(--neon-gold);
+  box-shadow: 0 1px 0 0 var(--neon-gold);
+}
+
+/* Trigger 2: Airbnb — redondeado, sombra */
+.dd-trigger--airbnb {
+  padding: 1rem 1rem 1rem 1.25rem;
+  font-size: 0.95rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+.dd-trigger--airbnb:hover {
+  border-color: var(--text-muted);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.dd-trigger--airbnb:focus {
+  outline: none;
+  border-color: var(--neon-gold);
+  box-shadow: 0 0 0 2px rgba(232, 197, 71, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Trigger 3: Amazon — compacto */
+.dd-trigger--amazon {
+  padding: 0.6rem 0.75rem 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  background: rgba(30, 30, 58, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.dd-trigger--amazon:hover {
+  background: rgba(30, 30, 58, 0.9);
+  border-color: var(--text-muted);
+}
+.dd-trigger--amazon:focus {
+  outline: none;
+  border-color: var(--neon-gold);
+  background: rgba(30, 30, 58, 0.9);
+}
+
+/* ─── Panel abierto (lista) base ─── */
+.dd-panel {
+  width: 100%;
+  max-width: 320px;
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.dd-option {
+  font-family: var(--font);
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.dd-option:hover {
+  background: rgba(232, 197, 71, 0.12);
+  color: var(--text-primary);
+}
+.dd-option--placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Panel 1: Google — lista limpia, borde inferior por ítem */
+.dd-panel--google {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+.dd-panel--google .dd-option {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(30, 30, 58, 0.5);
+}
+.dd-panel--google .dd-option:last-child { border-bottom: none; }
+.dd-panel--google .dd-option:hover { background: rgba(232, 197, 71, 0.08); }
+
+/* Panel 2: Airbnb — padding generoso, bordes redondeados */
+.dd-panel--airbnb {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+.dd-panel--airbnb .dd-option {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  margin: 0 6px 2px;
+}
+.dd-panel--airbnb .dd-option:first-child { margin-top: 6px; }
+.dd-panel--airbnb .dd-option:hover { background: rgba(232, 197, 71, 0.1); }
+
+/* Panel 3: Amazon — compacto, alto contraste */
+.dd-panel--amazon {
+  background: #0f0f1f;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-top: 2px;
+}
+.dd-panel--amazon .dd-option {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid rgba(30, 30, 58, 0.6);
+}
+.dd-panel--amazon .dd-option:last-child { border-bottom: none; }
+.dd-panel--amazon .dd-option:hover { background: rgba(232, 197, 71, 0.15); }

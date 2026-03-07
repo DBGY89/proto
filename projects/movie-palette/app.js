@@ -18,6 +18,8 @@
   };
 
   var movieSelect = document.getElementById('movie-select');
+  var movieDropdown = document.getElementById('movie-dropdown');
+  var moviePanel = document.getElementById('movie-dropdown-panel');
   var palettePlaceholder = document.getElementById('palette-placeholder');
   var paletteWrap = document.getElementById('palette-wrap');
   var paletteTitle = document.getElementById('palette-title');
@@ -138,7 +140,40 @@
     document.body.removeChild(link);
   }
 
-  if (movieSelect) movieSelect.addEventListener('change', function () { renderPalette(movieSelect.value || null); });
+  function getSelectedMovieId() { return currentMovieId; }
+  function setDropdownSelection(movieId) {
+    var textEl = movieSelect && movieSelect.querySelector('.movie-select-text');
+    if (textEl) textEl.textContent = movieId && MOVIES[movieId] ? MOVIES[movieId].name : 'Choose a film';
+  }
+  function openDropdown() {
+    if (!moviePanel || !movieSelect) return;
+    moviePanel.hidden = false;
+    movieSelect.setAttribute('aria-expanded', 'true');
+    movieDropdown && movieDropdown.classList.add('is-open');
+  }
+  function closeDropdown() {
+    if (!moviePanel || !movieSelect) return;
+    moviePanel.hidden = true;
+    movieSelect.setAttribute('aria-expanded', 'false');
+    movieDropdown && movieDropdown.classList.remove('is-open');
+  }
+  if (movieSelect && moviePanel) {
+    movieSelect.addEventListener('click', function () {
+      if (moviePanel.hidden) openDropdown(); else closeDropdown();
+    });
+    var options = moviePanel.querySelectorAll('.movie-dropdown-option');
+    options.forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        var id = opt.getAttribute('data-value') || null;
+        setDropdownSelection(id);
+        renderPalette(id);
+        closeDropdown();
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (movieDropdown && !movieDropdown.contains(e.target)) closeDropdown();
+    });
+  }
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () {
       if (!currentMovieId) return;

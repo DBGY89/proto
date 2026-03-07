@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Palette — 3 dropdowns: cerrado y abierto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./dropdown-demo.css">
+</head>
+<body class="dropdown-demo-page">
+
+  <nav class="topbar">
+    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="./index.html" class="back-link" style="margin-left: auto;">Movie Palette</a>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="dropdown-demo">
+    <h1>Movie Palette — 3 dropdowns: estado cerrado y abierto</h1>
+    <p class="demo-desc">Referencias: Google, Airbnb, Amazon. En cada fila: izquierda = cerrado, derecha = cómo se ve la lista al abrir. Así puedes comparar el contenido desplegado.</p>
+
+    <!-- Prototipo 1: Google-style -->
+    <section class="dropdown-demo-section" aria-labelledby="proto1">
+      <h2 id="proto1">1. Estilo Google</h2>
+      <div class="dropdown-demo-row">
+        <div class="dropdown-demo-state">
+          <span class="state-label">Cerrado</span>
+          <button type="button" class="dd-trigger dd-trigger--google" aria-expanded="false">
+            <span class="dd-trigger-text">Choose a film</span>
+            <svg class="dd-trigger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+        <div class="dropdown-demo-state">
+          <span class="state-label">Abierto</span>
+          <div class="dd-panel dd-panel--google">
+            <div class="dd-option dd-option--placeholder">Choose a film</div>
+            <div class="dd-option">Pulp Fiction</div>
+            <div class="dd-option">Forrest Gump</div>
+            <div class="dd-option">Big Fish</div>
+            <div class="dd-option">The Grand Budapest Hotel</div>
+            <div class="dd-option">Amélie</div>
+            <div class="dd-option">John Wick</div>
+            <div class="dd-option">La La Land</div>
+            <div class="dd-option">Her</div>
+            <div class="dd-option">The Matrix</div>
+            <div class="dd-option">Moonrise Kingdom</div>
+            <div class="dd-option">The Fall</div>
+            <div class="dd-option">Gladiator</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 2: Airbnb-style -->
+    <section class="dropdown-demo-section" aria-labelledby="proto2">
+      <h2 id="proto2">2. Estilo Airbnb</h2>
+      <div class="dropdown-demo-row">
+        <div class="dropdown-demo-state">
+          <span class="state-label">Cerrado</span>
+          <button type="button" class="dd-trigger dd-trigger--airbnb" aria-expanded="false">
+            <span class="dd-trigger-text">Choose a film</span>
+            <svg class="dd-trigger-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+        <div class="dropdown-demo-state">
+          <span class="state-label">Abierto</span>
+          <div class="dd-panel dd-panel--airbnb">
+            <div class="dd-option dd-option--placeholder">Choose a film</div>
+            <div class="dd-option">Pulp Fiction</div>
+            <div class="dd-option">Forrest Gump</div>
+            <div class="dd-option">Big Fish</div>
+            <div class="dd-option">The Grand Budapest Hotel</div>
+            <div class="dd-option">Amélie</div>
+            <div class="dd-option">John Wick</div>
+            <div class="dd-option">La La Land</div>
+            <div class="dd-option">Her</div>
+            <div class="dd-option">The Matrix</div>
+            <div class="dd-option">Moonrise Kingdom</div>
+            <div class="dd-option">The Fall</div>
+            <div class="dd-option">Gladiator</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 3: Amazon-style -->
+    <section class="dropdown-demo-section" aria-labelledby="proto3">
+      <h2 id="proto3">3. Estilo Amazon</h2>
+      <div class="dropdown-demo-row">
+        <div class="dropdown-demo-state">
+          <span class="state-label">Cerrado</span>
+          <button type="button" class="dd-trigger dd-trigger--amazon" aria-expanded="false">
+            <span class="dd-trigger-text">Choose a film</span>
+            <svg class="dd-trigger-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+        <div class="dropdown-demo-state">
+          <span class="state-label">Abierto</span>
+          <div class="dd-panel dd-panel--amazon">
+            <div class="dd-option dd-option--placeholder">Choose a film</div>
+            <div class="dd-option">Pulp Fiction</div>
+            <div class="dd-option">Forrest Gump</div>
+            <div class="dd-option">Big Fish</div>
+            <div class="dd-option">The Grand Budapest Hotel</div>
+            <div class="dd-option">Amélie</div>
+            <div class="dd-option">John Wick</div>
+            <div class="dd-option">La La Land</div>
+            <div class="dd-option">Her</div>
+            <div class="dd-option">The Matrix</div>
+            <div class="dd-option">Moonrise Kingdom</div>
+            <div class="dd-option">The Fall</div>
+            <div class="dd-option">Gladiator</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>

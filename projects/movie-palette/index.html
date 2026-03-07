@@ -24,21 +24,27 @@
     </header>
 
     <section class="picker-section">
-      <select id="movie-select" class="movie-select" aria-label="Choose movie">
-        <option value="">Choose a film</option>
-        <option value="pulp-fiction">Pulp Fiction</option>
-        <option value="forrest-gump">Forrest Gump</option>
-        <option value="big-fish">Big Fish</option>
-        <option value="grand-budapest-hotel">The Grand Budapest Hotel</option>
-        <option value="amelie">Amélie</option>
-        <option value="john-wick">John Wick</option>
-        <option value="la-la-land">La La Land</option>
-        <option value="her">Her</option>
-        <option value="the-matrix">The Matrix</option>
-        <option value="moonrise-kingdom">Moonrise Kingdom</option>
-        <option value="the-fall">The Fall</option>
-        <option value="gladiator">Gladiator</option>
-      </select>
+      <div class="movie-dropdown" id="movie-dropdown">
+        <button type="button" id="movie-select" class="movie-select" aria-label="Choose movie" aria-haspopup="listbox" aria-expanded="false" aria-controls="movie-dropdown-panel">
+          <span class="movie-select-text">Choose a film</span>
+          <svg class="movie-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="movie-dropdown-panel" id="movie-dropdown-panel" role="listbox" hidden>
+          <div class="movie-dropdown-option" role="option" data-value="" tabindex="-1">Choose a film</div>
+          <div class="movie-dropdown-option" role="option" data-value="pulp-fiction" tabindex="-1">Pulp Fiction</div>
+          <div class="movie-dropdown-option" role="option" data-value="forrest-gump" tabindex="-1">Forrest Gump</div>
+          <div class="movie-dropdown-option" role="option" data-value="big-fish" tabindex="-1">Big Fish</div>
+          <div class="movie-dropdown-option" role="option" data-value="grand-budapest-hotel" tabindex="-1">The Grand Budapest Hotel</div>
+          <div class="movie-dropdown-option" role="option" data-value="amelie" tabindex="-1">Amélie</div>
+          <div class="movie-dropdown-option" role="option" data-value="john-wick" tabindex="-1">John Wick</div>
+          <div class="movie-dropdown-option" role="option" data-value="la-la-land" tabindex="-1">La La Land</div>
+          <div class="movie-dropdown-option" role="option" data-value="her" tabindex="-1">Her</div>
+          <div class="movie-dropdown-option" role="option" data-value="the-matrix" tabindex="-1">The Matrix</div>
+          <div class="movie-dropdown-option" role="option" data-value="moonrise-kingdom" tabindex="-1">Moonrise Kingdom</div>
+          <div class="movie-dropdown-option" role="option" data-value="the-fall" tabindex="-1">The Fall</div>
+          <div class="movie-dropdown-option" role="option" data-value="gladiator" tabindex="-1">Gladiator</div>
+        </div>
+      </div>
     </section>
 
     <div class="palette-panel" id="palette-panel">

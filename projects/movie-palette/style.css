@@ -103,34 +103,80 @@ body {
   letter-spacing: 0.06em;
 }
 
-.movie-select {
+/* ─── Dropdown estilo Airbnb (trigger + panel) ─── */
+.movie-dropdown {
+  position: relative;
   width: 100%;
   max-width: 360px;
-  padding: 0.7rem 1rem;
+}
+
+.movie-select {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1rem 1rem 1.25rem;
   font-family: var(--font);
   font-size: 0.95rem;
   color: var(--text-primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%239090b0' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  padding-right: 2.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  text-align: left;
 }
+.movie-select-text { flex: 1; }
+.movie-select-icon {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: transform 0.2s var(--ease);
+}
+.movie-dropdown.is-open .movie-select-icon { transform: rotate(180deg); }
 
 .movie-select:hover {
-  border-color: var(--neon-gold);
-  box-shadow: 0 0 12px rgba(232, 197, 71, 0.2);
+  border-color: var(--text-muted);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .movie-select:focus {
   outline: none;
   border-color: var(--neon-gold);
-  box-shadow: 0 0 0 2px rgba(232, 197, 71, 0.25);
+  box-shadow: 0 0 0 2px rgba(232, 197, 71, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.movie-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  z-index: 50;
+}
+
+.movie-dropdown-option {
+  font-family: var(--font);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+  border-radius: 8px;
+  margin: 0 6px 2px;
+}
+.movie-dropdown-option:first-of-type { margin-top: 6px; }
+.movie-dropdown-option:last-of-type { margin-bottom: 6px; }
+.movie-dropdown-option[data-value=""] { color: var(--text-muted); font-style: italic; }
+.movie-dropdown-option:hover {
+  background: rgba(232, 197, 71, 0.1);
 }
 
 .palette-panel {
@@ -462,7 +508,7 @@ body {
     padding: 0 1.25rem 1.5rem;
     gap: .75rem;
   }
-  .movie-select { max-width: none; }
+  .movie-dropdown { max-width: none; }
   .swatches {
     flex-direction: column;
     max-width: 100%;
