@@ -489,6 +489,12 @@ body.demo-layouts {
   color: var(--neon-pink);
   margin: 0;
 }
+.modal-subtitle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+}
 .modal-close {
   width: 36px;
   height: 36px;

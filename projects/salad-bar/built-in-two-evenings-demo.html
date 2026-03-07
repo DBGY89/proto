@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Built in two evenings — 5 placements (Salad Bar modal)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    body { height: auto; overflow: auto; min-height: 100vh; }
+    .demo-page { padding: 1.5rem 1.25rem 3rem; max-width: 520px; margin: 0 auto; }
+    .demo-header { margin-bottom: 2rem; }
+    .demo-header h1 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.35rem; }
+    .demo-header p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45; }
+    .demo-section { margin-bottom: 2.5rem; }
+    .demo-section h2 { font-size: 0.75rem; font-weight: 600; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+    .demo-section .modal-panel { position: relative; display: block; transform: none; margin: 0; box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .demo-section .modal-close { display: none; }
+    .built-note { color: var(--text-secondary); font-style: italic; }
+  </style>
+</head>
+<body class="demo-layouts">
+  <div class="bg-pattern" aria-hidden="true"></div>
+  <div class="demo-page">
+    <header class="demo-header">
+      <h1>Built in two evenings — 5 prototipos de posición</h1>
+      <p>Mismo texto en distintas ubicaciones dentro del modal "From idea to prototype". Compara cuál comunica mejor sin robar foco.</p>
+    </header>
+
+    <!-- Prototipo 1: Actual — después de Minimum viable effort, antes de Get in touch -->
+    <section class="demo-section" aria-labelledby="proto1-heading">
+      <h2 id="proto1-heading">1. Actual: cierre de Design decisions (antes de Get in touch)</h2>
+      <div class="modal-overlay is-open" style="position: relative; display: block; background: transparent; padding: 0;">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <h2 class="modal-title">From idea to prototype</h2>
+          </div>
+          <div class="modal-body">
+            <p class="label">Design decisions</p>
+            <p><strong>The game that couldn't be:</strong> I wanted ingredients to appear visually on a plate… The plate didn't make it. That taught me something: AI is better at language than at spatial visualization, at least today. The game moved, not died.</p>
+            <p><strong>From list to interface:</strong> The original layout was a vertical stack of boxes. I moved to a side-by-side layout on desktop so both panels are visible at once.</p>
+            <p><strong>The instruction nobody reads:</strong> The interface does tell you what to do. There's a line asking you to pick at least one ingredient. But let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making the first move obvious just in case.</p>
+            <p><strong>Minimum viable effort:</strong> One click = one full salad with dressing and recipe. I kept asking myself "can I remove one more step?" until the answer was no.</p>
+            <p>Built in two evenings.</p>
+            <p class="label">Get in touch</p>
+            <div class="modal-cta">
+              <a href="#" class="btn-primary">✉️ Email</a>
+              <a href="#" class="btn-secondary">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 2: Subtítulo del título -->
+    <section class="demo-section" aria-labelledby="proto2-heading">
+      <h2 id="proto2-heading">2. Subtítulo del título (debajo de "From idea to prototype")</h2>
+      <div class="modal-overlay is-open" style="position: relative; display: block; background: transparent; padding: 0;">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <h2 class="modal-title">From idea to prototype</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem; font-weight: 400;">Built in two evenings.</p>
+          </div>
+          <div class="modal-body">
+            <p class="label">Design decisions</p>
+            <p><strong>The game that couldn't be:</strong> I wanted ingredients to appear visually on a plate… The plate didn't make it. That taught me something: AI is better at language than at spatial visualization, at least today. The game moved, not died.</p>
+            <p><strong>From list to interface:</strong> The original layout was a vertical stack of boxes. I moved to a side-by-side layout on desktop so both panels are visible at once.</p>
+            <p><strong>The instruction nobody reads:</strong> The interface does tell you what to do. There's a line asking you to pick at least one ingredient. But let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making the first move obvious just in case.</p>
+            <p><strong>Minimum viable effort:</strong> One click = one full salad with dressing and recipe. I kept asking myself "can I remove one more step?" until the answer was no.</p>
+            <p class="label">Get in touch</p>
+            <div class="modal-cta">
+              <a href="#" class="btn-primary">✉️ Email</a>
+              <a href="#" class="btn-secondary">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 3: Dentro del párrafo Minimum viable effort -->
+    <section class="demo-section" aria-labelledby="proto3-heading">
+      <h2 id="proto3-heading">3. Dentro del párrafo "Minimum viable effort" (al final)</h2>
+      <div class="modal-overlay is-open" style="position: relative; display: block; background: transparent; padding: 0;">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <h2 class="modal-title">From idea to prototype</h2>
+          </div>
+          <div class="modal-body">
+            <p class="label">Design decisions</p>
+            <p><strong>The game that couldn't be:</strong> I wanted ingredients to appear visually on a plate… The plate didn't make it. That taught me something: AI is better at language than at spatial visualization, at least today. The game moved, not died.</p>
+            <p><strong>From list to interface:</strong> The original layout was a vertical stack of boxes. I moved to a side-by-side layout on desktop so both panels are visible at once.</p>
+            <p><strong>The instruction nobody reads:</strong> The interface does tell you what to do. There's a line asking you to pick at least one ingredient. But let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making the first move obvious just in case.</p>
+            <p><strong>Minimum viable effort:</strong> One click = one full salad with dressing and recipe. I kept asking myself "can I remove one more step?" until the answer was no. Built in two evenings.</p>
+            <p class="label">Get in touch</p>
+            <div class="modal-cta">
+              <a href="#" class="btn-primary">✉️ Email</a>
+              <a href="#" class="btn-secondary">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 4: Apertura de Design decisions (primera línea de la sección) -->
+    <section class="demo-section" aria-labelledby="proto4-heading">
+      <h2 id="proto4-heading">4. Apertura de Design decisions (antes de "The game that couldn't be")</h2>
+      <div class="modal-overlay is-open" style="position: relative; display: block; background: transparent; padding: 0;">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <h2 class="modal-title">From idea to prototype</h2>
+          </div>
+          <div class="modal-body">
+            <p class="label">Design decisions</p>
+            <p>Built in two evenings.</p>
+            <p><strong>The game that couldn't be:</strong> I wanted ingredients to appear visually on a plate… The plate didn't make it. That taught me something: AI is better at language than at spatial visualization, at least today. The game moved, not died.</p>
+            <p><strong>From list to interface:</strong> The original layout was a vertical stack of boxes. I moved to a side-by-side layout on desktop so both panels are visible at once.</p>
+            <p><strong>The instruction nobody reads:</strong> The interface does tell you what to do. There's a line asking you to pick at least one ingredient. But let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making the first move obvious just in case.</p>
+            <p><strong>Minimum viable effort:</strong> One click = one full salad with dressing and recipe. I kept asking myself "can I remove one more step?" until the answer was no.</p>
+            <p class="label">Get in touch</p>
+            <div class="modal-cta">
+              <a href="#" class="btn-primary">✉️ Email</a>
+              <a href="#" class="btn-secondary">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prototipo 5: Pie del modal (después de los botones) -->
+    <section class="demo-section" aria-labelledby="proto5-heading">
+      <h2 id="proto5-heading">5. Pie del modal (después de Email / LinkedIn)</h2>
+      <div class="modal-overlay is-open" style="position: relative; display: block; background: transparent; padding: 0;">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <h2 class="modal-title">From idea to prototype</h2>
+          </div>
+          <div class="modal-body">
+            <p class="label">Design decisions</p>
+            <p><strong>The game that couldn't be:</strong> I wanted ingredients to appear visually on a plate… The plate didn't make it. That taught me something: AI is better at language than at spatial visualization, at least today. The game moved, not died.</p>
+            <p><strong>From list to interface:</strong> The original layout was a vertical stack of boxes. I moved to a side-by-side layout on desktop so both panels are visible at once.</p>
+            <p><strong>The instruction nobody reads:</strong> The interface does tell you what to do. There's a line asking you to pick at least one ingredient. But let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making the first move obvious just in case.</p>
+            <p><strong>Minimum viable effort:</strong> One click = one full salad with dressing and recipe. I kept asking myself "can I remove one more step?" until the answer was no.</p>
+            <p class="label">Get in touch</p>
+            <div class="modal-cta">
+              <a href="#" class="btn-primary">✉️ Email</a>
+              <a href="#" class="btn-secondary">LinkedIn</a>
+            </div>
+            <p style="margin-top: 1rem; margin-bottom: 0;">Built in two evenings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
