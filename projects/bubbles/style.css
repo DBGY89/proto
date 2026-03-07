@@ -73,6 +73,7 @@ body {
   align-items: center;
   justify-content: center;
   padding-top: 56px;
+  touch-action: manipulation;
 }
 
 /* Empty state: pocas burbujas lentas detrás del CTA Play */

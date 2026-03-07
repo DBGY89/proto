@@ -155,18 +155,26 @@
       --dur: ${dur}s;
     `;
 
-    el.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      pop(el);
-    });
     el.addEventListener('animationend', () => el.remove());
 
     gameArea.appendChild(el);
   }
 
+  gameArea.addEventListener('pointerdown', (e) => {
+    if (!running) return;
+    const targets = document.elementsFromPoint(e.clientX, e.clientY);
+    const bubble = targets.find((el) => el.classList && el.classList.contains('bubble'));
+    if (bubble) {
+      e.preventDefault();
+      e.stopPropagation();
+      pop(bubble);
+    }
+  }, { passive: false });
+
   function pop(el) {
     if (!running) return;
+    if (el.dataset.popped === '1') return;
+    el.dataset.popped = '1';
     const isSpecial = el.dataset.special === '1';
     const points = isSpecial ? SPECIAL_POINTS : 1;
     score += points;
