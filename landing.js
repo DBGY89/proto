@@ -349,6 +349,10 @@
     touchY = e.touches[0].clientY;
   }, { passive: true });
 
+  document.addEventListener('touchmove', (e) => {
+    if (running) e.preventDefault();
+  }, { passive: false });
+
   document.addEventListener('touchend', (e) => {
     if (!running) return;
     const dx = e.changedTouches[0].clientX - touchX;

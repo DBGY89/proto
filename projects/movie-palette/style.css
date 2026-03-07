@@ -631,26 +631,33 @@ body {
   .swatch::after { transition: none; }
 }
 
-/* Vote widget */
+/* Vote widget — inline + centered so no scroll needed */
 .vote-widget {
   font: inherit;
   background: transparent;
-  padding: 0.75rem 1.25rem;
-  text-align: right;
-  margin-left: auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.75rem;
+  text-align: center;
+  margin: 0 auto;
   width: fit-content;
 }
 .vote-label {
-  display: block;
+  display: inline;
   font-size: 0.8rem;
   color: var(--text-secondary, #9090b0);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
+  margin-right: 0.25rem;
 }
 .vote-nums {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.4rem;
   font-size: 0.95rem;
 }
 .vote-num {
@@ -672,5 +679,5 @@ body {
 .vote-thanks {
   font-size: 0.75rem;
   color: var(--text-muted, #666);
-  margin-left: 0.5rem;
+  margin-left: 0;
 }
