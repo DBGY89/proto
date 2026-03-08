@@ -6,8 +6,6 @@
 
   const gridEl = document.getElementById('ingredient-grid');
   const hintEl = document.getElementById('picker-hint');
-  const summarySection = document.getElementById('summary-section');
-  const summaryTextEl = document.getElementById('summary-text');
   const dressingPlaceholder = document.getElementById('dressing-placeholder');
   const dressingCard = document.getElementById('dressing-card');
   const dressingNameEl = document.getElementById('dressing-name');
@@ -106,17 +104,10 @@
 
   function updateSummary() {
     if (demoMode || selected.size === 0) {
-      summarySection.classList.add('hidden');
       hintEl.textContent = 'Pick at least one ingredient.';
       return;
     }
-    summarySection.classList.remove('hidden');
-    hintEl.textContent = 'Click one to remove it.';
-    const list = DATA.ingredients
-      .filter(function (i) { return selected.has(i.id); })
-      .sort(byCategory)
-      .map(function (i) { return i.name; });
-    summaryTextEl.textContent = list.join(', ');
+    hintEl.textContent = 'Tap again to remove.';
   }
 
   function pickDressing() {
