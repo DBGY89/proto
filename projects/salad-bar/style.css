@@ -188,6 +188,7 @@ body.demo-layouts {
 
 .more-ingredients-wrap {
   margin-bottom: 0.75rem;
+  text-align: right;
 }
 .more-ingredients-btn {
   display: inline-flex;
@@ -241,7 +242,8 @@ body.demo-layouts {
 .picker-hint {
   font-size: 0.75rem;
   color: var(--text-secondary);
-  margin-bottom: 0.75rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
 .summary-wrap.hidden { display: none; }
