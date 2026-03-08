@@ -114,6 +114,9 @@ body.demo-layouts {
   .intro-br {
     display: block;
   }
+  .intro {
+    max-width: 540px;
+  }
 }
 .intro {
   margin: 0;
