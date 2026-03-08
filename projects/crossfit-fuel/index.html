@@ -12,7 +12,7 @@
 <body>
 
   <nav class="topbar">
-    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
     <button type="button" class="api-key-btn" id="api-key-btn" aria-label="API key settings">⚙️</button>
   </nav>
 
@@ -147,7 +147,7 @@
 
   <!-- Footer: Part of AI Proto Lab — product tagline -->
   <footer class="footer">
-    <p>Part of <a href="../../index.html">AI Proto Lab</a>. Fuel the grind.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. Fuel the grind.</p>
   </footer>
 
   <script src="./app.js"></script>
@@ -173,6 +173,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {

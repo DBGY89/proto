@@ -12,7 +12,7 @@
 <body>
 
   <nav class="topbar">
-    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
     <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode" title="Dark / Light">
       <span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">🌙</span>
       <span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☀️</span>
@@ -101,7 +101,7 @@
 
   <!-- Footer: Part of AI Proto Lab — product tagline -->
   <footer class="footer">
-    <p>Part of <a href="../../index.html">AI Proto Lab</a>. Sweet dreams for little dreamers.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. Sweet dreams for little dreamers.</p>
   </footer>
 
   <script src="./app.js"></script>
@@ -127,6 +127,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {

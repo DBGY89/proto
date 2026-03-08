@@ -12,7 +12,7 @@
 <body>
 
   <nav class="topbar">
-    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
     <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Cómo pasó de idea a prototipo">How this went from idea to prototype →</button>
     <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Cómo pasó de idea a prototipo">The story →</button>
   </nav>
@@ -136,7 +136,7 @@
   </main>
 
   <footer class="footer">
-    <p>Part of <a href="../../index.html">AI Proto Lab</a>. Check the snow, then go.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. Check the snow, then go.</p>
   </footer>
 
   <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
@@ -200,6 +200,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {

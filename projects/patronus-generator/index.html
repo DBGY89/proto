@@ -12,7 +12,7 @@
 <body>
 
   <nav class="topbar">
-    <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
   </nav>
 
   <div class="bg-pattern" aria-hidden="true"></div>
@@ -98,7 +98,7 @@
 
   <!-- Footer: Part of AI Proto Lab — product tagline -->
   <footer class="footer">
-    <p>Part of <a href="../../index.html">AI Proto Lab</a>. No dementors, just good vibes.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. No dementors, just good vibes.</p>
   </footer>
 
   <script src="./app.js"></script>
@@ -124,6 +124,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {
