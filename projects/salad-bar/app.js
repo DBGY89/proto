@@ -29,7 +29,11 @@
     "Tomato straight from the fridge tastes like nothing. Pull it out 20 min before. Future you will thank you.",
   ];
 
+  var INITIAL_10_IDS = ['lettuce', 'spinach', 'tomato', 'cucumber', 'carrot', 'onion', 'olives', 'cheese', 'avocado', 'chicken'];
+  var MORE_5_IDS = ['arugula', 'pepper', 'corn', 'nuts', 'egg'];
+
   let selected = new Set();
+  let expandedIngredients = false;
   let demoMode = true;
   let demoIntervalId = null;
   let demoHighlightId = null;
@@ -44,9 +48,23 @@
     return selected.has(ing.id);
   }
 
+  function getVisibleIngredientIds() {
+    if (expandedIngredients) return INITIAL_10_IDS.concat(MORE_5_IDS);
+    return INITIAL_10_IDS.slice();
+  }
+
+  function getVisibleIngredientsSorted() {
+    var ids = getVisibleIngredientIds();
+    return DATA.ingredients.filter(function (ing) { return ids.indexOf(ing.id) !== -1; }).sort(byCategory);
+  }
+
   function renderPicker() {
+    var toShow = getVisibleIngredientsSorted();
+    var moreWrap = document.getElementById('more-ingredients-wrap');
+    var moreBtn = document.getElementById('more-ingredients-btn');
+
     gridEl.innerHTML = '';
-    DATA.ingredients.slice().sort(byCategory).forEach(function (ing) {
+    toShow.forEach(function (ing) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'ingredient-chip' + (isChipSelected(ing) ? ' selected' : '');
@@ -69,6 +87,21 @@
       });
       gridEl.appendChild(btn);
     });
+
+    if (moreWrap && moreBtn) {
+      if (!expandedIngredients) {
+        moreWrap.hidden = false;
+        moreBtn.onclick = function () {
+          expandedIngredients = true;
+          renderPicker();
+          updateSummary();
+          updateDressing();
+          moreWrap.hidden = true;
+        };
+      } else {
+        moreWrap.hidden = true;
+      }
+    }
   }
 
   function updateSummary() {
@@ -134,7 +167,9 @@
   }
 
   function runDemoTick() {
-    var pick = DATA.ingredients[Math.floor(Math.random() * DATA.ingredients.length)];
+    var visible = getVisibleIngredientsSorted();
+    if (visible.length === 0) return;
+    var pick = visible[Math.floor(Math.random() * visible.length)];
     demoHighlightId = pick.id;
     renderPicker();
   }
