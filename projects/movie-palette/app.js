@@ -176,12 +176,17 @@
     movieDropdown && movieDropdown.classList.remove('is-open');
   }
   if (movieSelect && moviePanel) {
+    function removeDropdownHint() {
+      if (movieDropdown) movieDropdown.classList.remove('movie-dropdown--hint');
+    }
     movieSelect.addEventListener('click', function () {
+      removeDropdownHint();
       if (moviePanel.hidden) openDropdown(); else closeDropdown();
     });
     var options = moviePanel.querySelectorAll('.movie-dropdown-option');
     options.forEach(function (opt) {
       opt.addEventListener('click', function () {
+        if (movieDropdown) movieDropdown.classList.remove('movie-dropdown--hint');
         var id = opt.getAttribute('data-value') || null;
         setDropdownSelection(id);
         renderPalette(id);

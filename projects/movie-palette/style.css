@@ -168,6 +168,21 @@ body {
   box-shadow: 0 0 0 2px rgba(232, 197, 71, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Hint: draw attention to dropdown on load (stop after interaction) */
+.movie-dropdown--hint .movie-select {
+  animation: dropdownHint 1.8s var(--ease) 3;
+}
+@keyframes dropdownHint {
+  0%, 100% {
+    border-color: var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    border-color: rgba(232, 197, 71, 0.6);
+    box-shadow: 0 0 0 1px rgba(232, 197, 71, 0.25), 0 0 20px rgba(232, 197, 71, 0.12), 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
 .movie-dropdown-panel {
   position: absolute;
   top: calc(100% + 4px);
@@ -839,6 +854,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .movie-dropdown--hint .movie-select { animation: none; }
   .palette-wrap { animation: none; }
   .swatch { animation: none; transition: none; }
   .swatch::after { transition: none; }
