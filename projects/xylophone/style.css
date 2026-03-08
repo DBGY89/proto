@@ -63,6 +63,7 @@ body {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: .35rem;
+  text-transform: uppercase;
 }
 
 .subtitle {

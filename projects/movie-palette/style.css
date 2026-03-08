@@ -83,6 +83,7 @@ body {
   color: var(--neon-gold);
   text-shadow: 0 0 20px rgba(232, 197, 71, 0.4);
   margin: 0 0 0.35rem;
+  text-transform: uppercase;
 }
 
 .intro {

@@ -101,6 +101,7 @@ body.demo-layouts {
   text-shadow: 0 0 20px rgba(255, 45, 120, 0.4), 0 0 40px rgba(255, 45, 120, 0.2);
   margin: 0 0 0.5rem;
   line-height: 1.1;
+  text-transform: uppercase;
 }
 .intro {
   font-size: 0.95rem;

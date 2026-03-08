@@ -134,6 +134,7 @@ body {
   color: var(--neon-cyan);
   text-shadow: 0 0 7px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 42px rgba(0,240,255,.4);
   margin-bottom: .75rem;
+  text-transform: uppercase;
 }
 .splash-desc {
   font-size: 1rem;
