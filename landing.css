@@ -564,7 +564,10 @@ body {
     font-size: .95rem;
   }
 
-  .grid { grid-template-columns: 1fr; }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
   .projects { padding: 1.75rem 1.25rem 1.25rem; }
 
   /* Skyline más alta en mobile: edificios alargados hacia abajo; menos hueco hasta la pill */
