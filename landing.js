@@ -63,24 +63,27 @@
   }
 
   // ───────────────────────────────────────────
-  //  Tease: iluminar una tarjeta al azar para incitar a clicar (mismo efecto que hover)
+  //  Tease: iluminar tarjetas en orden, una cada 3 s; empieza al segundo 2
   // ───────────────────────────────────────────
-  const TEASE_DURATION_MS = 1800;
-  const TEASE_INTERVAL_MS = 3500;
+  const TEASE_INTERVAL_MS = 3000;
+  const TEASE_FIRST_MS = 2000;
 
-  function teaseRandomCard() {
+  let teaseIndex = 0;
+
+  function teaseNextCard() {
     const visible = Array.from(document.querySelectorAll('.card:not(.card--hidden)'));
     if (visible.length === 0) return;
-    const card = visible[Math.floor(Math.random() * visible.length)];
-    card.classList.add('card--tease');
-    setTimeout(() => card.classList.remove('card--tease'), TEASE_DURATION_MS);
+    visible.forEach((c) => c.classList.remove('card--tease'));
+    visible[teaseIndex].classList.add('card--tease');
+    teaseIndex = (teaseIndex + 1) % visible.length;
   }
 
   let teaseTimer;
   if (!reducedMotion && cards.length > 0) {
-    teaseTimer = setInterval(teaseRandomCard, TEASE_INTERVAL_MS);
-    // Primera iluminación un poco después de que las tarjetas sean visibles
-    setTimeout(teaseRandomCard, TEASE_INTERVAL_MS * 0.8);
+    setTimeout(() => {
+      teaseNextCard();
+      teaseTimer = setInterval(teaseNextCard, TEASE_INTERVAL_MS);
+    }, TEASE_FIRST_MS);
   }
 
   // ───────────────────────────────────────────
