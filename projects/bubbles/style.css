@@ -209,7 +209,7 @@ body {
 }
 .btn-start:active { transform: translateY(0); }
 
-/* ─── Sound on pill (during play) ─── */
+/* ─── Sound on pill (during play): tap to unlock device audio ─── */
 .sound-on-pill {
   position: absolute;
   bottom: 12px;
@@ -223,9 +223,24 @@ body {
   background: rgba(10, 10, 26, .85);
   border: 1px solid var(--border);
   font-size: 0.75rem;
+  font-family: var(--font-main);
   color: var(--text-secondary);
-  pointer-events: none;
-  transition: opacity 0.4s var(--ease-out);
+  cursor: pointer;
+  transition: opacity 0.4s var(--ease-out), border-color 0.2s, color 0.2s;
+}
+.sound-on-pill:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+.sound-on-pill.sound-on-pill--active {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 240, 255, 0.4);
+}
+.sound-on-pill.sound-on-pill--active .sound-on-pill-label { font-style: normal; }
+.sound-on-pill:focus {
+  outline: none;
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
 }
 .sound-on-pill[hidden],
 .game-area:not(.is-playing) .sound-on-pill { display: none !important; }

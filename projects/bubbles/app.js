@@ -233,6 +233,27 @@
     }
   }
 
+  if (soundOnPill) {
+    soundOnPill.addEventListener('click', function () {
+      const ctx = getAudioCtx();
+      if (ctx.state === 'suspended') {
+        ctx.resume().then(function () {
+          playPop(false);
+          soundOnPill.classList.add('sound-on-pill--active');
+          const label = soundOnPill.querySelector('.sound-on-pill-label');
+          if (label) label.textContent = 'Sound on';
+          soundOnPill.setAttribute('aria-label', 'Sound enabled');
+        }).catch(function () {});
+      } else {
+        playPop(false);
+        soundOnPill.classList.add('sound-on-pill--active');
+        const label = soundOnPill.querySelector('.sound-on-pill-label');
+        if (label) label.textContent = 'Sound on';
+        soundOnPill.setAttribute('aria-label', 'Sound enabled');
+      }
+    });
+  }
+
   btnStart.addEventListener('click', start);
   btnRestart.addEventListener('click', start);
 })();
