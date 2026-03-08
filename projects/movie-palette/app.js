@@ -176,11 +176,7 @@
     movieDropdown && movieDropdown.classList.remove('is-open');
   }
   if (movieSelect && moviePanel) {
-    function removeDropdownHint() {
-      if (movieDropdown) movieDropdown.classList.remove('movie-dropdown--hint');
-    }
     movieSelect.addEventListener('click', function () {
-      removeDropdownHint();
       if (moviePanel.hidden) openDropdown(); else closeDropdown();
     });
     var options = moviePanel.querySelectorAll('.movie-dropdown-option');
