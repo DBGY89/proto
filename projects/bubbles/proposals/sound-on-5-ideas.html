@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sound on — 5 ideas (durante el juego) | Bubbles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0a1a;
+      --border: #1e1e3a;
+      --neon-cyan: #00f0ff;
+      --neon-pink: #ff2d78;
+      --neon-purple: #b24dff;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --font-main: 'Space Grotesk', system-ui, sans-serif;
+      --ease-out: cubic-bezier(.23, 1, .32, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-main);
+      background: #0a0a12;
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 0 0 2rem;
+    }
+    .page-title {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      padding: 1rem;
+      font-weight: 500;
+    }
+
+    /* ─── Cada idea = mockup de pantalla de juego ─── */
+    .mockup {
+      max-width: 400px;
+      margin: 0 auto 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+    .idea-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      opacity: 0.9;
+      padding: 0.5rem 1rem;
+      background: rgba(0,240,255,.06);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Topbar (como en el juego) */
+    .mockup .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: rgba(10, 10, 26, .95);
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup .back-link {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .mockup .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .mockup .cta-case {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: default;
+      font-family: var(--font-main);
+      text-decoration: underline;
+    }
+    .mockup .score-display {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .mockup .score-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .mockup .score-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Game area (playing) */
+    .mockup .game-area {
+      flex: 1;
+      position: relative;
+      min-height: 360px;
+      padding: 0;
+    }
+    .mockup .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.35) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(173,216,255,.12) 0%, transparent 40%);
+      border: 1px solid rgba(180, 220, 255, .3);
+      box-shadow: inset 0 0 20px rgba(200, 230, 255, .08);
+    }
+    .mockup .bubble::before {
+      content: '';
+      position: absolute;
+      top: 12%; left: 15%;
+      width: 35%; height: 25%;
+      background: radial-gradient(ellipse, rgba(255,255,255,.5) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .mockup .bubble--special {
+      border: 2px solid rgba(255,255,255,.6);
+      box-shadow: 0 0 20px rgba(178,77,255,.4);
+    }
+    .mockup .timer-bar {
+      height: 4px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      transform-origin: left;
+      transform: scaleX(0.65);
+    }
+
+    /* ─── Idea 1: Sound on en el topbar, junto al Score ─── */
+    .sound-topbar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .sound-topbar svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    /* ─── Idea 2: Pill en esquina inferior izquierda del game area ─── */
+    .sound-pill-corner {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(10, 10, 26, .85);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .sound-pill-corner svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    /* ─── Idea 3: Línea justo encima del timer bar ─── */
+    .sound-above-timer {
+      padding: 0.35rem 1rem 0.25rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-align: center;
+      background: rgba(10, 10, 26, .6);
+    }
+
+    /* ─── Idea 4: Burbuja con altavoz en una esquina (flotando en el juego) ─── */
+    .sound-bubble-in-game {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.2) 0%, transparent 50%),
+        rgba(20, 25, 45, .9);
+      border: 1px solid rgba(180, 220, 255, .25);
+      box-shadow: 0 0 12px rgba(160, 210, 255, .1);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .sound-bubble-in-game .speaker-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(180, 220, 255, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sound-bubble-in-game svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    /* ─── Idea 5: Toast / card que aparece abajo a la derecha ─── */
+    .sound-toast {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 50;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      background: rgba(20, 22, 40, .95);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .sound-toast svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="page-title">Sound on — 5 ideas (aparece en la pantalla de juego)</p>
+
+  <!-- Idea 1: Topbar, junto al Score -->
+  <section class="mockup">
+    <p class="idea-num">Idea 1 — En el topbar, junto al score</p>
+    <nav class="topbar">
+      <a href="#" class="back-link">&larr; AI Proto Lab</a>
+      <div class="topbar-right">
+        <button type="button" class="cta-case">The story →</button>
+        <span class="sound-topbar">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          Sound on
+        </span>
+        <div class="score-display">
+          <span class="score-label">Score</span>
+          <span class="score-value">12</span>
+        </div>
+      </div>
+    </nav>
+    <div class="game-area">
+      <span class="bubble" style="left: 15%; bottom: 18%; width: 44px; height: 44px;"></span>
+      <span class="bubble" style="left: 55%; bottom: 35%; width: 36px; height: 36px;"></span>
+      <span class="bubble bubble--special" style="left: 75%; bottom: 55%; width: 40px; height: 40px;"></span>
+      <span class="bubble" style="left: 25%; bottom: 70%; width: 32px; height: 32px;"></span>
+      <span class="bubble" style="left: 60%; bottom: 8%; width: 48px; height: 48px;"></span>
+    </div>
+    <div class="timer-bar"></div>
+  </section>
+
+  <!-- Idea 2: Pill en esquina inferior izquierda -->
+  <section class="mockup">
+    <p class="idea-num">Idea 2 — Pill en esquina inferior izquierda</p>
+    <nav class="topbar">
+      <a href="#" class="back-link">&larr; AI Proto Lab</a>
+      <div class="topbar-right">
+        <button type="button" class="cta-case">The story →</button>
+        <div class="score-display">
+          <span class="score-label">Score</span>
+          <span class="score-value">12</span>
+        </div>
+      </div>
+    </nav>
+    <div class="game-area">
+      <span class="sound-pill-corner">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        Sound on
+      </span>
+      <span class="bubble" style="left: 15%; bottom: 18%; width: 44px; height: 44px;"></span>
+      <span class="bubble" style="left: 55%; bottom: 35%; width: 36px; height: 36px;"></span>
+      <span class="bubble bubble--special" style="left: 75%; bottom: 55%; width: 40px; height: 40px;"></span>
+      <span class="bubble" style="left: 25%; bottom: 70%; width: 32px; height: 32px;"></span>
+      <span class="bubble" style="left: 60%; bottom: 8%; width: 48px; height: 48px;"></span>
+    </div>
+    <div class="timer-bar"></div>
+  </section>
+
+  <!-- Idea 3: Línea justo encima del timer bar -->
+  <section class="mockup">
+    <p class="idea-num">Idea 3 — Línea encima de la barra de tiempo</p>
+    <nav class="topbar">
+      <a href="#" class="back-link">&larr; AI Proto Lab</a>
+      <div class="topbar-right">
+        <button type="button" class="cta-case">The story →</button>
+        <div class="score-display">
+          <span class="score-label">Score</span>
+          <span class="score-value">12</span>
+        </div>
+      </div>
+    </nav>
+    <div class="game-area">
+      <span class="bubble" style="left: 15%; bottom: 18%; width: 44px; height: 44px;"></span>
+      <span class="bubble" style="left: 55%; bottom: 35%; width: 36px; height: 36px;"></span>
+      <span class="bubble bubble--special" style="left: 75%; bottom: 55%; width: 40px; height: 40px;"></span>
+      <span class="bubble" style="left: 25%; bottom: 70%; width: 32px; height: 32px;"></span>
+      <span class="bubble" style="left: 60%; bottom: 8%; width: 48px; height: 48px;"></span>
+    </div>
+    <p class="sound-above-timer">Sound on for pop effects</p>
+    <div class="timer-bar"></div>
+  </section>
+
+  <!-- Idea 4: Burbuja con altavoz en esquina (dentro del área de juego) -->
+  <section class="mockup">
+    <p class="idea-num">Idea 4 — Burbuja con altavoz en esquina del juego</p>
+    <nav class="topbar">
+      <a href="#" class="back-link">&larr; AI Proto Lab</a>
+      <div class="topbar-right">
+        <button type="button" class="cta-case">The story →</button>
+        <div class="score-display">
+          <span class="score-label">Score</span>
+          <span class="score-value">12</span>
+        </div>
+      </div>
+    </nav>
+    <div class="game-area">
+      <span class="sound-bubble-in-game">
+        <span class="speaker-circle">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        </span>
+        Sound on
+      </span>
+      <span class="bubble" style="left: 15%; bottom: 18%; width: 44px; height: 44px;"></span>
+      <span class="bubble" style="left: 55%; bottom: 35%; width: 36px; height: 36px;"></span>
+      <span class="bubble bubble--special" style="left: 75%; bottom: 55%; width: 40px; height: 40px;"></span>
+      <span class="bubble" style="left: 25%; bottom: 70%; width: 32px; height: 32px;"></span>
+      <span class="bubble" style="left: 60%; bottom: 8%; width: 48px; height: 48px;"></span>
+    </div>
+    <div class="timer-bar"></div>
+  </section>
+
+  <!-- Idea 5: Toast / card abajo a la derecha -->
+  <section class="mockup">
+    <p class="idea-num">Idea 5 — Toast / card abajo a la derecha</p>
+    <nav class="topbar">
+      <a href="#" class="back-link">&larr; AI Proto Lab</a>
+      <div class="topbar-right">
+        <button type="button" class="cta-case">The story →</button>
+        <div class="score-display">
+          <span class="score-label">Score</span>
+          <span class="score-value">12</span>
+        </div>
+      </div>
+    </nav>
+    <div class="game-area">
+      <span class="sound-toast">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        Sound on for best experience
+      </span>
+      <span class="bubble" style="left: 15%; bottom: 18%; width: 44px; height: 44px;"></span>
+      <span class="bubble" style="left: 55%; bottom: 35%; width: 36px; height: 36px;"></span>
+      <span class="bubble bubble--special" style="left: 75%; bottom: 55%; width: 40px; height: 40px;"></span>
+      <span class="bubble" style="left: 25%; bottom: 70%; width: 32px; height: 32px;"></span>
+      <span class="bubble" style="left: 60%; bottom: 8%; width: 48px; height: 48px;"></span>
+    </div>
+    <div class="timer-bar"></div>
+  </section>
+
+</body>
+</html>

@@ -18,6 +18,7 @@
   const finalScoreEl = document.getElementById('final-score');
   const scoreDisplay = document.getElementById('score-display');
   const timerBar = document.getElementById('timer-bar');
+  const soundOnPill = document.getElementById('sound-on-pill');
   const btnStart = document.getElementById('btn-start');
   const btnRestart = document.getElementById('btn-restart');
 
@@ -86,6 +87,10 @@
     splash.hidden = true;
     gameOver.hidden = true;
     scoreDisplay.hidden = false;
+    if (soundOnPill) {
+      soundOnPill.hidden = false;
+      soundOnPill.setAttribute('aria-hidden', 'false');
+    }
     gameArea.classList.add('is-playing');
 
     gameArea.querySelectorAll('.bubble, .glitter, .score-pop').forEach(el => el.remove());
@@ -111,6 +116,10 @@
     gameArea.querySelectorAll('.bubble').forEach(el => el.remove());
     gameArea.classList.remove('is-playing');
     scoreDisplay.hidden = true;
+    if (soundOnPill) {
+      soundOnPill.hidden = true;
+      soundOnPill.setAttribute('aria-hidden', 'true');
+    }
     timerBar.classList.remove('active');
 
     finalScoreEl.textContent = score;
