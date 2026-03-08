@@ -113,9 +113,17 @@ body.demo-layouts {
   margin-left: auto;
   margin-right: auto;
 }
+/* Ocultar <br> en mobile: el texto fluye normal */
+.intro-br {
+  display: none;
+}
 @media (min-width: 640px) {
+  /* Desktop: <br> visible = exactamente 2 líneas. Ancho suficiente para que ninguna línea se parta */
+  .intro-br {
+    display: block;
+  }
   .intro {
-    max-width: 22em;
+    max-width: 42em;
   }
 }
 
