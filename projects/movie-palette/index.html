@@ -13,6 +13,8 @@
 
   <nav class="topbar">
     <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
   </nav>
 
   <div class="bg-pattern" aria-hidden="true"></div>
@@ -91,6 +93,34 @@
     <p>Part of <a href="../../index.html">AI Proto Lab</a>. Colors stolen from the best.</p>
   </footer>
 
+  <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <span class="modal-drag" aria-hidden="true"></span>
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+          <p class="modal-subtitle">Built in two evenings.</p>
+        </div>
+        <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="label">What problem & for whom</p>
+        <p><strong>For whom:</strong> Designers, creators, and film lovers who remember a movie by its look and want the actual colors—for mood boards, UI, or just because.</p>
+        <p><strong>Problem:</strong> "What was that teal from Amélie?" Finding the exact palette of a film usually means screenshots and color pickers, or hunting for someone else's extraction. No single place to get a film's palette with hex codes and export.</p>
+        <p><strong>This:</strong> Pick a film. Get a curated palette with hex codes. Export as PNG. No sign-up, no friction.</p>
+        <p class="label">Design decisions</p>
+        <p><strong>What AI could and couldn't do:</strong> I used AI to generate palettes from film names and references—extracting dominant colors and a few accents that feel true to the movie. The export (PNG) is hand-coded so it's sharp and consistent. AI gave the color intelligence; the layout and interaction are designed.</p>
+        <p><strong>Designing for the obvious:</strong> One dropdown: choose a film. The palette appears immediately. The export button appears only when there's something to export. No "empty state" copy that nobody reads—the placeholder is the dropdown itself.</p>
+        <p><strong>Minimum viable effort:</strong> One selection = one palette. No accounts, no save lists. If you need it again, you pick the film again. Fast in, fast out.</p>
+        <p class="label">Get in touch</p>
+        <div class="modal-cta">
+          <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+          <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./app.js"></script>
   <script src="/rating-vote.js"></script>
   <script>
@@ -114,6 +144,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {
@@ -125,6 +156,33 @@
         });
       });
     }
+  })();
+  </script>
+  <script>
+  (function () {
+    var overlay = document.getElementById('case-modal');
+    var openBtns = document.querySelectorAll('.js-open-case');
+    var closeBtn = document.querySelector('.js-close-modal');
+    if (!overlay || !openBtns.length || !closeBtn) return;
+    function openModal() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+    });
   })();
   </script>
 </body>

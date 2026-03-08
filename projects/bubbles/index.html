@@ -13,9 +13,13 @@
 
   <nav class="topbar">
     <a href="../../index.html" class="back-link">&larr; AI Proto Lab</a>
-    <div class="score-display" id="score-display" hidden>
+    <div class="topbar-right">
+      <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+      <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
+      <div class="score-display" id="score-display" hidden>
       <span class="score-label">Score</span>
       <span id="score" class="score-value">0</span>
+    </div>
     </div>
   </nav>
 
@@ -57,6 +61,34 @@
     <p>Part of <a href="../../index.html">AI Proto Lab</a>. Pop, pop, hooray.</p>
   </footer>
 
+  <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <span class="modal-drag" aria-hidden="true"></span>
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+          <p class="modal-subtitle">Built in two evenings.</p>
+        </div>
+        <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="label">What problem & for whom</p>
+        <p><strong>For whom:</strong> People who want a quick, satisfying break—no story, no sign-up. Just tap and pop.</p>
+        <p><strong>Problem:</strong> Mobile games are either too heavy (downloads, ads, accounts) or too shallow. They want something that feels good in the moment and doesn't ask for anything.</p>
+        <p><strong>This:</strong> One screen. Pop bubbles before they float away. Special ones burst into glitter. One tap to play, a timer for tension, score at the end. Play again or leave.</p>
+        <p class="label">Design decisions</p>
+        <p><strong>What AI could and couldn't do:</strong> I wanted bubbles to feel physical—slight drift, varied sizes, a bit of randomness. The core loop (spawn, tap, pop, score) is pure JS and canvas; AI helped with structure and copy. The glitter burst on special bubbles was a design choice to give a clear "win" moment without adding complexity.</p>
+        <p><strong>Designing for the obvious:</strong> One button to start. A visible timer so you know the stakes. Score only at the end so you're not distracted. No instructions—the first tap is on "Play."</p>
+        <p><strong>Minimum viable effort:</strong> No levels, no unlocks. One round, one score. If you want more, you hit "Play Again." That's it.</p>
+        <p class="label">Get in touch</p>
+        <div class="modal-cta">
+          <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+          <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="timer-bar" id="timer-bar"></div>
 
   <script src="./app.js"></script>
@@ -82,6 +114,7 @@
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
           var v = parseInt(this.getAttribute('data-value'), 10);
           if (typeof saveRating === 'function') saveRating(project, v);
           nums.forEach(function (x) {
@@ -93,6 +126,33 @@
         });
       });
     }
+  })();
+  </script>
+  <script>
+  (function () {
+    var overlay = document.getElementById('case-modal');
+    var openBtns = document.querySelectorAll('.js-open-case');
+    var closeBtn = document.querySelector('.js-close-modal');
+    if (!overlay || !openBtns.length || !closeBtn) return;
+    function openModal() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+    });
   })();
   </script>
 </body>
