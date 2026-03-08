@@ -163,11 +163,11 @@
   gameArea.addEventListener('pointerdown', (e) => {
     if (!running) return;
     const targets = document.elementsFromPoint(e.clientX, e.clientY);
-    const bubble = targets.find((el) => el.classList && el.classList.contains('bubble'));
-    if (bubble) {
+    const bubbles = targets.filter((el) => el.classList && el.classList.contains('bubble'));
+    if (bubbles.length) {
       e.preventDefault();
       e.stopPropagation();
-      pop(bubble);
+      bubbles.forEach((bubble) => pop(bubble));
     }
   }, { passive: false });
 
