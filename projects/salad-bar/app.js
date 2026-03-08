@@ -103,11 +103,7 @@
   }
 
   function updateSummary() {
-    if (demoMode || selected.size === 0) {
-      hintEl.textContent = 'Pick at least one ingredient.';
-      return;
-    }
-    hintEl.textContent = 'Tap again to remove.';
+    hintEl.textContent = 'Pick at least one ingredient.';
   }
 
   function pickDressing() {
