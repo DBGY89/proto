@@ -535,6 +535,17 @@ body.selector-no-scroll .page {
   margin: 0;
 }
 .calories-adjust-unit { font-size: 0.85rem; color: var(--text-muted); }
+
+@media (max-width: 600px) {
+  .calories-adjust-row {
+    justify-content: flex-end;
+  }
+  .calories-adjust-row #btn-apply-target {
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
 .btn-footer--small { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
 .btn-footer--ghost { background: transparent; color: var(--text-secondary); border-color: var(--border); }
 .btn-footer--ghost:hover { color: var(--text-primary); }
