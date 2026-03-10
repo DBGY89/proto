@@ -1143,6 +1143,7 @@
 
   function showMenuScreen(menu) {
     if (!screenSelector || !screenMenu) return;
+    document.body.classList.remove('selector-no-scroll');
     screenSelector.classList.add('hidden');
     screenMenu.classList.remove('hidden');
 
@@ -1517,6 +1518,7 @@
   });
 
   btnNewMenu?.addEventListener('click', function () {
+    document.body.classList.add('selector-no-scroll');
     if (screenMenu) screenMenu.classList.add('hidden');
     if (screenSelector) screenSelector.classList.remove('hidden');
   });
