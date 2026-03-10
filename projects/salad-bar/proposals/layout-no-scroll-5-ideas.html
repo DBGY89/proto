@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salad Bar — 5 layouts sin scroll + evolución de estados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0a1a;
+      --bg-card: #111128;
+      --border: #1e1e3a;
+      --neon-pink: #ff2d78;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #b24dff;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --font: 'Space Grotesk', system-ui, sans-serif;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font);
+      background: #060612;
+      color: var(--text-primary);
+      line-height: 1.4;
+      padding: 1.5rem 1rem 3rem;
+    }
+    .page-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    .idea {
+      max-width: 920px;
+      margin: 0 auto 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-deep);
+    }
+    .idea-header {
+      padding: 0.6rem 1rem;
+      background: rgba(255, 45, 120, 0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--neon-pink);
+    }
+    .idea-desc {
+      padding: 0.5rem 1rem 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .idea-frames {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1rem;
+      justify-content: center;
+    }
+    .frame-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: center;
+    }
+    .frame-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+    }
+    .frame-label.state { color: var(--neon-cyan); }
+    .mockup {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+    .mockup.desktop { width: 380px; height: 320px; }
+    .mockup.mobile { width: 180px; height: 320px; }
+    .mockup-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .mock-topbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.3rem 0.5rem;
+      background: rgba(10,10,26,.95);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+    }
+    .mock-hero {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 0.4rem 0.5rem;
+    }
+    .mock-hero.compact { padding: 0.25rem 0.5rem; }
+    .mock-hero-title { font-size: 0.85rem; font-weight: 700; color: var(--neon-pink); margin: 0; }
+    .mock-hero.compact .mock-hero-title { font-size: 0.75rem; }
+    .mock-intro { font-size: 0.55rem; color: var(--text-secondary); margin: 0.2rem 0 0; }
+    .mock-hero.compact .mock-intro { display: none; }
+    .mock-layout {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      gap: 0.4rem;
+      padding: 0.4rem;
+    }
+    .mock-layout.two-cols { grid-template-columns: 1fr 1fr; }
+    .mock-layout.one-col { grid-template-columns: 1fr; }
+    .mock-region {
+      background: rgba(17,17,40,.7);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.5rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .mock-region-title { font-size: 0.6rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.25rem; }
+    .mock-region-title.accent { color: var(--neon-pink); }
+    .mock-placeholder {
+      flex: 1;
+      min-height: 24px;
+      font-size: 0.5rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+    .mock-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      margin-bottom: 0.25rem;
+    }
+    .mock-chip {
+      font-size: 0.5rem;
+      padding: 0.15rem 0.35rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      background: var(--bg-deep);
+    }
+    .mock-chip.sel { border-color: var(--neon-purple); color: var(--neon-purple); }
+    .mock-summary { font-size: 0.5rem; color: var(--text-secondary); margin: 0.2rem 0 0; }
+    .mock-dressing {
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 0.2rem;
+    }
+    .mock-recipe { font-size: 0.45rem; color: var(--text-secondary); margin: 0; }
+    .state-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .state-row .frame-label { margin-bottom: 0.15rem; }
+    .idea-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 1rem 1rem 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .idea-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+    .mock-btn-more {
+      font-size: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      background: transparent;
+      margin-top: 0.25rem;
+      cursor: pointer;
+      font-family: var(--font);
+      width: 100%;
+      text-align: center;
+    }
+    .mock-btn-more.chip-style {
+      width: auto;
+      display: inline-flex;
+      margin-top: 0;
+      border-radius: 999px;
+    }
+    .mock-btn-more.inline { width: auto; margin-left: auto; }
+  </style>
+</head>
+<body>
+
+  <p class="page-title">Salad Bar — 5 ideas de layout para evitar scroll + evolución de estados</p>
+
+  <!-- 3 ideas: 10 ingredientes primero + botón Más ingredientes -->
+  <section class="idea">
+    <div class="idea-header">3 ideas: 10 ingredientes primero + «Más ingredientes»</div>
+    <p class="idea-desc">Primeros 10 ingredientes que combinan bien (bases + veggies + extras + proteína). Botón «Más ingredientes» revela el resto. A primera vista el usuario ve todo; en mobile sabe que hay más abajo. Menos sensación de dropdown.</p>
+    <div class="idea-section-title">Primeros 10 (combinaciones con sentido)</div>
+    <p style="padding: 0 1rem; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Lettuce, Spinach, Arugula · Tomato, Cucumber, Bell pepper, Carrot · Cheese, Avocado · Chicken → vinaigrette, balsamic, greek, honey mustard, creamy avocado. Resto (Kale, Onion, Corn, Olives, Nuts, Egg, Chickpeas) al expandir.</p>
+    <div class="idea-frames">
+      <div class="frame-wrap">
+        <span class="frame-label">Idea A — Botón debajo de los chips</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-region" style="flex: 1;">
+              <span class="mock-region-title">Your salad</span>
+              <div class="mock-chips">
+                <span class="mock-chip">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span>
+              </div>
+              <button type="button" class="mock-btn-more">+ More ingredients</button>
+              <p class="mock-summary" style="margin-top: 0.35rem;">Tap what you want</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Idea B — Botón al final de la fila (inline)</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-region" style="flex: 1;">
+              <span class="mock-region-title">Your salad</span>
+              <div class="mock-chips">
+                <span class="mock-chip">Lettuce</span><span class="mock-chip">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span>
+                <span class="mock-btn-more chip-style inline">+ More</span>
+              </div>
+              <p class="mock-summary">Pick at least one</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Idea C — Sección colapsable «More ingredients»</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-region" style="flex: 1;">
+              <span class="mock-region-title">Your salad</span>
+              <div class="mock-chips">
+                <span class="mock-chip">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span>
+              </div>
+              <button type="button" class="mock-btn-more">▼ More ingredients (7)</button>
+              <p class="mock-summary" style="margin-top: 0.25rem;">Kale, Onion, Corn, Olives…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Idea 1: 100vh fijo + 10 ingredientes + Más ingredientes (hero sin modificar) -->
+  <section class="idea">
+    <div class="idea-header">Idea 1 — Viewport fijo 100vh + 10 ingredientes primero + «Más ingredientes» (hero sin modificar)</div>
+    <p class="idea-desc">Mismo layout: dos columnas 50/50, scroll interno. Panel izquierdo: solo 10 ingredientes que combinan bien + botón «More ingredients». Hero igual que antes. En mobile todo visible a primera vista; al tocar «More» aparece el resto y el usuario sabe que había contenido abajo.</p>
+    <div class="idea-frames">
+      <div class="frame-wrap">
+        <span class="frame-label">Desktop — 10 ingredientes + botón</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab · The story →</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips">
+                  <span class="mock-chip">Lettuce</span><span class="mock-chip">Spinach</span><span class="mock-chip">Arugula</span><span class="mock-chip">Tomato</span><span class="mock-chip sel">Cucumber</span><span class="mock-chip">Pepper</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span>
+                </div>
+                <button type="button" class="mock-btn-more">+ More ingredients</button>
+                <p class="mock-summary" style="margin-top: 0.3rem;">Lettuce, Cucumber</p>
+                <div class="mock-placeholder" style="flex: 0; min-height: 0;"></div>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Classic vinaigrette</p>
+                <p class="mock-recipe">Recipe + steps (scroll inside)</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Desktop — Después de «More ingredients»</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips">
+                  <span class="mock-chip">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span>
+                </div>
+                <button type="button" class="mock-btn-more" style="border-style: solid; opacity: 0.7;">− Less</button>
+                <div class="mock-chips" style="margin-top: 0.2rem;">
+                  <span class="mock-chip">Kale</span><span class="mock-chip">Onion</span><span class="mock-chip">Corn</span><span class="mock-chip">Olives</span><span class="mock-chip">Nuts</span><span class="mock-chip">Egg</span><span class="mock-chip">Chickpeas</span>
+                </div>
+                <p class="mock-summary" style="margin-top: 0.25rem;">Tomato (scroll inside panel)</p>
+                <div class="mock-placeholder" style="flex: 0; min-height: 0;"></div>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Greek-style</p>
+                <p class="mock-recipe">Recipe (scroll inside)</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile — 10 + botón (todo a primera vista)</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span></div>
+                <button type="button" class="mock-btn-more">+ More ingredients</button>
+                <p class="mock-summary">Tomato</p>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Classic vinaigrette</p>
+                <p class="mock-recipe">Scroll inside</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idea-section-title">Evolución de estados (hero sin modificar)</div>
+    <div class="state-row">
+      <div class="frame-wrap">
+        <span class="frame-label state">Estado 0 — Sin ingredientes</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip">Lettuce</span><span class="mock-chip">Spinach</span><span class="mock-chip">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span></div>
+                <button type="button" class="mock-btn-more">+ More ingredients</button>
+                <div class="mock-placeholder">Pick at least one</div>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <div class="mock-placeholder">Pick something on the left</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label state">Estado 1 — Con ingredientes</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Avocado</span><span class="mock-chip">Chicken</span></div>
+                <button type="button" class="mock-btn-more">+ More ingredients</button>
+                <p class="mock-summary">Lettuce, Tomato</p>
+                <div class="mock-placeholder" style="min-height: 0; flex: 0;"></div>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Classic vinaigrette</p>
+                <p class="mock-recipe">Recipe appears</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label state">Estado 2 — Dressing + trick</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1><p class="mock-intro">Build your salad…</p></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip sel">Avocado</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Carrot</span><span class="mock-chip">Cheese</span><span class="mock-chip">Chicken</span></div>
+                <button type="button" class="mock-btn-more">+ More ingredients</button>
+                <p class="mock-summary">Lettuce, Tomato, Avocado</p>
+              </div>
+              <div class="mock-region">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Creamy avocado lime</p>
+                <p class="mock-recipe">Recipe + Chef's trick (scroll interno)</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Idea 2: Hero colapsable al elegir -->
+  <section class="idea">
+    <div class="idea-header">Idea 2 — Hero que se colapsa al elegir el primer ingrediente</div>
+    <p class="idea-desc">Estado 0: hero completo (título + intro). Al añadir un ingrediente, el hero pasa a una sola línea (solo "Salad Bar") y el layout crece; sin scroll de página.</p>
+    <div class="idea-section-title">Evolución (Desktop)</div>
+    <div class="state-row">
+      <div class="frame-wrap">
+        <span class="frame-label state">Estado 0 — Hero completo</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero">
+              <h1 class="mock-hero-title">Salad Bar</h1>
+              <p class="mock-intro">Build your salad. We'll match it with a dressing…</p>
+            </div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip">Lettuce</span><span class="mock-chip">Tomato</span></div><div class="mock-placeholder">Pick one</div></div>
+              <div class="mock-region"><span class="mock-region-title accent">Secret ingredient</span><div class="mock-placeholder">Pick left</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label state">Estado 1+ — Hero colapsado, más espacio</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout two-cols">
+              <div class="mock-region"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div><p class="mock-summary">Lettuce, Tomato</p><div class="mock-placeholder" style="flex:0;min-height:0"></div></div>
+              <div class="mock-region"><span class="mock-region-title accent">Secret ingredient</span><p class="mock-dressing">Vinaigrette</p><p class="mock-recipe">Recipe</p><div class="mock-placeholder"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Idea 3: Una columna, bandas horizontales -->
+  <section class="idea">
+    <div class="idea-header">Idea 3 — Una columna: ingredientes en banda, resultado abajo (100vh, scroll interno)</div>
+    <p class="idea-desc">Todo en una columna. Arriba: título + grid de ingredientes en una banda fija. Debajo: "Your pick" + "Secret ingredient" en un bloque con scroll. Una sola columna evita comparar dos paneles anchos en mobile.</p>
+    <div class="idea-frames">
+      <div class="frame-wrap">
+        <span class="frame-label">Desktop</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region" style="max-height: 38%; flex-shrink: 0;">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span></div>
+                <p class="mock-summary">Lettuce, Tomato</p>
+              </div>
+              <div class="mock-region" style="flex: 1; min-height: 0;">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Classic vinaigrette</p>
+                <p class="mock-recipe">Recipe (scroll here)</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region" style="max-height: 40%;">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div>
+              </div>
+              <div class="mock-region" style="flex: 1; min-height: 0;">
+                <span class="mock-region-title accent">Secret ingredient</span>
+                <p class="mock-dressing">Greek-style</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idea-section-title">Estados</div>
+    <div class="state-row">
+      <div class="frame-wrap"><span class="frame-label state">Estado 0</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">←</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout one-col"><div class="mock-region" style="max-height:38%"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip">Lettuce</span><span class="mock-chip">Tomato</span></div><div class="mock-placeholder">Pick one</div></div><div class="mock-region" style="flex:1;min-height:0"><span class="mock-region-title accent">Secret ingredient</span><div class="mock-placeholder">Pick left</div></div></div></div></div></div>
+      <div class="frame-wrap"><span class="frame-label state">Estado 1</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">←</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout one-col"><div class="mock-region" style="max-height:38%"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div><p class="mock-summary">Lettuce, Tomato</p></div><div class="mock-region" style="flex:1;min-height:0"><span class="mock-region-title accent">Secret ingredient</span><p class="mock-dressing">Vinaigrette</p><p class="mock-recipe">Recipe</p><div class="mock-placeholder"></div></div></div></div></div></div></div>
+      <div class="frame-wrap"><span class="frame-label state">Estado 2</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">←</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout one-col"><div class="mock-region" style="max-height:38%"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip sel">Avocado</span></div><p class="mock-summary">Lettuce, Tomato, Avocado</p></div><div class="mock-region" style="flex:1;min-height:0"><span class="mock-region-title accent">Secret ingredient</span><p class="mock-dressing">Creamy avocado lime</p><p class="mock-recipe">Recipe + Chef's trick</p><div class="mock-placeholder"></div></div></div></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- Idea 4: Mobile = bottom sheet para resultado -->
+  <section class="idea">
+    <div class="idea-header">Idea 4 — Mobile: resultado en bottom sheet (sin empujar contenido)</div>
+    <p class="idea-desc">Desktop: dos columnas como ahora. Mobile: pantalla principal = solo ingredientes + resumen. Al tener al menos un ingrediente, un botón "See your dressing" abre un bottom sheet con el dressing/receta; no hay scroll de página para ver el resultado.</p>
+    <div class="idea-frames">
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile — Estado 0</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip">Lettuce</span><span class="mock-chip">Tomato</span></div>
+                <div class="mock-placeholder">Pick one → dressing appears below</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile — Estado 1 (con ingredientes)</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div>
+                <p class="mock-summary">Lettuce, Tomato</p>
+                <div class="mock-placeholder" style="min-height: 28px; font-size: 0.45rem;">[ See your dressing ↑ ]</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile — Sheet abierto (Estado 2)</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner" style="position: relative;">
+            <div class="mock-topbar" style="opacity: 0.5;">← Back</div>
+            <div class="mock-layout one-col" style="opacity: 0.4;">
+              <div class="mock-region"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div></div>
+            </div>
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 55%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px 12px 0 0; padding: 0.5rem; box-shadow: 0 -4px 20px rgba(0,0,0,.4);">
+              <span class="mock-region-title accent">Your secret ingredient</span>
+              <p class="mock-dressing">Classic vinaigrette</p>
+              <p class="mock-recipe">Recipe + Chef's trick (scroll inside sheet)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idea-section-title">Desktop (sin cambio)</div>
+    <div class="state-row">
+      <div class="frame-wrap"><span class="frame-label">Desktop 50/50</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">← AI Proto Lab</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout two-cols"><div class="mock-region"><span class="mock-region-title">Your salad</span><div class="mock-chips"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span></div><p class="mock-summary">Lettuce, Tomato</p></div><div class="mock-region"><span class="mock-region-title accent">Secret ingredient</span><p class="mock-dressing">Vinaigrette</p><p class="mock-recipe">Recipe</p><div class="mock-placeholder"></div></div></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- Idea 5: Ingredientes en strip horizontal scroll -->
+  <section class="idea">
+    <div class="idea-header">Idea 5 — Ingredientes en strip horizontal (scroll horizontal), resultado ocupa el resto</div>
+    <p class="idea-desc">Arriba: una sola fila de chips con scroll horizontal (sin wrap que genere altura). Debajo: resumen + bloque "Secret ingredient" con scroll vertical. Todo en 100vh; el único scroll de página sería opcional en el bloque de resultado.</p>
+    <div class="idea-frames">
+      <div class="frame-wrap">
+        <span class="frame-label">Desktop</span>
+        <div class="mockup desktop">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← AI Proto Lab</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region" style="flex-shrink: 0; max-height: 70px;">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips" style="overflow-x: auto; flex-wrap: nowrap; margin: 0 -0.2rem;"><span class="mock-chip">Lettuce</span><span class="mock-chip">Spinach</span><span class="mock-chip sel">Tomato</span><span class="mock-chip">Cucumber</span><span class="mock-chip">Pepper</span><span class="mock-chip">Avocado</span></div>
+                <p class="mock-summary">Tomato (scroll chips →)</p>
+              </div>
+              <div class="mock-region" style="flex: 1; min-height: 0;">
+                <span class="mock-region-title accent">Your secret ingredient</span>
+                <p class="mock-dressing">Balsamic glaze</p>
+                <p class="mock-recipe">Recipe (scroll here)</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label">Mobile</span>
+        <div class="mockup mobile">
+          <div class="mockup-inner">
+            <div class="mock-topbar">← Back</div>
+            <div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div>
+            <div class="mock-layout one-col">
+              <div class="mock-region" style="flex-shrink: 0;">
+                <span class="mock-region-title">Your salad</span>
+                <div class="mock-chips" style="overflow-x: auto; flex-wrap: nowrap;"><span class="mock-chip sel">Lettuce</span><span class="mock-chip">Tomato</span><span class="mock-chip">Cucumber</span></div>
+              </div>
+              <div class="mock-region" style="flex: 1; min-height: 0;">
+                <span class="mock-region-title accent">Secret ingredient</span>
+                <p class="mock-dressing">Vinaigrette</p>
+                <div class="mock-placeholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idea-section-title">Estados</div>
+    <div class="state-row">
+      <div class="frame-wrap"><span class="frame-label state">Estado 0</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">←</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout one-col"><div class="mock-region" style="max-height:70px;flex-shrink:0"><span class="mock-region-title">Your salad</span><div class="mock-chips" style="flex-wrap:nowrap"><span class="mock-chip">Lettuce</span><span class="mock-chip">Tomato</span></div><div class="mock-placeholder">Pick one</div></div><div class="mock-region" style="flex:1;min-height:0"><span class="mock-region-title accent">Secret ingredient</span><div class="mock-placeholder">Pick left</div></div></div></div></div></div>
+      <div class="frame-wrap"><span class="frame-label state">Estado 1 → 2</span><div class="mockup desktop"><div class="mockup-inner"><div class="mock-topbar">←</div><div class="mock-hero compact"><h1 class="mock-hero-title">Salad Bar</h1></div><div class="mock-layout one-col"><div class="mock-region" style="max-height:70px;flex-shrink:0"><span class="mock-region-title">Your salad</span><div class="mock-chips" style="flex-wrap:nowrap"><span class="mock-chip sel">Lettuce</span><span class="mock-chip sel">Tomato</span><span class="mock-chip sel">Avocado</span></div><p class="mock-summary">Lettuce, Tomato, Avocado</p></div><div class="mock-region" style="flex:1;min-height:0"><span class="mock-region-title accent">Secret ingredient</span><p class="mock-dressing">Creamy avocado lime</p><p class="mock-recipe">Recipe + trick</p><div class="mock-placeholder"></div></div></div></div></div></div></div>
+    </div>
+  </section>
+
+</body>
+</html>
