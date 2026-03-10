@@ -1053,7 +1053,6 @@
   const shareEmail = document.getElementById('share-email');
   const shareWhatsapp = document.getElementById('share-whatsapp');
   const shareInstagram = document.getElementById('share-instagram');
-  const btnNewMenu = document.getElementById('btn-new-menu');
   const shoppingOverlay = document.getElementById('shopping-overlay');
   const shoppingOverlayContent = document.getElementById('shopping-overlay-content');
   const shoppingListEl = document.getElementById('shopping-list');
@@ -1516,8 +1515,4 @@
     shareDropdown?.classList.add('hidden');
   });
 
-  btnNewMenu?.addEventListener('click', function () {
-    if (screenMenu) screenMenu.classList.add('hidden');
-    if (screenSelector) screenSelector.classList.remove('hidden');
-  });
 })();
