@@ -36,25 +36,14 @@ body {
   display: flex;
   flex-direction: column;
 }
-body.selector-no-scroll {
-  height: 100vh;
-  overflow: hidden;
-}
-
 .page {
   position: relative;
   z-index: 1;
   flex: 1;
-  min-height: 0;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 1.25rem 1rem;
+  padding: 0 1.25rem 2.5rem;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-body.selector-no-scroll .page {
-  overflow: hidden;
 }
 
 /* Topbar — consistent with AI Proto Lab */
@@ -74,58 +63,46 @@ body.selector-no-scroll .page {
 }
 .back-link:hover { color: var(--accent-cta); }
 
-/* ─── Screen 1: Day selector (no scroll: fit viewport) ─── */
-.screen { padding-top: 1rem; }
-
-.screen-selector {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
+/* ─── Screen 1: Day selector ─── */
+.screen { padding-top: 1.5rem; }
 
 .selector-header {
-  flex-shrink: 0;
   text-align: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 .selector-logo {
   font-family: var(--font);
   font-weight: 700;
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   letter-spacing: -0.02em;
   color: var(--text-primary);
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.5rem;
   line-height: 1.1;
   text-transform: uppercase;
 }
 .selector-tagline {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   margin: 0;
-  max-width: 380px;
+  max-width: 420px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .day-selector {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  flex: 1;
-  min-height: 0;
-  margin-bottom: 0.75rem;
-  align-content: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 .day-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 88px;
-  padding: 1rem;
+  min-height: 120px;
+  padding: 1.25rem;
   border: 2px solid var(--border);
   border-radius: 12px;
   cursor: pointer;
@@ -143,15 +120,15 @@ body.selector-no-scroll .page {
 .day-btn-label {
   font-family: var(--font);
   font-weight: 700;
-  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
   letter-spacing: -0.01em;
   text-transform: uppercase;
   display: block;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.25rem;
   color: inherit;
 }
 .day-btn-sublabel {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   animation: sublabel-glow-wod 1.4s ease-in-out 3 both;
 }
@@ -183,11 +160,10 @@ body.selector-no-scroll .page {
 }
 
 .filters-row {
-  flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 .filter-chip {
   display: inline-flex;
@@ -210,7 +186,7 @@ body.selector-no-scroll .page {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.actions { flex-shrink: 0; margin-top: 0.75rem; margin-bottom: 0.5rem; }
+.actions { margin-top: 1.75rem; margin-bottom: 1.5rem; }
 .btn-cta {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -249,15 +225,14 @@ body.selector-no-scroll .page {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .selector-disclaimer {
-  flex-shrink: 0;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-align: center;
-  margin: 0.75rem auto 0;
-  padding-top: 0.75rem;
-  line-height: 1.4;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  line-height: 1.45;
   border-top: 1px solid var(--border);
-  max-width: 380px;
+  max-width: 420px;
 }
 
 /* ─── Screen 2: Generated menu ─── */
