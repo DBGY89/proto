@@ -110,6 +110,32 @@ body {
     var(--bg-deep);
 }
 
+/* ─── Language switcher (top-right) ─── */
+.lang-switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 10;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.lang-switcher__link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.lang-switcher__link:hover {
+  color: var(--neon-cyan);
+}
+.lang-switcher__link.is-active {
+  color: var(--neon-cyan);
+  pointer-events: none;
+}
+.lang-switcher__sep {
+  margin: 0 0.35rem;
+  opacity: 0.5;
+}
+
 .skyline {
   position: absolute;
   bottom: 0;
