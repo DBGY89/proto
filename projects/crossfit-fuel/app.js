@@ -86,6 +86,253 @@
           ]
         }
       ]
+    },
+    {
+      dayType: 'wod',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Protein Pancakes with Berries & Yogurt',
+          ingredients: ['oat flour', 'egg whites', 'Greek yogurt', 'mixed berries', 'maple syrup'],
+          fuelStory: 'Feels like brunch, performs like fuel. High protein, plenty of carbs, minimal junk so you hit the WOD feeling light.',
+          kcal: 480,
+          portions: [
+            { amount: 60, unit: 'g', name: 'oat flour' },
+            { amount: 3, unit: '', name: 'egg whites' },
+            { amount: 0.5, unit: 'cup', name: 'Greek yogurt' }
+          ]
+        },
+        {
+          mealType: 'snackPreWod',
+          dishName: 'Rice cakes with peanut butter & banana',
+          ingredients: ['rice cakes', 'peanut butter', 'banana'],
+          timingHint: '45–60 min before training',
+          fuelStory: 'Easy-on-the-stomach carbs plus a little fat. You get quick fuel without feeling heavy on the rower.',
+          kcal: 220,
+          portions: [
+            { amount: 2, unit: '', name: 'rice cakes' },
+            { amount: 1, unit: 'tbsp', name: 'peanut butter' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Turkey Rice Bowl with Greens & Pickled Onion',
+          ingredients: ['ground turkey', 'brown rice', 'mixed greens', 'pickled red onion', 'olive oil', 'lime'],
+          fuelStory: 'Lean turkey for repair, rice for refuel, greens for volume and micronutrients. Big bowl energy without the bloat.',
+          kcal: 560,
+          portions: [
+            { amount: 140, unit: 'g', name: 'ground turkey (cooked)' },
+            { amount: 180, unit: 'g', name: 'cooked brown rice' }
+          ]
+        },
+        {
+          mealType: 'snackPostWod',
+          dishName: 'Chocolate milk-style shake',
+          ingredients: ['cow milk or soy milk', 'cocoa powder', 'banana'],
+          timingHint: 'Within 30 min after training',
+          fuelStory: 'Classic carb-plus-protein combo in a glass. Replaces what you burned without needing cutlery.',
+          kcal: 320,
+          portions: [
+            { amount: 250, unit: 'ml', name: 'milk' },
+            { amount: 1, unit: '', name: 'banana' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Chicken Fajita Plate with Peppers & Rice',
+          ingredients: ['chicken breast', 'bell peppers', 'onion', 'rice', 'spices', 'lime'],
+          fuelStory: 'Big flavors, simple macros. Real-food dinner that still keeps tomorrow\'s training in mind.',
+          kcal: 620,
+          portions: [
+            { amount: 160, unit: 'g', name: 'chicken breast' },
+            { amount: 180, unit: 'g', name: 'cooked rice' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'wod',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Egg & Potato Skillet with Spinach',
+          ingredients: ['eggs', 'potato', 'spinach', 'olive oil'],
+          fuelStory: 'Eggs for protein, potatoes for go-power, greens so your body doesn\'t revolt later. Feels like a diner plate, acts like training fuel.',
+          kcal: 500,
+          portions: [
+            { amount: 2, unit: '', name: 'eggs' },
+            { amount: 150, unit: 'g', name: 'potato' }
+          ]
+        },
+        {
+          mealType: 'snackPreWod',
+          dishName: 'Toast with jam',
+          ingredients: ['white or sourdough bread', 'jam'],
+          timingHint: '30–45 min before training',
+          fuelStory: 'Simple, fast carbs when you just need sugar in the tank. No fiber bomb, no stomach games.',
+          kcal: 180,
+          portions: [
+            { amount: 2, unit: 'slices', name: 'bread' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Baked Salmon Grain Bowl',
+          ingredients: ['salmon', 'farro', 'arugula', 'cherry tomatoes', 'olive oil', 'lemon'],
+          fuelStory: 'A bowl that does double duty: refuel and reduce inflammation from heavy lifts.',
+          kcal: 580,
+          portions: [
+            { amount: 140, unit: 'g', name: 'salmon' },
+            { amount: 160, unit: 'g', name: 'cooked farro' }
+          ]
+        },
+        {
+          mealType: 'snackPostWod',
+          dishName: 'Greek yogurt with honey & walnuts',
+          ingredients: ['Greek yogurt', 'honey', 'walnuts'],
+          timingHint: '30–60 min after training',
+          fuelStory: 'Protein and carbs plus a bit of crunch. Dessert energy with performance macros.',
+          kcal: 320,
+          portions: [
+            { amount: 170, unit: 'g', name: 'Greek yogurt' },
+            { amount: 15, unit: 'g', name: 'walnuts' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Shrimp Stir-Fry with Jasmine Rice',
+          ingredients: ['shrimp', 'jasmine rice', 'snap peas', 'carrots', 'soy sauce', 'sesame oil'],
+          fuelStory: 'Quick-cooking shrimp for a light but serious protein hit. Rice tops up glycogen without sending you into a food coma.',
+          kcal: 580,
+          portions: [
+            { amount: 140, unit: 'g', name: 'shrimp (peeled)' },
+            { amount: 200, unit: 'g', name: 'cooked jasmine rice' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'wod',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Bagel with Smoked Salmon & Cream Cheese',
+          ingredients: ['bagel', 'smoked salmon', 'cream cheese', 'capers'],
+          fuelStory: 'High-carb, high-protein breakfast that feels like a treat and trains like a pro. Great for long sessions or double days.',
+          kcal: 520,
+          portions: [
+            { amount: 1, unit: '', name: 'bagel' },
+            { amount: 60, unit: 'g', name: 'smoked salmon' }
+          ]
+        },
+        {
+          mealType: 'snackPreWod',
+          dishName: 'Orange & handful of pretzels',
+          ingredients: ['orange', 'pretzels'],
+          timingHint: '45–60 min before training',
+          fuelStory: 'Salt, carbs, and a bit of fluid. Easy to eat even when you\'re not hungry yet.',
+          kcal: 200,
+          portions: [
+            { amount: 1, unit: '', name: 'orange' },
+            { amount: 25, unit: 'g', name: 'pretzels' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Chicken Poke-Style Rice Bowl',
+          ingredients: ['chicken breast', 'rice', 'edamame', 'cucumber', 'soy sauce', 'sesame oil'],
+          fuelStory: 'Bright, fresh bowl that covers carbs, protein, and crunch without feeling heavy.',
+          kcal: 560,
+          portions: [
+            { amount: 150, unit: 'g', name: 'chicken breast' },
+            { amount: 200, unit: 'g', name: 'cooked rice' }
+          ]
+        },
+        {
+          mealType: 'snackPostWod',
+          dishName: 'Smoothie: berries, yogurt & oats',
+          ingredients: ['mixed berries', 'Greek yogurt', 'oats', 'milk'],
+          timingHint: 'Within 30 min after training',
+          fuelStory: 'Drinkable carbs and protein when chewing sounds like too much work.',
+          kcal: 340,
+          portions: [
+            { amount: 0.5, unit: 'cup', name: 'mixed berries' },
+            { amount: 30, unit: 'g', name: 'oats' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Beef & Sweet Potato Hash',
+          ingredients: ['lean beef', 'sweet potato', 'onion', 'spinach', 'olive oil'],
+          fuelStory: 'Beef brings iron and creatine, sweet potato keeps glycogen stocked, and the pan does all the work.',
+          kcal: 620,
+          portions: [
+            { amount: 130, unit: 'g', name: 'lean beef' },
+            { amount: 180, unit: 'g', name: 'sweet potato' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'wod',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Breakfast Burrito with Eggs & Sweet Potato',
+          ingredients: ['eggs', 'sweet potato', 'whole wheat tortilla', 'spinach', 'salsa', 'olive oil'],
+          fuelStory: 'Handheld carb and protein bomb that travels well. Eggs and sweet potato keep you fueled through long WODs without a sugar spike.',
+          kcal: 500,
+          portions: [
+            { amount: 2, unit: '', name: 'eggs' },
+            { amount: 80, unit: 'g', name: 'sweet potato' }
+          ]
+        },
+        {
+          mealType: 'snackPreWod',
+          dishName: 'Banana & small latte',
+          ingredients: ['banana', 'milk', 'espresso'],
+          timingHint: '60–90 min before training',
+          fuelStory: 'Bit of caffeine, bit of sugar, not a lot of anything else. Enough to wake you up and get you on the barbell.',
+          kcal: 190,
+          portions: [
+            { amount: 1, unit: '', name: 'banana' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Chicken & Quinoa Power Salad',
+          ingredients: ['chicken breast', 'quinoa', 'mixed leaves', 'olive oil', 'lemon'],
+          fuelStory: 'Protein plus complex carbs and crunch. You get a huge bowl without a huge slump.',
+          kcal: 540,
+          portions: [
+            { amount: 140, unit: 'g', name: 'chicken breast' },
+            { amount: 150, unit: 'g', name: 'cooked quinoa' }
+          ]
+        },
+        {
+          mealType: 'snackPostWod',
+          dishName: 'Cottage cheese with pineapple & seeds',
+          ingredients: ['cottage cheese', 'pineapple', 'pumpkin seeds'],
+          timingHint: '30–60 min after training',
+          fuelStory: 'Slow-digesting protein with a bit of fruit sugar. Keeps the recovery signal going into the evening.',
+          kcal: 300,
+          portions: [
+            { amount: 150, unit: 'g', name: 'cottage cheese' },
+            { amount: 0.5, unit: 'cup', name: 'pineapple chunks' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Pasta with Chicken & Roasted Veg',
+          ingredients: ['pasta', 'chicken breast', 'zucchini', 'tomato', 'olive oil', 'parmesan'],
+          fuelStory: 'Comfort food that still respects your macros. Carbs to refill, protein to repair, vegetables so tomorrow\'s digestion isn\'t mad.',
+          kcal: 650,
+          portions: [
+            { amount: 75, unit: 'g', name: 'dry pasta' },
+            { amount: 130, unit: 'g', name: 'chicken breast' }
+          ]
+        }
+      ]
     }
   ];
 
@@ -137,6 +384,202 @@
           portions: [
             { amount: 1, unit: '', name: 'apple' },
             { amount: 1, unit: 'tbsp', name: 'almond butter' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'rest',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Greek Yogurt Parfait with Nuts & Seeds',
+          ingredients: ['Greek yogurt', 'walnuts', 'pumpkin seeds', 'berries', 'honey'],
+          fuelStory: 'High protein, moderate carbs, and healthy fats for a slow, steady morning. Keeps you full without a crash.',
+          kcal: 420,
+          portions: [
+            { amount: 170, unit: 'g', name: 'Greek yogurt' },
+            { amount: 15, unit: 'g', name: 'walnuts & seeds' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Quinoa & Roasted Veggie Plate',
+          ingredients: ['quinoa', 'zucchini', 'eggplant', 'bell peppers', 'olive oil', 'herbs'],
+          fuelStory: 'Color on a plate plus plant protein. Fiber and volume without a blood sugar rollercoaster.',
+          kcal: 430,
+          portions: [
+            { amount: 150, unit: 'g', name: 'cooked quinoa' },
+            { amount: 1, unit: 'cup', name: 'roasted vegetables' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Herbed Chicken Thighs with Roasted Veg',
+          ingredients: ['chicken thighs', 'carrots', 'Brussels sprouts', 'olive oil', 'garlic', 'thyme'],
+          fuelStory: 'A cozy, higher-fat meal for a lower-output day. Plenty of protein for repair without excessive carbs.',
+          kcal: 560,
+          portions: [
+            { amount: 150, unit: 'g', name: 'chicken thighs' },
+            { amount: 1, unit: 'cup', name: 'roasted vegetables' }
+          ]
+        },
+        {
+          mealType: 'snack',
+          dishName: 'Carrot sticks with hummus',
+          ingredients: ['carrots', 'hummus', 'paprika'],
+          fuelStory: 'Crisp, crunchy, and light. Enough to kill cravings without turning into a second lunch.',
+          kcal: 220,
+          portions: [
+            { amount: 100, unit: 'g', name: 'carrot sticks' },
+            { amount: 40, unit: 'g', name: 'hummus' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'rest',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Veggie Omelette with Feta',
+          ingredients: ['eggs', 'spinach', 'mushrooms', 'feta', 'olive oil'],
+          fuelStory: 'Low-carb, high-satiety breakfast that leans into protein and fat on your easier day.',
+          kcal: 430,
+          portions: [
+            { amount: 2, unit: '', name: 'eggs' },
+            { amount: 0.5, unit: 'cup', name: 'mixed vegetables' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Tuna Salad Lettuce Wraps',
+          ingredients: ['canned tuna', 'Greek yogurt', 'celery', 'lettuce', 'lemon', 'mustard'],
+          fuelStory: 'High protein without the bread. Crunchy, salty, and light enough for a walk after.',
+          kcal: 380,
+          portions: [
+            { amount: 1, unit: 'can', name: 'tuna' },
+            { amount: 3, unit: 'leaves', name: 'lettuce' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Lentil Soup with Greens',
+          ingredients: ['lentils', 'spinach', 'carrots', 'onion', 'vegetable broth', 'olive oil'],
+          fuelStory: 'Warm, slow, and grounding. Lentils bring plant protein and fiber that fit perfectly into a recovery day.',
+          kcal: 480,
+          portions: [
+            { amount: 1, unit: 'cup', name: 'cooked lentils' },
+            { amount: 1, unit: 'cup', name: 'broth & vegetables' }
+          ]
+        },
+        {
+          mealType: 'snack',
+          dishName: 'Dark chocolate & almonds',
+          ingredients: ['dark chocolate', 'almonds'],
+          fuelStory: 'A small, deliberate treat instead of accidental snacking. Fat and a touch of sweetness take the edge off cravings.',
+          kcal: 230,
+          portions: [
+            { amount: 15, unit: 'g', name: 'dark chocolate' },
+            { amount: 15, unit: 'g', name: 'almonds' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'rest',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Chia Pudding with Berries',
+          ingredients: ['chia seeds', 'milk or plant milk', 'berries', 'vanilla'],
+          fuelStory: 'Fiber and fat up front so you\'re not thinking about food every hour. Light sweetness, heavy satiety.',
+          kcal: 380,
+          portions: [
+            { amount: 30, unit: 'g', name: 'chia seeds' },
+            { amount: 200, unit: 'ml', name: 'milk' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Grain-free Chicken Salad Plate',
+          ingredients: ['chicken breast', 'mixed greens', 'avocado', 'olive oil', 'lemon'],
+          fuelStory: 'Protein plus fats, almost no grains. Great if your body wants a lighter carb day.',
+          kcal: 420,
+          portions: [
+            { amount: 130, unit: 'g', name: 'chicken breast' },
+            { amount: 1, unit: 'cup', name: 'mixed greens' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Baked Cod with Roasted Vegetables',
+          ingredients: ['cod fillet', 'broccoli', 'carrots', 'olive oil', 'lemon'],
+          fuelStory: 'Lean protein and vegetables to close the day without overloading your system.',
+          kcal: 440,
+          portions: [
+            { amount: 150, unit: 'g', name: 'cod fillet' },
+            { amount: 1, unit: 'cup', name: 'roasted vegetables' }
+          ]
+        },
+        {
+          mealType: 'snack',
+          dishName: 'Yogurt with cinnamon & seeds',
+          ingredients: ['plain yogurt', 'mixed seeds', 'cinnamon'],
+          fuelStory: 'Simple protein snack to bridge the gap between meals on lower-output days.',
+          kcal: 210,
+          portions: [
+            { amount: 120, unit: 'g', name: 'yogurt' },
+            { amount: 10, unit: 'g', name: 'mixed seeds' }
+          ]
+        }
+      ]
+    },
+    {
+      dayType: 'rest',
+      meals: [
+        {
+          mealType: 'breakfast',
+          dishName: 'Overnight oats with berries & peanut butter',
+          ingredients: ['oats', 'milk or plant milk', 'berries', 'peanut butter'],
+          fuelStory: 'Rest-day oats: smaller portion, more fats. Your muscles still get carbs, your appetite gets something cozy.',
+          kcal: 420,
+          portions: [
+            { amount: 40, unit: 'g', name: 'oats' },
+            { amount: 200, unit: 'ml', name: 'milk' }
+          ]
+        },
+        {
+          mealType: 'lunch',
+          dishName: 'Stuffed Sweet Potato with Black Beans & Salsa',
+          ingredients: ['sweet potato', 'black beans', 'salsa', 'Greek yogurt'],
+          fuelStory: 'Fiber-heavy comfort food that still respects your macros. Plant protein and slow carbs keep you full all afternoon.',
+          kcal: 460,
+          portions: [
+            { amount: 1, unit: 'medium', name: 'sweet potato' },
+            { amount: 0.75, unit: 'cup', name: 'black beans' }
+          ]
+        },
+        {
+          mealType: 'dinner',
+          dishName: 'Turkey Lettuce Taco Night',
+          ingredients: ['ground turkey', 'lettuce', 'tomato', 'cheese', 'salsa'],
+          fuelStory: 'All the fun of taco night with a gentler carb hit. Great on a day when you moved less but still want something fun.',
+          kcal: 520,
+          portions: [
+            { amount: 140, unit: 'g', name: 'ground turkey (cooked)' },
+            { amount: 4, unit: 'leaves', name: 'lettuce' }
+          ]
+        },
+        {
+          mealType: 'snack',
+          dishName: 'Cottage cheese with cucumber & olive oil',
+          ingredients: ['cottage cheese', 'cucumber', 'olive oil', 'pepper'],
+          fuelStory: 'Savory protein snack when you\'re not in the mood for sweet. Keeps you from diving into the pantry.',
+          kcal: 230,
+          portions: [
+            { amount: 150, unit: 'g', name: 'cottage cheese' },
+            { amount: 0.5, unit: '', name: 'cucumber' }
           ]
         }
       ]
