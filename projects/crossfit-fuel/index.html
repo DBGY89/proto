@@ -3,131 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CrossFit Fuel — Feed the Beast</title>
+  <title>CrossFit Fuel — AI Proto Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="api-key-btn" id="api-key-btn" aria-label="API key settings">⚙️</button>
   </nav>
 
+  <div class="bg-pattern" aria-hidden="true"></div>
+
   <main class="page" id="main">
-    <!-- Screen 1: Day selector (app starts here) -->
+    <!-- ─── Screen 1: Day selector ─── -->
     <section class="screen screen-selector" id="screen-selector">
-      <header class="selector-header">
-        <h1 class="selector-logo">CROSSFIT FUEL</h1>
-        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      <header class="hero">
+        <h1 class="hero-title">CrossFit Fuel</h1>
+        <p class="intro">One click. Full day of eats. Know exactly what to put on your plate, and why it matters.</p>
       </header>
 
       <div class="day-selector" role="group" aria-label="Choose your day type">
         <button type="button" class="day-btn day-btn--wod" id="btn-wod" data-day="wod">
-          <span class="day-btn-label">CROSSFIT DAY</span>
+          <span class="day-btn-label">CrossFit Day</span>
           <span class="day-btn-sublabel">You're training today</span>
         </button>
         <button type="button" class="day-btn day-btn--rest" id="btn-rest" data-day="rest">
-          <span class="day-btn-label">REST DAY</span>
-          <span class="day-btn-sublabel">Recovery is part of the work</span>
+          <span class="day-btn-label">Rest Day</span>
+          <span class="day-btn-sublabel">Recovery mode</span>
         </button>
       </div>
 
-      <div class="filters-row" id="filters" aria-label="Dietary filters">
-        <button type="button" class="filter-chip" data-filter="vegan" aria-pressed="false">Vegan</button>
-        <button type="button" class="filter-chip" data-filter="glutenFree" aria-pressed="false">Gluten-free</button>
-        <button type="button" class="filter-chip" data-filter="dairyFree" aria-pressed="false">Dairy-free</button>
+      <div class="options-row">
+        <button type="button" class="link-btn" id="btn-personalize" aria-expanded="false">Personalize my plan</button>
+        <div class="filters" id="filters" aria-label="Dietary filters">
+          <button type="button" class="filter-chip" data-filter="vegan" aria-pressed="false">Vegan</button>
+          <button type="button" class="filter-chip" data-filter="glutenFree" aria-pressed="false">Gluten-free</button>
+          <button type="button" class="filter-chip" data-filter="dairyFree" aria-pressed="false">Dairy-free</button>
+        </div>
+      </div>
+
+      <div class="personalize-panel hidden" id="personalize-panel">
+        <p class="personalize-disclaimer">This tool provides nutritional inspiration, not medical advice. Consult a registered dietitian for personalized prescriptions.</p>
+        <div class="personalize-grid">
+          <label class="input-label">
+            <span>Weight (kg)</span>
+            <input type="number" id="input-weight" min="40" max="200" placeholder="70" inputmode="decimal">
+          </label>
+          <label class="input-label">
+            <span>Height (cm)</span>
+            <input type="number" id="input-height" min="140" max="220" placeholder="175" inputmode="decimal">
+          </label>
+          <label class="input-label input-label--full">
+            <span>Goal</span>
+            <select id="input-goal">
+              <option value="performance">Performance</option>
+              <option value="fatLoss">Fat loss</option>
+              <option value="muscleGain">Muscle gain</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <div class="actions">
-        <button type="button" class="btn-cta" id="btn-generate" disabled>Generate my menu</button>
+        <button type="button" class="btn-generate" id="btn-generate" disabled>Generate my menu</button>
       </div>
 
-      <p class="selector-disclaimer" role="status">For nutritional inspiration only. Not medical or dietary advice; consult a professional for personalized guidance.</p>
+      <p class="demo-hint hidden" id="demo-hint">No API key set. Using demo menu. Add your Anthropic API key in settings (⚙️) for live generation.</p>
     </section>
 
-    <!-- Screen 2: Generated menu -->
+    <!-- ─── Screen 2: Menu result ─── -->
     <section class="screen screen-menu hidden" id="screen-menu">
-      <header class="menu-header menu-header--sticky">
-        <div class="menu-header-top">
+      <header class="menu-header">
+        <div class="menu-header-badges">
           <span class="day-badge" id="result-day-badge"></span>
-          <h2 class="menu-plan-title" id="menu-plan-title"></h2>
+          <span class="calorie-badge" id="result-calorie-badge"></span>
         </div>
-        <p class="menu-quote" id="menu-quote"></p>
+        <p class="allergen-disclaimer">Always verify ingredients for your specific dietary needs and allergies.</p>
       </header>
-
-      <div class="tags-row" id="tags-row"></div>
-
-      <div class="macro-bar-wrap" id="macro-bar-wrap">
-        <p class="macro-bar-label">TODAY'S MACRO BALANCE (REFERENCE)</p>
-        <div class="macro-bar" id="macro-bar">
-          <div class="macro-segment macro-segment--carbs" id="macro-carbs"></div>
-          <div class="macro-segment macro-segment--protein" id="macro-protein"></div>
-          <div class="macro-segment macro-segment--fat" id="macro-fat"></div>
-        </div>
-        <div class="macro-legend" id="macro-legend"></div>
-      </div>
-
-      <div class="calories-toggle-row">
-        <button type="button" class="calories-toggle" id="btn-toggle-calories" aria-pressed="false">Calorie details</button>
-      </div>
-
-      <div class="calories-inline hidden" id="calories-inline">
-        <div class="calories-inline-row">
-          <div class="calories-adjust-row">
-            <span class="calories-adjust-label">Today my body needs</span>
-            <input type="number" id="input-calorie-target" min="1200" max="4000" step="50" placeholder="2000" aria-label="Daily calorie target">
-            <span class="calories-adjust-unit">kcal/day</span>
-            <span class="calories-scale" id="calories-scale-text"></span>
-            <button type="button" class="btn-footer btn-footer--small" id="btn-apply-target">Apply</button>
-          </div>
-        </div>
-      </div>
 
       <div class="menu-cards" id="menu-cards"></div>
 
-      <div class="menu-footer-actions">
-        <button type="button" class="btn-footer btn-footer--primary" id="btn-download-menu">Download menu</button>
-        <button type="button" class="btn-footer" id="btn-shopping-list">Shopping list</button>
-        <div class="share-dropdown-wrap share-dropdown-wrap--up">
-          <button type="button" class="btn-footer" id="btn-share-toggle" aria-haspopup="true" aria-expanded="false">Share</button>
-          <div class="share-dropdown share-dropdown--up hidden" id="share-dropdown">
-            <a href="#" class="share-option" id="share-email">Email</a>
-            <a href="#" class="share-option" id="share-whatsapp">WhatsApp</a>
-            <a href="#" class="share-option" id="share-instagram">Instagram</a>
-          </div>
-        </div>
-        <button type="button" class="btn-footer" id="btn-new-menu">&larr; New Menu</button>
+      <div class="menu-actions">
+        <button type="button" class="btn-secondary" id="btn-shopping-list">Get shopping list</button>
+        <button type="button" class="btn-secondary" id="btn-share-card">Download shareable card</button>
+        <button type="button" class="btn-secondary" id="btn-new-menu">New menu</button>
       </div>
     </section>
 
-    <!-- Shopping list overlay (2-col checkable list) -->
+    <!-- ─── Shopping list overlay ─── -->
     <div class="overlay hidden" id="shopping-overlay" role="dialog" aria-modal="true" aria-label="Shopping list">
-      <div class="overlay-content overlay-content--list" id="shopping-overlay-content">
+      <div class="overlay-content overlay-content--list">
         <div class="overlay-header">
           <h2 class="overlay-title">Shopping list</h2>
           <button type="button" class="overlay-close" id="shopping-close" aria-label="Close">&times;</button>
         </div>
-        <p class="shopping-overlay-hint">Tick what you already have at home. Then download the list of what you still need to buy.</p>
-        <div class="shopping-list shopping-list--two-col" id="shopping-list"></div>
-        <div class="shopping-overlay-actions">
-          <button type="button" class="btn-cta btn-cta--small" id="btn-download-what-i-need">Download what I need</button>
-          <button type="button" class="btn-header btn-header--ghost btn-header--small" id="btn-download-full-list">Download full list</button>
+        <div class="shopping-list" id="shopping-list"></div>
+      </div>
+    </div>
+
+    <!-- ─── Shareable card canvas (hidden, for export) ─── -->
+    <div class="share-card-wrap hidden" id="share-card-wrap">
+      <div class="share-card" id="share-card">
+        <div class="share-card-inner">
+          <span class="share-card-watermark">AI Proto Lab</span>
+          <span class="share-card-day" id="share-card-day"></span>
+          <div class="share-card-meals" id="share-card-meals"></div>
+          <div class="share-card-macros" id="share-card-macros"></div>
         </div>
       </div>
     </div>
 
-    <!-- Share card for html2canvas -->
-    <div class="share-card-wrap hidden" id="share-card-wrap">
-      <div class="share-card" id="share-card">
-        <div class="share-card-inner">
-          <p class="share-card-header">CrossFit Fuel · Feed the Beast</p>
-          <p class="share-card-day" id="share-card-day"></p>
-          <div class="share-card-meals" id="share-card-meals"></div>
-          <p class="share-card-phrase" id="share-card-phrase"></p>
-          <p class="share-card-footer">aiprotolab.es/crossfit-fuel</p>
+    <!-- ─── API key modal ─── -->
+    <div class="overlay hidden" id="api-key-overlay" role="dialog" aria-modal="true" aria-label="API key">
+      <div class="overlay-content">
+        <div class="overlay-header">
+          <h2 class="overlay-title">Anthropic API key</h2>
+          <button type="button" class="overlay-close" id="api-key-close" aria-label="Close">&times;</button>
         </div>
+        <p class="overlay-hint">Stored in your browser only. Used to generate menus with Claude.</p>
+        <label class="input-label input-label--full">
+          <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
+        </label>
+        <button type="button" class="btn-generate" id="api-key-save">Save</button>
       </div>
     </div>
 
@@ -144,11 +145,11 @@
     </div>
   </main>
 
+  <!-- Footer: Part of AI Proto Lab — product tagline -->
   <footer class="footer">
-    <p>Part of <a href="/">AI Proto Lab</a>. Feed the Beast.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. Fuel the grind.</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHnNBU+oZb9uQ+SCg+f+Q4u5j4kCLRnhQfwBxF0ju6gPB7Y+Y2xR2k+L/nR2nSPlWnapN4L8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./app.js"></script>
   <script src="/rating-vote.js"></script>
   <script>
