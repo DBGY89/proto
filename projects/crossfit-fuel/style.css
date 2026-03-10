@@ -137,8 +137,9 @@ body {
   margin-bottom: 1.25rem;
 }
 .filter-chip {
-  padding: 0.5rem 1rem;
-  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--bg-card);
@@ -156,7 +157,7 @@ body {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.actions { margin-bottom: 0.5rem; }
+.actions { margin-top: 1.75rem; margin-bottom: 1.5rem; }
 .btn-cta {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -198,8 +199,8 @@ body {
   font-size: 0.8rem;
   color: var(--text-secondary);
   text-align: center;
-  margin: 1.25rem auto 0;
-  padding-top: 1rem;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
   line-height: 1.45;
   border-top: 1px solid var(--border);
   max-width: 420px;
@@ -698,6 +699,8 @@ body {
 .vote-widget {
   font: inherit;
   padding: 0.75rem 0;
+  padding-top: 2rem;
+  margin-top: 1.5rem;
   text-align: right;
   margin-left: auto;
   width: fit-content;
