@@ -269,28 +269,28 @@ body.selector-no-scroll .page {
   z-index: 10;
   background: var(--bg-deep);
   border-bottom: 1px solid var(--border);
-  padding-bottom: 1rem;
-  margin: 0 -1.25rem 1rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding: 1.25rem 1.25rem;
+  margin: 0 -1.25rem 0;
 }
 .menu-header-top {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  align-content: flex-start;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
 }
 .menu-header-top .menu-plan-title { margin: 0; }
 .day-badge {
   display: inline-block;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
   font-family: var(--font);
   font-weight: 700;
   font-size: 0.8rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 .day-badge.day-wod,
 .day-badge.day-rest {
@@ -306,6 +306,7 @@ body.selector-no-scroll .page {
   color: var(--text-primary);
   margin: 0;
   flex: 1;
+  min-width: 0;
 }
 .share-dropdown-wrap { position: relative; }
 .share-dropdown {
@@ -394,14 +395,19 @@ body.selector-no-scroll .page {
   font-style: italic;
   color: var(--text-secondary);
   margin: 0;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
   line-height: 1.4;
+  border-top: 1px solid var(--border);
 }
 
 .tags-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  padding-top: 0.5rem;
 }
 .tag-pill {
   display: inline-block;
