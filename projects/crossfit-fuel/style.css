@@ -140,8 +140,8 @@ body {
     text-shadow: none;
   }
   25%, 40% {
-    color: var(--text-primary);
-    text-shadow: 0 0 12px rgba(255, 77, 0, 0.6), 0 0 24px rgba(255, 77, 0, 0.35);
+    color: #ff6b35;
+    text-shadow: 0 0 16px rgba(255, 107, 53, 0.9), 0 0 32px rgba(255, 77, 0, 0.5);
   }
 }
 .day-btn--rest .day-btn-sublabel {
@@ -153,8 +153,8 @@ body {
     text-shadow: none;
   }
   25%, 40% {
-    color: var(--text-primary);
-    text-shadow: 0 0 12px rgba(0, 196, 255, 0.6), 0 0 24px rgba(0, 196, 255, 0.35);
+    color: #00e5ff;
+    text-shadow: 0 0 16px rgba(0, 229, 255, 0.9), 0 0 32px rgba(0, 196, 255, 0.5);
   }
 }
 
@@ -378,8 +378,9 @@ body {
   margin-bottom: 1.25rem;
 }
 .tag-pill {
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
   border-radius: 999px;
   font-family: var(--font);
   font-size: 0.85rem;
@@ -416,11 +417,16 @@ body {
 .macro-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.8rem;
+  gap: 0.5rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
 }
-.macro-legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.macro-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+}
 .macro-legend .dot {
   width: 8px;
   height: 8px;
@@ -512,6 +518,7 @@ body {
   .calories-adjust-row #btn-apply-target {
     flex-basis: 100%;
     margin-top: 0.5rem;
+    width: fit-content;
     align-self: flex-end;
   }
 }
