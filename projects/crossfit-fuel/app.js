@@ -1401,19 +1401,65 @@
   btnDownloadWhatINeed?.addEventListener('click', function () { downloadShoppingListAsTxt(true); });
   btnDownloadFullList?.addEventListener('click', function () { downloadShoppingListAsTxt(false); });
 
+  function getMenuAsText() {
+    if (!lastGeneratedMenu) return '';
+    const isWod = lastGeneratedMenu.dayType === 'wod';
+    const dayLabel = isWod ? 'CROSSFIT DAY' : 'REST DAY';
+    const title = isWod ? 'YOUR FUEL PLAN' : 'YOUR RECOVERY PLAN';
+    const activeFilterLabels = [];
+    if (activeFilters.vegan) activeFilterLabels.push('Vegan');
+    if (activeFilters.glutenFree) activeFilterLabels.push('Gluten-free');
+    if (activeFilters.dairyFree) activeFilterLabels.push('Dairy-free');
+    const filtersText = activeFilterLabels.length ? activeFilterLabels.join(' · ') : 'No dietary filters';
+    const macro = isWod ? MACRO_WOD : MACRO_REST;
+    const shoppingGroups = buildShoppingList(lastGeneratedMenu.meals);
+    let out = 'CROSSFIT FUEL · FEED THE BEAST\n\n' + dayLabel + '\n' + title + '\n\nFilters: ' + filtersText + '\n';
+    out += 'Reference macros · Carbs ' + macro.carbs + '% · Protein ' + macro.protein + '% · Fat ' + macro.fat + '%\n\n';
+    out += '——— MEALS ———\n\n';
+    (lastGeneratedMenu.meals || []).forEach(function (m) {
+      const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
+      out += label + ' · ' + (m.dishName || '') + '\n';
+      if (m.fuelStory) out += m.fuelStory + '\n';
+      if (Array.isArray(m.ingredients) && m.ingredients.length) out += 'Ingredients: ' + m.ingredients.join(', ') + '\n';
+      out += '\n';
+    });
+    out += '——— SHOPPING LIST ———\n\n';
+    shoppingGroups.forEach(function (g) {
+      out += g.category.toUpperCase() + '\n';
+      (g.items || []).forEach(function (item) { out += '  • ' + item + '\n'; });
+      out += '\n';
+    });
+    out += 'Generated with CrossFit Fuel by AI Proto Lab\n';
+    return out;
+  }
+
+  function downloadMenuAsTxt() {
+    const text = getMenuAsText();
+    if (!text) return;
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'crossfit-fuel-menu.txt';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
   function downloadMenuPdf() {
-    if (!lastGeneratedMenu) {
-      alert('Generate a menu first to download it.');
-      return;
-    }
+    if (!lastGeneratedMenu) return;
 
     const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
     if (!jsPDFCtor) {
-      alert('PDF library did not load. Please check your connection and try again.');
+      downloadMenuAsTxt();
       return;
     }
 
-    const doc = new jsPDFCtor({ unit: 'pt', format: 'a4' });
+    let doc;
+    try {
+      doc = new jsPDFCtor({ unit: 'pt', format: 'a4' });
+    } catch (e) {
+      downloadMenuAsTxt();
+      return;
+    }
     const pageWidth = doc.internal.pageSize.getWidth();
     const marginX = 56;
     const contentWidth = pageWidth - marginX * 2;
@@ -1549,6 +1595,32 @@
     doc.save('crossfit-fuel-menu.pdf');
   }
 
+  function doDownloadMenu() {
+    if (!lastGeneratedMenu) return;
+    const btn = btnDownloadMenu;
+    const originalText = btn ? btn.textContent : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Generating…';
+    }
+    setTimeout(function () {
+      try {
+        const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        if (jsPDFCtor) {
+          downloadMenuPdf();
+        } else {
+          downloadMenuAsTxt();
+        }
+      } catch (e) {
+        downloadMenuAsTxt();
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }, 0);
+  }
+
   function getShareText() {
     if (!lastGeneratedMenu) return '';
     const lines = (lastGeneratedMenu.meals || []).map(function (m) {
@@ -1564,7 +1636,7 @@
   }
 
   btnDownloadMenu?.addEventListener('click', function () {
-    downloadMenuPdf();
+    doDownloadMenu();
   });
 
   btnShareToggle?.addEventListener('click', function (e) {
