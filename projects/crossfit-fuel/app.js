@@ -1,16 +1,16 @@
 /**
- * CrossFit Fuel — Curated menu bank, no AI. Dietary filters. Tags, macro bar, meal blocks.
+ * CrossFit Fuel — Curated menu bank, no AI. Tags, macro bar, meal blocks.
  *
- * Recetas por combinación (day type + filter):
- * ┌─────────────────────┬──────────────┬──────────────┐
- * │ Combinación         │ Día entreno  │ Día descanso │
- * ├─────────────────────┼──────────────┼──────────────┤
- * │ Sin filtro          │ 10           │ 10           │
- * │ Vegano              │ 5            │ 5            │
- * │ Gluten-free         │ 5            │ 5            │
- * │ Dairy-free          │ 5            │ 5            │
- * └─────────────────────┴──────────────┴──────────────┘
- * Si hay varios filtros activos: prioridad Vegan > Gluten-free > Dairy-free.
+ * Lógica de fuelStory (por qué cada comida encaja en el día elegido):
+ *
+ * — DÍA ENTRENO (WOD): El cuerpo necesita carbos para llenar glucógeno y rendir,
+ *   proteína para reparar músculo, y timing claro (pre = ligero y rápido; post = ventana recuperación).
+ *   Cada fuelStory debe: (1) decir QUÉ aporta el plato al cuerpo y (2) POR QUÉ eso importa
+ *   cuando entrenas (energía para el WOD, rellenar glucógeno después, reparar músculo, ventana post‑WOD).
+ *
+ * — DÍA DESCANSO (REST): No hay sesión que alimentar, así que menos carbos y más foco en
+ *   reparación, saciedad y antiinflamatorio. Cada fuelStory debe: (1) decir QUÉ aporta y (2) POR QUÉ
+ *   es bueno en día de descanso (reparar sin sobrealimentar, saciedad, menos picos de glucosa, listo para mañana).
  */
 (function () {
   'use strict';
@@ -39,7 +39,7 @@
           mealType: 'breakfast',
           dishName: 'Power Oat Bowl with Banana & Almond Butter',
           ingredients: ['rolled oats', 'banana', 'almond butter', 'honey', 'chia seeds', 'cinnamon'],
-          fuelStory: 'Oats deliver steady glucose so your energy doesn\'t spike and crash before the WOD. The banana tops off muscle glycogen. Almond butter and chia add staying power.',
+          fuelStory: 'On training days your muscles need glycogen to perform. Oats give steady glucose so you don\'t spike and crash; the banana tops off glycogen; almond butter and chia add staying power so you hit the WOD with energy.',
           kcal: 450,
           portions: [
             { amount: 60, unit: 'g', name: 'rolled oats' },
@@ -52,7 +52,7 @@
           dishName: 'Banana with a handful of dates',
           ingredients: ['banana', 'dates'],
           timingHint: '60–90 min before training',
-          fuelStory: 'Fast, digestible carbs to top off glycogen without sitting heavy in your stomach. Quick energy when you need it.',
+          fuelStory: 'Before the WOD you need quick fuel without a full stomach. This gives fast, digestible carbs to top off glycogen so you have energy when the clock starts—and nothing weighing you down.',
           kcal: 180,
           portions: [
             { amount: 1, unit: '', name: 'banana' },
@@ -63,7 +63,7 @@
           mealType: 'lunch',
           dishName: 'Grilled Chicken & Sweet Potato with Greens',
           ingredients: ['chicken breast', 'sweet potato', 'spinach', 'olive oil', 'lemon', 'garlic'],
-          fuelStory: 'Chicken restocks the amino pool your muscles used. Sweet potato restores glycogen. The greens bring anti-inflammatory compounds. Your body is repairing right now.',
+          fuelStory: 'After training your body is repairing. Chicken restocks the amino acids your muscles used; sweet potato restores glycogen you burned; greens add anti-inflammatory compounds. So you refuel and repair in one meal.',
           kcal: 550,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken breast' },
@@ -76,7 +76,7 @@
           dishName: 'Greek Yogurt with Berries & Granola',
           ingredients: ['Greek yogurt', 'mixed berries', 'granola', 'drizzle of honey'],
           timingHint: 'Within 30 min after training',
-          fuelStory: 'Fast protein and carbs in one hit. Yogurt\'s casein supports muscle protein synthesis; berries add antioxidants. Perfect for the recovery window.',
+          fuelStory: 'In the first 30–60 min after the WOD your body absorbs protein and carbs best. Yogurt\'s casein supports muscle repair; berries add antioxidants. This hits the recovery window so you rebuild instead of just getting full.',
           kcal: 350,
           portions: [
             { amount: 170, unit: 'g', name: 'Greek yogurt' },
@@ -88,7 +88,7 @@
           mealType: 'dinner',
           dishName: 'Salmon, Rice & Broccoli',
           ingredients: ['salmon fillet', 'jasmine rice', 'broccoli', 'tamari', 'ginger', 'sesame oil'],
-          fuelStory: 'Salmon\'s omega-3s support recovery and keep inflammation in check. Rice refills glycogen. Broccoli adds fiber and micronutrients.',
+          fuelStory: 'Training day dinner has two jobs: refill glycogen and support overnight repair. Salmon\'s omega-3s curb inflammation; rice restocks glycogen; broccoli adds fiber and micronutrients. So you wake up recovered and ready to train again.',
           kcal: 600,
           portions: [
             { amount: 150, unit: 'g', name: 'salmon fillet' },
@@ -105,7 +105,7 @@
           mealType: 'breakfast',
           dishName: 'Protein Pancakes with Berries & Yogurt',
           ingredients: ['oat flour', 'egg whites', 'Greek yogurt', 'mixed berries', 'maple syrup'],
-          fuelStory: 'Feels like brunch, performs like fuel. High protein, plenty of carbs, minimal junk so you hit the WOD feeling light.',
+          fuelStory: 'On training days breakfast must fuel the session without weighing you down. Oat flour and berries give carbs for glycogen; egg whites and yogurt add protein. You get a treat that actually powers the WOD.',
           kcal: 480,
           portions: [
             { amount: 60, unit: 'g', name: 'oat flour' },
@@ -118,7 +118,7 @@
           dishName: 'Rice cakes with peanut butter & banana',
           ingredients: ['rice cakes', 'peanut butter', 'banana'],
           timingHint: '45–60 min before training',
-          fuelStory: 'Easy-on-the-stomach carbs plus a little fat. You get quick fuel without feeling heavy on the rower.',
+          fuelStory: 'Pre-WOD you need carbs that digest fast and don\'t sit heavy. Rice cakes and banana give quick glucose; a little peanut butter avoids a sugar crash. So you\'re fueled for the rower or barbell without stomach issues.',
           kcal: 220,
           portions: [
             { amount: 2, unit: '', name: 'rice cakes' },
@@ -129,7 +129,7 @@
           mealType: 'lunch',
           dishName: 'Turkey Rice Bowl with Greens & Pickled Onion',
           ingredients: ['ground turkey', 'brown rice', 'mixed greens', 'pickled red onion', 'olive oil', 'lime'],
-          fuelStory: 'Lean turkey for repair, rice for refuel, greens for volume and micronutrients. Big bowl energy without the bloat.',
+          fuelStory: 'After (or between) training your body needs protein to repair and carbs to refill glycogen. Turkey delivers lean protein; rice refuels; greens add volume and micronutrients. So you recover without feeling stuffed.',
           kcal: 560,
           portions: [
             { amount: 140, unit: 'g', name: 'ground turkey (cooked)' },
@@ -141,7 +141,7 @@
           dishName: 'Chocolate milk-style shake',
           ingredients: ['cow milk or soy milk', 'cocoa powder', 'banana'],
           timingHint: 'Within 30 min after training',
-          fuelStory: 'Classic carb-plus-protein combo in a glass. Replaces what you burned without needing cutlery.',
+          fuelStory: 'Right after the WOD your muscles are primed to take in protein and carbs. Milk and banana replace glycogen and kick off repair in one drink—no chewing, just recovery.',
           kcal: 320,
           portions: [
             { amount: 250, unit: 'ml', name: 'milk' },
@@ -152,7 +152,7 @@
           mealType: 'dinner',
           dishName: 'Chicken Fajita Plate with Peppers & Rice',
           ingredients: ['chicken breast', 'bell peppers', 'onion', 'rice', 'spices', 'lime'],
-          fuelStory: 'Big flavors, simple macros. Real-food dinner that still keeps tomorrow\'s training in mind.',
+          fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken gives protein; peppers and rice refuel. So you close the day fed and ready for tomorrow\'s session.',
           kcal: 620,
           portions: [
             { amount: 160, unit: 'g', name: 'chicken breast' },
@@ -168,7 +168,7 @@
           mealType: 'breakfast',
           dishName: 'Egg & Potato Skillet with Spinach',
           ingredients: ['eggs', 'potato', 'spinach', 'olive oil'],
-          fuelStory: 'Eggs for protein, potatoes for go-power, greens so your body doesn\'t revolt later. Feels like a diner plate, acts like training fuel.',
+          fuelStory: 'On a training day you need carbs for the session and protein for repair. Eggs and potatoes deliver both; spinach adds iron and volume. So you get a satisfying breakfast that actually fuels the WOD.',
           kcal: 500,
           portions: [
             { amount: 2, unit: '', name: 'eggs' },
@@ -180,7 +180,7 @@
           dishName: 'Toast with jam',
           ingredients: ['white or sourdough bread', 'jam'],
           timingHint: '30–45 min before training',
-          fuelStory: 'Simple, fast carbs when you just need sugar in the tank. No fiber bomb, no stomach games.',
+          fuelStory: 'Right before the WOD you need quick glucose without fiber or bulk. Toast and jam give fast carbs so your muscles have fuel when you need it—and your stomach stays light.',
           kcal: 180,
           portions: [
             { amount: 2, unit: 'slices', name: 'bread' }
@@ -190,7 +190,7 @@
           mealType: 'lunch',
           dishName: 'Baked Salmon Grain Bowl',
           ingredients: ['salmon', 'farro', 'arugula', 'cherry tomatoes', 'olive oil', 'lemon'],
-          fuelStory: 'A bowl that does double duty: refuel and reduce inflammation from heavy lifts.',
+          fuelStory: 'After training you need to refill glycogen and calm inflammation. Salmon\'s omega-3s help recovery; farro restocks carbs; arugula and tomatoes add antioxidants. So you refuel and repair in one bowl.',
           kcal: 580,
           portions: [
             { amount: 140, unit: 'g', name: 'salmon' },
@@ -202,7 +202,7 @@
           dishName: 'Greek yogurt with honey & walnuts',
           ingredients: ['Greek yogurt', 'honey', 'walnuts'],
           timingHint: '30–60 min after training',
-          fuelStory: 'Protein and carbs plus a bit of crunch. Dessert energy with performance macros.',
+          fuelStory: 'In the recovery window, protein and carbs together boost muscle repair and glycogen refill. Yogurt and honey deliver both; walnuts add a bit of fat. So you kick off recovery without a heavy meal.',
           kcal: 320,
           portions: [
             { amount: 170, unit: 'g', name: 'Greek yogurt' },
@@ -213,7 +213,7 @@
           mealType: 'dinner',
           dishName: 'Shrimp Stir-Fry with Jasmine Rice',
           ingredients: ['shrimp', 'jasmine rice', 'snap peas', 'carrots', 'soy sauce', 'sesame oil'],
-          fuelStory: 'Quick-cooking shrimp for a light but serious protein hit. Rice tops up glycogen without sending you into a food coma.',
+          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Shrimp is light and high in protein; rice refuels. So you recover through the night and wake ready to train again.',
           kcal: 580,
           portions: [
             { amount: 140, unit: 'g', name: 'shrimp (peeled)' },
@@ -229,7 +229,7 @@
           mealType: 'breakfast',
           dishName: 'Bagel with Smoked Salmon & Cream Cheese',
           ingredients: ['bagel', 'smoked salmon', 'cream cheese', 'capers'],
-          fuelStory: 'High-carb, high-protein breakfast that feels like a treat and trains like a pro. Great for long sessions or double days.',
+          fuelStory: 'On training days you need carbs to fill glycogen and protein to protect muscle. This breakfast delivers both so you have energy for long sessions or double WODs—and it feels like a treat.',
           kcal: 520,
           portions: [
             { amount: 1, unit: '', name: 'bagel' },
@@ -241,7 +241,7 @@
           dishName: 'Orange & handful of pretzels',
           ingredients: ['orange', 'pretzels'],
           timingHint: '45–60 min before training',
-          fuelStory: 'Salt, carbs, and a bit of fluid. Easy to eat even when you\'re not hungry yet.',
+          fuelStory: 'Pre-WOD you need light, quick carbs and a bit of fluid so you\'re not hungry and not heavy. Pretzels and a drink give exactly that—easy to eat even when you\'re not hungry yet.',
           kcal: 200,
           portions: [
             { amount: 1, unit: '', name: 'orange' },
@@ -252,7 +252,7 @@
           mealType: 'lunch',
           dishName: 'Chicken Poke-Style Rice Bowl',
           ingredients: ['chicken breast', 'rice', 'edamame', 'cucumber', 'soy sauce', 'sesame oil'],
-          fuelStory: 'Bright, fresh bowl that covers carbs, protein, and crunch without feeling heavy.',
+          fuelStory: 'After training you need protein to repair and carbs to refill. This bowl gives both plus veg for volume and crunch—so you refuel without feeling stuffed before the next effort.',
           kcal: 560,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken breast' },
@@ -264,7 +264,7 @@
           dishName: 'Smoothie: berries, yogurt & oats',
           ingredients: ['mixed berries', 'Greek yogurt', 'oats', 'milk'],
           timingHint: 'Within 30 min after training',
-          fuelStory: 'Drinkable carbs and protein when chewing sounds like too much work.',
+          fuelStory: 'In the recovery window your body takes in protein and carbs best. A shake delivers both without chewing—so you kick off repair and glycogen refill even when you\'re not ready for a full meal.',
           kcal: 340,
           portions: [
             { amount: 0.5, unit: 'cup', name: 'mixed berries' },
@@ -275,7 +275,7 @@
           mealType: 'dinner',
           dishName: 'Beef & Sweet Potato Hash',
           ingredients: ['lean beef', 'sweet potato', 'onion', 'spinach', 'olive oil'],
-          fuelStory: 'Beef brings iron and creatine, sweet potato keeps glycogen stocked, and the pan does all the work.',
+          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Beef brings iron and creatine; sweet potato refills what you burned. So you recover through the night and wake ready to train again.',
           kcal: 620,
           portions: [
             { amount: 130, unit: 'g', name: 'lean beef' },
@@ -291,7 +291,7 @@
           mealType: 'breakfast',
           dishName: 'Breakfast Burrito with Eggs & Sweet Potato',
           ingredients: ['eggs', 'sweet potato', 'whole wheat tortilla', 'spinach', 'salsa', 'olive oil'],
-          fuelStory: 'Handheld carb and protein bomb that travels well. Eggs and sweet potato keep you fueled through long WODs without a sugar spike.',
+          fuelStory: 'On training days you need portable fuel that lasts. Eggs and sweet potato give protein and steady carbs—so you stay fueled through long WODs or a late session without a sugar crash.',
           kcal: 500,
           portions: [
             { amount: 2, unit: '', name: 'eggs' },
@@ -303,7 +303,7 @@
           dishName: 'Banana & small latte',
           ingredients: ['banana', 'milk', 'espresso'],
           timingHint: '60–90 min before training',
-          fuelStory: 'Bit of caffeine, bit of sugar, not a lot of anything else. Enough to wake you up and get you on the barbell.',
+          fuelStory: 'Pre-WOD you sometimes need a quick wake-up and a bit of glucose. Coffee and a small sweet hit give that without a full stomach—so you get on the barbell alert and fueled.',
           kcal: 190,
           portions: [
             { amount: 1, unit: '', name: 'banana' }
@@ -313,7 +313,7 @@
           mealType: 'lunch',
           dishName: 'Chicken & Quinoa Power Salad',
           ingredients: ['chicken breast', 'quinoa', 'mixed leaves', 'olive oil', 'lemon'],
-          fuelStory: 'Protein plus complex carbs and crunch. You get a huge bowl without a huge slump.',
+          fuelStory: 'After training your body needs protein to repair and carbs to refill glycogen. This bowl delivers both with volume and crunch—so you recover without a heavy slump before the next session.',
           kcal: 540,
           portions: [
             { amount: 140, unit: 'g', name: 'chicken breast' },
@@ -325,7 +325,7 @@
           dishName: 'Cottage cheese with pineapple & seeds',
           ingredients: ['cottage cheese', 'pineapple', 'pumpkin seeds'],
           timingHint: '30–60 min after training',
-          fuelStory: 'Slow-digesting protein with a bit of fruit sugar. Keeps the recovery signal going into the evening.',
+          fuelStory: 'Post-WOD recovery can extend into the evening. Cottage cheese gives slow-digesting protein; fruit adds a bit of sugar. So the repair signal stays on without a heavy meal before bed.',
           kcal: 300,
           portions: [
             { amount: 150, unit: 'g', name: 'cottage cheese' },
@@ -336,7 +336,7 @@
           mealType: 'dinner',
           dishName: 'Pasta with Chicken & Roasted Veg',
           ingredients: ['pasta', 'chicken breast', 'zucchini', 'tomato', 'olive oil', 'parmesan'],
-          fuelStory: 'Comfort food that still respects your macros. Carbs to refill, protein to repair, vegetables so tomorrow\'s digestion isn\'t mad.',
+          fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. This plate gives carbs to refill, protein to repair, and vegetables for digestion and nutrients—so you wake recovered and ready for tomorrow.',
           kcal: 650,
           portions: [
             { amount: 75, unit: 'g', name: 'dry pasta' },
@@ -348,51 +348,51 @@
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Scrambled Eggs with Rice & Salsa', ingredients: ['eggs', 'white rice', 'salsa', 'olive oil'], fuelStory: 'Carbs and protein in one pan. Quick to make, easy to eat before an early session.', kcal: 480, portions: [{ amount: 2, unit: '', name: 'eggs' }, { amount: 150, unit: 'g', name: 'cooked rice' }] },
-        { mealType: 'snackPreWod', dishName: 'Mashed banana on rice cakes', ingredients: ['banana', 'rice cakes'], timingHint: '45–60 min before', fuelStory: 'Simple sugars and light volume. No heavy stomach.', kcal: 200, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 2, unit: '', name: 'rice cakes' }] },
-        { mealType: 'lunch', dishName: 'Pork Tenderloin with Quinoa & Roasted Veg', ingredients: ['pork tenderloin', 'quinoa', 'bell peppers', 'zucchini', 'olive oil'], fuelStory: 'Lean protein and complex carbs. Fills you up without slowing you down.', kcal: 580, portions: [{ amount: 140, unit: 'g', name: 'pork tenderloin' }, { amount: 160, unit: 'g', name: 'cooked quinoa' }] },
-        { mealType: 'snackPostWod', dishName: 'Protein shake & banana', ingredients: ['protein powder', 'banana', 'milk or water'], timingHint: 'Within 30 min', fuelStory: 'Fast protein and carbs to kick off recovery.', kcal: 280, portions: [{ amount: 1, unit: 'scoop', name: 'protein powder' }, { amount: 1, unit: '', name: 'banana' }] },
-        { mealType: 'dinner', dishName: 'Turkey Meatballs with Marinara & Spaghetti', ingredients: ['ground turkey', 'pasta', 'tomato sauce', 'garlic', 'basil'], fuelStory: 'Classic post-training plate. Carbs and protein in a format you actually want to eat.', kcal: 620, portions: [{ amount: 130, unit: 'g', name: 'ground turkey' }, { amount: 70, unit: 'g', name: 'dry spaghetti' }] }
+        { mealType: 'breakfast', dishName: 'Scrambled Eggs with Rice & Salsa', ingredients: ['eggs', 'white rice', 'salsa', 'olive oil'], fuelStory: 'On training days breakfast must fuel the session. Eggs and rice give protein and carbs for glycogen—quick to make and easy to eat before an early WOD.', kcal: 480, portions: [{ amount: 2, unit: '', name: 'eggs' }, { amount: 150, unit: 'g', name: 'cooked rice' }] },
+        { mealType: 'snackPreWod', dishName: 'Mashed banana on rice cakes', ingredients: ['banana', 'rice cakes'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick carbs without bulk. Banana and rice cakes give simple sugars and light volume so your stomach stays light when you train.', kcal: 200, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 2, unit: '', name: 'rice cakes' }] },
+        { mealType: 'lunch', dishName: 'Pork Tenderloin with Quinoa & Roasted Veg', ingredients: ['pork tenderloin', 'quinoa', 'bell peppers', 'zucchini', 'olive oil'], fuelStory: 'After training you need protein to repair and carbs to refill. Pork and quinoa deliver both—so you recover without feeling heavy or sluggish.', kcal: 580, portions: [{ amount: 140, unit: 'g', name: 'pork tenderloin' }, { amount: 160, unit: 'g', name: 'cooked quinoa' }] },
+        { mealType: 'snackPostWod', dishName: 'Protein shake & banana', ingredients: ['protein powder', 'banana', 'milk or water'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window protein and carbs together boost repair and glycogen refill. A shake and banana deliver both fast—so recovery starts right after the WOD.', kcal: 280, portions: [{ amount: 1, unit: 'scoop', name: 'protein powder' }, { amount: 1, unit: '', name: 'banana' }] },
+        { mealType: 'dinner', dishName: 'Turkey Meatballs with Marinara & Spaghetti', ingredients: ['ground turkey', 'pasta', 'tomato sauce', 'garlic', 'basil'], fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Turkey and pasta give protein and carbs in a format you\'ll actually eat—so you close the day ready for tomorrow.', kcal: 620, portions: [{ amount: 130, unit: 'g', name: 'ground turkey' }, { amount: 70, unit: 'g', name: 'dry spaghetti' }] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Sweet Potato Hash with Eggs & Spinach', ingredients: ['sweet potato', 'eggs', 'spinach', 'onion', 'olive oil'], fuelStory: 'Hearty breakfast that fuels a long morning and a midday WOD.', kcal: 490, portions: [{ amount: 150, unit: 'g', name: 'sweet potato' }, { amount: 2, unit: '', name: 'eggs' }] },
-        { mealType: 'snackPreWod', dishName: 'Oat bar & small apple', ingredients: ['oat bar', 'apple'], timingHint: '60 min before', fuelStory: 'Portable carbs and a bit of fiber. Easy to eat on the go.', kcal: 220, portions: [{ amount: 1, unit: '', name: 'oat bar' }, { amount: 1, unit: '', name: 'apple' }] },
-        { mealType: 'lunch', dishName: 'Tuna Niçoise-Style Bowl with Rice', ingredients: ['tuna', 'rice', 'green beans', 'egg', 'olives', 'olive oil'], fuelStory: 'Protein and carbs with Mediterranean flair. Light but substantial.', kcal: 560, portions: [{ amount: 120, unit: 'g', name: 'tuna' }, { amount: 180, unit: 'g', name: 'cooked rice' }] },
-        { mealType: 'snackPostWod', dishName: 'Milk & honey with almonds', ingredients: ['milk', 'honey', 'almonds'], timingHint: 'Within 30 min', fuelStory: 'Simple recovery combo. Carbs, protein, and a touch of fat.', kcal: 300, portions: [{ amount: 250, unit: 'ml', name: 'milk' }, { amount: 15, unit: 'g', name: 'almonds' }] },
-        { mealType: 'dinner', dishName: 'Grilled Steak with Potato Wedges & Salad', ingredients: ['beef steak', 'potato', 'mixed greens', 'olive oil', 'lemon'], fuelStory: 'High protein and starchy carbs. Recovery and refuel in one plate.', kcal: 640, portions: [{ amount: 150, unit: 'g', name: 'beef steak' }, { amount: 200, unit: 'g', name: 'potato' }] }
+        { mealType: 'breakfast', dishName: 'Sweet Potato Hash with Eggs & Spinach', ingredients: ['sweet potato', 'eggs', 'spinach', 'onion', 'olive oil'], fuelStory: 'On training days you need carbs and protein from the start. Sweet potato and eggs give both so you have steady energy through the morning and into a midday WOD.', kcal: 490, portions: [{ amount: 150, unit: 'g', name: 'sweet potato' }, { amount: 2, unit: '', name: 'eggs' }] },
+        { mealType: 'snackPreWod', dishName: 'Oat bar & small apple', ingredients: ['oat bar', 'apple'], timingHint: '60 min before', fuelStory: 'Pre-WOD you need portable fuel that digests in time. Oat bar and apple give carbs and a bit of fiber—easy to eat on the go so you\'re fueled when you hit the box.', kcal: 220, portions: [{ amount: 1, unit: '', name: 'oat bar' }, { amount: 1, unit: '', name: 'apple' }] },
+        { mealType: 'lunch', dishName: 'Tuna Niçoise-Style Bowl with Rice', ingredients: ['tuna', 'rice', 'green beans', 'egg', 'olives', 'olive oil'], fuelStory: 'After training your body needs protein to repair and carbs to refill. Tuna and rice deliver both; greens and olives add nutrients. So you recover without feeling heavy.', kcal: 560, portions: [{ amount: 120, unit: 'g', name: 'tuna' }, { amount: 180, unit: 'g', name: 'cooked rice' }] },
+        { mealType: 'snackPostWod', dishName: 'Milk & honey with almonds', ingredients: ['milk', 'honey', 'almonds'], timingHint: 'Within 30 min', fuelStory: 'Right after the WOD your muscles take in protein and carbs best. Milk and honey give both; almonds add a touch of fat. So you kick off recovery without a full meal.', kcal: 300, portions: [{ amount: 250, unit: 'ml', name: 'milk' }, { amount: 15, unit: 'g', name: 'almonds' }] },
+        { mealType: 'dinner', dishName: 'Grilled Steak with Potato Wedges & Salad', ingredients: ['beef steak', 'potato', 'mixed greens', 'olive oil', 'lemon'], fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Steak and potatoes deliver both—so you recover through the night and wake ready to train again.', kcal: 640, portions: [{ amount: 150, unit: 'g', name: 'beef steak' }, { amount: 200, unit: 'g', name: 'potato' }] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'French Toast with Berries & Maple Syrup', ingredients: ['bread', 'eggs', 'berries', 'maple syrup', 'cinnamon'], fuelStory: 'High-carb breakfast that feels like a treat. Perfect before a tough session.', kcal: 520, portions: [{ amount: 2, unit: 'slices', name: 'bread' }, { amount: 2, unit: '', name: 'eggs' }] },
-        { mealType: 'snackPreWod', dishName: 'Dried fruit & nuts (small handful)', ingredients: ['dried apricots', 'almonds'], timingHint: '45–60 min before', fuelStory: 'Dense carbs and a bit of fat. No prep, no mess.', kcal: 180, portions: [{ amount: 30, unit: 'g', name: 'dried fruit' }, { amount: 10, unit: 'g', name: 'almonds' }] },
-        { mealType: 'lunch', dishName: 'Chicken & Rice Soup with Veg', ingredients: ['chicken breast', 'rice', 'carrots', 'celery', 'broth'], fuelStory: 'Warm, easy to digest, and full of what you need after a hard effort.', kcal: 480, portions: [{ amount: 120, unit: 'g', name: 'chicken breast' }, { amount: 80, unit: 'g', name: 'rice' }] },
-        { mealType: 'snackPostWod', dishName: 'Cream cheese & jam on crackers', ingredients: ['cream cheese', 'jam', 'crackers'], timingHint: 'Within 30 min', fuelStory: 'Quick carbs and a bit of protein. Tasty and effective.', kcal: 260, portions: [{ amount: 30, unit: 'g', name: 'cream cheese' }, { amount: 4, unit: '', name: 'crackers' }] },
-        { mealType: 'dinner', dishName: 'Lamb Chops with Couscous & Roasted Veg', ingredients: ['lamb chops', 'couscous', 'eggplant', 'tomato', 'olive oil'], fuelStory: 'Rich protein and carbs. A solid dinner to close a big day.', kcal: 660, portions: [{ amount: 140, unit: 'g', name: 'lamb chops' }, { amount: 150, unit: 'g', name: 'cooked couscous' }] }
+        { mealType: 'breakfast', dishName: 'French Toast with Berries & Maple Syrup', ingredients: ['bread', 'eggs', 'berries', 'maple syrup', 'cinnamon'], fuelStory: 'On training days you need carbs to fill glycogen before the WOD. French toast and berries deliver that in a form you\'ll actually eat—so you\'re fueled for a tough session.', kcal: 520, portions: [{ amount: 2, unit: 'slices', name: 'bread' }, { amount: 2, unit: '', name: 'eggs' }] },
+        { mealType: 'snackPreWod', dishName: 'Dried fruit & nuts (small handful)', ingredients: ['dried apricots', 'almonds'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick, portable fuel. Dried fruit gives dense carbs; a few nuts add a bit of fat so you don\'t spike and crash. No prep, no mess—just fuel when you need it.', kcal: 180, portions: [{ amount: 30, unit: 'g', name: 'dried fruit' }, { amount: 10, unit: 'g', name: 'almonds' }] },
+        { mealType: 'lunch', dishName: 'Chicken & Rice Soup with Veg', ingredients: ['chicken breast', 'rice', 'carrots', 'celery', 'broth'], fuelStory: 'After training you need protein to repair and carbs to refill. Chicken and rice soup is easy to digest and delivers both—so you recover without stressing your stomach after a hard effort.', kcal: 480, portions: [{ amount: 120, unit: 'g', name: 'chicken breast' }, { amount: 80, unit: 'g', name: 'rice' }] },
+        { mealType: 'snackPostWod', dishName: 'Cream cheese & jam on crackers', ingredients: ['cream cheese', 'jam', 'crackers'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window you need fast carbs and some protein. Crackers with jam and cream cheese give both—tasty and effective so you kick off repair without a heavy meal.', kcal: 260, portions: [{ amount: 30, unit: 'g', name: 'cream cheese' }, { amount: 4, unit: '', name: 'crackers' }] },
+        { mealType: 'dinner', dishName: 'Lamb Chops with Couscous & Roasted Veg', ingredients: ['lamb chops', 'couscous', 'eggplant', 'tomato', 'olive oil'], fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Lamb and couscous deliver both—so you close a big day recovered and ready for tomorrow\'s session.', kcal: 660, portions: [{ amount: 140, unit: 'g', name: 'lamb chops' }, { amount: 150, unit: 'g', name: 'cooked couscous' }] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Muesli with Milk, Banana & Honey', ingredients: ['muesli', 'milk', 'banana', 'honey'], fuelStory: 'Oats, fruit, and dairy. Steady energy for the first part of the day.', kcal: 460, portions: [{ amount: 70, unit: 'g', name: 'muesli' }, { amount: 200, unit: 'ml', name: 'milk' }] },
-        { mealType: 'snackPreWod', dishName: 'Smoothie: banana, oats, milk', ingredients: ['banana', 'oats', 'milk'], timingHint: '60 min before', fuelStory: 'Drinkable carbs. Easy when you don\'t feel like chewing.', kcal: 280, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 30, unit: 'g', name: 'oats' }] },
-        { mealType: 'lunch', dishName: 'Fish Tacos with Cabbage Slaw & Lime', ingredients: ['white fish', 'corn tortillas', 'cabbage', 'lime', 'avocado'], fuelStory: 'Lean protein and carbs. Fresh and light for a post-WOD lunch.', kcal: 540, portions: [{ amount: 130, unit: 'g', name: 'white fish' }, { amount: 3, unit: '', name: 'tortillas' }] },
-        { mealType: 'snackPostWod', dishName: 'Yogurt pot with granola & berries', ingredients: ['yogurt', 'granola', 'berries'], timingHint: 'Within 30 min', fuelStory: 'Classic recovery snack. Protein and carbs in one cup.', kcal: 320, portions: [{ amount: 150, unit: 'g', name: 'yogurt' }, { amount: 30, unit: 'g', name: 'granola' }] },
-        { mealType: 'dinner', dishName: 'Chicken Curry with Basmati Rice', ingredients: ['chicken thigh', 'basmati rice', 'coconut milk', 'curry paste', 'vegetables'], fuelStory: 'Warming and satisfying. Carbs and protein in a format that goes down easy.', kcal: 630, portions: [{ amount: 150, unit: 'g', name: 'chicken thigh' }, { amount: 180, unit: 'g', name: 'cooked rice' }] }
+        { mealType: 'breakfast', dishName: 'Muesli with Milk, Banana & Honey', ingredients: ['muesli', 'milk', 'banana', 'honey'], fuelStory: 'On training days breakfast should give steady carbs and some protein. Muesli, banana and milk deliver that so your energy holds through the morning and into the WOD.', kcal: 460, portions: [{ amount: 70, unit: 'g', name: 'muesli' }, { amount: 200, unit: 'ml', name: 'milk' }] },
+        { mealType: 'snackPreWod', dishName: 'Smoothie: banana, oats, milk', ingredients: ['banana', 'oats', 'milk'], timingHint: '60 min before', fuelStory: 'Pre-WOD you need carbs that digest in time. A smoothie gives drinkable carbs and a bit of protein—easy when you don\'t feel like chewing, so you\'re fueled without a full stomach.', kcal: 280, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 30, unit: 'g', name: 'oats' }] },
+        { mealType: 'lunch', dishName: 'Fish Tacos with Cabbage Slaw & Lime', ingredients: ['white fish', 'corn tortillas', 'cabbage', 'lime', 'avocado'], fuelStory: 'After training you need protein to repair and carbs to refill. Fish and tortillas deliver both; slaw adds crunch and nutrients. So you recover without feeling heavy after the WOD.', kcal: 540, portions: [{ amount: 130, unit: 'g', name: 'white fish' }, { amount: 3, unit: '', name: 'tortillas' }] },
+        { mealType: 'snackPostWod', dishName: 'Yogurt pot with granola & berries', ingredients: ['yogurt', 'granola', 'berries'], timingHint: 'Within 30 min', fuelStory: 'Right after the WOD your body absorbs protein and carbs best. Yogurt and granola give both in one cup—so you hit the recovery window and kick off repair without a full meal.', kcal: 320, portions: [{ amount: 150, unit: 'g', name: 'yogurt' }, { amount: 30, unit: 'g', name: 'granola' }] },
+        { mealType: 'dinner', dishName: 'Chicken Curry with Basmati Rice', ingredients: ['chicken thigh', 'basmati rice', 'coconut milk', 'curry paste', 'vegetables'], fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken curry and rice give protein and carbs in a format that goes down easy—so you recover and wake ready to train.', kcal: 630, portions: [{ amount: 150, unit: 'g', name: 'chicken thigh' }, { amount: 180, unit: 'g', name: 'cooked rice' }] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Breakfast Bowl: Rice, Egg, Avocado & Kimchi', ingredients: ['rice', 'egg', 'avocado', 'kimchi', 'sesame oil'], fuelStory: 'Savory start. Carbs, fat, and protein with a kick.', kcal: 530, portions: [{ amount: 160, unit: 'g', name: 'cooked rice' }, { amount: 1, unit: '', name: 'egg' }] },
-        { mealType: 'snackPreWod', dishName: 'Pear & handful of grapes', ingredients: ['pear', 'grapes'], timingHint: '45–60 min before', fuelStory: 'Fruit-based carbs. Light and quick.', kcal: 160, portions: [{ amount: 1, unit: '', name: 'pear' }, { amount: 80, unit: 'g', name: 'grapes' }] },
-        { mealType: 'lunch', dishName: 'Sardines on Toast with Tomato & Greens', ingredients: ['sardines', 'bread', 'tomato', 'arugula', 'lemon'], fuelStory: 'Omega-3s and carbs. Simple and powerful.', kcal: 500, portions: [{ amount: 1, unit: 'can', name: 'sardines' }, { amount: 2, unit: 'slices', name: 'bread' }] },
-        { mealType: 'snackPostWod', dishName: 'Chia pudding with fruit', ingredients: ['chia seeds', 'milk', 'mango', 'coconut'], timingHint: 'Within 30 min', fuelStory: 'Carbs and a bit of protein. Refreshing after a hot WOD.', kcal: 290, portions: [{ amount: 25, unit: 'g', name: 'chia seeds' }, { amount: 150, unit: 'ml', name: 'milk' }] },
-        { mealType: 'dinner', dishName: 'Stuffed Bell Peppers with Beef & Rice', ingredients: ['ground beef', 'rice', 'bell peppers', 'tomato', 'herbs'], fuelStory: 'All-in-one dinner. Protein and carbs in a single dish.', kcal: 600, portions: [{ amount: 120, unit: 'g', name: 'ground beef' }, { amount: 150, unit: 'g', name: 'cooked rice' }] }
+        { mealType: 'breakfast', dishName: 'Breakfast Bowl: Rice, Egg, Avocado & Kimchi', ingredients: ['rice', 'egg', 'avocado', 'kimchi', 'sesame oil'], fuelStory: 'On training days breakfast must fuel the session. Rice gives carbs for glycogen; egg and avocado add protein and fat. So you get a savory start that powers the WOD.', kcal: 530, portions: [{ amount: 160, unit: 'g', name: 'cooked rice' }, { amount: 1, unit: '', name: 'egg' }] },
+        { mealType: 'snackPreWod', dishName: 'Pear & handful of grapes', ingredients: ['pear', 'grapes'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick carbs without bulk. Pear and grapes give fruit-based glucose—light and quick so your stomach stays empty when you train.', kcal: 160, portions: [{ amount: 1, unit: '', name: 'pear' }, { amount: 80, unit: 'g', name: 'grapes' }] },
+        { mealType: 'lunch', dishName: 'Sardines on Toast with Tomato & Greens', ingredients: ['sardines', 'bread', 'tomato', 'arugula', 'lemon'], fuelStory: 'After training you need protein to repair and carbs to refill. Sardines bring omega-3s and protein; toast restocks glycogen. So you recover and calm inflammation in one simple meal.', kcal: 500, portions: [{ amount: 1, unit: 'can', name: 'sardines' }, { amount: 2, unit: 'slices', name: 'bread' }] },
+        { mealType: 'snackPostWod', dishName: 'Chia pudding with fruit', ingredients: ['chia seeds', 'milk', 'mango', 'coconut'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window you need protein and carbs. Chia and milk give both; fruit adds quick glucose. So you kick off repair after a hot WOD without a heavy meal.', kcal: 290, portions: [{ amount: 25, unit: 'g', name: 'chia seeds' }, { amount: 150, unit: 'ml', name: 'milk' }] },
+        { mealType: 'dinner', dishName: 'Stuffed Bell Peppers with Beef & Rice', ingredients: ['ground beef', 'rice', 'bell peppers', 'tomato', 'herbs'], fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Beef and rice give protein and carbs in one dish—so you recover through the night and wake ready to train again.', kcal: 600, portions: [{ amount: 120, unit: 'g', name: 'ground beef' }, { amount: 150, unit: 'g', name: 'cooked rice' }] }
       ]
     }
   ];
@@ -405,7 +405,7 @@
           mealType: 'breakfast',
           dishName: 'Eggs & Avocado on Sourdough',
           ingredients: ['eggs', 'avocado', 'sourdough bread', 'cherry tomatoes', 'salt', 'pepper'],
-          fuelStory: 'On rest days you don\'t need the same carb load. Eggs and avocado give you quality fat and protein for satiety and repair. Rest day is part of the work.',
+          fuelStory: 'On rest days you\'re not burning glycogen in a WOD, so you need less carbs and more focus on repair and satiety. Eggs and avocado give protein and healthy fats so you stay full and your body keeps repairing—rest day is part of the work.',
           kcal: 450,
           portions: [
             { amount: 2, unit: '', name: 'eggs' },
@@ -417,7 +417,7 @@
           mealType: 'lunch',
           dishName: 'Mediterranean Chickpea Bowl',
           ingredients: ['chickpeas', 'cucumber', 'tomato', 'red onion', 'feta', 'olive oil', 'oregano', 'lemon'],
-          fuelStory: 'Plant-based protein and fat, moderate carbs. Chickpeas provide fiber and steady energy. Satisfying, anti-inflammatory.',
+          fuelStory: 'On a rest day you don\'t need a big carb hit. Chickpeas give plant protein and fiber for steady energy; olive oil and feta add fat for satiety. So you stay full and support recovery without overfeeding.',
           kcal: 400,
           portions: [
             { amount: 1, unit: 'cup', name: 'cooked chickpeas' },
@@ -428,7 +428,7 @@
           mealType: 'dinner',
           dishName: 'Lean Beef Stir-Fry with Vegetables',
           ingredients: ['lean beef', 'bell peppers', 'broccoli', 'snap peas', 'soy sauce', 'rice', 'garlic'],
-          fuelStory: 'Beef brings creatine and iron; the veggies add volume and micronutrients. Supports repair and keeps you ready for tomorrow.',
+          fuelStory: 'Rest-day dinner: you need protein for repair and veggies for nutrients, without loading up on carbs you won\'t use. Beef brings creatine and iron; vegetables add volume and micronutrients. So you repair and stay ready for tomorrow\'s training.',
           kcal: 550,
           portions: [
             { amount: 120, unit: 'g', name: 'lean beef strips' },
@@ -440,7 +440,7 @@
           mealType: 'snack',
           dishName: 'Apple Slices with Almond Butter',
           ingredients: ['apple', 'almond butter', 'cinnamon'],
-          fuelStory: 'Light, real-food snack. Enough to keep hunger at bay. Fiber and fat for steady blood sugar.',
+          fuelStory: 'On rest days snacks should satisfy without spiking blood sugar. Apple and almond butter give fiber and fat for steady energy and hunger control—so you don\'t overeat and you support recovery.',
           kcal: 250,
           portions: [
             { amount: 1, unit: '', name: 'apple' },
@@ -456,7 +456,7 @@
           mealType: 'breakfast',
           dishName: 'Greek Yogurt Parfait with Nuts & Seeds',
           ingredients: ['Greek yogurt', 'walnuts', 'pumpkin seeds', 'berries', 'honey'],
-          fuelStory: 'High protein, moderate carbs, and healthy fats for a slow, steady morning. Keeps you full without a crash.',
+          fuelStory: 'On rest days breakfast can be lower in carbs and higher in protein and fat. Yogurt, nuts and seeds give satiety and support repair without a sugar spike—so you stay full and recovered without extra fuel you won\'t use.',
           kcal: 420,
           portions: [
             { amount: 170, unit: 'g', name: 'Greek yogurt' },
@@ -467,7 +467,7 @@
           mealType: 'lunch',
           dishName: 'Quinoa & Roasted Veggie Plate',
           ingredients: ['quinoa', 'zucchini', 'eggplant', 'bell peppers', 'olive oil', 'herbs'],
-          fuelStory: 'Color on a plate plus plant protein. Fiber and volume without a blood sugar rollercoaster.',
+          fuelStory: 'Rest day lunch: you need nutrients and satisfaction without a big carb load. Quinoa and roasted veg give plant protein, fiber and volume—so you stay full and support recovery without a blood sugar spike.',
           kcal: 430,
           portions: [
             { amount: 150, unit: 'g', name: 'cooked quinoa' },
@@ -478,7 +478,7 @@
           mealType: 'dinner',
           dishName: 'Herbed Chicken Thighs with Roasted Veg',
           ingredients: ['chicken thighs', 'carrots', 'Brussels sprouts', 'olive oil', 'garlic', 'thyme'],
-          fuelStory: 'A cozy, higher-fat meal for a lower-output day. Plenty of protein for repair without excessive carbs.',
+          fuelStory: 'On a rest day dinner should support repair without overfeeding. Chicken thighs give protein and a bit of fat; roasted veg add volume and nutrients. So you repair and sleep well without the extra carbs you\'d need on a training day.',
           kcal: 560,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken thighs' },
@@ -489,7 +489,7 @@
           mealType: 'snack',
           dishName: 'Carrot sticks with hummus',
           ingredients: ['carrots', 'hummus', 'paprika'],
-          fuelStory: 'Crisp, crunchy, and light. Enough to kill cravings without turning into a second lunch.',
+          fuelStory: 'Rest-day snacks should curb hunger without spiking insulin. Carrots and hummus give fiber and a bit of protein—so you stay satisfied and support recovery without overeating.',
           kcal: 220,
           portions: [
             { amount: 100, unit: 'g', name: 'carrot sticks' },
@@ -505,7 +505,7 @@
           mealType: 'breakfast',
           dishName: 'Veggie Omelette with Feta',
           ingredients: ['eggs', 'spinach', 'mushrooms', 'feta', 'olive oil'],
-          fuelStory: 'Low-carb, high-satiety breakfast that leans into protein and fat on your easier day.',
+          fuelStory: 'On rest days you don\'t need a carb-heavy start. This omelette gives protein and fat from eggs and feta, plus veg for volume. So you stay full and support repair without fuel you won\'t burn today.',
           kcal: 430,
           portions: [
             { amount: 2, unit: '', name: 'eggs' },
@@ -516,7 +516,7 @@
           mealType: 'lunch',
           dishName: 'Tuna Salad Lettuce Wraps',
           ingredients: ['canned tuna', 'Greek yogurt', 'celery', 'lettuce', 'lemon', 'mustard'],
-          fuelStory: 'High protein without the bread. Crunchy, salty, and light enough for a walk after.',
+          fuelStory: 'On rest days you need protein for repair without a big carb load. Tuna and yogurt give protein; lettuce keeps it light. So you stay full and support recovery without overfeeding.',
           kcal: 380,
           portions: [
             { amount: 1, unit: 'can', name: 'tuna' },
@@ -527,7 +527,7 @@
           mealType: 'dinner',
           dishName: 'Lentil Soup with Greens',
           ingredients: ['lentils', 'spinach', 'carrots', 'onion', 'vegetable broth', 'olive oil'],
-          fuelStory: 'Warm, slow, and grounding. Lentils bring plant protein and fiber that fit perfectly into a recovery day.',
+          fuelStory: 'Rest-day dinner: you need protein and fiber without excess carbs. Lentils give plant protein and slow-release energy; greens add volume. So you repair and stay satisfied without loading up for a session you didn\'t do.',
           kcal: 480,
           portions: [
             { amount: 1, unit: 'cup', name: 'cooked lentils' },
@@ -538,7 +538,7 @@
           mealType: 'snack',
           dishName: 'Dark chocolate & almonds',
           ingredients: ['dark chocolate', 'almonds'],
-          fuelStory: 'A small, deliberate treat instead of accidental snacking. Fat and a touch of sweetness take the edge off cravings.',
+          fuelStory: 'On rest days snacks should satisfy without spiking blood sugar. Dark chocolate and almonds give fat and a touch of sweetness—so you curb cravings and avoid overeating while your body focuses on repair.',
           kcal: 230,
           portions: [
             { amount: 15, unit: 'g', name: 'dark chocolate' },
@@ -554,7 +554,7 @@
           mealType: 'breakfast',
           dishName: 'Chia Pudding with Berries',
           ingredients: ['chia seeds', 'milk or plant milk', 'berries', 'vanilla'],
-          fuelStory: 'Fiber and fat up front so you\'re not thinking about food every hour. Light sweetness, heavy satiety.',
+          fuelStory: 'On rest days breakfast can be lower in carbs and higher in fat and fiber. Chia and milk give both; berries add light sweetness. So you stay full and support recovery without the carb load you\'d need on a training day.',
           kcal: 380,
           portions: [
             { amount: 30, unit: 'g', name: 'chia seeds' },
@@ -565,7 +565,7 @@
           mealType: 'lunch',
           dishName: 'Grain-free Chicken Salad Plate',
           ingredients: ['chicken breast', 'mixed greens', 'avocado', 'olive oil', 'lemon'],
-          fuelStory: 'Protein plus fats, almost no grains. Great if your body wants a lighter carb day.',
+          fuelStory: 'Rest-day lunch: you need protein for repair without a big carb hit. Chicken and avocado give protein and healthy fats; greens add volume. So you stay full and support recovery without the refuel load of a training day.',
           kcal: 420,
           portions: [
             { amount: 130, unit: 'g', name: 'chicken breast' },
@@ -576,7 +576,7 @@
           mealType: 'dinner',
           dishName: 'Baked Cod with Roasted Vegetables',
           ingredients: ['cod fillet', 'broccoli', 'carrots', 'olive oil', 'lemon'],
-          fuelStory: 'Lean protein and vegetables to close the day without overloading your system.',
+          fuelStory: 'Rest-day dinner should support repair without excess carbs. Cod gives lean protein; roasted veg add nutrients and volume. So you close the day recovered and ready for tomorrow without overloading your system.',
           kcal: 440,
           portions: [
             { amount: 150, unit: 'g', name: 'cod fillet' },
@@ -587,7 +587,7 @@
           mealType: 'snack',
           dishName: 'Yogurt with cinnamon & seeds',
           ingredients: ['plain yogurt', 'mixed seeds', 'cinnamon'],
-          fuelStory: 'Simple protein snack to bridge the gap between meals on lower-output days.',
+          fuelStory: 'On rest days snacks should bridge hunger without spiking insulin. Yogurt and seeds give protein and a bit of fat—so you stay satisfied and support repair without the quick carbs you\'d need around a WOD.',
           kcal: 210,
           portions: [
             { amount: 120, unit: 'g', name: 'yogurt' },
@@ -603,7 +603,7 @@
           mealType: 'breakfast',
           dishName: 'Overnight oats with berries & peanut butter',
           ingredients: ['oats', 'milk or plant milk', 'berries', 'peanut butter'],
-          fuelStory: 'Rest-day oats: smaller portion, more fats. Your muscles still get carbs, your appetite gets something cozy.',
+          fuelStory: 'On rest days you need less carb and more satiety. Overnight oats with peanut butter give a smaller carb portion and more fat—so you stay full and support repair without the fuel load of a training-day breakfast.',
           kcal: 420,
           portions: [
             { amount: 40, unit: 'g', name: 'oats' },
@@ -614,7 +614,7 @@
           mealType: 'lunch',
           dishName: 'Stuffed Sweet Potato with Black Beans & Salsa',
           ingredients: ['sweet potato', 'black beans', 'salsa', 'Greek yogurt'],
-          fuelStory: 'Fiber-heavy comfort food that still respects your macros. Plant protein and slow carbs keep you full all afternoon.',
+          fuelStory: 'Rest-day lunch: you need satisfaction and nutrients without a big refuel. Sweet potato and black beans give fiber, plant protein and slow carbs—so you stay full and support recovery without the glycogen load of a training day.',
           kcal: 460,
           portions: [
             { amount: 1, unit: 'medium', name: 'sweet potato' },
@@ -625,7 +625,7 @@
           mealType: 'dinner',
           dishName: 'Turkey Lettuce Taco Night',
           ingredients: ['ground turkey', 'lettuce', 'tomato', 'cheese', 'salsa'],
-          fuelStory: 'All the fun of taco night with a gentler carb hit. Great on a day when you moved less but still want something fun.',
+          fuelStory: 'Rest-day dinner: protein for repair without a heavy carb load. Turkey in lettuce wraps gives the fun of tacos with fewer carbs—so you repair and enjoy the meal without overfeeding on a day you didn\'t train.',
           kcal: 520,
           portions: [
             { amount: 140, unit: 'g', name: 'ground turkey (cooked)' },
@@ -636,7 +636,7 @@
           mealType: 'snack',
           dishName: 'Cottage cheese with cucumber & olive oil',
           ingredients: ['cottage cheese', 'cucumber', 'olive oil', 'pepper'],
-          fuelStory: 'Savory protein snack when you\'re not in the mood for sweet. Keeps you from diving into the pantry.',
+          fuelStory: 'On rest days snacks should satisfy without spiking blood sugar. Cottage cheese and cucumber give protein and volume—so you curb hunger and support repair without reaching for quick carbs.',
           kcal: 230,
           portions: [
             { amount: 150, unit: 'g', name: 'cottage cheese' },
@@ -648,19 +648,19 @@
     {
       dayType: 'rest',
       meals: [
-        { mealType: 'breakfast', dishName: 'Smoked Salmon & Cream Cheese on Rye', ingredients: ['smoked salmon', 'cream cheese', 'rye bread', 'capers'], fuelStory: 'Quality fat and protein. Rest-day luxury without a carb overload.', kcal: 420, portions: [{ amount: 60, unit: 'g', name: 'smoked salmon' }, { amount: 1, unit: 'slice', name: 'rye bread' }] },
-        { mealType: 'lunch', dishName: 'White Bean & Tuna Salad with Olive Oil', ingredients: ['cannellini beans', 'tuna', 'red onion', 'olive oil', 'lemon'], fuelStory: 'Protein and fiber. Filling and anti-inflammatory.', kcal: 450, portions: [{ amount: 1, unit: 'cup', name: 'white beans' }, { amount: 80, unit: 'g', name: 'tuna' }] },
-        { mealType: 'dinner', dishName: 'Roast Chicken with Root Vegetables', ingredients: ['chicken leg', 'carrots', 'parsnip', 'onion', 'olive oil'], fuelStory: 'Comforting and simple. Protein and veg without heavy carbs.', kcal: 520, portions: [{ amount: 150, unit: 'g', name: 'chicken leg' }, { amount: 1, unit: 'cup', name: 'root vegetables' }] },
-        { mealType: 'snack', dishName: 'Handful of olives & cherry tomatoes', ingredients: ['olives', 'cherry tomatoes'], fuelStory: 'Savory, light. Enough to tide you over.', kcal: 120, portions: [{ amount: 30, unit: 'g', name: 'olives' }, { amount: 6, unit: '', name: 'cherry tomatoes' }] }
+        { mealType: 'breakfast', dishName: 'Smoked Salmon & Cream Cheese on Rye', ingredients: ['smoked salmon', 'cream cheese', 'rye bread', 'capers'], fuelStory: 'On rest days breakfast can focus on protein and fat instead of carbs. Smoked salmon and cream cheese give both—so you stay full and support repair without the glycogen load you\'d need on a training day.', kcal: 420, portions: [{ amount: 60, unit: 'g', name: 'smoked salmon' }, { amount: 1, unit: 'slice', name: 'rye bread' }] },
+        { mealType: 'lunch', dishName: 'White Bean & Tuna Salad with Olive Oil', ingredients: ['cannellini beans', 'tuna', 'red onion', 'olive oil', 'lemon'], fuelStory: 'Rest-day lunch: you need protein and satisfaction without a big carb hit. White beans and tuna give protein and fiber—so you stay full and support recovery with anti-inflammatory, steady energy.', kcal: 450, portions: [{ amount: 1, unit: 'cup', name: 'white beans' }, { amount: 80, unit: 'g', name: 'tuna' }] },
+        { mealType: 'dinner', dishName: 'Roast Chicken with Root Vegetables', ingredients: ['chicken leg', 'carrots', 'parsnip', 'onion', 'olive oil'], fuelStory: 'Rest-day dinner should support repair without excess carbs. Chicken and root veg give protein and nutrients—so you close the day recovered and ready for tomorrow without the refuel load of a training day.', kcal: 520, portions: [{ amount: 150, unit: 'g', name: 'chicken leg' }, { amount: 1, unit: 'cup', name: 'root vegetables' }] },
+        { mealType: 'snack', dishName: 'Handful of olives & cherry tomatoes', ingredients: ['olives', 'cherry tomatoes'], fuelStory: 'On rest days snacks should curb hunger without spiking blood sugar. Olives and tomatoes give fat and a bit of volume—so you tide yourself over and support recovery without reaching for quick carbs.', kcal: 120, portions: [{ amount: 30, unit: 'g', name: 'olives' }, { amount: 6, unit: '', name: 'cherry tomatoes' }] }
       ]
     },
     {
       dayType: 'rest',
       meals: [
-        { mealType: 'breakfast', dishName: 'Cottage Cheese Bowl with Peach & Mint', ingredients: ['cottage cheese', 'peach', 'mint', 'walnuts'], fuelStory: 'High protein, moderate carbs. Refreshing and satisfying.', kcal: 350, portions: [{ amount: 180, unit: 'g', name: 'cottage cheese' }, { amount: 1, unit: '', name: 'peach' }] },
-        { mealType: 'lunch', dishName: 'Grilled Halloumi & Watermelon Salad', ingredients: ['halloumi', 'watermelon', 'cucumber', 'mint', 'olive oil'], fuelStory: 'Salty and sweet. Protein and hydration in one plate.', kcal: 440, portions: [{ amount: 100, unit: 'g', name: 'halloumi' }, { amount: 150, unit: 'g', name: 'watermelon' }] },
-        { mealType: 'dinner', dishName: 'Mackerel with Roasted Fennel & Lemon', ingredients: ['mackerel', 'fennel', 'lemon', 'olive oil'], fuelStory: 'Omega-3s and veg. Light but nutrient-dense.', kcal: 480, portions: [{ amount: 150, unit: 'g', name: 'mackerel' }, { amount: 1, unit: 'bulb', name: 'fennel' }] },
-        { mealType: 'snack', dishName: 'Rice cake with almond butter', ingredients: ['rice cake', 'almond butter'], fuelStory: 'Light crunch. Just enough to curb hunger.', kcal: 180, portions: [{ amount: 1, unit: '', name: 'rice cake' }, { amount: 1, unit: 'tbsp', name: 'almond butter' }] }
+        { mealType: 'breakfast', dishName: 'Cottage Cheese Bowl with Peach & Mint', ingredients: ['cottage cheese', 'peach', 'mint', 'walnuts'], fuelStory: 'On rest days breakfast can lean on protein and moderate carbs. Cottage cheese and peach give both—so you stay full and support repair without the big carb load of a training-day start.', kcal: 350, portions: [{ amount: 180, unit: 'g', name: 'cottage cheese' }, { amount: 1, unit: '', name: 'peach' }] },
+        { mealType: 'lunch', dishName: 'Grilled Halloumi & Watermelon Salad', ingredients: ['halloumi', 'watermelon', 'cucumber', 'mint', 'olive oil'], fuelStory: 'Rest-day lunch: you need protein and satisfaction without a heavy refuel. Halloumi and watermelon give protein, hydration and a lighter carb hit—so you stay full and support recovery without overfeeding.', kcal: 440, portions: [{ amount: 100, unit: 'g', name: 'halloumi' }, { amount: 150, unit: 'g', name: 'watermelon' }] },
+        { mealType: 'dinner', dishName: 'Mackerel with Roasted Fennel & Lemon', ingredients: ['mackerel', 'fennel', 'lemon', 'olive oil'], fuelStory: 'Rest-day dinner: protein and healthy fats for repair without a big carb load. Mackerel\'s omega-3s support recovery; fennel adds volume and nutrients. So you close the day recovered and ready for tomorrow.', kcal: 480, portions: [{ amount: 150, unit: 'g', name: 'mackerel' }, { amount: 1, unit: 'bulb', name: 'fennel' }] },
+        { mealType: 'snack', dishName: 'Rice cake with almond butter', ingredients: ['rice cake', 'almond butter'], fuelStory: 'On rest days snacks should satisfy without spiking insulin. Rice cake and almond butter give a bit of carb and fat—so you curb hunger and support recovery without the quick-fuel load you\'d need before a WOD.', kcal: 180, portions: [{ amount: 1, unit: '', name: 'rice cake' }, { amount: 1, unit: 'tbsp', name: 'almond butter' }] }
       ]
     },
     {
@@ -1066,6 +1066,15 @@
 
   btnWod?.addEventListener('click', () => setDay('wod'));
   btnRest?.addEventListener('click', () => setDay('rest'));
+
+  const dayTypeWhy = document.getElementById('day-type-why');
+  const btnDayTypeWhy = document.getElementById('btn-day-type-why');
+  if (dayTypeWhy && btnDayTypeWhy) {
+    btnDayTypeWhy.addEventListener('click', function () {
+      const open = dayTypeWhy.classList.toggle('open');
+      btnDayTypeWhy.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
   function getMenuForDay(dayType) {
     const pool = dayType === 'wod' ? MENUS_WOD : MENUS_REST;

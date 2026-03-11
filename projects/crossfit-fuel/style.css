@@ -185,6 +185,59 @@ body {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.day-type-why {
+  margin-top: 1rem;
+}
+.day-type-why-trigger {
+  font-family: var(--font);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color 0.2s;
+}
+.day-type-why-trigger:hover {
+  color: var(--text-primary);
+}
+.day-type-why-trigger:focus-visible {
+  outline: 2px solid var(--accent-cta);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.day-type-why-trigger[aria-expanded="true"]::after {
+  content: ' \25B2';
+  font-size: 0.65em;
+  vertical-align: middle;
+}
+.day-type-why-trigger[aria-expanded="false"]::after {
+  content: ' \25BC';
+  font-size: 0.65em;
+  vertical-align: middle;
+}
+.day-type-why-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--ease);
+}
+.day-type-why.open .day-type-why-content {
+  max-height: 220px;
+}
+.day-type-why-block {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0.75rem 0 0;
+  padding: 0.6rem 0;
+  border-left: 3px solid var(--border);
+  padding-left: 0.75rem;
+}
+.day-type-why-wod { border-left-color: var(--accent-wod); }
+.day-type-why-rest { border-left-color: var(--accent-rest); }
+
 .actions { margin-top: 1.75rem; margin-bottom: 1.5rem; }
 .btn-cta {
   width: 100%;
@@ -505,13 +558,16 @@ body {
 .calories-adjust-row input {
   min-width: 5ch;
   width: 5ch;
-  padding: 0.4rem 0.35rem;
+  padding: 0.4rem 0.4rem;
   font-family: var(--font);
   font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-primary);
+  box-sizing: content-box;
 }
 .calories-adjust-row input[type="number"] {
   -moz-appearance: textfield;

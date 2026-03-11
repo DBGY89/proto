@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossFit Fuel — 10 tooltip placement options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0a1a;
+      --bg-card: #111128;
+      --border: #1e1e3a;
+      --accent-wod: #ff4d00;
+      --accent-rest: #00c4ff;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --font: 'Space Grotesk', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      padding: 2rem 1.25rem 4rem;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+    .intro {
+      max-width: 560px;
+      margin-bottom: 3rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .option {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .option h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-wod);
+      margin-bottom: 0.5rem;
+    }
+    .option p.desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    .mock {
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 1.25rem;
+      min-height: 180px;
+      position: relative;
+    }
+    .mock .selector-header { text-align: center; margin-bottom: 1rem; }
+    .mock .selector-logo { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .mock .selector-tagline { font-size: 0.8rem; color: var(--text-secondary); }
+    .mock .day-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .mock .day-btn {
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      background: var(--bg-card);
+      text-align: center;
+      font-family: var(--font);
+      font-size: 0.7rem;
+    }
+    .mock .day-btn-label { font-weight: 700; display: block; }
+    .mock .day-btn-sublabel { font-size: 0.65rem; color: var(--text-secondary); }
+    .mock .btn-cta {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: none;
+      background: #2a2a4a;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.8rem;
+    }
+    .info-btn {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      border: 1px solid var(--text-secondary);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.65rem;
+      font-weight: 700;
+      font-style: italic;
+      cursor: help;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+    }
+    .tooltip-demo {
+      font-size: 0.7rem;
+      padding: 0.5rem 0.6rem;
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      max-width: 240px;
+      line-height: 1.4;
+      margin-top: 0.35rem;
+    }
+    .tooltip-demo strong { color: var(--text-primary); }
+    .tooltip-wod { border-left: 3px solid var(--accent-wod); }
+    .tooltip-rest { border-left: 3px solid var(--accent-rest); }
+    .badge-option { position: absolute; top: 0.75rem; right: 0.75rem; font-size: 0.65rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+  <h1>CrossFit Fuel — 10 tooltip placement options</h1>
+  <p class="intro">Cada opción muestra dónde iría el icono (i) y el tooltip. En la app real, un tooltip por tipo de día: uno para “Training day” y otro para “Rest day”. Pasa el ratón sobre los (i) para ver el texto (en esta demo los tooltips están siempre visibles para comparar).</p>
+
+  <!-- Option 1: (i) next to tagline, single tooltip -->
+  <div class="option">
+    <span class="badge-option">Option 1</span>
+    <h2>1. (i) junto al tagline — un solo tooltip</h2>
+    <p class="desc">Icono debajo del tagline, centrado. Al hover se muestra un único tooltip que explica ambos tipos de día.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it. <button class="info-btn" type="button">i</button></p>
+      </header>
+      <div class="tooltip-demo" style="margin: 0 auto 0.75rem;">Why does day type matter? Training day: more carbs + protein to fuel and recover. Rest day: fewer carbs, more fats/fiber for repair and satiety.</div>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 2: (i) on each card, tooltip per type -->
+  <div class="option">
+    <span class="badge-option">Option 2</span>
+    <h2>2. (i) en cada tarjeta — un tooltip por tipo</h2>
+    <p class="desc">Icono en la esquina superior derecha de cada botón (WOD / Rest). Hover en WOD muestra solo “por qué training day”; hover en Rest muestra solo “por qué rest day”.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <div style="position: relative;">
+          <button type="button" class="day-btn" style="padding-top: 1.5rem;">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+          <button class="info-btn" type="button" style="position: absolute; top: 0.35rem; right: 0.35rem;">i</button>
+          <div class="tooltip-demo tooltip-wod" style="position: absolute; top: 100%; left: 0; margin-top: 0.25rem; z-index: 2;">Training day: more carbs to fill glycogen and fuel the session, plus protein to repair. Meals timed—pre-WOD light, post-WOD recovery window.</div>
+        </div>
+        <div style="position: relative;">
+          <button type="button" class="day-btn" style="padding-top: 1.5rem;">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+          <button class="info-btn" type="button" style="position: absolute; top: 0.35rem; right: 0.35rem;">i</button>
+          <div class="tooltip-demo tooltip-rest" style="position: absolute; top: 100%; left: 0; margin-top: 0.25rem; z-index: 2;">Rest day: no session to fuel—fewer carbs, more protein, fats and fiber for repair and satiety without overfeeding.</div>
+        </div>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 3: (i) next to each label inside the card -->
+  <div class="option">
+    <span class="badge-option">Option 3</span>
+    <h2>3. (i) junto al nombre de cada opción (dentro del botón)</h2>
+    <p class="desc">“CROSSFIT DAY (i)” y “REST DAY (i)” dentro de cada tarjeta. Tooltip específico al hacer hover en cada (i).</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <div style="position: relative;">
+          <button type="button" class="day-btn">CROSSFIT DAY <button class="info-btn" type="button">i</button><br><span class="day-btn-sublabel">You're training today</span></button>
+          <div class="tooltip-demo tooltip-wod" style="position: absolute; bottom: 100%; left: 0; margin-bottom: 0.25rem;">Training day: more carbs + protein to fuel and recover.</div>
+        </div>
+        <div style="position: relative;">
+          <button type="button" class="day-btn">REST DAY <button class="info-btn" type="button">i</button><br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+          <div class="tooltip-demo tooltip-rest" style="position: absolute; bottom: 100%; right: 0; margin-bottom: 0.25rem;">Rest day: fewer carbs, more fats/fiber for repair and satiety.</div>
+        </div>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 4: Expandable line below cards -->
+  <div class="option">
+    <span class="badge-option">Option 4</span>
+    <h2>4. Línea expandible debajo de las tarjetas</h2>
+    <p class="desc">Texto “Why does day type matter?” debajo de los dos botones. Al clic se expande un bloque con dos párrafos: “Training day” y “Rest day”.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; text-decoration: underline; cursor: pointer;">Why does day type matter? ▼</p>
+      <div class="tooltip-demo" style="margin-top: 0.5rem;"><strong>Training day:</strong> More carbs + protein to fuel and recover.<br><strong>Rest day:</strong> Fewer carbs, more fats/fiber for repair and satiety.</div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 5: (i) next to title CROSSFIT FUEL -->
+  <div class="option">
+    <span class="badge-option">Option 5</span>
+    <h2>5. (i) junto al título “CROSSFIT FUEL”</h2>
+    <p class="desc">Icono a la derecha del logo/título. Un solo tooltip que resume ambos tipos de día.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo" style="display: inline-flex; align-items: center; gap: 0.35rem;">CROSSFIT FUEL <button class="info-btn" type="button">i</button></h1>
+        <div class="tooltip-demo" style="margin: 0.5rem auto 0;">Why day type matters: Training = more carbs + protein. Rest = fewer carbs, more fats/fiber.</div>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 6: (i) next to "Generate my menu" -->
+  <div class="option">
+    <span class="badge-option">Option 6</span>
+    <h2>6. (i) junto al CTA “Generate my menu”</h2>
+    <p class="desc">Icono al lado del botón verde. Tooltip: “We’ll tailor the menu to your day type: training = more carbs; rest = more fats and fiber.”</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+        <button type="button" class="btn-cta" style="flex: 1;">Generate my menu</button>
+        <button class="info-btn" type="button">i</button>
+      </div>
+      <div class="tooltip-demo" style="margin-top: 0.35rem;">Menu is tailored to your choice: training day = more carbs + protein; rest day = more fats and fiber for repair.</div>
+    </div>
+  </div>
+
+  <!-- Option 7: Two links under tagline -->
+  <div class="option">
+    <span class="badge-option">Option 7</span>
+    <h2>7. Dos enlaces bajo el tagline</h2>
+    <p class="desc">“Why training day?” y “Why rest day?” como texto clicable. Cada uno abre o muestra su tooltip.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+        <p style="font-size: 0.75rem; margin-top: 0.5rem;"><span style="text-decoration: underline; cursor: pointer; color: var(--accent-wod);">Why training day?</span> · <span style="text-decoration: underline; cursor: pointer; color: var(--accent-rest);">Why rest day?</span></p>
+      </header>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 8: Tooltip under sublabel on each card -->
+  <div class="option">
+    <span class="badge-option">Option 8</span>
+    <h2>8. Texto “Why?” bajo la descripción de cada tarjeta</h2>
+    <p class="desc">Debajo de “You're training today” y “Recovery is part of the work” un pequeño “Why? (i)”. Hover muestra el tooltip de ese tipo.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <div>
+          <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span><br><span style="font-size: 0.6rem; color: var(--text-secondary);">Why? <button class="info-btn" type="button">i</button></span></button>
+          <div class="tooltip-demo tooltip-wod" style="margin-top: 0.25rem;">More carbs + protein to fuel the session and recover.</div>
+        </div>
+        <div>
+          <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span><br><span style="font-size: 0.6rem; color: var(--text-secondary);">Why? <button class="info-btn" type="button">i</button></span></button>
+          <div class="tooltip-demo tooltip-rest" style="margin-top: 0.25rem;">Fewer carbs, more fats/fiber for repair and satiety.</div>
+        </div>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 9: (i) top-right of section -->
+  <div class="option">
+    <span class="badge-option">Option 9</span>
+    <h2>9. (i) en la esquina superior derecha del bloque selector</h2>
+    <p class="desc">Un solo icono flotante en la esquina del contenedor. Al hover, tooltip que explica ambos tipos.</p>
+    <div class="mock" style="position: relative;">
+      <button class="info-btn" type="button" style="position: absolute; top: 0.5rem; right: 0.5rem;">i</button>
+      <div class="tooltip-demo" style="position: absolute; top: 2rem; right: 0.5rem;">Why day type matters: Training = more carbs + protein. Rest = fewer carbs, more fats/fiber.</div>
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+  <!-- Option 10: Above the cards, two (i) side by side -->
+  <div class="option">
+    <span class="badge-option">Option 10</span>
+    <h2>10. Dos (i) encima de las tarjetas, uno por tipo</h2>
+    <p class="desc">Sobre el grid: “Training day (i)” a la izquierda y “Rest day (i)” a la derecha, alineados con cada columna. Cada uno muestra su tooltip.</p>
+    <div class="mock">
+      <header class="selector-header">
+        <h1 class="selector-logo">CROSSFIT FUEL</h1>
+        <p class="selector-tagline">Give your body what it needs, when it needs it.</p>
+      </header>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; font-size: 0.75rem;">
+        <div style="text-align: center;">Training day <button class="info-btn" type="button">i</button></div>
+        <div style="text-align: center;">Rest day <button class="info-btn" type="button">i</button></div>
+      </div>
+      <div class="day-selector">
+        <button type="button" class="day-btn">CROSSFIT DAY<br><span class="day-btn-sublabel">You're training today</span></button>
+        <button type="button" class="day-btn">REST DAY<br><span class="day-btn-sublabel">Recovery is part of the work</span></button>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.5rem;">
+        <div class="tooltip-demo tooltip-wod">Training: more carbs + protein to fuel and recover.</div>
+        <div class="tooltip-demo tooltip-rest">Rest: fewer carbs, more fats/fiber for repair.</div>
+      </div>
+      <button type="button" class="btn-cta">Generate my menu</button>
+    </div>
+  </div>
+
+</body>
+</html>
