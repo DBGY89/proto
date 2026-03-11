@@ -434,6 +434,7 @@ body {
     margin-top: 0.5rem;
   }
   .macro-legend .macro-legend-item {
+    justify-content: flex-start;
     padding: 0.35rem 0.2rem;
     font-size: 0.72rem;
   }
