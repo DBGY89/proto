@@ -34,12 +34,6 @@
         </button>
       </div>
 
-      <div class="filters-row" id="filters" aria-label="Dietary filters">
-        <button type="button" class="filter-chip" data-filter="vegan" aria-pressed="false">Vegan</button>
-        <button type="button" class="filter-chip" data-filter="glutenFree" aria-pressed="false">Gluten-free</button>
-        <button type="button" class="filter-chip" data-filter="dairyFree" aria-pressed="false">Dairy-free</button>
-      </div>
-
       <div class="actions">
         <button type="button" class="btn-cta" id="btn-generate" disabled>Generate my menu</button>
       </div>
@@ -87,38 +81,62 @@
 
       <div class="menu-cards" id="menu-cards"></div>
 
-      <div class="menu-footer-actions">
-        <button type="button" class="btn-footer btn-footer--primary" id="btn-download-menu">Download menu</button>
-        <div class="share-dropdown-wrap share-dropdown-wrap--up">
-          <button type="button" class="btn-footer" id="btn-share-toggle" aria-haspopup="true" aria-expanded="false">Share</button>
-          <div class="share-dropdown share-dropdown--up hidden" id="share-dropdown">
-            <a href="#" class="share-option" id="share-email">Email</a>
-            <a href="#" class="share-option" id="share-whatsapp">WhatsApp</a>
-            <a href="#" class="share-option" id="share-instagram">Instagram</a>
-          </div>
+      <div class="vote-widget-wrap">
+        <div class="vote-widget" data-project="crossfit-fuel" aria-label="Rate this prototype">
+          <span class="vote-label">Rate this prototype</span>
+          <span class="vote-nums">
+            <span class="vote-num" data-value="1">1</span>
+            <span class="vote-num" data-value="2">2</span>
+            <span class="vote-num" data-value="3">3</span>
+            <span class="vote-num" data-value="4">4</span>
+            <span class="vote-num" data-value="5">5</span>
+          </span>
+          <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
         </div>
       </div>
     </section>
-
-    <!-- Share card for html2canvas -->
-    <div class="share-card-wrap hidden" id="share-card-wrap">
-      <div class="share-card" id="share-card">
-        <div class="share-card-inner">
-          <p class="share-card-header">CrossFit Fuel · Feed the Beast</p>
-          <p class="share-card-day" id="share-card-day"></p>
-          <div class="share-card-meals" id="share-card-meals"></div>
-          <p class="share-card-phrase" id="share-card-phrase"></p>
-          <p class="share-card-footer">aiprotolab.es/crossfit-fuel</p>
-        </div>
-      </div>
-    </div>
   </main>
 
   <footer class="footer">
     <p>Part of <a href="/">AI Proto Lab</a>. Feed the Beast.</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHnNBU+oZb9uQ+SCg+f+Q4u5j4kCLRnhQfwBxF0ju6gPB7Y+Y2xR2k+L/nR2nSPlWnapN4L8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./app.js"></script>
+  <script src="../../rating-vote.js"></script>
+  <script>
+  (function () {
+    var project = 'crossfit-fuel';
+    var key = 'rating_' + project;
+    var widget = document.querySelector('.vote-widget');
+    var thanks = document.getElementById('vote-thanks');
+    if (widget && thanks) {
+      var nums = widget.querySelectorAll('.vote-num');
+      thanks.style.display = 'none';
+      var saved = localStorage.getItem(key);
+      if (saved) {
+        var v = parseInt(saved, 10);
+        nums.forEach(function (n) {
+          var val = parseInt(n.getAttribute('data-value'), 10);
+          n.classList.toggle('vote-selected', val === v);
+          n.classList.toggle('vote-grey', val !== v);
+        });
+        thanks.style.display = 'inline';
+      }
+      nums.forEach(function (n) {
+        n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
+          var v = parseInt(this.getAttribute('data-value'), 10);
+          if (typeof saveRating === 'function') saveRating(project, v);
+          nums.forEach(function (x) {
+            var val = parseInt(x.getAttribute('data-value'), 10);
+            x.classList.toggle('vote-selected', val === v);
+            x.classList.toggle('vote-grey', val !== v);
+          });
+          thanks.style.display = 'inline';
+        });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>

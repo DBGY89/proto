@@ -1036,7 +1036,6 @@
   const btnWod = document.getElementById('btn-wod');
   const btnRest = document.getElementById('btn-rest');
   const btnGenerate = document.getElementById('btn-generate');
-  const filters = document.getElementById('filters');
   const menuCards = document.getElementById('menu-cards');
   const resultDayBadge = document.getElementById('result-day-badge');
   const menuPlanTitle = document.getElementById('menu-plan-title');
@@ -1046,18 +1045,6 @@
   const macroProtein = document.getElementById('macro-protein');
   const macroFat = document.getElementById('macro-fat');
   const macroLegend = document.getElementById('macro-legend');
-  const btnDownloadMenu = document.getElementById('btn-download-menu');
-  const btnShareToggle = document.getElementById('btn-share-toggle');
-  const shareDropdown = document.getElementById('share-dropdown');
-  const shareEmail = document.getElementById('share-email');
-  const shareWhatsapp = document.getElementById('share-whatsapp');
-  const shareInstagram = document.getElementById('share-instagram');
-  const shareCardWrap = document.getElementById('share-card-wrap');
-  const shareCard = document.getElementById('share-card');
-  const shareCardDay = document.getElementById('share-card-day');
-  const shareCardMeals = document.getElementById('share-card-meals');
-  const shareCardPhrase = document.getElementById('share-card-phrase');
-
   const caloriesInline = document.getElementById('calories-inline');
   const btnToggleCalories = document.getElementById('btn-toggle-calories');
   const caloriesScaleText = document.getElementById('calories-scale-text');
@@ -1065,7 +1052,6 @@
   const btnApplyTarget = document.getElementById('btn-apply-target');
 
   let selectedDay = null;
-  let activeFilters = { vegan: false, glutenFree: false, dairyFree: false };
   let lastGeneratedMenu = null;
   let portionScale = 1;
 
@@ -1081,29 +1067,8 @@
   btnWod?.addEventListener('click', () => setDay('wod'));
   btnRest?.addEventListener('click', () => setDay('rest'));
 
-  filters?.addEventListener('click', function (e) {
-    const chip = e.target.closest('.filter-chip[data-filter]');
-    if (!chip) return;
-    const key = chip.getAttribute('data-filter');
-    activeFilters[key] = !activeFilters[key];
-    chip.setAttribute('aria-pressed', activeFilters[key] ? 'true' : 'false');
-    chip.classList.toggle('active', activeFilters[key]);
-  });
-
   function getMenuForDay(dayType) {
-    const isVegan = activeFilters.vegan;
-    const isGlutenFree = activeFilters.glutenFree;
-    const isDairyFree = activeFilters.dairyFree;
-    let pool;
-    if (isVegan) {
-      pool = dayType === 'wod' ? MENUS_WOD_VEGAN : MENUS_REST_VEGAN;
-    } else if (isGlutenFree) {
-      pool = dayType === 'wod' ? MENUS_WOD_GLUTEN_FREE : MENUS_REST_GLUTEN_FREE;
-    } else if (isDairyFree) {
-      pool = dayType === 'wod' ? MENUS_WOD_DAIRY_FREE : MENUS_REST_DAIRY_FREE;
-    } else {
-      pool = dayType === 'wod' ? MENUS_WOD : MENUS_REST;
-    }
+    const pool = dayType === 'wod' ? MENUS_WOD : MENUS_REST;
     const menu = pool[Math.floor(Math.random() * pool.length)];
     return JSON.parse(JSON.stringify(menu));
   }
@@ -1161,9 +1126,9 @@
     if (macroFat) macroFat.style.width = macro.fat + '%';
     if (macroLegend) {
       macroLegend.innerHTML =
-        '<span><span class="dot dot--carbs" aria-hidden="true"></span> Carbs ' + macro.carbs + '%</span>' +
-        '<span><span class="dot dot--protein" aria-hidden="true"></span> Protein ' + macro.protein + '%</span>' +
-        '<span><span class="dot dot--fat" aria-hidden="true"></span> Fat ' + macro.fat + '%</span>';
+        '<span class="macro-legend-item" style="flex: 0 0 ' + macro.carbs + '%;"><span class="dot dot--carbs" aria-hidden="true"></span> Carbs ' + macro.carbs + '%</span>' +
+        '<span class="macro-legend-item" style="flex: 0 0 ' + macro.protein + '%;"><span class="dot dot--protein" aria-hidden="true"></span> Protein ' + macro.protein + '%</span>' +
+        '<span class="macro-legend-item" style="flex: 0 0 ' + macro.fat + '%;"><span class="dot dot--fat" aria-hidden="true"></span> Fat ' + macro.fat + '%</span>';
     }
 
     menuCards.innerHTML = '';
@@ -1323,226 +1288,5 @@
       return { category: cat, items };
     }).filter(function (g) { return g.items.length > 0; });
   }
-
-  function getMenuAsText() {
-    if (!lastGeneratedMenu) return '';
-    const isWod = lastGeneratedMenu.dayType === 'wod';
-    const dayLabel = isWod ? 'CROSSFIT DAY' : 'REST DAY';
-    const title = isWod ? 'YOUR FUEL PLAN' : 'YOUR RECOVERY PLAN';
-    const activeFilterLabels = [];
-    if (activeFilters.vegan) activeFilterLabels.push('Vegan');
-    if (activeFilters.glutenFree) activeFilterLabels.push('Gluten-free');
-    if (activeFilters.dairyFree) activeFilterLabels.push('Dairy-free');
-    const filtersText = activeFilterLabels.length ? activeFilterLabels.join(' · ') : 'No dietary filters';
-    const macro = isWod ? MACRO_WOD : MACRO_REST;
-    const shoppingGroups = buildShoppingList(lastGeneratedMenu.meals);
-    let out = 'CROSSFIT FUEL · FEED THE BEAST\n\n' + dayLabel + '\n' + title + '\n\nFilters: ' + filtersText + '\n';
-    out += 'Reference macros · Carbs ' + macro.carbs + '% · Protein ' + macro.protein + '% · Fat ' + macro.fat + '%\n\n';
-    out += '——— MEALS ———\n\n';
-    (lastGeneratedMenu.meals || []).forEach(function (m) {
-      const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
-      out += label + ' · ' + (m.dishName || '') + '\n';
-      if (m.fuelStory) out += m.fuelStory + '\n';
-      if (Array.isArray(m.ingredients) && m.ingredients.length) out += 'Ingredients: ' + m.ingredients.join(', ') + '\n';
-      out += '\n';
-    });
-    out += '——— SHOPPING LIST ———\n\n';
-    shoppingGroups.forEach(function (g) {
-      out += g.category.toUpperCase() + '\n';
-      (g.items || []).forEach(function (item) { out += '  • ' + item + '\n'; });
-      out += '\n';
-    });
-    out += 'Generated with CrossFit Fuel by AI Proto Lab\n';
-    return out;
-  }
-
-  function downloadMenuAsTxt() {
-    const text = getMenuAsText();
-    if (!text) return;
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'crossfit-fuel-menu.txt';
-    link.click();
-    URL.revokeObjectURL(link.href);
-  }
-
-  function downloadMenuAsJpg(done) {
-    if (!lastGeneratedMenu) {
-      if (done) done(false);
-      return;
-    }
-    var capture = window.html2canvas || (typeof html2canvas !== 'undefined' ? html2canvas : null);
-    if (typeof capture !== 'function') {
-      if (done) done(false);
-      return;
-    }
-    const isWod = lastGeneratedMenu.dayType === 'wod';
-    const dayLabel = isWod ? 'CROSSFIT DAY' : 'REST DAY';
-    const title = isWod ? 'YOUR FUEL PLAN' : 'YOUR RECOVERY PLAN';
-    const activeFilterLabels = [];
-    if (activeFilters.vegan) activeFilterLabels.push('Vegan');
-    if (activeFilters.glutenFree) activeFilterLabels.push('Gluten-free');
-    if (activeFilters.dairyFree) activeFilterLabels.push('Dairy-free');
-    const filtersText = activeFilterLabels.length ? activeFilterLabels.join(' · ') : 'No dietary filters';
-    const macro = isWod ? MACRO_WOD : MACRO_REST;
-    const shoppingGroups = buildShoppingList(lastGeneratedMenu.meals);
-
-    let html = '<div id="download-menu-card" style="width:720px;padding:0;background:#0a0a1a;color:#e8e8f0;font-family:\'Space Grotesk\',sans-serif;box-sizing:border-box;">';
-    html += '<div style="background:#0a0a1a;padding:24px 32px 20px;border-bottom:1px solid #1e1e3a;">';
-    html += '<p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#c8e600;letter-spacing:0.05em;">CROSSFIT FUEL · FEED THE BEAST</p>';
-    html += '<h1 style="margin:0 0 4px;font-size:28px;font-weight:700;">' + escapeHtml(dayLabel) + '</h1>';
-    html += '<p style="margin:0;font-size:18px;color:#e8e8f0;">' + escapeHtml(title) + '</p>';
-    html += '<p style="margin:16px 0 0;font-size:12px;color:#9090b0;">Filters: ' + escapeHtml(filtersText) + '</p>';
-    html += '<p style="margin:6px 0 0;font-size:11px;color:#9090b0;">Reference macros · Carbs ' + macro.carbs + '% · Protein ' + macro.protein + '% · Fat ' + macro.fat + '%</p>';
-    html += '</div>';
-    html += '<div style="padding:24px 32px;">';
-    html += '<h2 style="margin:0 0 16px;font-size:16px;font-weight:700;color:#e8e8f0;">MEALS</h2>';
-    (lastGeneratedMenu.meals || []).forEach(function (m) {
-      const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
-      html += '<div style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #1e1e3a;">';
-      html += '<p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#c8e600;">' + escapeHtml(label) + ' · ' + escapeHtml(m.dishName || '') + '</p>';
-      if (m.fuelStory) html += '<p style="margin:0 0 6px;font-size:12px;color:#9090b0;font-style:italic;">' + escapeHtml(m.fuelStory) + '</p>';
-      if (Array.isArray(m.ingredients) && m.ingredients.length) html += '<p style="margin:0;font-size:11px;color:#e8e8f0;">Ingredients: ' + escapeHtml(m.ingredients.join(', ')) + '</p>';
-      html += '</div>';
-    });
-    html += '<h2 style="margin:24px 0 12px;font-size:16px;font-weight:700;color:#e8e8f0;">SHOPPING LIST</h2>';
-    shoppingGroups.forEach(function (g) {
-      html += '<p style="margin:8px 0 2px;font-size:12px;font-weight:700;color:#c8e600;">' + escapeHtml(g.category.toUpperCase()) + '</p>';
-      (g.items || []).forEach(function (item) {
-        html += '<p style="margin:0 0 0 12px;font-size:12px;color:#e8e8f0;">• ' + escapeHtml(item) + '</p>';
-      });
-    });
-    html += '<p style="margin:28px 0 0;font-size:10px;color:#606090;">Generated with CrossFit Fuel by AI Proto Lab</p>';
-    html += '</div></div>';
-
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;overflow:auto;z-index:9998;opacity:0;pointer-events:none;display:flex;justify-content:center;padding:20px 0;box-sizing:border-box;';
-    wrap.setAttribute('aria-hidden', 'true');
-    wrap.innerHTML = html;
-    document.body.appendChild(wrap);
-    const card = document.getElementById('download-menu-card');
-    if (!card) { wrap.remove(); if (done) done(false); return; }
-    capture(card, { scale: 2, useCORS: true, logging: false, backgroundColor: '#0a0a1a' }).then(function (canvas) {
-      const link = document.createElement('a');
-      link.download = 'crossfit-fuel-menu.jpg';
-      link.href = canvas.toDataURL('image/jpeg', 0.92);
-      link.click();
-      wrap.remove();
-      if (done) done(true);
-    }).catch(function () {
-      wrap.remove();
-      if (done) done(false);
-    });
-  }
-
-  function doDownloadMenu() {
-    if (!lastGeneratedMenu) return;
-    const btn = btnDownloadMenu;
-    const originalText = btn ? btn.textContent : '';
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = 'Generating…';
-    }
-    function finish(ok) {
-      if (!ok) downloadMenuAsTxt();
-      if (btn) {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
-    }
-    downloadMenuAsJpg(function (ok) {
-      if (ok) {
-        finish(true);
-        return;
-      }
-      setTimeout(function () {
-        downloadMenuAsJpg(function (ok2) {
-          finish(ok2);
-        });
-      }, 500);
-    });
-  }
-
-  function getShareText() {
-    if (!lastGeneratedMenu) return '';
-    const lines = (lastGeneratedMenu.meals || []).map(function (m) {
-      const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
-      return label + ': ' + (m.dishName || '');
-    });
-    const dayLabel = lastGeneratedMenu.dayType === 'wod' ? 'CrossFit Day' : 'Rest Day';
-    return 'My CrossFit Fuel plan (' + dayLabel + ')\n\n' + lines.join('\n') + '\n\n— aiprotolab.es/crossfit-fuel';
-  }
-
-  function getShareUrl() {
-    return 'https://aiprotolab.es/crossfit-fuel';
-  }
-
-  btnDownloadMenu?.addEventListener('click', function () {
-    doDownloadMenu();
-  });
-
-  btnShareToggle?.addEventListener('click', function (e) {
-    e.stopPropagation();
-    const open = shareDropdown?.classList.toggle('hidden');
-    btnShareToggle?.setAttribute('aria-expanded', !open);
-  });
-  document.addEventListener('click', function () {
-    shareDropdown?.classList.add('hidden');
-    btnShareToggle?.setAttribute('aria-expanded', 'false');
-  });
-  shareDropdown?.addEventListener('click', function (e) { e.stopPropagation(); });
-
-  shareEmail?.addEventListener('click', function (e) {
-    e.preventDefault();
-    const subject = encodeURIComponent('My CrossFit Fuel plan');
-    const body = encodeURIComponent(getShareText());
-    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
-    shareDropdown?.classList.add('hidden');
-  });
-  shareWhatsapp?.addEventListener('click', function (e) {
-    e.preventDefault();
-    const text = encodeURIComponent(getShareText());
-    window.open('https://wa.me/?text=' + text, '_blank', 'noopener');
-    shareDropdown?.classList.add('hidden');
-  });
-  shareInstagram?.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (!lastGeneratedMenu) return;
-    if (shareCardDay) shareCardDay.textContent = lastGeneratedMenu.dayType === 'wod' ? 'CrossFit Day' : 'Rest Day';
-    if (shareCardPhrase) shareCardPhrase.textContent = lastGeneratedMenu.dayType === 'wod' ? 'Today you train. Eat like it.' : 'Rest is part of the work.';
-    if (shareCardMeals) {
-      const lines = (lastGeneratedMenu.meals || []).map(function (m) {
-        const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
-        return label + ': ' + (m.dishName || '');
-      });
-      shareCardMeals.innerHTML = lines.map(function (line) { return '<p>' + escapeHtml(line) + '</p>'; }).join('');
-    }
-    shareCardWrap.classList.remove('hidden');
-    shareCardWrap.style.position = 'fixed';
-    shareCardWrap.style.left = '0';
-    shareCardWrap.style.top = '0';
-    shareCardWrap.style.width = '360px';
-    shareCardWrap.style.height = '640px';
-    shareCardWrap.style.zIndex = '9999';
-    function resetShareWrap() {
-      shareCardWrap.classList.add('hidden');
-      shareCardWrap.style.position = '';
-      shareCardWrap.style.left = '';
-      shareCardWrap.style.top = '';
-      shareCardWrap.style.width = '';
-      shareCardWrap.style.height = '';
-      shareCardWrap.style.zIndex = '';
-    }
-    if (typeof html2canvas !== 'function') { resetShareWrap(); return; }
-    html2canvas(shareCard, { scale: 2, useCORS: true, logging: false, width: 360, height: 640 }).then(function (canvas) {
-      const link = document.createElement('a');
-      link.download = 'crossfit-fuel-instagram.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      resetShareWrap();
-    });
-    shareDropdown?.classList.add('hidden');
-  });
 
 })();
