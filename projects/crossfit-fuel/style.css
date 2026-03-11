@@ -503,9 +503,9 @@ body {
   gap: 0.4rem;
 }
 .calories-adjust-row input {
-  min-width: 7ch;
-  width: 7ch;
-  padding: 0.4rem 0.5rem;
+  min-width: 5ch;
+  width: 5ch;
+  padding: 0.4rem 0.35rem;
   font-family: var(--font);
   font-size: 0.9rem;
   background: var(--bg-card);
