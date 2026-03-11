@@ -1368,7 +1368,12 @@
   }
 
   function downloadMenuAsJpg(done) {
-    if (!lastGeneratedMenu || typeof html2canvas !== 'function') {
+    if (!lastGeneratedMenu) {
+      if (done) done(false);
+      return;
+    }
+    var capture = window.html2canvas || (typeof html2canvas !== 'undefined' ? html2canvas : null);
+    if (typeof capture !== 'function') {
       if (done) done(false);
       return;
     }
@@ -1412,12 +1417,13 @@
     html += '</div></div>';
 
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:absolute;left:-9999px;top:0;';
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;overflow:auto;z-index:9998;opacity:0;pointer-events:none;display:flex;justify-content:center;padding:20px 0;box-sizing:border-box;';
+    wrap.setAttribute('aria-hidden', 'true');
     wrap.innerHTML = html;
     document.body.appendChild(wrap);
     const card = document.getElementById('download-menu-card');
     if (!card) { wrap.remove(); if (done) done(false); return; }
-    html2canvas(card, { scale: 2, useCORS: true, logging: false, backgroundColor: '#0a0a1a' }).then(function (canvas) {
+    capture(card, { scale: 2, useCORS: true, logging: false, backgroundColor: '#0a0a1a' }).then(function (canvas) {
       const link = document.createElement('a');
       link.download = 'crossfit-fuel-menu.jpg';
       link.href = canvas.toDataURL('image/jpeg', 0.92);
@@ -1438,15 +1444,24 @@
       btn.disabled = true;
       btn.textContent = 'Generating…';
     }
-    setTimeout(function () {
-      downloadMenuAsJpg(function (ok) {
-        if (!ok) downloadMenuAsTxt();
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = originalText;
-        }
-      });
-    }, 0);
+    function finish(ok) {
+      if (!ok) downloadMenuAsTxt();
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+    downloadMenuAsJpg(function (ok) {
+      if (ok) {
+        finish(true);
+        return;
+      }
+      setTimeout(function () {
+        downloadMenuAsJpg(function (ok2) {
+          finish(ok2);
+        });
+      }, 500);
+    });
   }
 
   function getShareText() {
