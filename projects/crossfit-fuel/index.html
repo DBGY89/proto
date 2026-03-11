@@ -89,7 +89,6 @@
 
       <div class="menu-footer-actions">
         <button type="button" class="btn-footer btn-footer--primary" id="btn-download-menu">Download menu</button>
-        <button type="button" class="btn-footer" id="btn-shopping-list">Shopping list</button>
         <div class="share-dropdown-wrap share-dropdown-wrap--up">
           <button type="button" class="btn-footer" id="btn-share-toggle" aria-haspopup="true" aria-expanded="false">Share</button>
           <div class="share-dropdown share-dropdown--up hidden" id="share-dropdown">
@@ -100,22 +99,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Shopping list overlay (2-col checkable list) -->
-    <div class="overlay hidden" id="shopping-overlay" role="dialog" aria-modal="true" aria-label="Shopping list">
-      <div class="overlay-content overlay-content--list" id="shopping-overlay-content">
-        <div class="overlay-header">
-          <h2 class="overlay-title">Shopping list</h2>
-          <button type="button" class="overlay-close" id="shopping-close" aria-label="Close">&times;</button>
-        </div>
-        <p class="shopping-overlay-hint">Tick what you already have at home. Then download the list of what you still need to buy.</p>
-        <div class="shopping-list shopping-list--two-col" id="shopping-list"></div>
-        <div class="shopping-overlay-actions">
-          <button type="button" class="btn-cta btn-cta--small" id="btn-download-what-i-need">Download what I need</button>
-          <button type="button" class="btn-header btn-header--ghost btn-header--small" id="btn-download-full-list">Download full list</button>
-        </div>
-      </div>
-    </div>
 
     <!-- Share card for html2canvas -->
     <div class="share-card-wrap hidden" id="share-card-wrap">
@@ -136,7 +119,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHnNBU+oZb9uQ+SCg+f+Q4u5j4kCLRnhQfwBxF0ju6gPB7Y+Y2xR2k+L/nR2nSPlWnapN4L8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-vuWta6ZB1K/Z9G3dBVqSMMxbk5Ir7lFVpp9LkU+63rUX2/V7rYWqSLSyMIIR3ONsnRKfMcfxpUEcO8Lw7YzTAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./app.js"></script>
 </body>
 </html>
