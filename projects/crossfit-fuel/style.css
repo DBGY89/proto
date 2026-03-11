@@ -415,34 +415,34 @@ body {
 .macro-segment--fat { background: var(--macro-fat); }
 .macro-legend {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
 }
 .macro-legend span {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.45rem 0.85rem;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.4rem;
+  min-width: 0;
 }
 @media (max-width: 600px) {
   .macro-legend {
-    flex-wrap: nowrap;
-    gap: 0;
     margin-top: 0.5rem;
   }
   .macro-legend .macro-legend-item {
-    min-width: 0;
     padding: 0.35rem 0.2rem;
-    justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 }
 .macro-legend .dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 .macro-legend .dot--carbs { background: var(--macro-carbs); }
 .macro-legend .dot--protein { background: var(--macro-protein); }
