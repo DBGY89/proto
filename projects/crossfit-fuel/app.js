@@ -1401,6 +1401,147 @@
   btnDownloadWhatINeed?.addEventListener('click', function () { downloadShoppingListAsTxt(true); });
   btnDownloadFullList?.addEventListener('click', function () { downloadShoppingListAsTxt(false); });
 
+  function downloadMenuPdf() {
+    if (!lastGeneratedMenu) return;
+    if (!window.jspdf || !window.jspdf.jsPDF) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const marginX = 56;
+    const contentWidth = pageWidth - marginX * 2;
+    let y = 72;
+
+    const isWod = lastGeneratedMenu.dayType === 'wod';
+    const dayLabel = isWod ? 'CROSSFIT DAY' : 'REST DAY';
+    const title = isWod ? 'YOUR FUEL PLAN' : 'YOUR RECOVERY PLAN';
+
+    const activeFilterLabels = [];
+    if (activeFilters.vegan) activeFilterLabels.push('Vegan');
+    if (activeFilters.glutenFree) activeFilterLabels.push('Gluten-free');
+    if (activeFilters.dairyFree) activeFilterLabels.push('Dairy-free');
+    const filtersText = activeFilterLabels.length ? activeFilterLabels.join(' · ') : 'No dietary filters';
+
+    const macro = isWod ? MACRO_WOD : MACRO_REST;
+    const shoppingGroups = buildShoppingList(lastGeneratedMenu.meals);
+
+    doc.setFillColor(10, 10, 26);
+    doc.rect(0, 0, pageWidth, 56, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(200, 230, 0);
+    doc.text('CROSSFIT FUEL · FEED THE BEAST', marginX, 36);
+
+    doc.setFontSize(24);
+    doc.setTextColor(232, 232, 240);
+    doc.text(dayLabel, marginX, y);
+    y += 26;
+
+    doc.setFontSize(18);
+    doc.setTextColor(232, 232, 240);
+    doc.text(title, marginX, y);
+    y += 24;
+
+    doc.setFontSize(11);
+    doc.setTextColor(144, 144, 176);
+    const filtersLines = doc.splitTextToSize('Filters: ' + filtersText, contentWidth);
+    doc.text(filtersLines, marginX, y);
+    y += filtersLines.length * 14 + 8;
+
+    doc.setDrawColor(30, 30, 58);
+    doc.line(marginX, y, marginX + contentWidth, y);
+    y += 16;
+
+    doc.setFontSize(11);
+    doc.setTextColor(144, 144, 176);
+    doc.text(
+      'Reference macros · Carbs ' + macro.carbs + '% · Protein ' + macro.protein + '% · Fat ' + macro.fat + '%',
+      marginX,
+      y
+    );
+    y += 22;
+
+    doc.setFontSize(13);
+    doc.setTextColor(232, 232, 240);
+    doc.text('Meals', marginX, y);
+    y += 18;
+
+    doc.setFontSize(11);
+    (lastGeneratedMenu.meals || []).forEach(function (m, idx) {
+      if (y > doc.internal.pageSize.getHeight() - 72) {
+        doc.addPage();
+        y = 72;
+      }
+      const label =
+        m.mealType === 'snackPreWod'
+          ? 'Pre-WOD snack'
+          : m.mealType === 'snackPostWod'
+          ? 'Post-WOD snack'
+          : getMealLabel(m.mealType);
+      const heading = label + ' · ' + (m.dishName || '');
+      doc.setTextColor(200, 230, 0);
+      const headingLines = doc.splitTextToSize(heading, contentWidth);
+      doc.text(headingLines, marginX, y);
+      y += headingLines.length * 14;
+
+      if (m.fuelStory) {
+        doc.setTextColor(144, 144, 176);
+        const whyLines = doc.splitTextToSize(m.fuelStory, contentWidth);
+        doc.text(whyLines, marginX, y);
+        y += whyLines.length * 14;
+      }
+
+      if (Array.isArray(m.ingredients) && m.ingredients.length) {
+        doc.setTextColor(232, 232, 240);
+        const ingLines = doc.splitTextToSize('Ingredients: ' + m.ingredients.join(', '), contentWidth);
+        doc.text(ingLines, marginX, y);
+        y += ingLines.length * 14;
+      }
+
+      y += 10;
+      if (idx === 0) y += 4;
+    });
+
+    doc.addPage();
+    y = 72;
+    doc.setFontSize(18);
+    doc.setTextColor(232, 232, 240);
+    doc.text('Shopping list', marginX, y);
+    y += 20;
+
+    doc.setFontSize(11);
+    shoppingGroups.forEach(function (group) {
+      if (y > doc.internal.pageSize.getHeight() - 72) {
+        doc.addPage();
+        y = 72;
+      }
+      doc.setTextColor(200, 230, 0);
+      doc.text(group.category.toUpperCase(), marginX, y);
+      y += 14;
+      doc.setTextColor(232, 232, 240);
+      (group.items || []).forEach(function (item) {
+        if (y > doc.internal.pageSize.getHeight() - 56) {
+          doc.addPage();
+          y = 72;
+          doc.setTextColor(200, 230, 0);
+          doc.text(group.category.toUpperCase(), marginX, y);
+          y += 14;
+          doc.setTextColor(232, 232, 240);
+        }
+        const bulletLines = doc.splitTextToSize('• ' + item, contentWidth);
+        doc.text(bulletLines, marginX, y);
+        y += bulletLines.length * 14;
+      });
+      y += 10;
+    });
+
+    doc.setFontSize(9);
+    doc.setTextColor(144, 144, 176);
+    doc.text('Generated with CrossFit Fuel by AI Proto Lab', marginX, doc.internal.pageSize.getHeight() - 40);
+
+    doc.save('crossfit-fuel-menu.pdf');
+  }
+
   function getShareText() {
     if (!lastGeneratedMenu) return '';
     const lines = (lastGeneratedMenu.meals || []).map(function (m) {
@@ -1416,40 +1557,7 @@
   }
 
   btnDownloadMenu?.addEventListener('click', function () {
-    if (!lastGeneratedMenu) return;
-    if (shareCardDay) shareCardDay.textContent = lastGeneratedMenu.dayType === 'wod' ? 'CrossFit Day' : 'Rest Day';
-    if (shareCardPhrase) shareCardPhrase.textContent = lastGeneratedMenu.dayType === 'wod' ? 'Today you train. Eat like it.' : 'Rest is part of the work.';
-    if (shareCardMeals) {
-      const lines = (lastGeneratedMenu.meals || []).map(function (m) {
-        const label = m.mealType === 'snackPreWod' ? 'Pre-WOD snack' : m.mealType === 'snackPostWod' ? 'Post-WOD snack' : getMealLabel(m.mealType);
-        return label + ': ' + (m.dishName || '');
-      });
-      shareCardMeals.innerHTML = lines.map(function (line) { return '<p>' + escapeHtml(line) + '</p>'; }).join('');
-    }
-    shareCardWrap.classList.remove('hidden');
-    shareCardWrap.style.position = 'fixed';
-    shareCardWrap.style.left = '0';
-    shareCardWrap.style.top = '0';
-    shareCardWrap.style.width = '360px';
-    shareCardWrap.style.height = '640px';
-    shareCardWrap.style.zIndex = '9999';
-    function resetShareWrap() {
-      shareCardWrap.classList.add('hidden');
-      shareCardWrap.style.position = '';
-      shareCardWrap.style.left = '';
-      shareCardWrap.style.top = '';
-      shareCardWrap.style.width = '';
-      shareCardWrap.style.height = '';
-      shareCardWrap.style.zIndex = '';
-    }
-    if (typeof html2canvas !== 'function') { resetShareWrap(); return; }
-    html2canvas(shareCard, { scale: 2, useCORS: true, logging: false, width: 360, height: 640 }).then(function (canvas) {
-      const link = document.createElement('a');
-      link.download = 'crossfit-fuel-menu.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      resetShareWrap();
-    });
+    downloadMenuPdf();
   });
 
   btnShareToggle?.addEventListener('click', function (e) {
