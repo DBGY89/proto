@@ -1402,11 +1402,18 @@
   btnDownloadFullList?.addEventListener('click', function () { downloadShoppingListAsTxt(false); });
 
   function downloadMenuPdf() {
-    if (!lastGeneratedMenu) return;
-    if (!window.jspdf || !window.jspdf.jsPDF) return;
+    if (!lastGeneratedMenu) {
+      alert('Generate a menu first to download it.');
+      return;
+    }
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    if (!jsPDFCtor) {
+      alert('PDF library did not load. Please check your connection and try again.');
+      return;
+    }
+
+    const doc = new jsPDFCtor({ unit: 'pt', format: 'a4' });
     const pageWidth = doc.internal.pageSize.getWidth();
     const marginX = 56;
     const contentWidth = pageWidth - marginX * 2;
