@@ -13,6 +13,10 @@
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
+    <div class="topbar-right">
+      <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+      <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
+    </div>
   </nav>
 
   <main class="page" id="main">
@@ -113,6 +117,38 @@
     <p>Part of <a href="/">AI Proto Lab</a>. Feed the Beast.</p>
   </footer>
 
+  <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <span class="modal-drag" aria-hidden="true"></span>
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+          <p class="modal-subtitle">Built in four evenings.</p>
+        </div>
+        <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="label">What problem & for whom</p>
+        <p><strong>For whom:</strong> Anyone who does CrossFit or wants to start. From the outside, CrossFit looks like a world built only for the strongest. From the inside, it's one of the few sports where everyone finds their strongest version. This tool is for all of them.</p>
+        <p><strong>Problem:</strong> Food is what makes the body work. Not a reward, not a punishment. Fuel. The real question is simple: what does your body need today to feel better, move better, recover better?</p>
+        <p><strong>This:</strong> Tell the tool what kind of day it is. Get a menu built around how your body actually works. One question. No counting required.</p>
+        <p class="label">The iteration</p>
+        <p>The first version asked too many questions. Goal, weight, training time, dietary restrictions. By question three, the point was already lost. I stripped it back to one decision: CrossFit day or rest day. Everything else follows from that. That two-option structure is not a simplification. It is the whole idea. Different days, different needs. Training days demand fuel for performance. Rest days demand fuel for repair. The menu follows from that logic, and so does everything else.</p>
+        <p class="label">What AI could and couldn't do</p>
+        <p>The hardest part wasn't generating the menu. It was the tone. Food should feel like something that works for you, not against you. Getting that balance right took more iterations than the logic behind the menus. The language had to be empowering without being preachy, educational without lecturing, honest about what food does without turning every meal into a macro calculation.</p>
+        <p>The calorie toggle raised a question that went beyond design: what role should numbers play in a tool that is not about numbers? It exists, it works, it's there for the people who want it. It just doesn't lead.</p>
+        <p class="label">Minimum viable effort</p>
+        <p>One question. One button. One menu with a reason behind every meal. The goal was to feel like a knowledgeable friend. Not a tracker. Not a coach. Something that tells you what your body needs today, and why, so you can walk into that box knowing you already did your part.</p>
+        <p>The logic behind it works for anyone who moves their body with intention. But my heart needed to build this one for the CrossFit community first. This is my lab, and in my lab I build what I want.</p>
+        <p class="label">Get in touch</p>
+        <div class="modal-cta">
+          <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+          <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./app.js"></script>
   <script src="../../rating-vote.js"></script>
   <script>
@@ -148,6 +184,33 @@
         });
       });
     }
+  })();
+  </script>
+  <script>
+  (function () {
+    var overlay = document.getElementById('case-modal');
+    var openBtns = document.querySelectorAll('.js-open-case');
+    var closeBtn = document.querySelector('.js-close-modal');
+    if (!overlay || !openBtns.length || !closeBtn) return;
+    function openModal() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+    });
   })();
   </script>
 </body>
