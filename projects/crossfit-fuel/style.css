@@ -303,6 +303,7 @@ body {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: center;
   column-gap: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -332,7 +333,6 @@ body {
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin: 0;
-  flex: 1;
 }
 .share-dropdown-wrap { position: relative; }
 .share-dropdown {
@@ -422,6 +422,7 @@ body {
   color: var(--text-secondary);
   margin: 0.75rem 0 0;
   line-height: 1.4;
+  text-align: center;
 }
 
 .tags-row {
@@ -430,6 +431,7 @@ body {
   gap: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
+  justify-content: center;
 }
 .tag-pill {
   display: inline-flex;
@@ -548,8 +550,10 @@ body {
 }
 .calories-scale.hidden { display: none; }
 .calories-adjust-label {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
 }
 .calories-adjust-row {
   display: flex;
@@ -571,6 +575,12 @@ body {
   color: var(--text-primary);
   box-sizing: content-box;
 }
+.calories-adjust-unit {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+}
 .calories-adjust-row input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -579,21 +589,30 @@ body {
   -webkit-appearance: none;
   margin: 0;
 }
-.calories-adjust-unit { font-size: 0.85rem; color: var(--text-muted); }
 
 @media (max-width: 600px) {
+  .calories-inline-row {
+    justify-content: flex-end;
+  }
   .calories-adjust-row {
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: center;
   }
   .calories-adjust-row #btn-apply-target {
-    flex-basis: 100%;
-    margin-top: 0.5rem;
+    flex-basis: auto;
+    margin-top: 0;
     width: auto;
-    max-width: fit-content;
-    align-self: flex-end;
+    max-width: none;
+    align-self: auto;
     font-size: 0.8rem;
     padding: 0.4rem 0.75rem;
+  }
+  .tags-row {
+    justify-content: center;
+  }
+  .tags-row .tag-pill {
+    flex: 0 1 calc(50% - 0.5rem);
+    justify-content: center;
   }
 }
 
