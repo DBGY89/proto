@@ -417,7 +417,7 @@
           mealType: 'lunch',
           dishName: 'Mediterranean Chickpea Bowl',
           ingredients: ['chickpeas', 'cucumber', 'tomato', 'red onion', 'feta', 'olive oil', 'oregano', 'lemon'],
-          fuelStory: 'On a rest day you don\'t need a big carb hit. Chickpeas give plant protein and fiber for steady energy; olive oil and feta add fat for satiety. So you stay full and support recovery without overfeeding.',
+          fuelStory: 'On a rest day you don\'t need a big carb hit. Chickpeas give plant protein and fiber for steady energy; olive oil and feta add fat for satiety. So you stay full and support recovery, for repair, energy and satiety.',
           kcal: 400,
           portions: [
             { amount: 1, unit: 'cup', name: 'cooked chickpeas' },
@@ -478,7 +478,7 @@
           mealType: 'dinner',
           dishName: 'Herbed Chicken Thighs with Roasted Veg',
           ingredients: ['chicken thighs', 'carrots', 'Brussels sprouts', 'olive oil', 'garlic', 'thyme'],
-          fuelStory: 'On a rest day dinner should support repair without overfeeding. Chicken thighs give protein and a bit of fat; roasted veg add volume and nutrients. So you repair and sleep well without the extra carbs you\'d need on a training day.',
+          fuelStory: 'On a rest day dinner should support repair, energy and satiety. Chicken thighs give protein and a bit of fat; roasted veg add volume and nutrients. So you repair and sleep well without the extra carbs you\'d need on a training day.',
           kcal: 560,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken thighs' },
@@ -516,7 +516,7 @@
           mealType: 'lunch',
           dishName: 'Tuna Salad Lettuce Wraps',
           ingredients: ['canned tuna', 'Greek yogurt', 'celery', 'lettuce', 'lemon', 'mustard'],
-          fuelStory: 'On rest days you need protein for repair without a big carb load. Tuna and yogurt give protein; lettuce keeps it light. So you stay full and support recovery without overfeeding.',
+          fuelStory: 'On rest days you need protein for repair without a big carb load. Tuna and yogurt give protein; lettuce keeps it light. So you stay full and support recovery, for repair, energy and satiety.',
           kcal: 380,
           portions: [
             { amount: 1, unit: 'can', name: 'tuna' },
@@ -625,7 +625,7 @@
           mealType: 'dinner',
           dishName: 'Turkey Lettuce Taco Night',
           ingredients: ['ground turkey', 'lettuce', 'tomato', 'cheese', 'salsa'],
-          fuelStory: 'Rest-day dinner: protein for repair without a heavy carb load. Turkey in lettuce wraps gives the fun of tacos with fewer carbs—so you repair and enjoy the meal without overfeeding on a day you didn\'t train.',
+          fuelStory: 'Rest-day dinner: protein for repair without a heavy carb load. Turkey in lettuce wraps gives the fun of tacos with fewer carbs, so you repair and enjoy the meal, for repair, energy and satiety.',
           kcal: 520,
           portions: [
             { amount: 140, unit: 'g', name: 'ground turkey (cooked)' },
@@ -658,7 +658,7 @@
       dayType: 'rest',
       meals: [
         { mealType: 'breakfast', dishName: 'Cottage Cheese Bowl with Peach & Mint', ingredients: ['cottage cheese', 'peach', 'mint', 'walnuts'], fuelStory: 'On rest days breakfast can lean on protein and moderate carbs. Cottage cheese and peach give both—so you stay full and support repair without the big carb load of a training-day start.', kcal: 350, portions: [{ amount: 180, unit: 'g', name: 'cottage cheese' }, { amount: 1, unit: '', name: 'peach' }] },
-        { mealType: 'lunch', dishName: 'Grilled Halloumi & Watermelon Salad', ingredients: ['halloumi', 'watermelon', 'cucumber', 'mint', 'olive oil'], fuelStory: 'Rest-day lunch: you need protein and satisfaction without a heavy refuel. Halloumi and watermelon give protein, hydration and a lighter carb hit—so you stay full and support recovery without overfeeding.', kcal: 440, portions: [{ amount: 100, unit: 'g', name: 'halloumi' }, { amount: 150, unit: 'g', name: 'watermelon' }] },
+        { mealType: 'lunch', dishName: 'Grilled Halloumi & Watermelon Salad', ingredients: ['halloumi', 'watermelon', 'cucumber', 'mint', 'olive oil'], fuelStory: 'Rest-day lunch: you need protein and satisfaction without a heavy refuel. Halloumi and watermelon give protein, hydration and a lighter carb hit, so you stay full and support recovery, for repair, energy and satiety.', kcal: 440, portions: [{ amount: 100, unit: 'g', name: 'halloumi' }, { amount: 150, unit: 'g', name: 'watermelon' }] },
         { mealType: 'dinner', dishName: 'Mackerel with Roasted Fennel & Lemon', ingredients: ['mackerel', 'fennel', 'lemon', 'olive oil'], fuelStory: 'Rest-day dinner: protein and healthy fats for repair without a big carb load. Mackerel\'s omega-3s support recovery; fennel adds volume and nutrients. So you close the day recovered and ready for tomorrow.', kcal: 480, portions: [{ amount: 150, unit: 'g', name: 'mackerel' }, { amount: 1, unit: 'bulb', name: 'fennel' }] },
         { mealType: 'snack', dishName: 'Rice cake with almond butter', ingredients: ['rice cake', 'almond butter'], fuelStory: 'On rest days snacks should satisfy without spiking insulin. Rice cake and almond butter give a bit of carb and fat—so you curb hunger and support recovery without the quick-fuel load you\'d need before a WOD.', kcal: 180, portions: [{ amount: 1, unit: '', name: 'rice cake' }, { amount: 1, unit: 'tbsp', name: 'almond butter' }] }
       ]
