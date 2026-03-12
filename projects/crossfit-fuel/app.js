@@ -1169,7 +1169,7 @@
     if (caloriesInline) caloriesInline.classList.add('hidden');
     if (btnToggleCalories) {
       btnToggleCalories.setAttribute('aria-pressed', 'false');
-      btnToggleCalories.textContent = 'Calorie details';
+      btnToggleCalories.textContent = 'Show calorie details';
     }
   }
 
@@ -1241,7 +1241,7 @@
     caloriesInline.classList.toggle('hidden');
     const isOpen = !caloriesInline.classList.contains('hidden');
     btnToggleCalories.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
-    btnToggleCalories.textContent = isOpen ? 'Hide calorie details' : 'Calorie details';
+    btnToggleCalories.textContent = isOpen ? 'Hide calorie details' : 'Show calorie details';
     if (isOpen) {
       const totalBase = getTotalBaseKcal(lastGeneratedMenu);
       if (inputCalorieTarget && !inputCalorieTarget.value) {
