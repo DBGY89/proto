@@ -631,7 +631,18 @@ body {
 .btn-footer--ghost { background: transparent; color: var(--text-secondary); border-color: var(--border); }
 .btn-footer--ghost:hover { color: var(--text-primary); }
 
-.menu-cards { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
+.menu-cards { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1.5rem; }
+
+.menu-closing-note {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+}
 
 .vote-widget-wrap {
   display: flex;

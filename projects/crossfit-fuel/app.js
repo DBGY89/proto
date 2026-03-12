@@ -1164,7 +1164,16 @@
     });
 
     portionScale = 1;
-    if (inputCalorieTarget) inputCalorieTarget.value = '';
+    if (inputCalorieTarget) {
+      try {
+        var savedTarget = (typeof sessionStorage !== 'undefined')
+          ? sessionStorage.getItem('crossfitFuelCalorieTarget')
+          : null;
+        inputCalorieTarget.value = savedTarget ? String(savedTarget) : '';
+      } catch (e) {
+        inputCalorieTarget.value = '';
+      }
+    }
     if (caloriesScaleText) { caloriesScaleText.textContent = ''; caloriesScaleText.classList.add('hidden'); }
     if (caloriesInline) caloriesInline.classList.add('hidden');
     if (btnToggleCalories) {
@@ -1265,6 +1274,13 @@
     if (!target) target = totalBase;
     target = Math.max(1200, Math.min(4000, target));
     portionScale = Math.max(0.5, Math.min(2, target / totalBase));
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('crossfitFuelCalorieTarget', String(target));
+      }
+    } catch (e) {
+      /* ignore storage errors */
+    }
     renderCaloriesSummary(lastGeneratedMenu, portionScale);
   });
 
