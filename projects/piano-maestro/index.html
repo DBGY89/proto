@@ -1189,8 +1189,9 @@ function releaseKey(note) {
 // NOTES ROW
 function buildNotesRow() {
   const row = document.getElementById('notesRow');
+  if (!row) return;
   row.innerHTML = '';
-  if (!currentSong) return;
+  if (!currentSong || !currentSong.notes || currentSong.notes.length === 0) return;
 
   currentSong.notes.forEach((n, i) => {
     const cell = document.createElement('div');
@@ -1214,19 +1215,26 @@ function buildNotesRow() {
 }
 
 function updateCurrentNote() {
-  if (!currentSong) return;
+  if (!currentSong || !currentSong.notes.length) return;
+  if (currentNoteIndex >= currentSong.notes.length) {
+    const bar = document.getElementById('progressBar');
+    if (bar) bar.style.width = '100%';
+    return;
+  }
   document.querySelectorAll('.note-cell').forEach(c => c.classList.remove('current'));
   const current = document.querySelector(`.note-cell[data-index="${currentNoteIndex}"]`);
   if (current) {
     current.classList.add('current');
     current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     const note = currentSong.notes[currentNoteIndex];
-    const noteLabel = note.note.replace(/\d/,'').replace('s','#').replace('b','♭');
-    document.getElementById('nextNoteChip').textContent = `Toca: ${noteLabel}`;
+    const noteLabel = note.note.replace(/\d/g, '').replace('s', '#').replace('b', '♭');
+    const nextChip = document.getElementById('nextNoteChip');
+    if (nextChip) nextChip.textContent = 'Toca: ' + noteLabel;
     highlightKey(note.note, 'highlight');
   }
-  const pct = currentSong ? (currentNoteIndex / currentSong.notes.length) * 100 : 0;
-  document.getElementById('progressBar').style.width = pct + '%';
+  const pct = (currentNoteIndex / currentSong.notes.length) * 100;
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = pct + '%';
 }
 
 // PRACTICE
