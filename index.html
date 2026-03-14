@@ -20,11 +20,6 @@
 
   <!-- ─── Hero ─── -->
   <header class="hero">
-    <nav class="lang-switcher" aria-label="Idioma / Language">
-      <a href="?lang=en" class="lang-switcher__link" data-lang="en">EN</a>
-      <span class="lang-switcher__sep" aria-hidden="true">|</span>
-      <a href="?lang=es" class="lang-switcher__link" data-lang="es">ES</a>
-    </nav>
     <div class="skyline" aria-hidden="true">
       <svg viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Buildings: lighter fill + stronger strokes and windows so they read clearly -->
@@ -361,14 +356,6 @@
         var btn = document.getElementById('dismiss-notice');
         if (notice) notice.hidden = false;
         if (btn && notice) btn.addEventListener('click', function () { notice.hidden = true; });
-      }
-      // Language switcher: mark active link from ?lang=
-      var params = new URLSearchParams(window.location.search);
-      var lang = params.get('lang') || 'en';
-      if (lang === 'es' || lang === 'en') {
-        document.documentElement.lang = lang;
-        var links = document.querySelectorAll('.lang-switcher__link[data-lang="' + lang + '"]');
-        links.forEach(function (el) { el.classList.add('is-active'); });
       }
     })();
   </script>
