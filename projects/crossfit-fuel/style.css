@@ -813,6 +813,10 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
+.meal-block--pre-wod .meal-block-title,
+.meal-block--post-wod .meal-block-title {
+  color: var(--accent-wod);
+}
 .meal-block-meta {
   display: flex;
   flex-direction: column;

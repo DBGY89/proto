@@ -1105,7 +1105,16 @@
 
   let selectedDay = null;
   let lastGeneratedMenu = null;
+  let lastDisplayMeals = null;
   let portionScale = 1;
+
+  function getMealsInDisplayOrder(menu) {
+    if (!menu || menu.dayType !== 'wod' || !Array.isArray(menu.meals)) return menu.meals || [];
+    const order = ['breakfast', 'lunch', 'dinner', 'snackPreWod', 'snackPostWod'];
+    return order.map(function (mealType) {
+      return (menu.meals || []).find(function (m) { return m.mealType === mealType; });
+    }).filter(Boolean);
+  }
 
   function setDay(day) {
     selectedDay = day;
@@ -1200,9 +1209,13 @@
     }
 
     menuCards.innerHTML = '';
-    (menu.meals || []).forEach(function (m, idx) {
+    const displayMeals = isWod ? getMealsInDisplayOrder(menu) : (menu.meals || []);
+    lastDisplayMeals = isWod ? displayMeals : null;
+    displayMeals.forEach(function (m, idx) {
       const block = document.createElement('article');
       block.className = 'meal-block meal-block--' + menu.dayType;
+      if (m.mealType === 'snackPreWod') block.classList.add('meal-block--pre-wod');
+      if (m.mealType === 'snackPostWod') block.classList.add('meal-block--post-wod');
       const timing = m.timingHint ? m.timingHint : '';
       const ingredients = Array.isArray(m.ingredients) && m.ingredients.length ? m.ingredients : [];
       const methodSteps = Array.isArray(m.method) && m.method.length ? m.method : [];
@@ -1269,8 +1282,9 @@
 
   function updateMealKcal(menu, scale) {
     const blocks = menuCards.querySelectorAll('.meal-block');
+    const meals = lastDisplayMeals || menu.meals || [];
     blocks.forEach(function (block, idx) {
-      const meal = (menu.meals || [])[idx];
+      const meal = meals[idx];
       const span = block.querySelector('.meal-block-kcal');
       if (!span || !meal) return;
       const base = Number(meal.kcal) || 0;
@@ -1298,8 +1312,9 @@
       menuCards.classList.toggle('menu-cards--calories-on', !!show);
     }
     const blocks = menuCards.querySelectorAll('.meal-block');
+    const meals = lastDisplayMeals || menu.meals || [];
     blocks.forEach(function (block, idx) {
-      const meal = (menu.meals || [])[idx];
+      const meal = meals[idx];
       const list = block.querySelector('.meal-portions');
       if (!list || !meal) return;
       var portions = Array.isArray(meal.portions) && meal.portions.length > 0 ? meal.portions : null;
