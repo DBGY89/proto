@@ -1207,14 +1207,18 @@
       const ingredients = Array.isArray(m.ingredients) && m.ingredients.length ? m.ingredients : [];
       const methodSteps = Array.isArray(m.method) && m.method.length ? m.method : [];
       const hasRecipe = ingredients.length || methodSteps.length;
+      const hasPortions = Array.isArray(m.portions) && m.portions.length > 0;
+      const showIngredientsTitle = ingredients.length > 0 || hasPortions;
       const recipeHtml = hasRecipe
         ? '<div class="recipe-reveal">' +
             '<button type="button" class="recipe-trigger" aria-expanded="false" aria-controls="recipe-content-' + idx + '">View recipe</button>' +
             '<div class="recipe-content" id="recipe-content-' + idx + '" role="region" aria-label="Recipe">' +
+              (showIngredientsTitle ? '<p class="recipe-content-title">Ingredients</p>' : '') +
               (ingredients.length
-                ? '<p class="recipe-content-title">Ingredients</p><ul class="recipe-ingredients">' +
-                  ingredients.map(function (i) { return '<li>' + escapeHtml(i) + '</li>'; }).join('') + '</ul>'
+                ? '<div class="recipe-ingredients-block"><ul class="recipe-ingredients">' +
+                  ingredients.map(function (i) { return '<li>' + escapeHtml(i) + '</li>'; }).join('') + '</ul></div>'
                 : '') +
+              '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>' +
               (methodSteps.length
                 ? '<p class="recipe-content-title">How to make it</p>' +
                   (methodSteps.length === 1
@@ -1237,7 +1241,7 @@
             (m.fuelStory ? '<p class="food-item-why">' + escapeHtml(m.fuelStory) + '</p>' : '') +
           '</div>' +
           recipeHtml +
-          '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>' +
+          (hasRecipe ? '' : '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>') +
         '</div>';
       menuCards.appendChild(block);
     });
@@ -1293,6 +1297,9 @@
   }
 
   function updateMealPortions(menu, scale, show) {
+    if (menuCards) {
+      menuCards.classList.toggle('menu-cards--calories-on', !!show);
+    }
     const blocks = menuCards.querySelectorAll('.meal-block');
     blocks.forEach(function (block, idx) {
       const meal = (menu.meals || [])[idx];

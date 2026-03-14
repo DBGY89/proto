@@ -306,25 +306,31 @@ body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s var(--ease);
+  padding-top: 0.75rem;
 }
 .recipe-reveal.open .recipe-content {
   max-height: 520px;
 }
+/* Section labels: same size as body, bold — don't compete with dish name (level 2) */
 .recipe-content-title {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  margin: 0.5rem 0 0.25rem 0;
+  color: var(--text-primary);
+  margin: 0.6rem 0 0.25rem 0;
+  letter-spacing: 0.01em;
+}
+.recipe-content-title:first-child {
+  margin-top: 0;
 }
 .recipe-ingredients {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
   padding-left: 1.25rem;
 }
 .recipe-steps {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
@@ -333,9 +339,15 @@ body {
 .recipe-steps--single {
   padding-left: 0;
   list-style: none;
+  font-size: 0.85rem;
 }
 .recipe-content-title + .recipe-steps {
   margin-top: 0.25rem;
+}
+
+/* When calorie details are on, hide plain ingredients list; "Ingredients" title + portions list + "How to make it" stay, in that order */
+.menu-cards--calories-on .recipe-ingredients-block {
+  display: none;
 }
 
 .day-type-why-block {
