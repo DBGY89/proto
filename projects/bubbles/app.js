@@ -169,7 +169,8 @@
     gameArea.appendChild(el);
   }
 
-  gameArea.addEventListener('pointerdown', (e) => {
+  // Listen on document so clicks on topbar/timer-bar still hit bubbles underneath (elementsFromPoint).
+  document.addEventListener('pointerdown', (e) => {
     if (!running) return;
     const targets = document.elementsFromPoint(e.clientX, e.clientY);
     const bubbles = targets.filter((el) => el.classList && el.classList.contains('bubble'));
