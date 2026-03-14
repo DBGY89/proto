@@ -44,6 +44,10 @@ Project pages use **relative paths with `./`** (e.g. `href="./style.css"`, `src=
 
 Using `<base href="/something/">` or bare `href="style.css"` can break in one of the two environments. Keep the `./` prefix for assets in each project’s `index.html`.
 
+## Design system
+
+For visual, UX and tone consistency across products (Salad Bar, Bubbles, Movie Palette, CrossFit Fuel), see **[docs/PRODUCT-DESIGN-SYSTEM.md](docs/PRODUCT-DESIGN-SYSTEM.md)**. Use it when building a new product to reduce design back-and-forth.
+
 ## Adding a new project
 
 1. Create a folder under `projects/` (e.g. `projects/my-idea/`).
