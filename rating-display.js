@@ -19,6 +19,10 @@
     return { average: 0, count: 0 };
   }
 
+  window.getRatingsSync = function getRatingsSync(project) {
+    return getRatingsFromLocalStorage(project);
+  };
+
   window.getRatings = function getRatings(project) {
     const url = SUPABASE_URL + '/rest/v1/ratings?project=eq.' + encodeURIComponent(project) + '&select=rating';
     return fetch(url, {

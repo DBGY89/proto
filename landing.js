@@ -27,16 +27,25 @@
   });
 
   // ───────────────────────────────────────────
-  //  Card ratings from Supabase (getRatings in rating-display.js), fallback localStorage
+  //  Card ratings: show localStorage immediately, then update from Supabase when it loads
   // ───────────────────────────────────────────
-  document.querySelectorAll('.card-rating[data-project]').forEach((el) => {
-    const project = el.getAttribute('data-project');
-    if (typeof getRatings !== 'function') return;
-    getRatings(project).then(function (res) {
-      if (res.count === 0) return;
-      var label = res.count === 1 ? ' rating' : ' ratings';
-      el.textContent = '★ ' + res.average.toFixed(1) + ' · ' + res.count + label;
-    }).catch(function () {});
+  function setRatingLabel(el, res) {
+    if (!el || !res || res.count === 0) return;
+    var label = res.count === 1 ? ' rating' : ' ratings';
+    el.textContent = '★ ' + res.average.toFixed(1) + ' · ' + res.count + label;
+  }
+  document.querySelectorAll('.card-rating[data-project]').forEach(function (el) {
+    var project = el.getAttribute('data-project');
+    if (!project) return;
+    if (typeof getRatingsSync === 'function') {
+      var local = getRatingsSync(project);
+      if (local.count > 0) setRatingLabel(el, local);
+    }
+    if (typeof getRatings === 'function') {
+      getRatings(project).then(function (res) {
+        setRatingLabel(el, res);
+      }).catch(function () {});
+    }
   });
 
   // ───────────────────────────────────────────

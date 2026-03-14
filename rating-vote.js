@@ -28,10 +28,15 @@
     }
   }
 
+  var debugRatings = typeof window !== 'undefined' && window.location && window.location.search.indexOf('rating-debug=1') !== -1;
+
   window.saveRating = function saveRating(project, rating) {
     var storageKey = RATING_PREFIX + project;
     try {
-      if (localStorage.getItem(storageKey)) return Promise.resolve();
+      if (localStorage.getItem(storageKey)) {
+        if (debugRatings) console.log('[rating] Already voted for', project, '- skipping POST');
+        return Promise.resolve();
+      }
     } catch (_) {}
     var deviceId = getOrCreateDeviceId();
     var url = SUPABASE_URL + '/rest/v1/ratings';
@@ -40,6 +45,7 @@
       rating: Number(rating),
       device_id: deviceId,
     });
+    if (debugRatings) console.log('[rating] Sending vote to Supabase:', project, '→', rating);
     return fetch(url, {
       method: 'POST',
       headers: {
@@ -54,11 +60,19 @@
         try {
           localStorage.setItem(storageKey, String(rating));
         } catch (_) {}
+        if (debugRatings) console.log('[rating] OK: vote saved for', project);
+      } else {
+        if (debugRatings) {
+          res.text().then(function (text) {
+            console.warn('[rating] Supabase', res.status, res.statusText, 'for', project, '—', text);
+          });
+        }
       }
-    }).catch(function () {
+    }).catch(function (err) {
       try {
         localStorage.setItem(storageKey, String(rating));
       } catch (_) {}
+      if (debugRatings) console.warn('[rating] Request failed for', project, err);
     });
   };
 })();
