@@ -345,8 +345,8 @@ body {
   margin-top: 0.25rem;
 }
 
-/* When calorie details are on, hide plain ingredients list; "Ingredients" title + portions list + "How to make it" stay, in that order */
-.menu-cards--calories-on .recipe-ingredients-block {
+/* Standalone portions (meals without recipe): hide when calories on; quantities only in View recipe */
+.menu-cards--calories-on .meal-block-body > .meal-portions {
   display: none;
 }
 

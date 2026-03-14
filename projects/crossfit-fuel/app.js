@@ -1214,10 +1214,6 @@
             '<button type="button" class="recipe-trigger" aria-expanded="false" aria-controls="recipe-content-' + idx + '">View recipe</button>' +
             '<div class="recipe-content" id="recipe-content-' + idx + '" role="region" aria-label="Recipe">' +
               (showIngredientsTitle ? '<p class="recipe-content-title">Ingredients</p>' : '') +
-              (ingredients.length
-                ? '<div class="recipe-ingredients-block"><ul class="recipe-ingredients">' +
-                  ingredients.map(function (i) { return '<li>' + escapeHtml(i) + '</li>'; }).join('') + '</ul></div>'
-                : '') +
               '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>' +
               (methodSteps.length
                 ? '<p class="recipe-content-title">How to make it</p>' +
@@ -1247,6 +1243,7 @@
     });
 
     portionScale = 1;
+    updateMealPortions(menu, 1, false);
     if (inputCalorieTarget) {
       try {
         var savedTarget = (typeof sessionStorage !== 'undefined')
@@ -1305,17 +1302,27 @@
       const meal = (menu.meals || [])[idx];
       const list = block.querySelector('.meal-portions');
       if (!list || !meal) return;
-      if (!show || !Array.isArray(meal.portions) || meal.portions.length === 0) {
+      var portions = Array.isArray(meal.portions) && meal.portions.length > 0 ? meal.portions : null;
+      var ingredientsList = Array.isArray(meal.ingredients) && meal.ingredients.length > 0 ? meal.ingredients : [];
+      if (ingredientsList.length === 0) {
         list.innerHTML = '';
         return;
       }
-      const items = meal.portions.map(function (p) {
-        const baseAmount = typeof p.amount === 'number' ? p.amount : 0;
-        if (!baseAmount) return '';
-        const amountText = formatPortionAmount(baseAmount, p.unit || '', scale);
-        const unit = p.unit && p.unit !== 'g' && p.unit !== 'ml' ? p.unit + ' ' : '';
-        return '<li>' + amountText + ' ' + unit + escapeHtml(p.name || '') + '</li>';
-      }).filter(Boolean);
+      var items = ingredientsList.map(function (name, i) {
+        var text = escapeHtml(name || '');
+        if (show && portions && portions[i]) {
+          var p = portions[i];
+          var baseAmount = typeof p.amount === 'number' ? p.amount : 0;
+          var u = p.unit || '';
+          var skipQty = baseAmount === 1 && !u;
+          if (baseAmount && !skipQty) {
+            var amountText = formatPortionAmount(baseAmount, u, scale);
+            var unit = u && u !== 'g' && u !== 'ml' ? u + ' ' : '';
+            text = amountText + ' ' + unit + text;
+          }
+        }
+        return '<li>' + text + '</li>';
+      });
       list.innerHTML = items.join('');
     });
   }
