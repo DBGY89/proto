@@ -1040,7 +1040,6 @@
   const resultDayBadge = document.getElementById('result-day-badge');
   const menuPlanTitle = document.getElementById('menu-plan-title');
   const menuQuote = document.getElementById('menu-quote');
-  const tagsRow = document.getElementById('tags-row');
   const macroCarbs = document.getElementById('macro-carbs');
   const macroProtein = document.getElementById('macro-protein');
   const macroFat = document.getElementById('macro-fat');
@@ -1124,10 +1123,6 @@
     if (menuPlanTitle) menuPlanTitle.textContent = planTitle;
     if (menuQuote) menuQuote.textContent = quote;
 
-    if (tagsRow) {
-      const tags = isWod ? TAGS_WOD : TAGS_REST;
-      tagsRow.innerHTML = tags.map(function (t) { return '<span class="tag-pill">' + escapeHtml(t) + '</span>'; }).join('');
-    }
 
     const macro = isWod ? MACRO_WOD : MACRO_REST;
     if (macroCarbs) macroCarbs.style.width = macro.carbs + '%';
