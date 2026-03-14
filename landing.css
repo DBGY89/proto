@@ -416,6 +416,24 @@ body {
   display: none;
 }
 
+/* Card badge (e.g. "New" on CrossFit Fuel) — option 1: top-right corner */
+.card-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: var(--neon-pink);
+  color: #0a0a1a;
+}
+.card-badge--corner {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+}
+
 /* Hidden from landing (unpublished projects) */
 .card--hidden {
   display: none !important;
