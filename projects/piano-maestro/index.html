@@ -830,11 +830,35 @@
   }
 
   @media (max-width: 640px) {
-    .app { padding: 1rem 1.25rem 1rem; }
-    .header h1 { font-size: 1.65rem; }
-    .controls-bar { gap: 0.75rem; padding: 1rem; }
-    .white-key { width: 36px; }
-    .black-key { width: 22px; }
+    .app { padding: 0.75rem 0.9rem 0.9rem; }
+    .header { margin-bottom: 0.9rem; }
+    .header h1 { font-size: 1.45rem; }
+    .header-intro { font-size: 0.85rem; }
+    .song-section,
+    .controls-bar {
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .guided-toggle { margin-bottom: 0.85rem; }
+    .controls-bar { gap: 0.6rem; }
+
+    /* Mantener partitura + piano siempre visibles */
+    .partitura-piano-block {
+      flex: 1;
+      min-height: 260px;
+    }
+    .partitura-piano-block .sheet-section,
+    .partitura-piano-block .piano-section {
+      padding: 0.75rem 0.85rem;
+    }
+    .sheet-scroll {
+      max-height: 96px;
+    }
+
+    .keyboard { height: 110px; }
+    .white-key { width: 32px; height: 110px; }
+    .black-key { width: 20px; height: 72px; }
+
     .back-link { padding: 0.25rem 0.5rem; margin: -0.25rem -0.5rem; }
     .topbar { padding-left: 1.25rem; padding-right: 1.25rem; }
   }
@@ -1044,6 +1068,20 @@ const SONGS = [
       {note:'F4',dur:0.5},{note:'F4',dur:0.5},{note:'F4',dur:0.75},{note:'F4',dur:0.25},
       {note:'F4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:0.25},{note:'E4',dur:0.25},
       {note:'E4',dur:0.5},{note:'D4',dur:0.5},{note:'D4',dur:0.5},{note:'E4',dur:0.5},{note:'D4',dur:1},{note:'G4',dur:1}
+    ]
+  },
+  {
+    id: 'river',
+    title: 'River Flows in You',
+    composer: 'Yiruma',
+    difficulty: 'Intermedio',
+    defaultTempo: 72,
+    notes: [
+      {note:'A4',dur:1},{note:'E5',dur:0.5},{note:'D5',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1},{note:'E4',dur:0.5},{note:'A4',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'Fs4',dur:0.5},{note:'E4',dur:1},{note:'D4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1.5},
+      {note:'A4',dur:1},{note:'E5',dur:0.5},{note:'D5',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:0.5},{note:'G4',dur:0.5},{note:'E4',dur:1}
     ]
   }
 ];
@@ -1276,6 +1314,8 @@ function finishSong() {
   isPlaying = false;
   clearHighlights();
   stopMetronome();
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = '100%';
   const statusChip = document.getElementById('statusChip');
   statusChip.textContent = '¡Completado!';
   statusChip.className = 'status-chip success';
@@ -1286,7 +1326,18 @@ function finishSong() {
 function startPractice() {
   if (!currentSong) { alert('Elige una canción primero'); return; }
   if (audioCtx.state === 'suspended') audioCtx.resume();
+  currentNoteIndex = 0;
+  score = 0;
+  streak = 0;
+  totalAttempts = 0;
   isPlaying = true;
+  clearHighlights();
+  document.querySelectorAll('.note-cell').forEach(function (c) {
+    c.classList.remove('current', 'played-correct', 'played-wrong');
+  });
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = '0%';
+  updateScore();
   const statusChip = document.getElementById('statusChip');
   statusChip.textContent = 'Tocando...';
   statusChip.className = 'status-chip active';
