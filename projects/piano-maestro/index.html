@@ -960,6 +960,34 @@
     .app { display: block; }
   }
 
+  /* Force horizontal (only triggered by mobile "Play") */
+  body.force-landscape .orientation-gate { display: none !important; }
+  body.force-landscape .topbar { display: none !important; }
+  body.force-landscape .app {
+    display: block !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vh;
+    height: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: 1rem 1rem 1rem;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    overflow: hidden;
+    z-index: 200;
+  }
+  body.force-landscape .header,
+  body.force-landscape .guided-toggle,
+  body.force-landscape .song-section,
+  body.force-landscape .recording-section,
+  body.force-landscape .vote-widget-wrap,
+  body.force-landscape .footer {
+    display: none !important;
+  }
+  body.force-landscape { overflow: hidden; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
@@ -987,7 +1015,7 @@
       <p class="orientation-text">
         Gira el móvil. Hay un piano ahí dentro.
       </p>
-      <button type="button" class="orientation-cta" onclick="playIntroNotes()">
+      <button type="button" class="orientation-cta" onclick="enterLandscapeMode()">
         <span>Play</span>
       </button>
     </div>
@@ -1234,6 +1262,21 @@ function playIntroNotes() {
   pattern.forEach((n, i) => {
     setTimeout(() => playNote(n, 0.35, 0.7), i * 220);
   });
+}
+
+function enterLandscapeMode() {
+  // Solo afecta móviles en vertical: forzamos "horizontal" rotando el juego.
+  document.body.classList.add('force-landscape');
+
+  // Estado inicial: guiado + primera canción si aún no hay selección.
+  try {
+    if (typeof setGuidedMode === 'function') setGuidedMode(true);
+    if (!currentSong && Array.isArray(SONGS) && SONGS.length) {
+      selectSong(SONGS[0]);
+    }
+  } catch (_) {}
+
+  playIntroNotes();
 }
 
 // STATE
