@@ -659,6 +659,91 @@
     100% { transform: scale(1); opacity: 0; }
   }
 
+  /* Mobile landscape compacto (mockup “piano box”) */
+  .mobile-landscape-overlay,
+  .mobile-landscape-actions { display: none; }
+
+  /* Movie Palette dropdown (adaptado a mobile) */
+  .movie-dropdown{
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+  }
+  .movie-select{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem 0.85rem 1.05rem;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background: rgba(17,17,40,.65);
+    border: 1px solid var(--border-surface);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    text-align: left;
+  }
+  .movie-select:hover{
+    border-color: rgba(144,144,176,0.95);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .movie-select:focus{
+    outline: none;
+    border-color: rgba(0,240,255,.8);
+    box-shadow: 0 0 0 2px rgba(0,240,255,.12), 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .movie-select-text{ flex:1; min-width:0; }
+  .movie-select-icon{
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    opacity: 0.9;
+    transition: transform 0.2s var(--ease);
+  }
+  .movie-dropdown.is-open .movie-select-icon{ transform: rotate(180deg); }
+
+  .movie-dropdown-panel{
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: rgba(17,17,40,.92);
+    border: 1px solid var(--border-surface);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    z-index: 60;
+    overflow: hidden;
+    max-height: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+  .movie-dropdown-option{
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.15s var(--ease);
+    user-select: none;
+  }
+  .movie-dropdown-option:hover{
+    background: rgba(0,240,255,0.10);
+  }
+  .movie-dropdown-option[data-value=""]{
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .metronome-dot-compact{
+    width: 12px;
+    height: 12px;
+    opacity: 0.45; /* se ve como “puntico” incluso cuando no está en beat */
+    transition: opacity 0.05s;
+  }
+
   .guided-toggle {
     display: flex;
     gap: 2px;
@@ -958,6 +1043,46 @@
   @media (orientation: landscape) and (max-width: 900px) {
     .orientation-gate { display: none; }
     .app { display: block; }
+
+    /* Piano horizontal compacto: quitamos distracciones */
+    body { overflow: hidden; }
+    .header,
+    .guided-toggle,
+    .song-section,
+    .controls-bar,
+    .status-row,
+    .recording-section,
+    .vote-widget-wrap,
+    .footer { display: none !important; }
+
+    .partitura-piano-block {
+      position: relative;
+      margin-bottom: 0;
+      padding-top: 3.05rem;
+      padding-bottom: 3.35rem;
+      height: 100vh;
+      flex: 1;
+    }
+    .mobile-landscape-overlay {
+      display: flex !important;
+      position: absolute;
+      top: 0.85rem;
+      left: 0.9rem;
+      right: 0.9rem;
+      z-index: 10;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .mobile-landscape-actions {
+      display: flex !important;
+      position: absolute;
+      bottom: 0.85rem;
+      left: 0.9rem;
+      z-index: 10;
+    }
+    .mobile-landscape-actions-inner { display: flex; gap: 0.75rem; }
+    .partitura-piano-block .piano-section .status-row { display: none !important; }
   }
 
   /* Force horizontal (only triggered by mobile "Play") */
@@ -991,12 +1116,44 @@
   body.force-landscape .header,
   body.force-landscape .guided-toggle,
   body.force-landscape .song-section,
+  body.force-landscape .controls-bar,
   body.force-landscape .recording-section,
   body.force-landscape .vote-widget-wrap,
+  body.force-landscape .status-row,
   body.force-landscape .footer {
     display: none !important;
   }
   body.force-landscape { overflow: hidden; }
+
+  body.force-landscape .mobile-landscape-overlay,
+  body.force-landscape .mobile-landscape-actions {
+    display: flex !important;
+  }
+  body.force-landscape .mobile-landscape-overlay {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.9rem;
+    right: 0.9rem;
+    z-index: 10;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  body.force-landscape .mobile-landscape-actions {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 0.9rem;
+    z-index: 10;
+  }
+  body.force-landscape .mobile-landscape-actions-inner { display: flex; gap: 0.75rem; }
+  body.force-landscape .partitura-piano-block {
+    position: relative;
+    margin-bottom: 0;
+    padding-top: 3.05rem;
+    padding-bottom: 3.35rem;
+    height: 100vh;
+  }
+  body.force-landscape .partitura-piano-block .piano-section .status-row { display: none !important; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -1075,6 +1232,28 @@
 
   <!-- Partitura + Piano juntos (foco de atención) -->
   <div class="partitura-piano-block">
+    <!-- Mobile landscape compacto: dropdown + metronome dot + acciones -->
+    <div class="mobile-landscape-overlay" id="mobileLandscapeOverlay">
+      <div class="mobile-landscape-left">
+        <div class="movie-dropdown mobile-landscape-song" id="mobileSongDropdown">
+          <button type="button" id="mobileSongSelect" class="movie-select"
+            aria-label="Elige una canción"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="mobileSongDropdownPanel">
+            <span class="movie-select-text" id="mobileSongSelectText">Elige una canción</span>
+            <svg class="movie-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          <div class="movie-dropdown-panel" id="mobileSongDropdownPanel" role="listbox" aria-label="Canciones" hidden></div>
+        </div>
+      </div>
+      <div class="mobile-landscape-right">
+        <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Pulso de metrónomo" role="status"></div>
+      </div>
+    </div>
+
     <div class="sheet-section">
       <div class="section-label">Partitura</div>
       <div class="sheet-scroll">
@@ -1091,6 +1270,13 @@
       </div>
       <div class="status-row">
         <div class="status-chip" id="nextNoteChip">…</div>
+      </div>
+    </div>
+
+    <div class="mobile-landscape-actions" id="mobileLandscapeActions">
+      <div class="mobile-landscape-actions-inner">
+        <button class="btn btn-gold mobile-compact-start" id="compactStartBtn" type="button" onclick="startPractice()">▶ Empezar</button>
+        <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reiniciar</button>
       </div>
     </div>
   </div>
@@ -1432,7 +1618,10 @@ function updateCurrentNote() {
   const current = document.querySelector(`.note-cell[data-index="${currentNoteIndex}"]`);
   if (current) {
     current.classList.add('current');
-    current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    // En horizontal compacto evitamos scroll para que todo quede fijo en la pantalla.
+    if (!isMobileCompactLandscape()) {
+      current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
     const note = currentSong.notes[currentNoteIndex];
     const noteLabel = note.note.replace(/\d/,'').replace('s','#').replace('b','♭');
     document.getElementById('nextNoteChip').textContent = `Toca: ${noteLabel}`;
@@ -1501,6 +1690,11 @@ function finishSong() {
 function startPractice() {
   if (!currentSong) { alert('Elige una canción primero'); return; }
   if (audioCtx.state === 'suspended') audioCtx.resume();
+  const compact = isMobileCompactLandscape();
+  if (compact) {
+    guidedMode = true;
+    metronomeActive = true; // en compacto no hay toggle: el pulso acompaña siempre al empezar
+  }
   currentNoteIndex = 0;
   score = 0;
   streak = 0;
@@ -1517,11 +1711,12 @@ function startPractice() {
   statusChip.textContent = 'Tocando...';
   statusChip.className = 'status-chip active';
   updateCurrentNote();
-  if (metronomeActive) startMetronome();
+  if (compact || metronomeActive) startMetronome();
 }
 
 function resetPractice() {
   isPlaying = false;
+  if (isMobileCompactLandscape()) guidedMode = true;
   currentNoteIndex = 0;
   score = 0;
   streak = 0;
@@ -1529,7 +1724,8 @@ function resetPractice() {
   clearHighlights();
   stopMetronome();
   metronomeActive = false;
-  document.getElementById('metroBtn').textContent = 'Metrónomo';
+  const metroBtn = document.getElementById('metroBtn');
+  if (metroBtn) metroBtn.textContent = 'Metrónomo';
   const statusChip = document.getElementById('statusChip');
   statusChip.textContent = currentSong ? 'Listo' : 'Elige una canción';
   statusChip.className = 'status-chip';
@@ -1551,6 +1747,12 @@ function toggleMetronome() {
   }
 }
 
+function isMobileCompactLandscape() {
+  if (document.body.classList.contains('force-landscape')) return true;
+  if (!window.matchMedia) return false;
+  return window.matchMedia('(orientation: landscape) and (max-width: 900px)').matches;
+}
+
 function playClick(accent) {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
@@ -1570,16 +1772,20 @@ function startMetronome() {
   const interval = (60 / tempo) * 1000;
   metronomeInterval = setInterval(() => {
     playClick(metronomeCount % 4 === 0);
-    const dot = document.getElementById('metronomeDot');
-    dot.classList.remove('beat');
-    void dot.offsetWidth;
-    dot.classList.add('beat');
+    const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDot');
+    if (dot) {
+      dot.classList.remove('beat');
+      void dot.offsetWidth;
+      dot.classList.add('beat');
+    }
     metronomeCount++;
   }, interval);
 }
 
 function stopMetronome() {
   if (metronomeInterval) clearInterval(metronomeInterval);
+  const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDot');
+  if (dot) dot.classList.remove('beat');
 }
 
 function updateTempo(val) {
@@ -1606,6 +1812,10 @@ function selectSong(song) {
   document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
   buildNotesRow();
+
+  const mobileSongSelectText = document.getElementById('mobileSongSelectText');
+  if (mobileSongSelectText) mobileSongSelectText.textContent = song.title || 'Elige una canción';
+
   document.querySelectorAll('.song-btn').forEach(b => b.classList.remove('active'));
   const btn = document.querySelector(`.song-btn[data-id="${song.id}"]`);
   if (btn) btn.classList.add('active');
@@ -1623,6 +1833,99 @@ function buildSongGrid() {
     `;
     btn.addEventListener('click', () => selectSong(song));
     grid.appendChild(btn);
+  });
+}
+
+function initMobileSongDropdown() {
+  const dropdown = document.getElementById('mobileSongDropdown');
+  const selectBtn = document.getElementById('mobileSongSelect');
+  const panel = document.getElementById('mobileSongDropdownPanel');
+  const label = document.getElementById('mobileSongSelectText');
+  if (!dropdown || !selectBtn || !panel || !label || !Array.isArray(SONGS)) return;
+
+  // (Re)build options
+  panel.innerHTML = '';
+
+  const placeholder = document.createElement('div');
+  placeholder.className = 'movie-dropdown-option';
+  placeholder.setAttribute('role', 'option');
+  placeholder.setAttribute('data-value', '');
+  placeholder.setAttribute('tabindex', '-1');
+  placeholder.textContent = 'Elige una canción';
+  panel.appendChild(placeholder);
+
+  SONGS.forEach(song => {
+    const opt = document.createElement('div');
+    opt.className = 'movie-dropdown-option';
+    opt.setAttribute('role', 'option');
+    opt.setAttribute('data-value', song.id);
+    opt.setAttribute('tabindex', '-1');
+    opt.textContent = song.title;
+    panel.appendChild(opt);
+  });
+
+  function openDropdown() {
+    if (dropdown.classList.contains('is-open')) return;
+    panel.hidden = false;
+    panel.removeAttribute('hidden');
+    selectBtn.setAttribute('aria-expanded', 'true');
+    dropdown.classList.add('is-open');
+  }
+
+  function closeDropdown() {
+    panel.hidden = true;
+    panel.setAttribute('hidden', 'true');
+    selectBtn.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('is-open');
+  }
+
+  // Initial state: closed
+  closeDropdown();
+
+  selectBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (dropdown.classList.contains('is-open')) closeDropdown();
+    else openDropdown();
+  });
+
+  panel.addEventListener('click', function (e) {
+    const opt = e.target && e.target.closest ? e.target.closest('.movie-dropdown-option') : null;
+    if (!opt) return;
+    const val = opt.getAttribute('data-value') || '';
+    label.textContent = opt.textContent || 'Elige una canción';
+    closeDropdown();
+
+    if (!val) {
+      // Clear selection
+      currentSong = null;
+      currentNoteIndex = 0;
+      score = 0;
+      streak = 0;
+      totalAttempts = 0;
+      isPlaying = false;
+      metronomeActive = false;
+      stopMetronome();
+      clearHighlights();
+      updateScore();
+      buildNotesRow();
+
+      const statusChip = document.getElementById('statusChip');
+      if (statusChip) {
+        statusChip.textContent = 'Elige una canción';
+        statusChip.className = 'status-chip';
+      }
+      const nextChip = document.getElementById('nextNoteChip');
+      if (nextChip) nextChip.textContent = '…';
+      return;
+    }
+
+    const song = SONGS.find(s => s.id === val);
+    if (song) selectSong(song);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!dropdown) return;
+    if (!dropdown.contains(e.target)) closeDropdown();
   });
 }
 
@@ -1732,6 +2035,7 @@ function renderRecordings() {
 document.querySelector('.app').classList.add('guided-mode');
 buildKeyboard();
 buildSongGrid();
+initMobileSongDropdown();
 renderRecordings();
 </script>
   <script src="../../rating-vote.js"></script>
