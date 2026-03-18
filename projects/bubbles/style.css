@@ -183,7 +183,7 @@ body {
 .go-score span { color: var(--neon-cyan); font-weight: 700; }
 
 .game-over .vote-widget--go {
-  margin: 0 auto 1.5rem;
+  margin: 1.5rem auto 0;
   text-align: center;
 }
 .game-over .vote-widget--go .vote-nums {

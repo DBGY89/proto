@@ -306,25 +306,31 @@ body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s var(--ease);
+  padding-top: 0.75rem;
 }
 .recipe-reveal.open .recipe-content {
   max-height: 520px;
 }
+/* Section labels: same size as body, bold — don't compete with dish name (level 2) */
 .recipe-content-title {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  margin: 0.5rem 0 0.25rem 0;
+  color: var(--text-primary);
+  margin: 0.6rem 0 0.25rem 0;
+  letter-spacing: 0.01em;
+}
+.recipe-content-title:first-child {
+  margin-top: 0;
 }
 .recipe-ingredients {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
   padding-left: 1.25rem;
 }
 .recipe-steps {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
@@ -333,9 +339,15 @@ body {
 .recipe-steps--single {
   padding-left: 0;
   list-style: none;
+  font-size: 0.85rem;
 }
 .recipe-content-title + .recipe-steps {
   margin-top: 0.25rem;
+}
+
+/* Standalone portions (meals without recipe): hide when calories on; quantities only in View recipe */
+.menu-cards--calories-on .meal-block-body > .meal-portions {
+  display: none;
 }
 
 .day-type-why-block {
@@ -800,6 +812,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+.meal-block--pre-wod .meal-block-title,
+.meal-block--post-wod .meal-block-title {
+  color: var(--accent-wod);
 }
 .meal-block-meta {
   display: flex;

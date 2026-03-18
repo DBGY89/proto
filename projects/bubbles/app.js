@@ -27,6 +27,7 @@
   let endTimer = null;
   let startTime = 0;
   let running = false;
+  let soundEnabled = false;
 
   // ─── Audio ───
   let audioCtx = null;
@@ -37,6 +38,7 @@
   }
 
   function playPop(special) {
+    if (!soundEnabled) return;
     const ctx = getAudioCtx();
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
@@ -236,21 +238,29 @@
 
   if (soundOnPill) {
     soundOnPill.addEventListener('click', function () {
+      const label = soundOnPill.querySelector('.sound-on-pill-label');
+      if (soundEnabled) {
+        soundEnabled = false;
+        soundOnPill.classList.remove('sound-on-pill--active');
+        if (label) label.textContent = 'Sound on';
+        soundOnPill.setAttribute('aria-label', 'Enable sound for pop effects');
+        return;
+      }
       const ctx = getAudioCtx();
       if (ctx.state === 'suspended') {
         ctx.resume().then(function () {
+          soundEnabled = true;
           playPop(false);
           soundOnPill.classList.add('sound-on-pill--active');
-          const label = soundOnPill.querySelector('.sound-on-pill-label');
-          if (label) label.textContent = 'Sound on';
-          soundOnPill.setAttribute('aria-label', 'Sound enabled');
+          if (label) label.textContent = 'Sound off';
+          soundOnPill.setAttribute('aria-label', 'Turn sound off');
         }).catch(function () {});
       } else {
+        soundEnabled = true;
         playPop(false);
         soundOnPill.classList.add('sound-on-pill--active');
-        const label = soundOnPill.querySelector('.sound-on-pill-label');
-        if (label) label.textContent = 'Sound on';
-        soundOnPill.setAttribute('aria-label', 'Sound enabled');
+        if (label) label.textContent = 'Sound off';
+        soundOnPill.setAttribute('aria-label', 'Turn sound off');
       }
     });
   }

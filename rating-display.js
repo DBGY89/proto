@@ -19,6 +19,10 @@
     return { average: 0, count: 0 };
   }
 
+  window.getRatingsSync = function getRatingsSync(project) {
+    return getRatingsFromLocalStorage(project);
+  };
+
   window.getRatings = function getRatings(project) {
     const url = SUPABASE_URL + '/rest/v1/ratings?project=eq.' + encodeURIComponent(project) + '&select=rating';
     return fetch(url, {
@@ -34,13 +38,11 @@
         return res.json();
       })
       .then(function (rows) {
-        if (!Array.isArray(rows) || rows.length === 0) {
-          return { average: 0, count: 0 };
+        if (Array.isArray(rows) && rows.length > 0) {
+          const sum = rows.reduce(function (acc, r) { return acc + (Number(r.rating) || 0); }, 0);
+          return { average: sum / rows.length, count: rows.length };
         }
-        const sum = rows.reduce(function (acc, r) { return acc + (Number(r.rating) || 0); }, 0);
-        const count = rows.length;
-        const average = count ? sum / count : 0;
-        return { average: average, count: count };
+        return getRatingsFromLocalStorage(project);
       })
       .catch(function () {
         return getRatingsFromLocalStorage(project);

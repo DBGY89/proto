@@ -557,6 +557,93 @@
   .recording-item .btn-play-rec:hover { box-shadow: 0 0 12px rgba(0, 240, 255, 0.4); }
   .recording-item .btn-play-rec:disabled { opacity: 0.6; cursor: not-allowed; }
 
+  /* Orientation gate for mobile: ask for landscape */
+  .orientation-gate {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.75rem 1.25rem 1.25rem;
+    width: 100%;
+    min-height: calc(100vh - 56px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .orientation-inner {
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    padding-top: 0;
+  }
+  .orientation-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 7px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 42px rgba(0, 240, 255, 0.4);
+    text-transform: uppercase;
+  }
+  .orientation-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+  .orientation-hint {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.9;
+  }
+  .orientation-cta {
+    margin-top: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: none;
+    background: var(--neon-cyan);
+    color: var(--bg-deep);
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.5);
+    transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  }
+  .orientation-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.6);
+  }
+  .note-cloud {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -60px; /* como las burbujas de Bubbles, nace fuera de pantalla */
+    height: 120vh;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .note-icon {
+    position: absolute;
+    font-size: 3.6rem;
+    color: rgba(0, 240, 255, 0.6);
+    animation: noteFloat 6s linear infinite;
+  }
+  .note-icon:nth-child(1) { bottom: 0; left: 18%; animation-delay: 0s; }
+  .note-icon:nth-child(2) { bottom: -10%; right: 18%; animation-delay: 1.4s; }
+
+  @keyframes noteFloat {
+    0% { translate: 0 0; opacity: 0; }
+    20% { opacity: 1; }
+    100% { translate: 0 calc(-100vh - 40px); opacity: 0; }
+  }
+
   .metronome-dot {
     width: 8px;
     height: 8px;
@@ -830,14 +917,76 @@
   }
 
   @media (max-width: 640px) {
-    .app { padding: 1rem 1.25rem 1rem; }
-    .header h1 { font-size: 1.65rem; }
-    .controls-bar { gap: 0.75rem; padding: 1rem; }
-    .white-key { width: 36px; }
-    .black-key { width: 22px; }
+    .app { padding: 0.75rem 0.9rem 0.9rem; }
+    .header { margin-bottom: 0.9rem; }
+    .header h1 { font-size: 1.45rem; }
+    .header-intro { font-size: 0.85rem; }
+    .song-section,
+    .controls-bar {
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .guided-toggle { margin-bottom: 0.85rem; }
+    .controls-bar { gap: 0.6rem; }
+
+    /* Mantener partitura + piano siempre visibles */
+    .partitura-piano-block {
+      flex: 1;
+      min-height: 260px;
+    }
+    .partitura-piano-block .sheet-section,
+    .partitura-piano-block .piano-section {
+      padding: 0.75rem 0.85rem;
+    }
+    .sheet-scroll {
+      max-height: 96px;
+    }
+
+    .keyboard { height: 110px; }
+    .white-key { width: 32px; height: 110px; }
+    .black-key { width: 20px; height: 72px; }
+
     .back-link { padding: 0.25rem 0.5rem; margin: -0.25rem -0.5rem; }
     .topbar { padding-left: 1.25rem; padding-right: 1.25rem; }
   }
+
+  /* Orientation-specific visibility */
+  @media (orientation: portrait) and (max-width: 900px) {
+    .orientation-gate { display: flex; }
+    .app { display: none; }
+  }
+  @media (orientation: landscape) and (max-width: 900px) {
+    .orientation-gate { display: none; }
+    .app { display: block; }
+  }
+
+  /* Force horizontal (only triggered by mobile "Play") */
+  body.force-landscape .orientation-gate { display: none !important; }
+  body.force-landscape .topbar { display: none !important; }
+  body.force-landscape .app {
+    display: block !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vh;
+    height: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: 1rem 1rem 1rem;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    overflow: hidden;
+    z-index: 200;
+  }
+  body.force-landscape .header,
+  body.force-landscape .guided-toggle,
+  body.force-landscape .song-section,
+  body.force-landscape .recording-section,
+  body.force-landscape .vote-widget-wrap,
+  body.force-landscape .footer {
+    display: none !important;
+  }
+  body.force-landscape { overflow: hidden; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -855,6 +1004,22 @@
   </nav>
 
   <div class="bg-pattern" aria-hidden="true"></div>
+
+  <section class="orientation-gate" aria-label="Gira tu móvil para tocar Piano Maestro">
+    <div class="orientation-inner">
+      <div class="note-cloud" aria-hidden="true">
+        <span class="note-icon">♪</span>
+        <span class="note-icon">♫</span>
+      </div>
+      <h1 class="orientation-title">PIANO MAESTRO</h1>
+      <p class="orientation-text">
+        Gira el móvil. Hay un piano ahí dentro.
+      </p>
+      <button type="button" class="orientation-cta" onclick="enterLandscapeMode()">
+        <span>Play</span>
+      </button>
+    </div>
+  </section>
 
   <main class="app">
 
@@ -1045,6 +1210,20 @@ const SONGS = [
       {note:'F4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:0.25},{note:'E4',dur:0.25},
       {note:'E4',dur:0.5},{note:'D4',dur:0.5},{note:'D4',dur:0.5},{note:'E4',dur:0.5},{note:'D4',dur:1},{note:'G4',dur:1}
     ]
+  },
+  {
+    id: 'river',
+    title: 'River Flows in You',
+    composer: 'Yiruma',
+    difficulty: 'Intermedio',
+    defaultTempo: 72,
+    notes: [
+      {note:'A4',dur:1},{note:'E5',dur:0.5},{note:'D5',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1},{note:'E4',dur:0.5},{note:'A4',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'Fs4',dur:0.5},{note:'E4',dur:1},{note:'D4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1.5},
+      {note:'A4',dur:1},{note:'E5',dur:0.5},{note:'D5',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:1},
+      {note:'G4',dur:0.5},{note:'E4',dur:0.5},{note:'A4',dur:1},{note:'C5',dur:0.5},{note:'B4',dur:0.5},{note:'A4',dur:0.5},{note:'G4',dur:0.5},{note:'E4',dur:1}
+    ]
   }
 ];
 
@@ -1074,6 +1253,30 @@ function playNote(noteName, duration = 0.5, velocity = 0.7) {
   gain.connect(audioCtx.destination);
   osc.start(t);
   osc.stop(t + duration + 0.1);
+}
+
+// Simple intro arpeggio for orientation gate
+function playIntroNotes() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const pattern = ['C4','E4','G4','C5','G4','E4'];
+  pattern.forEach((n, i) => {
+    setTimeout(() => playNote(n, 0.35, 0.7), i * 220);
+  });
+}
+
+function enterLandscapeMode() {
+  // Solo afecta móviles en vertical: forzamos "horizontal" rotando el juego.
+  document.body.classList.add('force-landscape');
+
+  // Estado inicial: guiado + primera canción si aún no hay selección.
+  try {
+    if (typeof setGuidedMode === 'function') setGuidedMode(true);
+    if (!currentSong && Array.isArray(SONGS) && SONGS.length) {
+      selectSong(SONGS[0]);
+    }
+  } catch (_) {}
+
+  playIntroNotes();
 }
 
 // STATE
@@ -1284,6 +1487,8 @@ function finishSong() {
   isPlaying = false;
   clearHighlights();
   stopMetronome();
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = '100%';
   const statusChip = document.getElementById('statusChip');
   statusChip.textContent = '¡Completado!';
   statusChip.className = 'status-chip success';
@@ -1294,7 +1499,18 @@ function finishSong() {
 function startPractice() {
   if (!currentSong) { alert('Elige una canción primero'); return; }
   if (audioCtx.state === 'suspended') audioCtx.resume();
+  currentNoteIndex = 0;
+  score = 0;
+  streak = 0;
+  totalAttempts = 0;
   isPlaying = true;
+  clearHighlights();
+  document.querySelectorAll('.note-cell').forEach(function (c) {
+    c.classList.remove('current', 'played-correct', 'played-wrong');
+  });
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = '0%';
+  updateScore();
   const statusChip = document.getElementById('statusChip');
   statusChip.textContent = 'Tocando...';
   statusChip.className = 'status-chip active';

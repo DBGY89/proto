@@ -39,7 +39,7 @@
           mealType: 'breakfast',
           dishName: 'Tomato toast with olive oil & scrambled egg',
           ingredients: ['sourdough or wholemeal bread', 'ripe tomato', 'extra virgin olive oil', 'egg', 'salt', 'garlic (optional)'],
-          fuelStory: 'On training days your muscles need glycogen to perform. Toast and tomato give quick carbs; olive oil and egg add fat and protein. Simple, fast and very Mediterranean.',
+          fuelStory: 'On training days your muscles need glycogen to perform. Toast and tomato give quick carbs; olive oil and egg add fat and protein. Simple, fast, and easy to digest.',
           kcal: 420,
           portions: [
             { amount: 2, unit: 'slices', name: 'bread' },
@@ -65,7 +65,7 @@
           mealType: 'lunch',
           dishName: 'Grilled chicken with roasted peppers, spinach & lemon',
           ingredients: ['chicken breast', 'bell peppers', 'spinach', 'extra virgin olive oil', 'lemon', 'garlic', 'oregano'],
-          fuelStory: 'After training your body is repairing. Chicken restocks the amino acids your muscles used; peppers and spinach add vitamins and antioxidants. Olive oil and lemon tie it together the Mediterranean way.',
+          fuelStory: 'After training your body is repairing. Chicken restocks the amino acids your muscles used; peppers and spinach add vitamins and antioxidants. Olive oil and lemon keep it fresh and light.',
           kcal: 520,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken breast' },
@@ -92,7 +92,7 @@
           mealType: 'dinner',
           dishName: 'Baked salmon with rice, lemon & green beans',
           ingredients: ['salmon fillet', 'rice', 'green beans', 'extra virgin olive oil', 'lemon', 'garlic', 'herbs'],
-          fuelStory: 'Training day dinner has two jobs: refill glycogen and support overnight repair. Salmon\'s omega-3s curb inflammation; rice restocks glycogen; green beans add fibre and folate. Classic Mediterranean combo.',
+          fuelStory: 'Training day dinner has two jobs: refill glycogen and support overnight repair. Salmon\'s omega-3s curb inflammation; rice restocks glycogen; green beans add fibre and folate. Clean, balanced, and satisfying.',
           kcal: 580,
           portions: [
             { amount: 150, unit: 'g', name: 'salmon fillet' },
@@ -110,7 +110,7 @@
           mealType: 'breakfast',
           dishName: 'Spanish-style potato & egg tortilla with bread',
           ingredients: ['potato', 'eggs', 'onion', 'olive oil', 'salt', 'bread'],
-          fuelStory: 'On training days breakfast must fuel the session. Potato and bread give carbs for glycogen; eggs add protein. A classic Mediterranean start that sits well before training.',
+          fuelStory: 'On training days breakfast must fuel the session. Potato and bread give carbs for glycogen; eggs add protein. A classic start that sits well before training.',
           kcal: 480,
           portions: [
             { amount: 150, unit: 'g', name: 'potato' },
@@ -136,7 +136,7 @@
           mealType: 'lunch',
           dishName: 'Chicken, rice & vegetable bowl with olive oil & lemon',
           ingredients: ['chicken breast', 'rice', 'courgette', 'tomato', 'olive oil', 'lemon', 'herbs'],
-          fuelStory: 'After (or between) training your body needs protein to repair and carbs to refill glycogen. Chicken and rice deliver both; courgette and tomato add volume and antioxidants. Olive oil and lemon keep it Mediterranean.',
+          fuelStory: 'After (or between) training your body needs protein to repair and carbs to refill glycogen. Chicken and rice deliver both; courgette and tomato add volume and antioxidants. Finish with olive oil and lemon for a bright, simple bowl.',
           kcal: 540,
           portions: [
             { amount: 140, unit: 'g', name: 'chicken breast' },
@@ -161,7 +161,7 @@
           mealType: 'dinner',
           dishName: 'Baked chicken with peppers, rice & lemon',
           ingredients: ['chicken thigh or breast', 'bell peppers', 'onion', 'rice', 'olive oil', 'lemon', 'oregano', 'garlic'],
-          fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken and rice deliver protein and carbs; peppers and lemon keep it Mediterranean and easy to digest.',
+          fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken and rice deliver protein and carbs; peppers and lemon keep it light and easy to digest.',
           kcal: 600,
           portions: [
             { amount: 160, unit: 'g', name: 'chicken' },
@@ -178,7 +178,7 @@
           mealType: 'breakfast',
           dishName: 'Spanish tortilla with spinach & bread',
           ingredients: ['potato', 'eggs', 'spinach', 'onion', 'olive oil', 'bread'],
-          fuelStory: 'On a training day you need carbs for the session and protein for repair. Potato and bread give glycogen; eggs add protein. A classic Mediterranean breakfast that fuels the WOD.',
+          fuelStory: 'On a training day you need carbs for the session and protein for repair. Potato and bread give glycogen; eggs add protein. A classic breakfast that fuels the WOD.',
           kcal: 500,
           portions: [
             { amount: 150, unit: 'g', name: 'potato' },
@@ -203,7 +203,7 @@
           mealType: 'lunch',
           dishName: 'Salmon with farro, tomato & basil',
           ingredients: ['salmon fillet', 'farro', 'cherry tomatoes', 'basil', 'olive oil', 'lemon', 'garlic'],
-          fuelStory: 'After training you need to refill glycogen and calm inflammation. Salmon\'s omega-3s help recovery; farro restocks carbs; tomato and basil add antioxidants. Mediterranean in one bowl.',
+          fuelStory: 'After training you need to refill glycogen and calm inflammation. Salmon\'s omega-3s help recovery; farro restocks carbs; tomato and basil add antioxidants. A full recovery bowl in one plate.',
           kcal: 560,
           portions: [
             { amount: 140, unit: 'g', name: 'salmon' },
@@ -228,7 +228,7 @@
           mealType: 'dinner',
           dishName: 'Prawns with garlic, lemon, rice & green beans',
           ingredients: ['prawns', 'rice', 'green beans', 'garlic', 'lemon', 'olive oil', 'parsley'],
-          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Prawns are light and high in protein; rice refuels. Garlic, lemon and olive oil keep it Mediterranean.',
+          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Prawns are light and high in protein; rice refuels. Garlic, lemon and olive oil keep it bright and simple.',
           kcal: 540,
           portions: [
             { amount: 140, unit: 'g', name: 'prawns (peeled)' },
@@ -245,7 +245,7 @@
           mealType: 'breakfast',
           dishName: 'Toast with smoked salmon, olive oil & lemon',
           ingredients: ['sourdough or rye bread', 'smoked salmon', 'extra virgin olive oil', 'lemon', 'capers or dill'],
-          fuelStory: 'On training days you need carbs to fill glycogen and protein to protect muscle. Toast and salmon deliver both. Simple and very Mediterranean.',
+          fuelStory: 'On training days you need carbs to fill glycogen and protein to protect muscle. Toast and salmon deliver both. Simple and satisfying.',
           kcal: 480,
           portions: [
             { amount: 2, unit: 'slices', name: 'bread' },
@@ -269,7 +269,7 @@
           mealType: 'lunch',
           dishName: 'Chicken, rice & vegetable salad with olive oil & lemon',
           ingredients: ['chicken breast', 'rice', 'cucumber', 'tomato', 'olive oil', 'lemon', 'herbs'],
-          fuelStory: 'After training you need protein to repair and carbs to refill. Chicken and rice give both; cucumber and tomato add freshness. Olive oil and lemon dress it the Mediterranean way.',
+          fuelStory: 'After training you need protein to repair and carbs to refill. Chicken and rice give both; cucumber and tomato add freshness. Olive oil and lemon make it bright and easy.',
           kcal: 540,
           portions: [
             { amount: 150, unit: 'g', name: 'chicken breast' },
@@ -294,7 +294,7 @@
           mealType: 'dinner',
           dishName: 'Lentil & vegetable stew with egg',
           ingredients: ['brown or green lentils', 'carrot', 'onion', 'tomato', 'celery', 'olive oil', 'egg', 'herbs'],
-          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Lentils bring plant protein and fibre; vegetables add volume. Top with a fried egg for extra protein. Classic Mediterranean comfort.',
+          fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Lentils bring plant protein and fibre; vegetables add volume. Top with a fried egg for extra protein. Comfort food that still fuels recovery.',
           kcal: 560,
           portions: [
             { amount: 120, unit: 'g', name: 'dried lentils (cooked)' },
@@ -373,7 +373,7 @@
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Rice with fried egg, tomato & olive oil', ingredients: ['rice', 'egg', 'tomato', 'olive oil', 'garlic', 'salt'], fuelStory: 'On training days breakfast must fuel the session. Rice gives carbs for glycogen; egg and tomato add protein and freshness. A Mediterranean-style start before an early WOD.', kcal: 460, portions: [{ amount: 150, unit: 'g', name: 'cooked rice' }, { amount: 2, unit: '', name: 'eggs' }], method: ['Cook rice. Fry eggs in olive oil. Serve rice with a quick tomato and garlic mix (or fresh tomato) and the eggs on top.'] },
+        { mealType: 'breakfast', dishName: 'Rice with fried egg, tomato & olive oil', ingredients: ['rice', 'egg', 'tomato', 'olive oil', 'garlic', 'salt'], fuelStory: 'On training days breakfast must fuel the session. Rice gives carbs for glycogen; egg and tomato add protein and freshness. A simple start before an early WOD.', kcal: 460, portions: [{ amount: 150, unit: 'g', name: 'cooked rice' }, { amount: 2, unit: '', name: 'eggs' }], method: ['Cook rice. Fry eggs in olive oil. Serve rice with a quick tomato and garlic mix (or fresh tomato) and the eggs on top.'] },
         { mealType: 'snackPreWod', dishName: 'Mashed banana on rice cakes', ingredients: ['banana', 'rice cakes'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick carbs without bulk. Banana and rice cakes give simple sugars and light volume so your stomach stays light when you train.', kcal: 200, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 2, unit: '', name: 'rice cakes' }], method: ['Mash or slice banana on rice cakes. Eat 45–60 min before training.'] },
         { mealType: 'lunch', dishName: 'Pork Tenderloin with Quinoa & Roasted Veg', ingredients: ['pork tenderloin', 'quinoa', 'bell peppers', 'zucchini', 'olive oil'], fuelStory: 'After training you need protein to repair and carbs to refill. Pork and quinoa deliver both, so you recover without feeling heavy or sluggish.', kcal: 580, portions: [{ amount: 140, unit: 'g', name: 'pork tenderloin' }, { amount: 160, unit: 'g', name: 'cooked quinoa' }], method: ['Roast pork and veg. Cook quinoa. Slice pork; plate with quinoa and roasted peppers and zucchini.'] },
         { mealType: 'snackPostWod', dishName: 'Protein shake & banana', ingredients: ['protein powder', 'banana', 'milk or water'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window protein and carbs together boost repair and glycogen refill. A shake and banana deliver both fast, so recovery starts right after the WOD.', kcal: 280, portions: [{ amount: 1, unit: 'scoop', name: 'protein powder' }, { amount: 1, unit: '', name: 'banana' }], method: ['Blend protein with milk or water; have with banana within 30 min after training.'] },
@@ -387,15 +387,15 @@
         { mealType: 'snackPreWod', dishName: 'Oat bar & small apple', ingredients: ['oat bar', 'apple'], timingHint: '60 min before', fuelStory: 'Pre-WOD you need portable fuel that digests in time. Oat bar and apple give carbs and a bit of fiber, easy to eat on the go so you\'re fueled when you hit the box.', kcal: 220, portions: [{ amount: 1, unit: '', name: 'oat bar' }, { amount: 1, unit: '', name: 'apple' }], method: ['Have oat bar and apple 60 min before training.'] },
         { mealType: 'lunch', dishName: 'Tuna Niçoise-Style Bowl with Rice', ingredients: ['tuna', 'rice', 'green beans', 'egg', 'olives', 'olive oil'], fuelStory: 'After training your body needs protein to repair and carbs to refill. Tuna and rice deliver both; greens and olives add nutrients. So you recover without feeling heavy.', kcal: 560, portions: [{ amount: 120, unit: 'g', name: 'tuna' }, { amount: 180, unit: 'g', name: 'cooked rice' }], method: ['Cook rice and green beans; hard-boil egg. Flake tuna over rice; add beans, quartered egg and olives. Drizzle olive oil.'] },
         { mealType: 'snackPostWod', dishName: 'Milk & honey with almonds', ingredients: ['milk', 'honey', 'almonds'], timingHint: 'Within 30 min', fuelStory: 'Right after the WOD your muscles take in protein and carbs best. Milk and honey give both; almonds add a touch of fat. So you kick off recovery without a full meal.', kcal: 300, portions: [{ amount: 250, unit: 'ml', name: 'milk' }, { amount: 15, unit: 'g', name: 'almonds' }], method: ['Stir honey into milk; have with almonds within 30 min after training.'] },
-        { mealType: 'dinner', dishName: 'Grilled beef with rosemary, roast potatoes & green salad', ingredients: ['beef steak', 'potato', 'rosemary', 'olive oil', 'mixed greens', 'lemon'], fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Beef and potatoes deliver both; rosemary and olive oil keep it Mediterranean.', kcal: 620, portions: [{ amount: 150, unit: 'g', name: 'beef steak' }, { amount: 200, unit: 'g', name: 'potato' }], method: ['Roast potato wedges with rosemary and olive oil. Grill or pan-fry steak. Toss greens with olive oil and lemon; serve with steak and potatoes.'] }
+        { mealType: 'dinner', dishName: 'Grilled beef with rosemary, roast potatoes & green salad', ingredients: ['beef steak', 'potato', 'rosemary', 'olive oil', 'mixed greens', 'lemon'], fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Beef and potatoes deliver both; rosemary and olive oil keep it simple and flavorful.', kcal: 620, portions: [{ amount: 150, unit: 'g', name: 'beef steak' }, { amount: 200, unit: 'g', name: 'potato' }], method: ['Roast potato wedges with rosemary and olive oil. Grill or pan-fry steak. Toss greens with olive oil and lemon; serve with steak and potatoes.'] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Toast with olive oil, tomato & soft egg', ingredients: ['bread', 'ripe tomato', 'extra virgin olive oil', 'eggs', 'salt'], fuelStory: 'On training days you need carbs to fill glycogen before the WOD. Toast and tomato give quick carbs; egg and olive oil add protein and fat. A Mediterranean start.', kcal: 480, portions: [{ amount: 2, unit: 'slices', name: 'bread' }, { amount: 2, unit: '', name: 'eggs' }], method: ['Toast bread. Grate or mash tomato on top; drizzle olive oil and salt. Fry eggs soft; serve on the side or on the toast.'] },
+        { mealType: 'breakfast', dishName: 'Toast with olive oil, tomato & soft egg', ingredients: ['bread', 'ripe tomato', 'extra virgin olive oil', 'eggs', 'salt'], fuelStory: 'On training days you need carbs to fill glycogen before the WOD. Toast and tomato give quick carbs; egg and olive oil add protein and fat. A light start that fuels the session.', kcal: 480, portions: [{ amount: 2, unit: 'slices', name: 'bread' }, { amount: 2, unit: '', name: 'eggs' }], method: ['Toast bread. Grate or mash tomato on top; drizzle olive oil and salt. Fry eggs soft; serve on the side or on the toast.'] },
         { mealType: 'snackPreWod', dishName: 'Dried fruit & nuts (small handful)', ingredients: ['dried apricots', 'almonds'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick, portable fuel. Dried fruit gives dense carbs; a few nuts add a bit of fat so you don\'t spike and crash. No prep, no mess, just fuel when you need it.', kcal: 180, portions: [{ amount: 30, unit: 'g', name: 'dried fruit' }, { amount: 10, unit: 'g', name: 'almonds' }], method: ['Have a small handful 45–60 min before training.'] },
-        { mealType: 'lunch', dishName: 'Chicken, rice & lemon soup', ingredients: ['chicken breast', 'rice', 'carrot', 'celery', 'lemon', 'olive oil', 'herbs'], fuelStory: 'After training you need protein to repair and carbs to refill. Chicken and rice soup is easy to digest and delivers both. Lemon and herbs give it a Mediterranean lift.', kcal: 460, portions: [{ amount: 120, unit: 'g', name: 'chicken breast' }, { amount: 80, unit: 'g', name: 'rice' }], method: ['Simmer chicken in broth with rice, carrot and celery until tender. Shred chicken; return to pot. Finish with lemon, olive oil and herbs.'] },
+        { mealType: 'lunch', dishName: 'Chicken, rice & lemon soup', ingredients: ['chicken breast', 'rice', 'carrot', 'celery', 'lemon', 'olive oil', 'herbs'], fuelStory: 'After training you need protein to repair and carbs to refill. Chicken and rice soup is easy to digest and delivers both. Lemon and herbs keep it fresh and light.', kcal: 460, portions: [{ amount: 120, unit: 'g', name: 'chicken breast' }, { amount: 80, unit: 'g', name: 'rice' }], method: ['Simmer chicken in broth with rice, carrot and celery until tender. Shred chicken; return to pot. Finish with lemon, olive oil and herbs.'] },
         { mealType: 'snackPostWod', dishName: 'Cream cheese & jam on crackers', ingredients: ['cream cheese', 'jam', 'crackers'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window you need fast carbs and some protein. Crackers with jam and cream cheese give both, tasty and effective so you kick off repair without a heavy meal.', kcal: 260, portions: [{ amount: 30, unit: 'g', name: 'cream cheese' }, { amount: 4, unit: '', name: 'crackers' }], method: ['Spread cream cheese and jam on crackers. Eat within 30 min after training.'] },
         { mealType: 'dinner', dishName: 'Lamb Chops with Couscous & Roasted Veg', ingredients: ['lamb chops', 'couscous', 'eggplant', 'tomato', 'olive oil'], fuelStory: 'Training-day dinner: protein for overnight repair and carbs to restock glycogen. Lamb and couscous deliver both, so you close a big day recovered and ready for tomorrow\'s session.', kcal: 660, portions: [{ amount: 140, unit: 'g', name: 'lamb chops' }, { amount: 150, unit: 'g', name: 'cooked couscous' }], method: ['Cook couscous. Roast eggplant and tomato. Grill or pan-fry lamb chops. Plate with couscous and veg.'] }
       ]
@@ -405,15 +405,15 @@
       meals: [
         { mealType: 'breakfast', dishName: 'Muesli with Milk, Banana & Honey', ingredients: ['muesli', 'milk', 'banana', 'honey'], fuelStory: 'On training days breakfast should give steady carbs and some protein. Muesli, banana and milk deliver that so your energy holds through the morning and into the WOD.', kcal: 460, portions: [{ amount: 70, unit: 'g', name: 'muesli' }, { amount: 200, unit: 'ml', name: 'milk' }], method: ['Pour muesli into a bowl; add milk. Slice banana on top and drizzle honey.'] },
         { mealType: 'snackPreWod', dishName: 'Smoothie: banana, oats, milk', ingredients: ['banana', 'oats', 'milk'], timingHint: '60 min before', fuelStory: 'Pre-WOD you need carbs that digest in time. A smoothie gives drinkable carbs and a bit of protein, easy when you don\'t feel like chewing, so you\'re fueled without a full stomach.', kcal: 280, portions: [{ amount: 1, unit: '', name: 'banana' }, { amount: 30, unit: 'g', name: 'oats' }], method: ['Blend banana, oats and milk until smooth. Drink 60 min before training.'] },
-        { mealType: 'lunch', dishName: 'White fish with potatoes, olive oil & lemon', ingredients: ['white fish fillet', 'potato', 'olive oil', 'lemon', 'garlic', 'parsley'], fuelStory: 'After training you need protein to repair and carbs to refill. Fish and potatoes deliver both. Olive oil and lemon keep it simple and Mediterranean.', kcal: 520, portions: [{ amount: 130, unit: 'g', name: 'white fish' }, { amount: 180, unit: 'g', name: 'potato' }], method: ['Boil or roast potatoes. Bake or pan-fry fish with olive oil, garlic and lemon. Serve with parsley.'] },
+        { mealType: 'lunch', dishName: 'White fish with potatoes, olive oil & lemon', ingredients: ['white fish fillet', 'potato', 'olive oil', 'lemon', 'garlic', 'parsley'], fuelStory: 'After training you need protein to repair and carbs to refill. Fish and potatoes deliver both. Olive oil and lemon keep it simple and easy to digest.', kcal: 520, portions: [{ amount: 130, unit: 'g', name: 'white fish' }, { amount: 180, unit: 'g', name: 'potato' }], method: ['Boil or roast potatoes. Bake or pan-fry fish with olive oil, garlic and lemon. Serve with parsley.'] },
         { mealType: 'snackPostWod', dishName: 'Yogurt pot with granola & berries', ingredients: ['yogurt', 'granola', 'berries'], timingHint: 'Within 30 min', fuelStory: 'Right after the WOD your body absorbs protein and carbs best. Yogurt and granola give both in one cup, so you hit the recovery window and kick off repair without a full meal.', kcal: 320, portions: [{ amount: 150, unit: 'g', name: 'yogurt' }, { amount: 30, unit: 'g', name: 'granola' }], method: ['Scoop yogurt into a bowl. Top with granola and berries.'] },
-        { mealType: 'dinner', dishName: 'Lemon & herb chicken with rice & greens', ingredients: ['chicken thigh', 'rice', 'lemon', 'garlic', 'oregano', 'olive oil', 'spinach or green beans'], fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken and rice give protein and carbs; lemon and herbs keep it light and Mediterranean.', kcal: 600, portions: [{ amount: 150, unit: 'g', name: 'chicken thigh' }, { amount: 180, unit: 'g', name: 'cooked rice' }], method: ['Cook rice. Bake or pan-fry chicken with lemon, garlic, oregano and olive oil. Serve with rice and wilted greens or green beans.'] }
+        { mealType: 'dinner', dishName: 'Lemon & herb chicken with rice & greens', ingredients: ['chicken thigh', 'rice', 'lemon', 'garlic', 'oregano', 'olive oil', 'spinach or green beans'], fuelStory: 'Training-day dinner should restock glycogen and support overnight repair. Chicken and rice give protein and carbs; lemon and herbs keep it light.', kcal: 600, portions: [{ amount: 150, unit: 'g', name: 'chicken thigh' }, { amount: 180, unit: 'g', name: 'cooked rice' }], method: ['Cook rice. Bake or pan-fry chicken with lemon, garlic, oregano and olive oil. Serve with rice and wilted greens or green beans.'] }
       ]
     },
     {
       dayType: 'wod',
       meals: [
-        { mealType: 'breakfast', dishName: 'Rice bowl with egg, avocado & tomato', ingredients: ['rice', 'egg', 'avocado', 'tomato', 'olive oil', 'lemon', 'salt'], fuelStory: 'On training days breakfast must fuel the session. Rice gives carbs for glycogen; egg and avocado add protein and fat. Tomato and olive oil make it Mediterranean.', kcal: 500, portions: [{ amount: 160, unit: 'g', name: 'cooked rice' }, { amount: 1, unit: '', name: 'egg' }], method: ['Warm rice in a bowl. Fry egg; place on rice. Add sliced avocado and tomato; drizzle olive oil and lemon.'] },
+        { mealType: 'breakfast', dishName: 'Rice bowl with egg, avocado & tomato', ingredients: ['rice', 'egg', 'avocado', 'tomato', 'olive oil', 'lemon', 'salt'], fuelStory: 'On training days breakfast must fuel the session. Rice gives carbs for glycogen; egg and avocado add protein and fat. Tomato and olive oil keep it fresh and satisfying.', kcal: 500, portions: [{ amount: 160, unit: 'g', name: 'cooked rice' }, { amount: 1, unit: '', name: 'egg' }], method: ['Warm rice in a bowl. Fry egg; place on rice. Add sliced avocado and tomato; drizzle olive oil and lemon.'] },
         { mealType: 'snackPreWod', dishName: 'Pear & handful of grapes', ingredients: ['pear', 'grapes'], timingHint: '45–60 min before', fuelStory: 'Pre-WOD you need quick carbs without bulk. Pear and grapes give fruit-based glucose, light and quick so your stomach stays empty when you train.', kcal: 160, portions: [{ amount: 1, unit: '', name: 'pear' }, { amount: 80, unit: 'g', name: 'grapes' }], method: ['Have pear and grapes 45–60 min before training.'] },
         { mealType: 'lunch', dishName: 'Sardines on Toast with Tomato & Greens', ingredients: ['sardines', 'bread', 'tomato', 'arugula', 'lemon'], fuelStory: 'After training you need protein to repair and carbs to refill. Sardines bring omega-3s and protein; toast restocks glycogen. So you recover and calm inflammation in one simple meal.', kcal: 500, portions: [{ amount: 1, unit: 'can', name: 'sardines' }, { amount: 2, unit: 'slices', name: 'bread' }], method: ['Toast bread. Top with sardines, tomato slices and arugula; finish with lemon.'] },
         { mealType: 'snackPostWod', dishName: 'Chia pudding with fruit', ingredients: ['chia seeds', 'milk', 'mango', 'coconut'], timingHint: 'Within 30 min', fuelStory: 'In the recovery window you need protein and carbs. Chia and milk give both; fruit adds quick glucose. So you kick off repair after a hot WOD without a heavy meal.', kcal: 290, portions: [{ amount: 25, unit: 'g', name: 'chia seeds' }, { amount: 150, unit: 'ml', name: 'milk' }], method: ['Mix chia and milk; leave in fridge until set. Top with mango and coconut.'] },
@@ -441,7 +441,7 @@
         },
         {
           mealType: 'lunch',
-          dishName: 'Mediterranean Chickpea Bowl',
+          dishName: 'Chickpea Bowl with feta, cucumber & tomato',
           ingredients: ['chickpeas', 'cucumber', 'tomato', 'red onion', 'feta', 'olive oil', 'oregano', 'lemon'],
           fuelStory: 'On a rest day you don\'t need a big carb hit. Chickpeas give plant protein and fiber for steady energy; olive oil and feta add fat for satiety. So you stay full and support recovery, for repair, energy and satiety.',
           kcal: 400,
@@ -455,7 +455,7 @@
           mealType: 'dinner',
           dishName: 'Beef with peppers, tomato & olive oil over rice',
           ingredients: ['lean beef', 'bell peppers', 'tomato', 'onion', 'olive oil', 'garlic', 'rice', 'herbs'],
-          fuelStory: 'Rest-day dinner: you need protein for repair and veggies for nutrients. Beef brings iron; peppers and tomato add volume and antioxidants. Olive oil and herbs keep it Mediterranean.',
+          fuelStory: 'Rest-day dinner: you need protein for repair and veggies for nutrients. Beef brings iron; peppers and tomato add volume and antioxidants. Olive oil and herbs keep it flavorful without feeling heavy.',
           kcal: 520,
           portions: [
             { amount: 120, unit: 'g', name: 'lean beef' },
@@ -484,7 +484,7 @@
           mealType: 'breakfast',
           dishName: 'Yogurt with walnuts, honey & orange',
           ingredients: ['Greek or natural yogurt', 'walnuts', 'honey', 'orange', 'cinnamon (optional)'],
-          fuelStory: 'On rest days breakfast can be lower in carbs and higher in protein and fat. Yogurt and walnuts give satiety and support repair. Honey and orange keep it Mediterranean and fresh.',
+          fuelStory: 'On rest days breakfast can be lower in carbs and higher in protein and fat. Yogurt and walnuts give satiety and support repair. Honey and orange keep it fresh and satisfying.',
           kcal: 400,
           portions: [
             { amount: 170, unit: 'g', name: 'yogurt' },
@@ -496,7 +496,7 @@
           mealType: 'lunch',
           dishName: 'Quinoa with roasted vegetables & olive oil',
           ingredients: ['quinoa', 'courgette', 'aubergine', 'bell peppers', 'extra virgin olive oil', 'oregano', 'lemon'],
-          fuelStory: 'Rest day lunch: you need nutrients and satisfaction without a big carb load. Quinoa and roasted veg give plant protein and fibre. Olive oil and lemon make it Mediterranean.',
+          fuelStory: 'Rest day lunch: you need nutrients and satisfaction without a big carb load. Quinoa and roasted veg give plant protein and fibre. Olive oil and lemon keep it bright and simple.',
           kcal: 420,
           portions: [
             { amount: 150, unit: 'g', name: 'cooked quinoa' },
@@ -549,7 +549,7 @@
           mealType: 'lunch',
           dishName: 'Tuna with white beans, olive oil & lemon',
           ingredients: ['canned tuna', 'cannellini beans', 'red onion', 'olive oil', 'lemon', 'parsley'],
-          fuelStory: 'On rest days you need protein for repair without a big carb load. Tuna and white beans give protein and fibre. Olive oil and lemon make it a classic Mediterranean combo.',
+          fuelStory: 'On rest days you need protein for repair without a big carb load. Tuna and white beans give protein and fibre. Olive oil and lemon keep it clean and satisfying.',
           kcal: 400,
           portions: [
             { amount: 1, unit: 'can', name: 'tuna' },
@@ -866,7 +866,7 @@
       },
       {
         mealType: 'lunch',
-        dishName: 'Mediterranean Chickpea Bowl',
+        dishName: 'Chickpea Bowl with cucumber & tomato',
         ingredients: ['chickpeas', 'cucumber', 'tomato', 'red onion', 'olive oil', 'oregano', 'lemon'],
         fuelStory: 'Plant-based, anti-inflammatory, satisfying. Rest-day plate.',
         kcal: 380,
@@ -924,7 +924,7 @@
     dayType: 'rest',
     meals: [
       { mealType: 'breakfast', dishName: 'Chia Pudding with Mango & Coconut', ingredients: ['chia seeds', 'coconut milk', 'mango', 'coconut flakes'], fuelStory: 'Tropical and light. No dairy.', kcal: 390, portions: [{ amount: 30, unit: 'g', name: 'chia seeds' }, { amount: 150, unit: 'ml', name: 'coconut milk' }], method: ['Mix chia and coconut milk; leave in fridge until set. Top with mango and coconut flakes.'] },
-      { mealType: 'lunch', dishName: 'Mediterranean White Bean Salad', ingredients: ['white beans', 'cucumber', 'tomato', 'red onion', 'olive oil', 'oregano'], fuelStory: 'Plant protein and freshness. Rest-day classic.', kcal: 400, portions: [{ amount: 1, unit: 'cup', name: 'white beans' }, { amount: 0.5, unit: 'cup', name: 'chopped veg' }], method: ['Combine white beans with diced cucumber, tomato and red onion. Dress with olive oil and oregano.'] },
+      { mealType: 'lunch', dishName: 'White Bean Salad with cucumber & tomato', ingredients: ['white beans', 'cucumber', 'tomato', 'red onion', 'olive oil', 'oregano'], fuelStory: 'Plant protein and freshness. Rest-day classic.', kcal: 400, portions: [{ amount: 1, unit: 'cup', name: 'white beans' }, { amount: 0.5, unit: 'cup', name: 'chopped veg' }], method: ['Combine white beans with diced cucumber, tomato and red onion. Dress with olive oil and oregano.'] },
       { mealType: 'dinner', dishName: 'Stuffed Peppers with Rice & Black Beans', ingredients: ['bell peppers', 'rice', 'black beans', 'corn', 'salsa'], fuelStory: 'All-in-one plant dinner. Filling and simple.', kcal: 470, portions: [{ amount: 2, unit: '', name: 'bell peppers' }, { amount: 0.5, unit: 'cup', name: 'black beans' }], method: ['Cook rice and black beans; mix with corn and salsa. Halve peppers; stuff and bake until tender.'] },
       { mealType: 'snack', dishName: 'Celery sticks with almond butter', ingredients: ['celery', 'almond butter'], fuelStory: 'Crunch and fat. Light snack.', kcal: 180, portions: [{ amount: 3, unit: 'sticks', name: 'celery' }, { amount: 1, unit: 'tbsp', name: 'almond butter' }], method: ['Serve celery sticks with almond butter.'] }
     ]
@@ -1105,7 +1105,16 @@
 
   let selectedDay = null;
   let lastGeneratedMenu = null;
+  let lastDisplayMeals = null;
   let portionScale = 1;
+
+  function getMealsInDisplayOrder(menu) {
+    if (!menu || menu.dayType !== 'wod' || !Array.isArray(menu.meals)) return menu.meals || [];
+    const order = ['breakfast', 'lunch', 'dinner', 'snackPreWod', 'snackPostWod'];
+    return order.map(function (mealType) {
+      return (menu.meals || []).find(function (m) { return m.mealType === mealType; });
+    }).filter(Boolean);
+  }
 
   function setDay(day) {
     selectedDay = day;
@@ -1200,21 +1209,25 @@
     }
 
     menuCards.innerHTML = '';
-    (menu.meals || []).forEach(function (m, idx) {
+    const displayMeals = isWod ? getMealsInDisplayOrder(menu) : (menu.meals || []);
+    lastDisplayMeals = isWod ? displayMeals : null;
+    displayMeals.forEach(function (m, idx) {
       const block = document.createElement('article');
       block.className = 'meal-block meal-block--' + menu.dayType;
+      if (m.mealType === 'snackPreWod') block.classList.add('meal-block--pre-wod');
+      if (m.mealType === 'snackPostWod') block.classList.add('meal-block--post-wod');
       const timing = m.timingHint ? m.timingHint : '';
       const ingredients = Array.isArray(m.ingredients) && m.ingredients.length ? m.ingredients : [];
       const methodSteps = Array.isArray(m.method) && m.method.length ? m.method : [];
       const hasRecipe = ingredients.length || methodSteps.length;
+      const hasPortions = Array.isArray(m.portions) && m.portions.length > 0;
+      const showIngredientsTitle = ingredients.length > 0 || hasPortions;
       const recipeHtml = hasRecipe
         ? '<div class="recipe-reveal">' +
             '<button type="button" class="recipe-trigger" aria-expanded="false" aria-controls="recipe-content-' + idx + '">View recipe</button>' +
             '<div class="recipe-content" id="recipe-content-' + idx + '" role="region" aria-label="Recipe">' +
-              (ingredients.length
-                ? '<p class="recipe-content-title">Ingredients</p><ul class="recipe-ingredients">' +
-                  ingredients.map(function (i) { return '<li>' + escapeHtml(i) + '</li>'; }).join('') + '</ul>'
-                : '') +
+              (showIngredientsTitle ? '<p class="recipe-content-title">Ingredients</p>' : '') +
+              '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>' +
               (methodSteps.length
                 ? '<p class="recipe-content-title">How to make it</p>' +
                   (methodSteps.length === 1
@@ -1237,12 +1250,13 @@
             (m.fuelStory ? '<p class="food-item-why">' + escapeHtml(m.fuelStory) + '</p>' : '') +
           '</div>' +
           recipeHtml +
-          '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>' +
+          (hasRecipe ? '' : '<ul class="meal-portions" data-meal-index="' + idx + '"></ul>') +
         '</div>';
       menuCards.appendChild(block);
     });
 
     portionScale = 1;
+    updateMealPortions(menu, 1, false);
     if (inputCalorieTarget) {
       try {
         var savedTarget = (typeof sessionStorage !== 'undefined')
@@ -1268,8 +1282,9 @@
 
   function updateMealKcal(menu, scale) {
     const blocks = menuCards.querySelectorAll('.meal-block');
+    const meals = lastDisplayMeals || menu.meals || [];
     blocks.forEach(function (block, idx) {
-      const meal = (menu.meals || [])[idx];
+      const meal = meals[idx];
       const span = block.querySelector('.meal-block-kcal');
       if (!span || !meal) return;
       const base = Number(meal.kcal) || 0;
@@ -1293,22 +1308,36 @@
   }
 
   function updateMealPortions(menu, scale, show) {
+    if (menuCards) {
+      menuCards.classList.toggle('menu-cards--calories-on', !!show);
+    }
     const blocks = menuCards.querySelectorAll('.meal-block');
+    const meals = lastDisplayMeals || menu.meals || [];
     blocks.forEach(function (block, idx) {
-      const meal = (menu.meals || [])[idx];
+      const meal = meals[idx];
       const list = block.querySelector('.meal-portions');
       if (!list || !meal) return;
-      if (!show || !Array.isArray(meal.portions) || meal.portions.length === 0) {
+      var portions = Array.isArray(meal.portions) && meal.portions.length > 0 ? meal.portions : null;
+      var ingredientsList = Array.isArray(meal.ingredients) && meal.ingredients.length > 0 ? meal.ingredients : [];
+      if (ingredientsList.length === 0) {
         list.innerHTML = '';
         return;
       }
-      const items = meal.portions.map(function (p) {
-        const baseAmount = typeof p.amount === 'number' ? p.amount : 0;
-        if (!baseAmount) return '';
-        const amountText = formatPortionAmount(baseAmount, p.unit || '', scale);
-        const unit = p.unit && p.unit !== 'g' && p.unit !== 'ml' ? p.unit + ' ' : '';
-        return '<li>' + amountText + ' ' + unit + escapeHtml(p.name || '') + '</li>';
-      }).filter(Boolean);
+      var items = ingredientsList.map(function (name, i) {
+        var text = escapeHtml(name || '');
+        if (show && portions && portions[i]) {
+          var p = portions[i];
+          var baseAmount = typeof p.amount === 'number' ? p.amount : 0;
+          var u = p.unit || '';
+          var skipQty = baseAmount === 1 && !u;
+          if (baseAmount && !skipQty) {
+            var amountText = formatPortionAmount(baseAmount, u, scale);
+            var unit = u && u !== 'g' && u !== 'ml' ? u + ' ' : '';
+            text = amountText + ' ' + unit + text;
+          }
+        }
+        return '<li>' + text + '</li>';
+      });
       list.innerHTML = items.join('');
     });
   }

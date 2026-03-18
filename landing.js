@@ -27,16 +27,25 @@
   });
 
   // ───────────────────────────────────────────
-  //  Card ratings from Supabase (getRatings in rating-display.js), fallback localStorage
+  //  Card ratings: show localStorage immediately, then update from Supabase when it loads
   // ───────────────────────────────────────────
-  document.querySelectorAll('.card-rating[data-project]').forEach((el) => {
-    const project = el.getAttribute('data-project');
-    if (typeof getRatings !== 'function') return;
-    getRatings(project).then(function (res) {
-      if (res.count === 0) return;
-      var label = res.count === 1 ? ' rating' : ' ratings';
-      el.textContent = '★ ' + res.average.toFixed(1) + ' · ' + res.count + label;
-    }).catch(function () {});
+  function setRatingLabel(el, res) {
+    if (!el || !res || res.count === 0) return;
+    var label = res.count === 1 ? ' rating' : ' ratings';
+    el.textContent = '★ ' + res.average.toFixed(1) + ' · ' + res.count + label;
+  }
+  document.querySelectorAll('.card-rating[data-project]').forEach(function (el) {
+    var project = el.getAttribute('data-project');
+    if (!project) return;
+    if (typeof getRatingsSync === 'function') {
+      var local = getRatingsSync(project);
+      if (local.count > 0) setRatingLabel(el, local);
+    }
+    if (typeof getRatings === 'function') {
+      getRatings(project).then(function (res) {
+        setRatingLabel(el, res);
+      }).catch(function () {});
+    }
   });
 
   // ───────────────────────────────────────────
@@ -64,19 +73,34 @@
   }
 
   // ───────────────────────────────────────────
-  //  Tease: iluminar tarjetas en orden, una cada 3 s; empieza al segundo 2
+  //  Tease: una sola tarjeta iluminada a la vez; aleatorio si nadie toca; al hover/focus esa es la prioridad
   // ───────────────────────────────────────────
   const TEASE_INTERVAL_MS = 3000;
   const TEASE_FIRST_MS = 2000;
 
   let teaseIndex = 0;
+  let userTeaseCard = null;
+
+  function getVisibleCards() {
+    return Array.from(document.querySelectorAll('.card:not(.card--hidden)'));
+  }
+
+  function setOnlyTease(card) {
+    getVisibleCards().forEach((c) => c.classList.remove('card--tease'));
+    if (card) card.classList.add('card--tease');
+  }
 
   function teaseNextCard() {
-    const visible = Array.from(document.querySelectorAll('.card:not(.card--hidden)'));
+    if (userTeaseCard) return;
+    const visible = getVisibleCards();
     if (visible.length === 0) return;
-    visible.forEach((c) => c.classList.remove('card--tease'));
-    visible[teaseIndex].classList.add('card--tease');
+    setOnlyTease(visible[teaseIndex]);
     teaseIndex = (teaseIndex + 1) % visible.length;
+  }
+
+  function clearUserTease() {
+    userTeaseCard = null;
+    teaseNextCard();
   }
 
   let teaseTimer;
@@ -88,19 +112,32 @@
   }
 
   // ───────────────────────────────────────────
-  //  3D tilt on card hover
+  //  3D tilt on card hover; iluminar solo la tarjeta señalada
   // ───────────────────────────────────────────
   cards.forEach((card) => {
     if (card.classList.contains('card--soon')) return;
-    card.addEventListener('mouseenter', () => card.classList.remove('card--tease'));
+    card.addEventListener('mouseenter', () => {
+      userTeaseCard = card;
+      setOnlyTease(card);
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      clearUserTease();
+    });
+    card.addEventListener('focusin', () => {
+      userTeaseCard = card;
+      setOnlyTease(card);
+    });
+    card.addEventListener('focusout', () => {
+      setTimeout(() => {
+        if (!card.contains(document.activeElement)) clearUserTease();
+      }, 0);
+    });
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width  - 0.5;
       const y = (e.clientY - rect.top)  / rect.height - 0.5;
       card.style.transform = `translateY(-4px) rotateY(${x * 8}deg) rotateX(${y * -8}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
     });
   });
 

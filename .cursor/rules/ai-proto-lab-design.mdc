@@ -1,0 +1,28 @@
+---
+description: When designing or writing copy for AI Proto Lab products, follow the product design system (visual, UX, tone).
+alwaysApply: true
+---
+
+# AI Proto Lab — Product Design System
+
+These choices implement the principles in **Good Taste** for this lab. When in doubt, Good Taste is the higher-level standard; this rule is the concrete application.
+
+**Full reference:** [docs/PRODUCT-DESIGN-SYSTEM.md](docs/PRODUCT-DESIGN-SYSTEM.md). Read it when creating a new project or doing large UI/copy changes. Below, the essentials to apply by default.
+
+## Visual (use unless the user asks otherwise)
+
+- **Colors:** `--bg-deep: #0a0a1a`, `--border: #1e1e3a`, `--text-primary: #e8e8f0`, `--text-secondary: #9090b0`. One accent: `--neon-pink`, `--neon-cyan`, `--neon-purple`, or `--neon-gold` (or product-specific like CrossFit’s `--accent-wod`).
+- **Font:** `'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif`.
+- **Easing:** `cubic-bezier(0.23, 1, 0.32, 1)`. Transitions 0.2–0.35s. Respect `prefers-reduced-motion`.
+- **Layout:** Topbar (back “← AI Proto Lab” + “The story →”); hero with product title (accent + glow) and one intro line; footer “Part of AI Proto Lab.” + product tagline. Modal “From idea to prototype” with neon bar (pink→cyan) and same structure (problem, iteration, AI, MVP, contact).
+
+## Copy and tone
+
+- **Direct, human, concrete.** Short sentences. “We” when the product does something; “you” for the user. No corporate jargon.
+- **Punctuation:** Avoid em dash (—) in the middle of sentences. Use period (new sentence), comma (continuation), or colon (list/explanation). See [punctuation-changes.md](punctuation-changes.md) for examples.
+- **Intro:** One line = what you do + what you get. Optional twist (“plus a kitchen trick you didn’t see coming”).
+- **Footer tagline:** One memorable line per product (e.g. “No boring salads.”, “Feed the Beast.”).
+
+## New product checklist
+
+New pages under `projects/` should have: same topbar, hero (title + intro), design tokens above, one clear flow (few steps, one main CTA), empty state that mirrors the result, vote widget before footer (wired to `rating-vote.js` + `saveRating(projectId, value)` and same `data-project` id on landing card + in `PUBLIC_PROJECTS` if used), modal with standard sections. Copy follows the tone and punctuation rules above.
