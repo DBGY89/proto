@@ -978,6 +978,16 @@
     overflow: hidden;
     z-index: 200;
   }
+
+  /* Si el dispositivo ya está en landscape, no rotamos extra.
+     Así el layout "forzado" se ve igual independientemente del giro del móvil. */
+  @media (orientation: landscape) {
+    body.force-landscape .app {
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
   body.force-landscape .header,
   body.force-landscape .guided-toggle,
   body.force-landscape .song-section,
