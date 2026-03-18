@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Piano Maestro — Mockup horizontal compacto</title>
+  <style>
+    :root{
+      --bg:#060612;
+      --text:#e8e8f0;
+      --muted:#9090b0;
+      --cyan:#00f0ff;
+      --border:#1e1e3a;
+      --panel: rgba(17,17,40,.55);
+      --ease:cubic-bezier(0.23, 1, 0.32, 1);
+      --font: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+      overflow:hidden; /* mock */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* Mock device frame (landscape) */
+    .phone{
+      width:min(980px, 96vw);
+      height:min(520px, 86vh);
+      border-radius:22px;
+      background: rgba(12,12,28,.55);
+      border: 1px solid rgba(30,30,58,.8);
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .phone-inner{
+      width:100%;
+      height:100%;
+      border-radius:16px;
+      background: transparent;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Single piano box */
+    .piano-box{
+      position:absolute;
+      inset:0;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex:0 0 auto;
+      z-index:3;
+    }
+
+    /* ─── Movie Palette dropdown style (adapted for mobile) ─── */
+    .movie-dropdown{
+      position:relative;
+      width:100%;
+      max-width: 320px;
+    }
+    .movie-select{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:0.5rem;
+      padding: 0.9rem 1rem 0.9rem 1.1rem;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: rgba(17,17,40,.65);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      cursor:pointer;
+      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      text-align:left;
+    }
+    .movie-select:hover{
+      border-color: rgba(144,144,176,0.95);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .movie-select:focus{
+      outline:none;
+      border-color: rgba(0,240,255,.8);
+      box-shadow: 0 0 0 2px rgba(0,240,255,.12), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .movie-select-text{ flex:1; min-width:0; }
+    .movie-select-icon{
+      flex-shrink:0;
+      color: var(--muted);
+      transition: transform 0.2s var(--ease);
+      opacity: .9;
+    }
+    .movie-dropdown.is-open .movie-select-icon{ transform: rotate(180deg); }
+
+    .movie-dropdown-panel{
+      position:absolute;
+      top: calc(100% + 6px);
+      left:0;
+      right:0;
+      background: rgba(17,17,40,.92);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      z-index: 60;
+      overflow:hidden;
+      max-height: 260px;
+      display:flex;
+      flex-direction:column;
+    }
+    .movie-dropdown-option{
+      font-family: var(--font);
+      font-size: 0.95rem;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      cursor:pointer;
+      transition: background 0.15s var(--ease);
+      user-select:none;
+    }
+    .movie-dropdown-option:hover{
+      background: rgba(0,240,255,0.10);
+    }
+    .movie-dropdown-option[data-value=""]{
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Metronome dot only (no label) */
+    .met-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background: var(--cyan);
+      box-shadow: 0 0 16px rgba(0,240,255,.45);
+      opacity: .45;
+      transform: translateZ(0);
+      transition: opacity .15s var(--ease), transform .15s var(--ease);
+    }
+    .met-dot.beat{
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .middle{
+      flex:1;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    /* Partitura (window) */
+    .partitura{
+      flex:0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 10px 12px;
+      overflow:hidden;
+    }
+    .partitura .label{
+      font-size:12px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .notes-row{
+      display:flex;
+      gap:6px;
+      align-items:flex-end;
+      overflow:hidden; /* ventana */
+      min-height: 70px;
+    }
+    .note-cell{
+      width:44px;
+      height:56px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#0f0f22;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1100;
+      opacity:.85;
+    }
+    .note-cell.current{
+      opacity:1;
+      border-color: rgba(0,240,255,.55);
+      box-shadow: 0 0 20px rgba(0,240,255,.12);
+      color: var(--cyan);
+    }
+
+    /* Piano */
+    .keyboard-wrap{
+      flex:1;
+      min-height:0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .keyboard{
+      position:relative;
+      display:flex;
+      height: 235px;
+      user-select:none;
+    }
+    .white-key{
+      width: 56px;
+      height: 235px;
+      background: linear-gradient(180deg, #f8f6f2 0%, #e8e4dc 100%);
+      border: 1px solid rgba(0,0,0,.15);
+      border-radius: 0 0 10px 10px;
+      margin-right: 2px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.35);
+    }
+    .white-key:last-child{ margin-right:0; }
+
+    /* Bottom-left actions */
+    .actions{
+      flex:0 0 auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      z-index:3;
+    }
+    .btn{
+      background: var(--cyan);
+      color:#060612;
+      border:none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 1000;
+      cursor:pointer;
+      transition: transform .15s var(--ease);
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-ghost{
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    /* Keep no scroll */
+    .phone-inner, .piano-box, .middle{ overflow:hidden; }
+  </style>
+</head>
+<body>
+  <div class="phone" role="img" aria-label="Mockup mobile horizontal de Piano Maestro">
+    <div class="phone-inner">
+      <div class="piano-box">
+        <div class="toprow">
+          <div class="movie-dropdown" id="song-dropdown">
+            <button type="button" id="song-select" class="movie-select"
+              aria-label="Elige una canción"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="song-dropdown-panel">
+              <span class="movie-select-text" id="song-select-text">Elige una canción</span>
+              <svg class="movie-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <div class="movie-dropdown-panel" id="song-dropdown-panel" role="listbox" hidden>
+              <div class="movie-dropdown-option" role="option" data-value="" tabindex="-1">Elige una canción</div>
+              <div class="movie-dropdown-option" role="option" data-value="twinkle" tabindex="-1">Estrellita</div>
+              <div class="movie-dropdown-option" role="option" data-value="birthday" tabindex="-1">Cumpleaños feliz</div>
+              <div class="movie-dropdown-option" role="option" data-value="ode" tabindex="-1">Oda a la Alegría</div>
+              <div class="movie-dropdown-option" role="option" data-value="jingle" tabindex="-1">Jingle Bells</div>
+              <div class="movie-dropdown-option" role="option" data-value="river" tabindex="-1">River Flows in You</div>
+            </div>
+          </div>
+          <div class="met-dot" id="metDot" aria-hidden="true"></div>
+        </div>
+
+        <div class="middle">
+          <div class="partitura">
+            <div class="label">Partitura</div>
+            <div class="notes-row" id="notesRow">
+              <div class="note-cell current">C</div>
+              <div class="note-cell">D</div>
+              <div class="note-cell">E</div>
+              <div class="note-cell">F</div>
+              <div class="note-cell">G</div>
+              <div class="note-cell">A</div>
+            </div>
+          </div>
+
+          <div class="keyboard-wrap">
+            <div class="keyboard" aria-label="Teclado piano (mock)">
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+              <div class="white-key"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="startBtn" type="button">▶ Empezar</button>
+          <button class="btn btn-ghost" id="resetBtn" type="button">↺ Reiniciar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var met = document.getElementById('metDot');
+      var startBtn = document.getElementById('startBtn');
+      var resetBtn = document.getElementById('resetBtn');
+      var songDropdown = document.getElementById('song-dropdown');
+      var songSelect = document.getElementById('song-select');
+      var songPanel = document.getElementById('song-dropdown-panel');
+      var songText = document.getElementById('song-select-text');
+      var notesRow = document.getElementById('notesRow');
+      var noteCells = notesRow ? notesRow.querySelectorAll('.note-cell') : [];
+
+      var SONG_NOTES = {
+        twinkle: ['C','C','G','G','A','G'],
+        birthday: ['G','G','A','G','C','B'],
+        ode: ['E','E','F','G','G','F'],
+        jingle: ['E','E','E','E','E','G'],
+        river: ['A','E','D','C','B','A']
+      };
+
+      function openSongDropdown() {
+        if (!songDropdown || !songPanel || !songSelect) return;
+        if (songDropdown.classList.contains('is-open')) return;
+        songPanel.hidden = false;
+        songPanel.removeAttribute('hidden');
+        songSelect.setAttribute('aria-expanded', 'true');
+        songDropdown.classList.add('is-open');
+      }
+      function closeSongDropdown() {
+        if (!songDropdown || !songPanel || !songSelect) return;
+        songPanel.hidden = true;
+        songPanel.setAttribute('hidden', 'true');
+        songSelect.setAttribute('aria-expanded', 'false');
+        songDropdown.classList.remove('is-open');
+      }
+      if (songSelect && songPanel && songDropdown) {
+        // Forzamos estado inicial cerrado
+        closeSongDropdown();
+
+        songSelect.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (songDropdown.classList.contains('is-open')) closeSongDropdown();
+          else openSongDropdown();
+        });
+
+        var options = songPanel.querySelectorAll('.movie-dropdown-option');
+        options.forEach(function (opt) {
+          opt.addEventListener('click', function () {
+            var val = opt.getAttribute('data-value') || '';
+            var label = opt.textContent || 'Elige una canción';
+            songText.textContent = (val && SONG_NOTES[val]) ? label : 'Elige una canción';
+            closeSongDropdown();
+
+            // Update the mock "current notes" (purely visual)
+            var arr = SONG_NOTES[val];
+            if (arr && noteCells.length) {
+              noteCells.forEach(function (c) { c.classList.remove('current'); });
+              for (var i = 0; i < noteCells.length; i++) {
+                noteCells[i].textContent = arr[i] || '';
+              }
+              if (noteCells[0]) noteCells[0].classList.add('current');
+            }
+          });
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!songDropdown) return;
+          if (!songDropdown.contains(e.target)) closeSongDropdown();
+        });
+      }
+
+      var audioCtx = null;
+      var timer = null;
+      var tempo = 72;
+
+      function tick() {
+        met.classList.add('beat');
+        setTimeout(function () { met.classList.remove('beat'); }, 100);
+
+        // Optional tiny tick sound (so it "always exists", only pulses while running)
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          var t = audioCtx.currentTime;
+          var osc = audioCtx.createOscillator();
+          var gain = audioCtx.createGain();
+          osc.type = 'square';
+          osc.frequency.value = 880;
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.exponentialRampToValueAtTime(0.1, t + 0.005);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(t);
+          osc.stop(t + 0.04);
+        } catch (e) {}
+      }
+
+      function start() {
+        if (timer) return;
+        timer = setInterval(tick, (60 / tempo) * 1000);
+        tick();
+      }
+
+      function reset() {
+        if (timer) clearInterval(timer);
+        timer = null;
+        met.classList.remove('beat');
+      }
+
+      startBtn.addEventListener('click', start);
+      resetBtn.addEventListener('click', reset);
+    })();
+  </script>
+</body>
+</html>
+
