@@ -1292,12 +1292,6 @@
     <p class="header-intro">Elige una canción, sigue la partitura y toca en el teclado. Aprende a tu ritmo.</p>
   </header>
 
-  <!-- Modo guiado on/off -->
-  <div class="guided-toggle" role="group" aria-label="Modo de práctica">
-    <button type="button" class="mode-pill active" id="pill-guided" onclick="setGuidedMode(true)">Modo guiado</button>
-    <button type="button" class="mode-pill" id="pill-free" onclick="setGuidedMode(false)">Libre</button>
-  </div>
-
   <!-- Song selector -->
   <div class="song-section">
     <div class="section-label">Elige una canción</div>
@@ -2112,8 +2106,10 @@ function setGuidedMode(on) {
   guidedMode = on;
   if (!on) isPlaying = false;
   document.querySelector('.app').classList.toggle('guided-mode', on);
-  document.getElementById('pill-guided').classList.toggle('active', on);
-  document.getElementById('pill-free').classList.toggle('active', !on);
+  const pillGuided = document.getElementById('pill-guided');
+  const pillFree = document.getElementById('pill-free');
+  if (pillGuided) pillGuided.classList.toggle('active', on);
+  if (pillFree) pillFree.classList.toggle('active', !on);
 
   var statusChip = document.getElementById('statusChip');
   var nextChip = document.getElementById('nextNoteChip');
