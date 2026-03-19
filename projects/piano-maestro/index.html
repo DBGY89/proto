@@ -164,6 +164,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1.25rem;
+    position: relative;
   }
   .partitura-piano-block .sheet-section,
   .partitura-piano-block .piano-section {
@@ -687,6 +688,21 @@
   @keyframes beatFlash {
     0% { transform: scale(1.5); opacity: 1; }
     100% { transform: scale(1); opacity: 0; }
+  }
+
+  .metronome-dot-desktop {
+    display: none;
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
+    z-index: 5;
+    opacity: 0.45;
+  }
+
+  @media (min-width: 901px) {
+    #metronomeDot { display: none; }
+    #metroBtn { display: none; }
+    #metronomeDotDesktop { display: block; }
   }
 
   /* Mobile landscape compacto (mockup “piano box”) */
@@ -1347,6 +1363,7 @@
 
   <!-- Partitura + Piano juntos (foco de atención) -->
   <div class="partitura-piano-block">
+    <div class="metronome-dot metronome-dot-desktop" id="metronomeDotDesktop" aria-label="Pulso de metrónomo" role="status"></div>
     <!-- Mobile landscape compacto: dropdown + metronome dot + acciones -->
     <div class="mobile-landscape-overlay" id="mobileLandscapeOverlay">
       <div class="mobile-landscape-left">
@@ -1863,7 +1880,7 @@ function updateScore() {
 function finishSong() {
   isPlaying = false;
   clearHighlights();
-  stopMetronome();
+  if (!isDesktopView()) stopMetronome();
 
   // En compacto aseguramos que la última parte de la partitura se vea,
   // ya que `updateCurrentNote()` no se llama al llegar al final.
@@ -1917,8 +1934,13 @@ function resetPractice() {
   streak = 0;
   totalAttempts = 0;
   clearHighlights();
-  stopMetronome();
-  metronomeActive = false;
+  if (!isDesktopView()) {
+    stopMetronome();
+    metronomeActive = false;
+  } else {
+    // En desktop el metrónomo es siempre visible.
+    metronomeActive = true;
+  }
   const metroBtn = document.getElementById('metroBtn');
   if (metroBtn) metroBtn.textContent = 'Metrónomo';
   const statusChip = document.getElementById('statusChip');
@@ -1937,8 +1959,10 @@ function resetPractice() {
 
 // METRONOME
 function toggleMetronome() {
+  if (isDesktopView()) return; // en desktop el metrónomo es fijo (sin botón)
   metronomeActive = !metronomeActive;
   const btn = document.getElementById('metroBtn');
+  if (!btn) return;
   if (metronomeActive) {
     btn.textContent = '■ Metrónomo';
     startMetronome();
@@ -1955,6 +1979,7 @@ function isMobileCompactLandscape() {
 }
 
 function playClick(accent) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
   osc.frequency.value = accent ? 880 : 660;
@@ -1973,7 +1998,7 @@ function startMetronome() {
   const interval = (60 / tempo) * 1000;
   metronomeInterval = setInterval(() => {
     playClick(metronomeCount % 4 === 0);
-    const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDot');
+    const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDotDesktop') || document.getElementById('metronomeDot');
     if (dot) {
       dot.classList.remove('beat');
       void dot.offsetWidth;
@@ -1985,8 +2010,12 @@ function startMetronome() {
 
 function stopMetronome() {
   if (metronomeInterval) clearInterval(metronomeInterval);
-  const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDot');
+  const dot = document.getElementById('metronomeDotCompact') || document.getElementById('metronomeDotDesktop') || document.getElementById('metronomeDot');
   if (dot) dot.classList.remove('beat');
+}
+
+function isDesktopView() {
+  return window.matchMedia && window.matchMedia('(min-width: 901px)').matches;
 }
 
 function updateTempo(val) {
@@ -2236,6 +2265,10 @@ buildKeyboard();
 resizePianoKeys();
 buildSongGrid();
 initMobileSongDropdown();
+if (isDesktopView()) {
+  metronomeActive = true;
+  startMetronome();
+}
 renderRecordings();
 
 window.addEventListener('resize', () => {
