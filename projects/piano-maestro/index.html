@@ -1139,10 +1139,25 @@
     margin-bottom: 0.25rem;
   }
   body.force-landscape .mobile-landscape-actions {
-    position: static;
-    margin-top: 0.25rem;
+    display: none !important;
   }
-  body.force-landscape .mobile-landscape-actions-inner { display: flex; gap: 0.75rem; }
+
+  body.force-landscape .mobile-landscape-right-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  body.force-landscape .mobile-landscape-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  body.force-landscape .mobile-landscape-right-actions .btn {
+    padding: 0.55rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+  }
   body.force-landscape .partitura-piano-block {
     position: relative;
     margin-bottom: 0;
@@ -1317,7 +1332,13 @@
         </div>
       </div>
       <div class="mobile-landscape-right">
-        <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Pulso de metrónomo" role="status"></div>
+        <div class="mobile-landscape-right-top">
+          <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Pulso de metrónomo" role="status"></div>
+          <div class="mobile-landscape-right-actions" aria-label="Acciones">
+            <button class="btn btn-gold mobile-compact-start" id="compactStartBtn" type="button" onclick="startPractice()">▶ Empezar</button>
+            <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reiniciar</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1340,12 +1361,7 @@
       </div>
     </div>
 
-    <div class="mobile-landscape-actions" id="mobileLandscapeActions">
-      <div class="mobile-landscape-actions-inner">
-        <button class="btn btn-gold mobile-compact-start" id="compactStartBtn" type="button" onclick="startPractice()">▶ Empezar</button>
-        <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reiniciar</button>
-      </div>
-    </div>
+    <div class="mobile-landscape-actions" id="mobileLandscapeActions" aria-hidden="true"></div>
   </div>
 
   <!-- Status -->
