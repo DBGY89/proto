@@ -170,6 +170,30 @@
     margin-bottom: 0;
   }
 
+  /* Desktop: integrar partitura dentro de la misma caja que el piano */
+  @media (min-width: 901px) {
+    .partitura-piano-block {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-surface);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      gap: 0.25rem;
+    }
+    .partitura-piano-block .sheet-section,
+    .partitura-piano-block .piano-section {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-bottom: 0;
+    }
+    .partitura-piano-block .section-label {
+      display: none !important;
+    }
+  }
+
   .section-label {
     font-size: 0.7rem;
     font-weight: 600;
