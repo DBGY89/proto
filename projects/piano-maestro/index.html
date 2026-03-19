@@ -1598,6 +1598,10 @@ const BLACK_NOTES_MAP = {
 const NO_BLACK = ['E4','B4','E5','B5'];
 
 function resizePianoKeys() {
+  // En desktop mantenemos el tamaño definido por CSS.
+  // Solo recalculamos teclas cuando estamos en la vista optimizada mobile.
+  if (!document.body.classList.contains('force-landscape')) return;
+
   const wrap = document.querySelector('.keyboard-wrap');
   if (!wrap) return;
   const w = wrap.clientWidth || 0;
