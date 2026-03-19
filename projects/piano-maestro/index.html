@@ -1153,9 +1153,22 @@
     margin-bottom: 0;
     padding-top: 3.05rem;
     padding-bottom: 3.35rem;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   body.force-landscape .partitura-piano-block .piano-section .status-row { display: none !important; }
+  body.force-landscape .keyboard-wrap {
+    overflow-x: hidden;
+    justify-content: center;
+  }
+  body.force-landscape .sheet-section { flex-shrink: 0; }
+  body.force-landscape .piano-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -1475,6 +1488,7 @@ function enterLandscapeMode() {
   } catch (_) {}
 
   playIntroNotes();
+  setTimeout(() => resizePianoKeys(), 50);
 }
 
 // STATE
@@ -1485,6 +1499,7 @@ let isRecording = false;
 let recordedNotes = [];
 let recordings = [];
 let playbackTimeoutIds = [];
+let resizeTimer = null;
 let score = 0;
 let streak = 0;
 let totalAttempts = 0;
@@ -1501,6 +1516,28 @@ const BLACK_NOTES_MAP = {
   'C5':'Cs5','D5':'Eb5','F5':'Fs5','G5':'Ab5','A5':'Bb5'
 };
 const NO_BLACK = ['E4','B4','E5','B5'];
+
+function resizePianoKeys() {
+  const wrap = document.querySelector('.keyboard-wrap');
+  if (!wrap) return;
+  const w = wrap.clientWidth || 0;
+  if (!w) return;
+
+  const whiteW = Math.floor(w / 14);
+  if (!whiteW) return;
+  const whiteH = Math.floor(whiteW * 3.2);
+  const blackW = Math.floor(whiteW * 0.6);
+  const blackH = Math.floor(whiteH * 0.62);
+
+  document.querySelectorAll('.white-key').forEach((k) => {
+    k.style.width = whiteW + 'px';
+    k.style.height = whiteH + 'px';
+  });
+  document.querySelectorAll('.black-key').forEach((k) => {
+    k.style.width = blackW + 'px';
+    k.style.height = blackH + 'px';
+  });
+}
 
 function buildKeyboard() {
   const kb = document.getElementById('keyboard');
@@ -2032,9 +2069,15 @@ function renderRecordings() {
 // INIT
 document.querySelector('.app').classList.add('guided-mode');
 buildKeyboard();
+resizePianoKeys();
 buildSongGrid();
 initMobileSongDropdown();
 renderRecordings();
+
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(resizePianoKeys, 100);
+});
 </script>
   <script src="../../rating-vote.js"></script>
   <script>
