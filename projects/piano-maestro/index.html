@@ -1909,6 +1909,11 @@ function resetPractice() {
   document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
   buildNotesRow();
+  // Si la partitura se desplazó horizontalmente (canciones largas), volvemos al inicio.
+  if (isMobileCompactLandscape()) {
+    const sheetScroll = document.querySelector('.keyboard-wrap .sheet-scroll') || document.querySelector('.sheet-scroll');
+    if (sheetScroll) sheetScroll.scrollLeft = 0;
+  }
   if (currentSong) startPractice();
 }
 
