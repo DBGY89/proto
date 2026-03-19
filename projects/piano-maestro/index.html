@@ -705,6 +705,8 @@
   }
   .movie-dropdown.is-open .movie-select-icon{ transform: rotate(180deg); }
 
+  .movie-dropdown:not(.is-open) .movie-dropdown-panel { display: none; }
+
   .movie-dropdown-panel{
     position: absolute;
     top: calc(100% + 6px);
@@ -1246,7 +1248,7 @@
               <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
-          <div class="movie-dropdown-panel" id="mobileSongDropdownPanel" role="listbox" aria-label="Canciones" hidden></div>
+          <div class="movie-dropdown-panel" id="mobileSongDropdownPanel" role="listbox" aria-label="Canciones"></div>
         </div>
       </div>
       <div class="mobile-landscape-right">
@@ -1866,15 +1868,11 @@ function initMobileSongDropdown() {
 
   function openDropdown() {
     if (dropdown.classList.contains('is-open')) return;
-    panel.hidden = false;
-    panel.removeAttribute('hidden');
     selectBtn.setAttribute('aria-expanded', 'true');
     dropdown.classList.add('is-open');
   }
 
   function closeDropdown() {
-    panel.hidden = true;
-    panel.setAttribute('hidden', 'true');
     selectBtn.setAttribute('aria-expanded', 'false');
     dropdown.classList.remove('is-open');
   }
