@@ -1909,6 +1909,7 @@ function resetPractice() {
   document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
   buildNotesRow();
+  if (currentSong) startPractice();
 }
 
 // METRONOME
