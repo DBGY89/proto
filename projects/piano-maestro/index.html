@@ -1768,6 +1768,10 @@ function updateCurrentNote() {
     if (!isMobileCompactLandscape()) {
       current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
+    // En compacto forzamos scroll horizontal de la partitura para ver el resto.
+    if (isMobileCompactLandscape() && guidedMode && isPlaying) {
+      scrollNotesRowToCell(current);
+    }
     const note = currentSong.notes[currentNoteIndex];
     const noteLabel = note.note.replace(/\d/,'').replace('s','#').replace('b','♭');
     document.getElementById('nextNoteChip').textContent = `Toca: ${noteLabel}`;
@@ -1775,6 +1779,24 @@ function updateCurrentNote() {
   }
   const pct = currentSong ? (currentNoteIndex / currentSong.notes.length) * 100 : 0;
   document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function scrollNotesRowToCell(cellEl) {
+  if (!cellEl) return;
+  const sheetScroll = document.querySelector('.keyboard-wrap .sheet-scroll') || document.querySelector('.sheet-scroll');
+  if (!sheetScroll) return;
+
+  const left = cellEl.offsetLeft;
+  const right = left + cellEl.offsetWidth;
+  const viewLeft = sheetScroll.scrollLeft;
+  const viewRight = viewLeft + sheetScroll.clientWidth;
+  const pad = 6;
+
+  if (left - pad < viewLeft) {
+    sheetScroll.scrollLeft = Math.max(0, left - pad);
+  } else if (right + pad > viewRight) {
+    sheetScroll.scrollLeft = (right + pad) - sheetScroll.clientWidth;
+  }
 }
 
 // PRACTICE
@@ -1824,6 +1846,15 @@ function finishSong() {
   isPlaying = false;
   clearHighlights();
   stopMetronome();
+
+  // En compacto aseguramos que la última parte de la partitura se vea,
+  // ya que `updateCurrentNote()` no se llama al llegar al final.
+  if (isMobileCompactLandscape() && currentSong && currentSong.notes && currentSong.notes.length) {
+    const lastIndex = currentSong.notes.length - 1;
+    const lastCell = document.querySelector(`.note-cell[data-index="${lastIndex}"]`);
+    if (lastCell) scrollNotesRowToCell(lastCell);
+  }
+
   const progressBar = document.getElementById('progressBar');
   if (progressBar) progressBar.style.width = '100%';
   const statusChip = document.getElementById('statusChip');
