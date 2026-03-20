@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,7 +158,7 @@
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 24px rgba(0, 240, 255, 0.08);
   }
 
-  /* Partitura + Piano juntos: un solo bloque de foco */
+  /* Score + keyboard together: one focus block */
   .partitura-piano-block {
     display: flex;
     flex-direction: column;
@@ -171,7 +171,7 @@
     margin-bottom: 0;
   }
 
-  /* Desktop: integrar partitura dentro de la misma caja que el piano */
+  /* Desktop: score inside the same box as the keyboard */
   @media (min-width: 901px) {
     .partitura-piano-block {
       background: var(--bg-surface);
@@ -242,7 +242,7 @@
     flex-wrap: wrap;
   }
 
-  /* Desktop: centra el cluster de controles dentro del bloque */
+  /* Desktop: center the control cluster in the block */
   @media (min-width: 641px) {
     .controls-bar { justify-content: center; }
   }
@@ -481,9 +481,19 @@
     font-family: var(--font-main);
   }
 
+  /* One slot per white key: same width; black key centered on the seam to the next (real piano layout). */
+  .black-key-slot {
+    flex-shrink: 0;
+    position: relative;
+    width: 44px;
+    height: 86px;
+    pointer-events: none;
+  }
+
   .black-key {
     position: absolute;
     top: 0;
+    left: 100%;
     width: 28px;
     height: 86px;
     background: linear-gradient(180deg, #1a1a22 0%, #0d0d12 100%);
@@ -493,7 +503,7 @@
     box-shadow: 2px 4px 10px rgba(0,0,0,0.6);
     transition: all 0.08s var(--ease);
     transform: translateX(-50%);
-    left: 50%;
+    pointer-events: auto;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -655,7 +665,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -60px; /* como las burbujas de Bubbles, nace fuera de pantalla */
+    bottom: -60px; /* like Bubbles: spawns off-screen */
     height: 120vh;
     pointer-events: none;
     overflow: hidden;
@@ -705,11 +715,11 @@
     #metronomeDotDesktop { display: block; }
   }
 
-  /* Mobile landscape compacto (mockup “piano box”) */
+  /* Mobile landscape compact (“piano box” mockup) */
   .mobile-landscape-overlay,
   .mobile-landscape-actions { display: none; }
 
-  /* Movie Palette dropdown (adaptado a mobile) */
+  /* Movie Palette dropdown (adapted for mobile) */
   .movie-dropdown{
     position: relative;
     width: 100%;
@@ -742,6 +752,28 @@
     border-color: rgba(0,240,255,.8);
     box-shadow: 0 0 0 2px rgba(0,240,255,.12), 0 2px 8px rgba(0,0,0,0.15);
   }
+
+  /* Like Movie Palette: pulses until you pick a song. Product cyan. */
+  .movie-dropdown--hint .movie-select {
+    animation: songDropdownHint 1.8s var(--ease) 3;
+  }
+  @keyframes songDropdownHint {
+    0%, 100% {
+      border-color: var(--border-surface);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+      border-color: rgba(0, 240, 255, 0.65);
+      box-shadow:
+        0 0 0 1px rgba(0, 240, 255, 0.22),
+        0 0 20px rgba(0, 240, 255, 0.14),
+        0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+  .movie-dropdown.is-open.movie-dropdown--hint .movie-select {
+    animation: none;
+  }
+
   .movie-select-text{ flex:1; min-width:0; }
   .movie-select-icon{
     flex-shrink: 0;
@@ -790,7 +822,7 @@
   .metronome-dot-compact{
     width: 12px;
     height: 12px;
-    opacity: 0.45; /* se ve como “puntico” incluso cuando no está en beat */
+    opacity: 0.45; /* reads as a small dot even off-beat */
     transition: opacity 0.05s;
   }
 
@@ -1064,7 +1096,7 @@
     .guided-toggle { margin-bottom: 0.85rem; }
     .controls-bar { gap: 0.6rem; }
 
-    /* Mantener partitura + piano siempre visibles */
+    /* Keep score + keyboard always visible */
     .partitura-piano-block {
       flex: 1;
       min-height: 260px;
@@ -1079,6 +1111,7 @@
 
     .keyboard { height: 110px; }
     .white-key { width: 32px; height: 110px; }
+    .black-key-slot { width: 32px; height: 72px; }
     .black-key { width: 20px; height: 72px; }
 
     .back-link { padding: 0.25rem 0.5rem; margin: -0.25rem -0.5rem; }
@@ -1094,7 +1127,7 @@
     .orientation-gate { display: none; }
     .app { display: block; }
 
-    /* Piano horizontal compacto: quitamos distracciones */
+    /* Compact horizontal piano: hide distractions */
     body { overflow: hidden; }
     .header,
     .guided-toggle,
@@ -1154,8 +1187,7 @@
     z-index: 200;
   }
 
-  /* Si el dispositivo ya está en landscape, no rotamos extra.
-     Así el layout "forzado" se ve igual independientemente del giro del móvil. */
+  /* If already in landscape, no extra rotation so forced layout stays consistent. */
   @media (orientation: landscape) {
     body.force-landscape .app {
       width: 100vw;
@@ -1309,7 +1341,7 @@
 
   <div class="bg-pattern" aria-hidden="true"></div>
 
-  <section class="orientation-gate" aria-label="Gira tu móvil para tocar Piano Maestro">
+  <section class="orientation-gate" aria-label="Rotate your phone to play Piano Maestro">
     <div class="orientation-inner">
       <div class="note-cloud" aria-hidden="true">
         <span class="note-icon">♪</span>
@@ -1317,7 +1349,7 @@
       </div>
       <h1 class="orientation-title">PIANO MAESTRO</h1>
       <p class="orientation-text">
-        Gira el móvil. Hay un piano ahí dentro.
+        Turn your phone sideways. There is a piano in there.
       </p>
       <button type="button" class="orientation-cta" onclick="enterLandscapeMode()">
         <span>Play</span>
@@ -1329,12 +1361,12 @@
 
   <header class="header">
     <h1>Piano Maestro</h1>
-    <p class="header-intro">Elige una canción y empieza al instante: sigue la partitura y toca en el teclado. Aprende a tu ritmo.</p>
+    <p class="header-intro">Pick a song and start right away: follow the score and play the keys. Learn at your own pace.</p>
   </header>
 
   <!-- Song selector -->
   <div class="song-section">
-    <div class="section-label">Elige una canción</div>
+    <div class="section-label">Choose a song</div>
     <div class="song-grid" id="songGrid"></div>
   </div>
 
@@ -1348,50 +1380,50 @@
 
     <div class="separator"></div>
     <div class="metronome-dot" id="metronomeDot"></div>
-    <button class="btn btn-outline" id="metroBtn" onclick="toggleMetronome()">Metrónomo</button>
+    <button class="btn btn-outline" id="metroBtn" onclick="toggleMetronome()">Metronome</button>
 
     <div class="separator"></div>
 
     <div id="guidedControls" class="guided-only">
-      <button class="btn btn-outline" id="resetBtn" onclick="resetPractice()">↺ Reiniciar</button>
+      <button class="btn btn-outline" id="resetBtn" onclick="resetPractice()">↺ Reset</button>
     </div>
 
     <div class="separator"></div>
-    <button class="btn btn-red" id="recordBtn" onclick="toggleRecording()">⏺ Grabar</button>
+    <button class="btn btn-red" id="recordBtn" onclick="toggleRecording()">⏺ Record</button>
   </div>
 
-  <!-- Partitura + Piano juntos (foco de atención) -->
+  <!-- Score + keyboard together (main focus) -->
   <div class="partitura-piano-block">
-    <div class="metronome-dot metronome-dot-desktop" id="metronomeDotDesktop" aria-label="Pulso de metrónomo" role="status"></div>
-    <!-- Mobile landscape compacto: dropdown + metronome dot + acciones -->
+    <div class="metronome-dot metronome-dot-desktop" id="metronomeDotDesktop" aria-label="Metronome beat" role="status"></div>
+    <!-- Mobile landscape compact: dropdown + metronome dot + actions -->
     <div class="mobile-landscape-overlay" id="mobileLandscapeOverlay">
       <div class="mobile-landscape-left">
-        <div class="movie-dropdown mobile-landscape-song" id="mobileSongDropdown">
+        <div class="movie-dropdown mobile-landscape-song movie-dropdown--hint" id="mobileSongDropdown">
           <button type="button" id="mobileSongSelect" class="movie-select"
-            aria-label="Elige una canción"
+            aria-label="Choose a song"
             aria-haspopup="listbox"
             aria-expanded="false"
             aria-controls="mobileSongDropdownPanel">
-            <span class="movie-select-text" id="mobileSongSelectText">Elige una canción</span>
+            <span class="movie-select-text" id="mobileSongSelectText">choose a song</span>
             <svg class="movie-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
-          <div class="movie-dropdown-panel" id="mobileSongDropdownPanel" role="listbox" aria-label="Canciones"></div>
+          <div class="movie-dropdown-panel" id="mobileSongDropdownPanel" role="listbox" aria-label="Songs"></div>
         </div>
       </div>
       <div class="mobile-landscape-right">
         <div class="mobile-landscape-right-top">
-          <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Pulso de metrónomo" role="status"></div>
-          <div class="mobile-landscape-right-actions" aria-label="Acciones">
-            <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reiniciar</button>
+          <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Metronome beat" role="status"></div>
+          <div class="mobile-landscape-right-actions" aria-label="Actions">
+            <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reset</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="sheet-section">
-      <div class="section-label">Partitura</div>
+      <div class="section-label">Score</div>
       <div class="sheet-scroll">
         <div class="notes-row" id="notesRow"></div>
       </div>
@@ -1400,7 +1432,7 @@
       </div>
     </div>
     <div class="piano-section">
-      <div class="section-label">Piano</div>
+      <div class="section-label">Keyboard</div>
       <div class="keyboard-wrap">
         <div class="keyboard" id="keyboard"></div>
       </div>
@@ -1414,16 +1446,16 @@
 
   <!-- Status -->
   <div class="status-row" style="margin-bottom: 1.25rem;">
-    <div class="score-display guided-only" id="scoreDisplay">0<span>aciertos</span></div>
-    <div class="status-chip" id="statusChip">Elige una canción</div>
-    <div class="score-display guided-only" id="streakDisplay">0<span>racha</span></div>
+    <div class="score-display guided-only" id="scoreDisplay">0<span>hits</span></div>
+    <div class="status-chip" id="statusChip">Choose a song</div>
+    <div class="score-display guided-only" id="streakDisplay">0<span>streak</span></div>
   </div>
 
   <!-- Recordings -->
   <div class="recording-section">
-    <div class="section-label">Mis grabaciones</div>
+    <div class="section-label">My recordings</div>
     <div class="recordings-list" id="recordingsList">
-      <div style="color:var(--text-secondary);font-size:0.8rem;">Aún no tienes grabaciones. ¡Empieza a tocar!</div>
+      <div style="color:var(--text-secondary);font-size:0.8rem;">No recordings yet. Start playing!</div>
     </div>
   </div>
 
@@ -1482,9 +1514,9 @@
 const SONGS = [
   {
     id: 'twinkle',
-    title: 'Estrellita',
+    title: 'Twinkle, Twinkle',
     composer: 'Trad. / Mozart',
-    difficulty: 'Principiante',
+    difficulty: 'Beginner',
     defaultTempo: 80,
     notes: [
       {note:'C4',dur:0.5},{note:'C4',dur:0.5},{note:'G4',dur:0.5},{note:'G4',dur:0.5},
@@ -1495,9 +1527,9 @@ const SONGS = [
   },
   {
     id: 'birthday',
-    title: 'Cumpleaños feliz',
+    title: 'Happy Birthday',
     composer: 'Trad.',
-    difficulty: 'Principiante',
+    difficulty: 'Beginner',
     defaultTempo: 75,
     notes: [
       {note:'G4',dur:0.25},{note:'G4',dur:0.25},{note:'A4',dur:0.5},{note:'G4',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:1},
@@ -1508,9 +1540,9 @@ const SONGS = [
   },
   {
     id: 'ode',
-    title: 'Oda a la Alegría',
+    title: 'Ode to Joy',
     composer: 'Beethoven',
-    difficulty: 'Principiante',
+    difficulty: 'Beginner',
     defaultTempo: 90,
     notes: [
       {note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'F4',dur:0.5},{note:'G4',dur:0.5},
@@ -1527,7 +1559,7 @@ const SONGS = [
     id: 'jingle',
     title: 'Jingle Bells',
     composer: 'J. Pierpont',
-    difficulty: 'Principiante',
+    difficulty: 'Beginner',
     defaultTempo: 100,
     notes: [
       {note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:1},
@@ -1587,15 +1619,12 @@ function integrateSheetIntoKeyboardBox() {
 }
 
 function enterLandscapeMode() {
-  // Solo afecta móviles en vertical: forzamos "horizontal" rotando el juego.
+  // Portrait-only: we simulate landscape by rotating the app.
   document.body.classList.add('force-landscape');
 
-  // Estado inicial: guiado + primera canción si aún no hay selección.
+  // Guided mode on; song is chosen from the dropdown (no auto-pick).
   try {
     if (typeof setGuidedMode === 'function') setGuidedMode(true);
-    if (!currentSong && Array.isArray(SONGS) && SONGS.length) {
-      selectSong(SONGS[0]);
-    }
   } catch (_) {}
 
   playIntroNotes();
@@ -1680,6 +1709,10 @@ function resizePianoKeys() {
     k.style.width = blackW + 'px';
     k.style.height = blackH + 'px';
   });
+  document.querySelectorAll('.black-key-slot').forEach((slot) => {
+    slot.style.width = whiteW + 'px';
+    slot.style.height = blackH + 'px';
+  });
 }
 
 function buildKeyboard() {
@@ -1705,17 +1738,13 @@ function buildKeyboard() {
 
   WHITE_NOTES.forEach((note) => {
     const slot = document.createElement('div');
-    slot.style.cssText = 'width:44px;flex-shrink:0;position:relative;height:86px;pointer-events:none;';
+    slot.className = 'black-key-slot';
     if (!NO_BLACK.includes(note) && BLACK_NOTES_MAP[note]) {
       const blackNote = BLACK_NOTES_MAP[note];
       const bk = document.createElement('div');
       bk.className = 'black-key';
       bk.dataset.note = blackNote;
-      bk.style.pointerEvents = 'all';
       bk.innerHTML = `<span class="key-label">${blackNote.replace(/\d/,'').replace('s','#').replace('b','♭')}</span>`;
-      bk.style.left = '75%';
-      bk.style.transform = 'translateX(-50%)';
-      bk.style.position = 'absolute';
       bk.addEventListener('mousedown', (e) => { e.stopPropagation(); pressKey(blackNote); });
       bk.addEventListener('mouseup', () => releaseKey(blackNote));
       bk.addEventListener('mouseleave', () => releaseKey(blackNote));
@@ -1807,7 +1836,7 @@ function updateCurrentNote() {
     }
     const note = currentSong.notes[currentNoteIndex];
     const noteLabel = note.note.replace(/\d/,'').replace('s','#').replace('b','♭');
-    document.getElementById('nextNoteChip').textContent = `Toca: ${noteLabel}`;
+    document.getElementById('nextNoteChip').textContent = `Play: ${noteLabel}`;
     highlightKey(note.note, 'highlight');
   }
   const pct = currentSong ? (currentNoteIndex / currentSong.notes.length) * 100 : 0;
@@ -1871,14 +1900,15 @@ function checkNote(playedNote) {
 }
 
 function updateScore() {
-  document.getElementById('scoreDisplay').innerHTML = `${score}<span>aciertos</span>`;
-  document.getElementById('streakDisplay').innerHTML = `${streak}<span>racha</span>`;
+  document.getElementById('scoreDisplay').innerHTML = `${score}<span>hits</span>`;
+  document.getElementById('streakDisplay').innerHTML = `${streak}<span>streak</span>`;
 }
 
 function finishSong() {
   isPlaying = false;
   clearHighlights();
-  if (!isDesktopView()) stopMetronome();
+  stopMetronome();
+  metronomeActive = false;
 
   // En compacto aseguramos que la última parte de la partitura se vea,
   // ya que `updateCurrentNote()` no se llama al llegar al final.
@@ -1891,19 +1921,22 @@ function finishSong() {
   const progressBar = document.getElementById('progressBar');
   if (progressBar) progressBar.style.width = '100%';
   const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = '¡Completado!';
+  statusChip.textContent = 'Complete!';
   statusChip.className = 'status-chip success';
-  document.getElementById('nextNoteChip').textContent = '🎉 ¡Canción completada!';
+  document.getElementById('nextNoteChip').textContent = '🎉 Song complete!';
   if (isRecording) saveRecording();
 }
 
 function startPractice() {
-  if (!currentSong) { alert('Elige una canción primero'); return; }
+  if (!currentSong) { alert('Choose a song first'); return; }
   if (audioCtx.state === 'suspended') audioCtx.resume();
   const compact = isMobileCompactLandscape();
   if (compact) {
     guidedMode = true;
-    metronomeActive = true; // en compacto no hay toggle: el pulso acompaña siempre al empezar
+    metronomeActive = true;
+  }
+  if (isDesktopView()) {
+    metronomeActive = true;
   }
   currentNoteIndex = 0;
   score = 0;
@@ -1918,7 +1951,7 @@ function startPractice() {
   if (progressBar) progressBar.style.width = '0%';
   updateScore();
   const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = 'Tocando...';
+  statusChip.textContent = 'Playing…';
   statusChip.className = 'status-chip active';
   updateCurrentNote();
   if (compact || metronomeActive) startMetronome();
@@ -1932,17 +1965,12 @@ function resetPractice() {
   streak = 0;
   totalAttempts = 0;
   clearHighlights();
-  if (!isDesktopView()) {
-    stopMetronome();
-    metronomeActive = false;
-  } else {
-    // En desktop el metrónomo es siempre visible.
-    metronomeActive = true;
-  }
+  stopMetronome();
+  metronomeActive = false;
   const metroBtn = document.getElementById('metroBtn');
-  if (metroBtn) metroBtn.textContent = 'Metrónomo';
+  if (metroBtn) metroBtn.textContent = 'Metronome';
   const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = currentSong ? 'Listo' : 'Elige una canción';
+  statusChip.textContent = currentSong ? 'Ready' : 'Choose a song';
   statusChip.className = 'status-chip';
   document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
@@ -1957,15 +1985,15 @@ function resetPractice() {
 
 // METRONOME
 function toggleMetronome() {
-  if (isDesktopView()) return; // en desktop el metrónomo es fijo (sin botón)
+  if (isDesktopView()) return;
   metronomeActive = !metronomeActive;
   const btn = document.getElementById('metroBtn');
   if (!btn) return;
   if (metronomeActive) {
-    btn.textContent = '■ Metrónomo';
+    btn.textContent = '■ Metronome';
     startMetronome();
   } else {
-    btn.textContent = 'Metrónomo';
+    btn.textContent = 'Metronome';
     stopMetronome();
   }
 }
@@ -2023,6 +2051,23 @@ function updateTempo(val) {
 }
 
 // MODE + SONGS
+/** Mobile dropdown label + Movie Palette style hint until a song is chosen. */
+function syncMobileSongDropdownUI() {
+  const dropdown = document.getElementById('mobileSongDropdown');
+  const label = document.getElementById('mobileSongSelectText');
+  if (!dropdown || !label) return;
+  var placeholder = 'choose a song';
+  if (currentSong) {
+    label.textContent = currentSong.title;
+    dropdown.classList.remove('movie-dropdown--hint');
+  } else {
+    label.textContent = placeholder;
+    dropdown.classList.remove('movie-dropdown--hint');
+    void dropdown.offsetWidth;
+    dropdown.classList.add('movie-dropdown--hint');
+  }
+}
+
 function selectSong(song) {
   currentSong = song;
   currentNoteIndex = 0;
@@ -2037,8 +2082,7 @@ function selectSong(song) {
   updateScore();
   buildNotesRow();
 
-  const mobileSongSelectText = document.getElementById('mobileSongSelectText');
-  if (mobileSongSelectText) mobileSongSelectText.textContent = song.title || 'Elige una canción';
+  syncMobileSongDropdownUI();
 
   document.querySelectorAll('.song-btn').forEach(b => b.classList.remove('active'));
   const btn = document.querySelector(`.song-btn[data-id="${song.id}"]`);
@@ -2077,7 +2121,7 @@ function initMobileSongDropdown() {
   placeholder.setAttribute('role', 'option');
   placeholder.setAttribute('data-value', '');
   placeholder.setAttribute('tabindex', '-1');
-  placeholder.textContent = 'Elige una canción';
+  placeholder.textContent = 'choose a song';
   panel.appendChild(placeholder);
 
   SONGS.forEach(song => {
@@ -2103,6 +2147,7 @@ function initMobileSongDropdown() {
 
   // Initial state: closed
   closeDropdown();
+  syncMobileSongDropdownUI();
 
   selectBtn.addEventListener('click', function (e) {
     e.stopPropagation();
@@ -2114,7 +2159,6 @@ function initMobileSongDropdown() {
     const opt = e.target && e.target.closest ? e.target.closest('.movie-dropdown-option') : null;
     if (!opt) return;
     const val = opt.getAttribute('data-value') || '';
-    label.textContent = opt.textContent || 'Elige una canción';
     closeDropdown();
 
     if (!val) {
@@ -2133,11 +2177,12 @@ function initMobileSongDropdown() {
 
       const statusChip = document.getElementById('statusChip');
       if (statusChip) {
-        statusChip.textContent = 'Elige una canción';
+        statusChip.textContent = 'Choose a song';
         statusChip.className = 'status-chip';
       }
       const nextChip = document.getElementById('nextNoteChip');
       if (nextChip) nextChip.textContent = '…';
+      syncMobileSongDropdownUI();
       return;
     }
 
@@ -2163,12 +2208,12 @@ function setGuidedMode(on) {
   var statusChip = document.getElementById('statusChip');
   var nextChip = document.getElementById('nextNoteChip');
   if (on) {
-    statusChip.textContent = currentSong ? 'Listo' : 'Elige una canción';
+    statusChip.textContent = currentSong ? 'Ready' : 'Choose a song';
     statusChip.className = 'status-chip';
     nextChip.textContent = currentSong ? '…' : '…';
   } else {
     clearHighlights();
-    statusChip.textContent = 'Toca lo que quieras';
+    statusChip.textContent = 'Play freely';
     statusChip.className = 'status-chip';
     nextChip.textContent = '♪';
   }
@@ -2180,11 +2225,11 @@ function toggleRecording() {
   if (!isRecording) {
     isRecording = true;
     recordedNotes = [];
-    btn.textContent = '⏹ Parar grabación';
+    btn.textContent = '⏹ Stop recording';
     btn.style.background = '#888';
   } else {
     isRecording = false;
-    btn.textContent = '⏺ Grabar';
+    btn.textContent = '⏺ Record';
     btn.style.background = '#e05c5c';
     saveRecording();
   }
@@ -2195,10 +2240,10 @@ function saveRecording() {
   const accuracy = totalAttempts > 0 ? Math.round((score / totalAttempts) * 100) : '–';
   const rec = {
     id: Date.now(),
-    name: currentSong ? `${currentSong.title}, toma ${recordings.length + 1}` : `Improvisación ${recordings.length + 1}`,
+    name: currentSong ? `${currentSong.title}, take ${recordings.length + 1}` : `Improv ${recordings.length + 1}`,
     notes: [...recordedNotes],
     score: accuracy,
-    time: new Date().toLocaleTimeString('es', {hour:'2-digit', minute:'2-digit'})
+    time: new Date().toLocaleTimeString('en', {hour:'2-digit', minute:'2-digit'})
   };
   recordings.unshift(rec);
   renderRecordings();
@@ -2207,7 +2252,7 @@ function saveRecording() {
 function stopPlayback() {
   playbackTimeoutIds.forEach(clearTimeout);
   playbackTimeoutIds.length = 0;
-  document.querySelectorAll('.btn-play-rec').forEach(btn => { btn.disabled = false; btn.textContent = '▶ Escuchar'; });
+  document.querySelectorAll('.btn-play-rec').forEach(btn => { btn.disabled = false; btn.textContent = '▶ Play'; });
 }
 
 function playRecording(rec) {
@@ -2233,7 +2278,7 @@ function playRecording(rec) {
 function renderRecordings() {
   const list = document.getElementById('recordingsList');
   if (recordings.length === 0) {
-    list.innerHTML = '<div style="color:var(--text-secondary);font-size:0.8rem;">Aún no tienes grabaciones. ¡Empieza a tocar!</div>';
+    list.innerHTML = '<div style="color:var(--text-secondary);font-size:0.8rem;">No recordings yet. Start playing!</div>';
     return;
   }
   list.innerHTML = '';
@@ -2243,10 +2288,10 @@ function renderRecordings() {
     const scoreLabel = typeof rec.score === 'number' ? rec.score + '%' : rec.score;
     item.innerHTML = `
       <div class="rec-name">${rec.name}</div>
-      <div class="rec-score" title="Precisión">${scoreLabel}</div>
+      <div class="rec-score" title="Accuracy">${scoreLabel}</div>
       <div style="color:var(--text-secondary);font-size:0.7rem;">${rec.time}</div>
       <div class="rec-actions">
-        <button type="button" class="btn-play-rec" data-rec-id="${rec.id}" aria-label="Escuchar grabación">▶ Escuchar</button>
+        <button type="button" class="btn-play-rec" data-rec-id="${rec.id}" aria-label="Play recording">▶ Play</button>
       </div>
     `;
     const playBtn = item.querySelector('.btn-play-rec');
@@ -2261,10 +2306,8 @@ buildKeyboard();
 resizePianoKeys();
 buildSongGrid();
 initMobileSongDropdown();
-if (isDesktopView()) {
-  metronomeActive = true;
-  startMetronome();
-}
+stopMetronome();
+metronomeActive = false;
 renderRecordings();
 
 window.addEventListener('resize', () => {
