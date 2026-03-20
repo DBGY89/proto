@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Piano Maestro - Mobile layouts</title>
+  <style>
+    :root{
+      --bg:#060612;
+      --text:#e8e8f0;
+      --muted:#9090b0;
+      --cyan:#00f0ff;
+      --border:#1e1e3a;
+      --panel:rgba(17,17,40,.55);
+      --font: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+      overflow:hidden; /* mock only */
+    }
+
+    /* Portrait gate */
+    .orientation-gate{
+      display:none;
+      min-height:100vh;
+      width:100%;
+      padding:24px 16px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      z-index:10;
+    }
+    .orientation-inner{
+      max-width:420px;
+      width:100%;
+    }
+    .orientation-title{
+      font-size:clamp(2.5rem, 8vw, 4rem);
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:var(--cyan);
+      text-shadow: 0 0 7px var(--cyan), 0 0 20px var(--cyan), 0 0 42px rgba(0,240,255,.4);
+      margin:0 0 .75rem 0;
+    }
+    .orientation-desc{
+      margin:0 0 1.25rem 0;
+      font-size:1rem;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    .orientation-cta{
+      appearance:none;
+      border:none;
+      background:var(--cyan);
+      color:#060612;
+      border-radius:999px;
+      padding:.7rem 1.4rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    /* Show gate only on mobile portrait */
+    @media (orientation: portrait) and (max-width: 900px){
+      .orientation-gate{ display:flex; }
+      .app-wrap{ display:none; }
+    }
+    @media (orientation: landscape) and (max-width: 900px){
+      .orientation-gate{ display:none; }
+      .app-wrap{ display:block; }
+    }
+    /* Desktop always shows */
+    @media (min-width: 901px){
+      .orientation-gate{ display:none; }
+      .app-wrap{ display:block; }
+    }
+
+    /* Mock app */
+    .app-wrap{
+      height:100vh;
+      padding:12px;
+      position:relative;
+    }
+
+    .met-dot{
+      position:absolute;
+      top:12px;
+      right:12px; /* "puntico" */
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--cyan);
+      box-shadow:0 0 16px rgba(0,240,255,.45);
+      z-index:5;
+    }
+
+    .design-switcher{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--muted);
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .pill.active{
+      border-color:rgba(0,240,255,.5);
+      color:var(--bg);
+      background:var(--cyan);
+      box-shadow:0 0 16px rgba(0,240,255,.25);
+    }
+
+    .layouts{
+      height:calc(100vh - 70px);
+      display:grid;
+      place-items:center;
+    }
+
+    .layout{
+      width:100%;
+      height:100%;
+      display:none;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(17,17,40,.25);
+      overflow:hidden;
+    }
+    .layout.active{ display:flex; }
+
+    /* Shared skeleton */
+    .frame{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      padding:10px;
+      gap:10px;
+    }
+    .topstatus{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
+      flex:0 0 auto;
+    }
+    .bar{
+      border:1px solid var(--border);
+      background:var(--panel);
+      border-radius:12px;
+      padding:10px;
+    }
+    .split{
+      flex:1;
+      min-height:0;
+      display:grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap:10px;
+    }
+    .part{
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+      font-weight:800;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+    .notes-window{
+      display:flex;
+      gap:6px;
+      overflow:hidden;
+      align-items:flex-end;
+      flex:1;
+      padding-bottom:2px;
+    }
+    .note{
+      width:44px;
+      height:56px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#0f0f22;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+      color:var(--text);
+    }
+    .piano{
+      flex:1;
+      min-height:0;
+      display:flex;
+      align-items:flex-end;
+      padding:6px 0;
+      gap:6px;
+      overflow:hidden;
+    }
+    .white{
+      width:28px;
+      height:140px;
+      background:linear-gradient(#f8f6f2,#e8e4dc);
+      border-radius:0 0 8px 8px;
+      border:1px solid rgba(0,0,0,.15);
+    }
+    .commands-dock{
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .commands-left{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    button{
+      border:none;
+      border-radius:12px;
+      padding:10px 12px;
+      background:var(--cyan);
+      color:#060612;
+      font-weight:1000;
+      cursor:pointer;
+    }
+    .ghost{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    input[type=range]{ width:160px; }
+
+    /* Layout 2 strip */
+    .col{
+      flex:1;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .part-strip{
+      flex:0 0 110px;
+    }
+    .piano-box{
+      flex:1;
+      min-height:0;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      overflow:hidden;
+    }
+
+    .cmdbar{
+      position:absolute;
+      top:10px;
+      left:10px;
+      right:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      pointer-events:none;
+    }
+    .cmdbar > *{ pointer-events:auto; }
+    .cmd-hud{
+      border:1px solid var(--border);
+      background:rgba(17,17,40,.65);
+      border-radius:12px;
+      padding:10px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .tempo-hud{
+      border:1px solid var(--border);
+      background:rgba(17,17,40,.65);
+      border-radius:12px;
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      color:var(--muted);
+      font-size:12px;
+      align-items:flex-start;
+    }
+    .tempo-hud input[type=range]{ width:150px; }
+
+    /* Layout 4 carousel */
+    .carousel{
+      flex:1;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .current-note{
+      font-size:44px;
+      font-weight:1000;
+      color:var(--cyan);
+      text-shadow:0 0 18px rgba(0,240,255,.35);
+      line-height:1;
+    }
+    .nexts-row{
+      display:flex;
+      gap:8px;
+      overflow:hidden;
+      align-items:flex-end;
+      flex:0 0 auto;
+    }
+    .note-mini{
+      width:48px;
+      height:58px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#0f0f22;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+    }
+
+  </style>
+</head>
+<body>
+  <section class="orientation-gate" aria-label="Orientacion necesaria">
+    <div class="orientation-inner">
+      <h1 class="orientation-title">PIANO MAESTRO</h1>
+      <p class="orientation-desc">Gira el movil. Hay un piano ahi dentro.</p>
+      <button class="orientation-cta" type="button" onclick="void(0)">Play</button>
+    </div>
+  </section>
+
+  <div class="app-wrap">
+    <div class="met-dot" aria-hidden="true"></div>
+
+    <div class="design-switcher" aria-label="Seleccion de diseno">
+      <button class="pill active" type="button" data-design="1">Diseno 1</button>
+      <button class="pill" type="button" data-design="2">Diseno 2</button>
+      <button class="pill" type="button" data-design="3">Diseno 3</button>
+      <button class="pill" type="button" data-design="4">Diseno 4</button>
+      <button class="pill" type="button" data-design="5">Diseno 5</button>
+    </div>
+
+    <div class="layouts">
+      <!-- Layout 1 -->
+      <section class="layout active" id="layout-1" aria-label="Diseno 1">
+        <div class="frame">
+          <div class="topstatus">
+            <div>ACiertos 0</div>
+            <div>Racha 0</div>
+            <div>Progreso</div>
+          </div>
+
+          <div class="split">
+            <div class="bar part">
+              <div class="label">Partitura (ventana)</div>
+              <div class="notes-window">
+                <div class="note">C</div><div class="note">D</div><div class="note">E</div><div class="note">F</div><div class="note">G</div>
+              </div>
+            </div>
+            <div class="bar part">
+              <div class="label">Piano</div>
+              <div class="piano">
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+                <div class="white"></div><div class="white"></div><div class="white"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="commands-dock bar">
+            <div class="commands-left">
+              <button type="button">▶ Empezar</button>
+              <button type="button" class="ghost">↺ Reiniciar</button>
+              <button type="button" class="ghost">⏺</button>
+            </div>
+            <div>
+              <div style="font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px;">Tempo</div>
+              <input type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 2 -->
+      <section class="layout" id="layout-2" aria-label="Diseno 2">
+        <div class="frame">
+          <div class="topstatus">
+            <div>ACiertos 0</div>
+            <div>Racha 0</div>
+            <div style="color:var(--muted);">Progreso</div>
+          </div>
+
+          <div class="col">
+            <div class="bar part part-strip">
+              <div class="label">Partitura (ventana)</div>
+              <div class="notes-window">
+                <div class="note">C</div><div class="note">E</div><div class="note">G</div><div class="note">F</div><div class="note">E</div>
+              </div>
+            </div>
+
+            <div class="bar piano-box">
+              <div class="cmdbar">
+                <div class="cmd-hud">
+                  <button type="button" style="padding:10px 12px;">▶</button>
+                  <button type="button" class="ghost">↺</button>
+                  <button type="button" class="ghost">⏺</button>
+                </div>
+                <div class="tempo-hud">
+                  <div>Tempo</div>
+                  <input type="range" value="72" min="40" max="160" />
+                </div>
+              </div>
+
+              <div class="piano" style="position:absolute;left:10px;right:10px;bottom:10px;justify-content:center;">
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 3 -->
+      <section class="layout" id="layout-3" aria-label="Diseno 3">
+        <div class="frame">
+          <div class="topstatus">
+            <div>ACiertos 0</div>
+            <div>Racha 0</div>
+            <div style="color:var(--muted);">Progreso</div>
+          </div>
+
+          <div class="split">
+            <div class="bar part" style="grid-column:1 / -1;">
+              <div class="label">HUD + Piano</div>
+              <div class="carousel" style="flex-direction:row;gap:10px;align-items:stretch;">
+                <div style="flex:0 0 140px; border-right:1px solid var(--border); padding-right:10px;">
+                  <div class="label" style="margin-top:0;">Ventana</div>
+                  <div class="notes-window" style="height:100%; align-items:flex-start;">
+                    <div class="note" style="height:46px;">A</div>
+                    <div class="note" style="height:46px;">B</div>
+                    <div class="note" style="height:46px;">C</div>
+                    <div class="note" style="height:46px;">B</div>
+                    <div class="note" style="height:46px;">A</div>
+                  </div>
+                </div>
+                <div style="flex:1; position:relative;">
+                  <div style="position:absolute;left:10px;right:10px;top:10px;display:flex;justify-content:space-between;gap:10px;">
+                    <div class="cmd-hud">
+                      <button type="button">▶</button>
+                      <button type="button" class="ghost">↺</button>
+                      <button type="button" class="ghost">⏺</button>
+                    </div>
+                    <div class="tempo-hud">
+                      <div>Tempo</div>
+                      <input type="range" value="72" min="40" max="160" />
+                    </div>
+                  </div>
+                  <div class="piano" style="position:absolute;left:10px;right:10px;bottom:10px;justify-content:center;">
+                    <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+                    <div class="white"></div><div class="white"></div><div class="white"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 4 -->
+      <section class="layout" id="layout-4" aria-label="Diseno 4">
+        <div class="frame">
+          <div class="topstatus">
+            <div>ACiertos 0</div>
+            <div>Racha 0</div>
+            <div style="color:var(--muted);">Tempo</div>
+          </div>
+
+          <div class="split" style="grid-template-columns: 1fr 1.6fr;">
+            <div class="bar carousel">
+              <div class="current">C</div>
+              <div class="nexts-row">
+                <div class="note-mini">D</div>
+                <div class="note-mini">E</div>
+                <div class="note-mini">F</div>
+                <div class="note-mini">G</div>
+              </div>
+              <div style="margin-top:auto;">
+                <div style="font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px;">Comandos</div>
+                <div class="commands-left" style="flex-wrap:nowrap;">
+                  <button type="button">▶</button>
+                  <button type="button" class="ghost">↺</button>
+                  <button type="button" class="ghost">⏺</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="bar piano-box">
+              <div class="piano" style="position:absolute;left:10px;right:10px;bottom:10px;justify-content:center;">
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 5 -->
+      <section class="layout" id="layout-5" aria-label="Diseno 5">
+        <div class="frame">
+          <div class="topstatus">
+            <div>ACiertos 0</div>
+            <div>Racha 0</div>
+            <div style="color:var(--muted);">Progreso</div>
+          </div>
+
+          <div class="col" style="gap:10px;">
+            <div class="bar part" style="flex:0 0 110px;">
+              <div class="label">Partitura (ventana)</div>
+              <div class="notes-window">
+                <div class="note">C</div><div class="note">D</div><div class="note">E</div><div class="note">F</div><div class="note">G</div>
+              </div>
+            </div>
+
+            <div class="bar piano-box" style="position:relative;">
+              <div class="piano" style="position:absolute;left:20px;right:20px;bottom:10px;justify-content:center;">
+                <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+                <div class="white"></div><div class="white"></div><div class="white"></div>
+              </div>
+            </div>
+
+            <div class="bar commands-dock">
+              <div class="commands-left">
+                <button type="button">▶</button>
+                <button type="button" class="ghost">↺</button>
+                <button type="button" class="ghost">⏺</button>
+              </div>
+              <div>
+                <div style="font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px;">Tempo</div>
+                <input type="range" value="72" min="40" max="160" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var pills = document.querySelectorAll('.pill[data-design]');
+      var layouts = document.querySelectorAll('.layout');
+      function setDesign(n) {
+        pills.forEach(function (p) {
+          var active = p.getAttribute('data-design') === String(n);
+          p.classList.toggle('active', active);
+        });
+        layouts.forEach(function (l) {
+          var active = l.id === 'layout-' + n;
+          l.classList.toggle('active', active);
+        });
+      }
+      pills.forEach(function (p) {
+        p.addEventListener('click', function () {
+          setDesign(p.getAttribute('data-design'));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+

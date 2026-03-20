@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Piano Maestro — 5 score display ideas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #060612;
+      --bg-surface: #16162e;
+      --border-surface: #2a2a4a;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9090b0;
+      --text-muted: #555580;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #b24dff;
+      --neon-gold: #ffd700;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --font: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding: 2rem 1.25rem 3rem;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(22, 22, 46, 0.4) 0%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 5% 5%, rgba(255,255,255,0.03) 1px, transparent 0);
+      background-size: 100% 100%, 24px 24px;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+    }
+    .intro {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      max-width: 40rem;
+      margin-bottom: 2rem;
+    }
+
+    .ideas {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .idea {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-surface);
+      border-radius: 12px;
+      padding: 1.25rem 1.35rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    }
+    .idea-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .idea-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    /* 1 — Accuracy % */
+    .mock-accuracy {
+      text-align: center;
+    }
+    .mock-accuracy .big {
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 24px rgba(0, 240, 255, 0.45);
+      line-height: 1.1;
+    }
+    .mock-accuracy .big span { font-size: 1.25rem; font-weight: 600; opacity: 0.9; }
+    .mock-accuracy .sub {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+    .mock-accuracy .row {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .mock-accuracy .row strong { color: var(--text-primary); font-weight: 600; }
+
+    /* 2 — Single session card */
+    .mock-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      border: 1px solid var(--border-surface);
+    }
+    .mock-card .session-line {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .mock-card .session-line span { color: var(--neon-cyan); }
+    .mock-card .session-meta {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.2rem;
+    }
+    .mock-card .pill {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 240, 255, 0.45);
+      color: var(--neon-cyan);
+      white-space: nowrap;
+    }
+
+    /* 3 — Combo */
+    .mock-combo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+    .mock-combo .hits {
+      text-align: center;
+    }
+    .mock-combo .hits .num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+    }
+    .mock-combo .hits .lbl {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .mock-combo .mult {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--neon-gold);
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+      padding: 0.4rem 0.85rem;
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      border-radius: 10px;
+      background: rgba(255, 215, 0, 0.06);
+    }
+
+    /* 4 — Stars */
+    .mock-stars {
+      text-align: center;
+    }
+    .mock-stars .stars {
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.35rem;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.35));
+    }
+    .mock-stars .tier {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--neon-gold);
+      letter-spacing: 0.04em;
+    }
+    .mock-stars .hint {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* 5 — Target bar */
+    .mock-target .target-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .mock-target .target-label strong { color: var(--text-primary); }
+    .mock-target .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      border: 1px solid var(--border-surface);
+    }
+    .mock-target .bar-fill {
+      height: 100%;
+      width: 72%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+    }
+    .mock-target .target-foot {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 0.45rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <h1>Piano Maestro</h1>
+  <p class="intro">Five ways to show score. Static mockups, same dark + neon style as the app. Pick one to implement in the real screen.</p>
+
+  <div class="ideas">
+    <section class="idea" aria-labelledby="idea-1">
+      <div class="idea-label">Idea 1</div>
+      <h2 class="idea-title" id="idea-1">Accuracy as the hero number</h2>
+      <div class="mock-accuracy">
+        <div class="big">87<span>%</span></div>
+        <div class="sub">accuracy</div>
+        <div class="row">
+          <span><strong>7</strong> hits</span>
+          <span><strong>10</strong> tries</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="idea" aria-labelledby="idea-2">
+      <div class="idea-label">Idea 2</div>
+      <h2 class="idea-title" id="idea-2">One compact session card</h2>
+      <div class="mock-card">
+        <div>
+          <div class="session-line"><span>7</span> / 12 correct</div>
+          <div class="session-meta">Best streak: 5</div>
+        </div>
+        <div class="pill">Playing</div>
+      </div>
+    </section>
+
+    <section class="idea" aria-labelledby="idea-3">
+      <div class="idea-label">Idea 3</div>
+      <h2 class="idea-title" id="idea-3">Combo multiplier</h2>
+      <div class="mock-combo">
+        <div class="hits">
+          <div class="num">7</div>
+          <div class="lbl">hits</div>
+        </div>
+        <div class="mult">×3</div>
+        <div class="hits">
+          <div class="num" style="color:var(--neon-purple);text-shadow:0 0 18px rgba(178,77,255,0.4);">0</div>
+          <div class="lbl">streak</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="idea" aria-labelledby="idea-4">
+      <div class="idea-label">Idea 4</div>
+      <h2 class="idea-title" id="idea-4">Stars / tier label</h2>
+      <div class="mock-stars">
+        <div class="stars" aria-hidden="true">★★★☆☆</div>
+        <div class="tier">Good</div>
+        <div class="hint">Reach 90% accuracy for “Perfect”</div>
+      </div>
+    </section>
+
+    <section class="idea" aria-labelledby="idea-5">
+      <div class="idea-label">Idea 5</div>
+      <h2 class="idea-title" id="idea-5">Progress toward a goal</h2>
+      <div class="mock-target">
+        <div class="target-label">
+          <span>Goal: <strong>80% accuracy</strong></span>
+          <span>72%</span>
+        </div>
+        <div class="bar" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100">
+          <div class="bar-fill"></div>
+        </div>
+        <div class="target-foot">Bar fills as your session accuracy improves.</div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Part of <a href="/">AI Proto Lab</a>. Mockup only.
+  </footer>
+</body>
+</html>

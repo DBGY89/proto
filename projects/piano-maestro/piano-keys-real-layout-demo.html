@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demo: geometría de teclas de piano (real)</title>
+  <style>
+    :root {
+      /* Una tecla blanca = unidad; las negras en proporción típica de piano */
+      --white-w: 44px;
+      --white-h: 140px;
+      --black-w: calc(var(--white-w) * 0.58);
+      --black-h: calc(var(--white-h) * 0.62);
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --bg: #0a0a1a;
+      --text: #e8e8f0;
+      --accent: #00f0ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem; }
+    .explain {
+      max-width: 52rem;
+      font-size: 0.9rem;
+      color: #9090b0;
+      margin-bottom: 1.5rem;
+    }
+    .explain code {
+      background: #1e1e3a;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    /* Contenedor del teclado: misma idea que en la app (blancas en fila + capa absoluta) */
+    .piano-demo {
+      display: inline-block;
+      padding: 1rem;
+      border: 1px solid #1e1e3a;
+      border-radius: 12px;
+      background: #12122a;
+    }
+
+    .keyboard {
+      position: relative;
+      display: flex;
+      height: var(--white-h);
+      user-select: none;
+    }
+
+    /* Capa de “slots”: una celda por tecla blanca, misma anchura que la blanca */
+    .white-row {
+      display: flex;
+      position: relative;
+      z-index: 1;
+    }
+
+    .white-key {
+      width: var(--white-w);
+      height: var(--white-h);
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #f8f6f2 0%, #e8e4dc 100%);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0 0 6px 6px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+      font-size: 0.55rem;
+      color: #666;
+    }
+
+    /* Capa de negras: misma fila de slots alineada con las blancas */
+    .black-layer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      pointer-events: none;
+      z-index: 10;
+      height: var(--black-h);
+    }
+
+    .black-slot {
+      width: var(--white-w);
+      flex-shrink: 0;
+      position: relative;
+      height: var(--black-h);
+      pointer-events: none;
+    }
+
+    /*
+      Regla real: el centro de cada tecla negra está en la LÍNEA entre dos blancas
+      (borde derecho de la blanca de la izquierda = borde izquierdo de la de la derecha).
+      Desde el slot de la blanca IZQUIERDA del par: left: 100% + translateX(-50%).
+      No usar un porcentaje fijo tipo 75%: eso desalinea las negras.
+    */
+    .black-key {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: var(--black-w);
+      height: var(--black-h);
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #2a2a32 0%, #0d0d12 100%);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 4px;
+      font-size: 0.45rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .black-key:active {
+      transform: translateX(-50%) translateY(1px);
+    }
+
+    .legend {
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      color: #9090b0;
+    }
+    .legend strong { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Geometría de teclas (como en un piano real)</h1>
+  <p class="explain">
+    Cada octava tiene <strong>7 teclas blancas</strong> y <strong>5 negras</strong> (no hay negra entre Mi–Fa ni entre Si–Do).
+    Las negras van <strong>centra­das en la unión</strong> de dos blancas: desde el “slot” de la blanca de la izquierda,
+    posición <code>left: 100%; transform: translateX(-50%)</code>. Las proporciones suelen ser negra ≈ 0,58× ancho blanca y
+    alto negra ≈ 0,62× alto blanca (ajustables con CSS).
+  </p>
+
+  <div class="piano-demo" aria-label="Demostración una octava Do–Si">
+    <div class="keyboard" id="kb">
+      <!-- Una octava: C D E F G A B — las negras solo en C, D, F, G, A slots -->
+      <div class="white-row" id="whites"></div>
+      <div class="black-layer" id="blacks"></div>
+    </div>
+    <p class="legend">
+      <strong>Octava de ejemplo (C4–B4):</strong> pulsa blancas y negras. Esto es el mismo patrón que aplicaría al teclado completo repetido por octava.
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var notes = [
+        { w: 'C', b: 'C#' },
+        { w: 'D', b: 'D#' },
+        { w: 'E', b: null },
+        { w: 'F', b: 'F#' },
+        { w: 'G', b: 'G#' },
+        { w: 'A', b: 'A#' },
+        { w: 'B', b: null }
+      ];
+
+      var whites = document.getElementById('whites');
+      var blacks = document.getElementById('blacks');
+
+      notes.forEach(function (n) {
+        var w = document.createElement('div');
+        w.className = 'white-key';
+        w.textContent = n.w;
+        w.dataset.note = n.w;
+        whites.appendChild(w);
+
+        var slot = document.createElement('div');
+        slot.className = 'black-slot';
+        if (n.b) {
+          var bk = document.createElement('div');
+          bk.className = 'black-key';
+          bk.textContent = n.b;
+          bk.dataset.note = n.b;
+          slot.appendChild(bk);
+        }
+        blacks.appendChild(slot);
+      });
+    })();
+  </script>
+</body>
+</html>

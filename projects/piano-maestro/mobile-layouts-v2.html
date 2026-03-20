@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Piano Maestro - Mobile layouts (v2)</title>
+  <style>
+    :root{
+      --bg:#060612;
+      --text:#e8e8f0;
+      --muted:#9090b0;
+      --cyan:#00f0ff;
+      --border:#1e1e3a;
+      --panel:rgba(17,17,40,.55);
+      --font: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+      overflow:hidden; /* mock */
+    }
+
+    /* Portrait gate */
+    .orientation-gate{
+      display:none;
+      min-height:100vh;
+      width:100%;
+      padding:24px 16px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      z-index:10;
+    }
+    .orientation-inner{ max-width:420px; width:100%; padding-top:0; }
+    .orientation-title{
+      font-size:clamp(2.5rem, 8vw, 4rem);
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:var(--cyan);
+      text-shadow: 0 0 7px var(--cyan), 0 0 20px var(--cyan), 0 0 42px rgba(0,240,255,.4);
+      margin:0 0 .75rem 0;
+    }
+    .orientation-desc{
+      margin:0 0 1.25rem 0;
+      font-size:1rem;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    .orientation-cta{
+      appearance:none;
+      border:none;
+      background:var(--cyan);
+      color:#060612;
+      border-radius:999px;
+      padding:.7rem 1.4rem;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    @media (orientation: portrait) and (max-width: 900px){
+      .orientation-gate{ display:flex; }
+      .app-wrap{ display:none; }
+    }
+    @media (orientation: landscape) and (max-width: 900px){
+      .orientation-gate{ display:none; }
+      .app-wrap{ display:block; }
+    }
+    @media (min-width: 901px){
+      .orientation-gate{ display:none; }
+      .app-wrap{ display:block; }
+    }
+
+    /* App */
+    .app-wrap{
+      height:100vh;
+      padding:12px;
+      position:relative;
+    }
+    .design-switcher{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--muted);
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill.active{
+      border-color:rgba(0,240,255,.55);
+      background:var(--cyan);
+      color:var(--bg);
+      box-shadow:0 0 16px rgba(0,240,255,.25);
+    }
+
+    .layouts{
+      height:calc(100vh - 70px);
+      display:grid;
+      place-items:center;
+    }
+    .layout{
+      width:100%;
+      height:100%;
+      display:none;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(17,17,40,.18);
+      overflow:hidden;
+    }
+    .layout.active{ display:flex; }
+
+    /* The single "piano box" container */
+    .piano-frame{
+      position:relative;
+      flex:1;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Dot feedback (always on, no label) */
+    .dot{
+      position:absolute;
+      top:10px;
+      right:12px;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--cyan);
+      box-shadow:0 0 16px rgba(0,240,255,.45);
+      z-index:5;
+      opacity:.65;
+    }
+    .dot.beat{
+      opacity:1;
+      transform: scale(1.15);
+      transition: transform 80ms ease, opacity 80ms ease;
+    }
+
+    /* Top: partitura, Middle: piano, Bottom: actions */
+    .partitura{
+      flex:0 0 auto;
+      padding:10px 12px 8px;
+      border-bottom:1px solid rgba(30,30,58,.9);
+      background:rgba(17,17,40,.38);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-height:0;
+    }
+    .partitura-header{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .notes-window{
+      display:flex;
+      gap:6px;
+      overflow:hidden;
+      align-items:flex-end;
+      padding-bottom:2px;
+    }
+    .note{
+      width:44px;
+      height:56px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#0f0f22;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1100;
+      color:var(--text);
+    }
+
+    .piano-area{
+      flex:1;
+      min-height:0;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:8px 14px;
+      background:transparent;
+    }
+    .keys{
+      display:flex;
+      align-items:flex-end;
+      gap:6px;
+      width:100%;
+      max-width:680px;
+      justify-content:center;
+    }
+    .white{
+      width:28px;
+      height:150px;
+      background:linear-gradient(#f8f6f2,#e8e4dc);
+      border-radius:0 0 8px 8px;
+      border:1px solid rgba(0,0,0,.15);
+      flex:0 0 auto;
+    }
+
+    .actions{
+      flex:0 0 auto;
+      padding:10px 12px;
+      border-top:1px solid rgba(30,30,58,.9);
+      background:rgba(17,17,40,.38);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      min-height:0;
+    }
+    .actions-left{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    button{
+      border:none;
+      border-radius:12px;
+      padding:10px 12px;
+      background:var(--cyan);
+      color:#060612;
+      font-weight:1000;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .ghost{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    .tempo{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      align-items:flex-start;
+    }
+    input[type=range]{ width:160px; }
+
+    /* Layout variations */
+    .layout-2 .white{ height:170px; width:30px; }
+    .layout-3 .partitura{ padding:8px 10px 6px; }
+    .layout-3 .note{ height:48px; width:40px; }
+    .layout-4 .partitura-header{ justify-content:center; }
+    .layout-4 .notes-window{ gap:8px; }
+    .layout-5 .partitura{ padding:10px 10px 8px; }
+
+    /* Small responsive tweaks */
+    @media (max-width: 520px){
+      .white{ width:26px; height:135px; }
+      input[type=range]{ width:120px; }
+      .note{ width:40px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="orientation-gate" aria-label="Gira tu móvil para tocar Piano Maestro">
+    <div class="orientation-inner">
+      <h1 class="orientation-title">PIANO MAESTRO</h1>
+      <p class="orientation-desc">Gira el móvil. Hay un piano ahí dentro.</p>
+      <button class="orientation-cta" type="button" onclick="void(0)">Play</button>
+    </div>
+  </section>
+
+  <div class="app-wrap">
+    <div class="design-switcher" style="display:none;" aria-label="Opciones de layout">
+      <button class="pill active" type="button" data-layout="1">Diseno 1</button>
+    </div>
+
+    <div class="layouts">
+      <!-- Layout 1 -->
+      <section class="layout active layout-1" id="layout-1">
+        <div class="piano-frame">
+          <div class="dot" id="dot"></div>
+
+          <div class="partitura">
+            <div class="partitura-header">
+              <span>Partitura</span><span>Aciertos 0</span>
+            </div>
+            <div class="notes-window">
+              <div class="note">C</div><div class="note">D</div><div class="note">E</div><div class="note">F</div><div class="note">G</div>
+            </div>
+          </div>
+
+          <div class="piano-area">
+            <div class="keys">
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <div class="actions-left">
+              <button type="button">▶</button>
+              <button class="ghost" type="button">↺</button>
+              <button class="ghost" type="button">⏺</button>
+            </div>
+            <div class="tempo">
+              <span>Tempo</span>
+              <input class="tempo-input" data-tempo type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 2 -->
+      <section class="layout layout-2" id="layout-2">
+        <div class="piano-frame">
+          <div class="dot" id="dot2"></div>
+          <div class="partitura">
+            <div class="partitura-header">
+              <span>Partitura</span><span>Racha 0</span>
+            </div>
+            <div class="notes-window">
+              <div class="note">A</div><div class="note">B</div><div class="note">C</div><div class="note">B</div><div class="note">A</div>
+            </div>
+          </div>
+          <div class="piano-area">
+            <div class="keys">
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="actions-left">
+              <button type="button">▶ Empezar</button>
+              <button class="ghost" type="button">↺</button>
+              <button class="ghost" type="button">⏺</button>
+            </div>
+            <div class="tempo">
+              <span>Tempo</span>
+              <input class="tempo-input" data-tempo type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 3 -->
+      <section class="layout layout-3" id="layout-3">
+        <div class="piano-frame">
+          <div class="dot" id="dot3"></div>
+          <div class="partitura">
+            <div class="partitura-header">
+              <span>Partitura (ventana)</span><span>Progreso</span>
+            </div>
+            <div class="notes-window">
+              <div class="note">A</div><div class="note">C</div><div class="note">E</div><div class="note">D</div><div class="note">C</div>
+            </div>
+          </div>
+          <div class="piano-area">
+            <div class="keys">
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="actions-left">
+              <button type="button">▶</button>
+              <button class="ghost" type="button">↺</button>
+              <button class="ghost" type="button">⏺</button>
+            </div>
+            <div class="tempo">
+              <span>Tempo</span>
+              <input class="tempo-input" data-tempo type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 4 -->
+      <section class="layout layout-4" id="layout-4">
+        <div class="piano-frame">
+          <div class="dot" id="dot4"></div>
+          <div class="partitura">
+            <div class="partitura-header">
+              <span>Partitura (actual)</span>
+            </div>
+            <div class="notes-window">
+              <div class="note" style="font-size:1.05rem;">C</div>
+              <div class="note" style="opacity:.85;">D</div>
+              <div class="note" style="opacity:.75;">E</div>
+              <div class="note" style="opacity:.65;">F</div>
+              <div class="note" style="opacity:.55;">G</div>
+            </div>
+          </div>
+          <div class="piano-area">
+            <div class="keys">
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="actions-left">
+              <button type="button">▶</button>
+              <button class="ghost" type="button">↺</button>
+              <button class="ghost" type="button">⏺</button>
+            </div>
+            <div class="tempo">
+              <span>Tempo</span>
+              <input class="tempo-input" data-tempo type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout 5 -->
+      <section class="layout layout-5" id="layout-5">
+        <div class="piano-frame">
+          <div class="dot" id="dot5"></div>
+          <div class="partitura">
+            <div class="partitura-header">
+              <span>Partitura</span><span>Aciertos 0</span>
+            </div>
+            <div class="notes-window">
+              <div class="note">E</div><div class="note">F</div><div class="note">G</div><div class="note">A</div><div class="note">G</div>
+            </div>
+          </div>
+          <div class="piano-area">
+            <div class="keys">
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+              <div class="white"></div><div class="white"></div><div class="white"></div><div class="white"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="actions-left">
+              <button type="button">▶ Empezar</button>
+              <button class="ghost" type="button">↺</button>
+              <button class="ghost" type="button">⏺</button>
+            </div>
+            <div class="tempo">
+              <span>Tempo</span>
+              <input class="tempo-input" data-tempo type="range" value="72" min="40" max="160" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var pills = document.querySelectorAll('.pill[data-layout]');
+      var layouts = document.querySelectorAll('.layout[id^="layout-"]');
+
+      function setActiveLayout(n) {
+        pills.forEach(function (p) {
+          p.classList.toggle('active', p.getAttribute('data-layout') === String(n));
+        });
+        layouts.forEach(function (l) {
+          var active = l.id === 'layout-' + n;
+          l.classList.toggle('active', active);
+        });
+        setBeatInterval();
+      }
+
+      pills.forEach(function (p) {
+        p.addEventListener('click', function () {
+          setActiveLayout(p.getAttribute('data-layout'));
+        });
+      });
+
+      // Dot + sound (always on)
+      var audioCtx = null;
+      var timer = null;
+      var dotEl = null;
+
+      function currentTempo() {
+        var active = document.querySelector('.layout.active');
+        if (!active) return 72;
+        var input = active.querySelector('input[data-tempo]');
+        return input ? parseInt(input.value, 10) : 72;
+      }
+
+      function getDot() {
+        var active = document.querySelector('.layout.active');
+        if (!active) return document.getElementById('dot');
+        // pick the first .dot inside active layout
+        return active.querySelector('.dot') || document.getElementById('dot');
+      }
+
+      function playTick() {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          var t = audioCtx.currentTime;
+          var osc = audioCtx.createOscillator();
+          var gain = audioCtx.createGain();
+          osc.type = 'square';
+          osc.frequency.value = 880;
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.exponentialRampToValueAtTime(0.12, t + 0.005);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(t);
+          osc.stop(t + 0.04);
+        } catch (e) {}
+      }
+
+      function setBeatInterval() {
+        if (timer) clearInterval(timer);
+        dotEl = getDot();
+        var tempo = currentTempo();
+        var ms = (60 / tempo) * 1000;
+        timer = setInterval(function () {
+          if (dotEl) {
+            dotEl.classList.add('beat');
+            setTimeout(function () {
+              if (dotEl) dotEl.classList.remove('beat');
+            }, 120);
+          }
+          playTick();
+        }, ms);
+
+        // Make sure it starts with the right dot animation
+        if (dotEl) dotEl.classList.remove('beat');
+      }
+
+      // tempo input changes should update interval
+      document.addEventListener('input', function (e) {
+        if (!e.target || !e.target.matches('input[data-tempo]')) return;
+        setBeatInterval();
+      });
+
+      // initial
+      setBeatInterval();
+    })();
+  </script>
+</body>
+</html>
+

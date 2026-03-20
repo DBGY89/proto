@@ -1660,9 +1660,10 @@ let guidedMode = true;
 const WHITE_NOTES = ['C4','D4','E4','F4','G4','A4','B4','C5','D5','E5','F5','G5'];
 const BLACK_NOTES_MAP = {
   'C4':'Cs4','D4':'Eb4','F4':'Fs4','G4':'Ab4','A4':'Bb4',
-  'C5':'Cs5','D5':'Eb5','F5':'Fs5','G5':'Ab5','A5':'Bb5'
+  'C5':'Cs5','D5':'Eb5','F5':'Fs5'
 };
-const NO_BLACK = ['E4','B4','E5','B5'];
+/* No black key after the last white (G5): there is no A5, so Ab5 would stick out past the end. */
+const NO_BLACK = ['E4','B4','E5','B5','G5'];
 
 function resizePianoKeys() {
   // En desktop mantenemos el tamaño definido por CSS.
