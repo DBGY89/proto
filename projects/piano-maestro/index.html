@@ -1145,6 +1145,7 @@
       padding-bottom: 3.35rem;
       height: 100dvh;
       flex: 1;
+      overflow: visible;
     }
     .mobile-landscape-overlay {
       display: flex !important;
@@ -1183,7 +1184,8 @@
   padding: 0.35rem 0.5rem;
     transform: translate(-50%, -50%) rotate(-90deg);
     transform-origin: center;
-    overflow: hidden;
+    /* Let the song dropdown escape the app box; body.force-landscape still locks the page */
+    overflow: visible;
     z-index: 200;
   }
 
@@ -1247,7 +1249,8 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-surface);
     border-radius: 12px;
-    overflow: hidden;
+    /* visible so the song dropdown panel is not clipped (overflow was hiding all options but the first) */
+    overflow: visible;
     padding: 0.35rem 0.4rem;
     gap: 0.04rem;
   }
@@ -2135,15 +2138,45 @@ function initMobileSongDropdown() {
     panel.appendChild(opt);
   });
 
+  function positionDropdownPanelFixed() {
+    if (!isMobileCompactLandscape()) return;
+    var r = selectBtn.getBoundingClientRect();
+    var vh = document.documentElement.clientHeight || window.innerHeight;
+    var vw = document.documentElement.clientWidth || window.innerWidth;
+    var gap = 6;
+    var maxH = Math.max(120, vh - r.bottom - gap - 12);
+    panel.style.position = 'fixed';
+    panel.style.left = Math.max(8, Math.min(r.left, vw - r.width - 8)) + 'px';
+    panel.style.top = (r.bottom + gap) + 'px';
+    panel.style.width = r.width + 'px';
+    panel.style.maxHeight = Math.min(280, maxH) + 'px';
+    panel.style.zIndex = '10000';
+    panel.style.right = 'auto';
+  }
+
+  function clearDropdownPanelFixed() {
+    panel.style.position = '';
+    panel.style.left = '';
+    panel.style.top = '';
+    panel.style.width = '';
+    panel.style.maxHeight = '';
+    panel.style.zIndex = '';
+    panel.style.right = '';
+  }
+
   function openDropdown() {
     if (dropdown.classList.contains('is-open')) return;
     selectBtn.setAttribute('aria-expanded', 'true');
     dropdown.classList.add('is-open');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(positionDropdownPanelFixed);
+    });
   }
 
   function closeDropdown() {
     selectBtn.setAttribute('aria-expanded', 'false');
     dropdown.classList.remove('is-open');
+    clearDropdownPanelFixed();
   }
 
   // Initial state: closed
@@ -2194,6 +2227,10 @@ function initMobileSongDropdown() {
   document.addEventListener('click', function (e) {
     if (!dropdown) return;
     if (!dropdown.contains(e.target)) closeDropdown();
+  });
+
+  window.addEventListener('resize', function () {
+    if (dropdown.classList.contains('is-open')) positionDropdownPanelFixed();
   });
 }
 
