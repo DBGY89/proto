@@ -1329,7 +1329,7 @@
 
   <header class="header">
     <h1>Piano Maestro</h1>
-    <p class="header-intro">Elige una canción, sigue la partitura y toca en el teclado. Aprende a tu ritmo.</p>
+    <p class="header-intro">Elige una canción y empieza al instante: sigue la partitura y toca en el teclado. Aprende a tu ritmo.</p>
   </header>
 
   <!-- Song selector -->
@@ -1353,7 +1353,6 @@
     <div class="separator"></div>
 
     <div id="guidedControls" class="guided-only">
-      <button class="btn btn-gold" id="startBtn" onclick="startPractice()">▶ Empezar</button>
       <button class="btn btn-outline" id="resetBtn" onclick="resetPractice()">↺ Reiniciar</button>
     </div>
 
@@ -1385,7 +1384,6 @@
         <div class="mobile-landscape-right-top">
           <div class="metronome-dot metronome-dot-compact" id="metronomeDotCompact" aria-label="Pulso de metrónomo" role="status"></div>
           <div class="mobile-landscape-right-actions" aria-label="Acciones">
-            <button class="btn btn-gold mobile-compact-start" id="compactStartBtn" type="button" onclick="startPractice()">▶ Empezar</button>
             <button class="btn btn-outline mobile-compact-reset" id="compactResetBtn" type="button" onclick="resetPractice()">↺ Reiniciar</button>
           </div>
         </div>
@@ -2036,10 +2034,6 @@ function selectSong(song) {
   document.getElementById('tempoSlider').value = tempo;
   updateTempo(tempo);
   clearHighlights();
-  const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = 'Listo para empezar';
-  statusChip.className = 'status-chip';
-  document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
   buildNotesRow();
 
@@ -2049,6 +2043,8 @@ function selectSong(song) {
   document.querySelectorAll('.song-btn').forEach(b => b.classList.remove('active'));
   const btn = document.querySelector(`.song-btn[data-id="${song.id}"]`);
   if (btn) btn.classList.add('active');
+
+  startPractice();
 }
 
 function buildSongGrid() {
