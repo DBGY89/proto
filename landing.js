@@ -14,6 +14,7 @@
     'salad-bar',
     'movie-palette',
     'crossfit-fuel',
+    'piano-maestro',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
