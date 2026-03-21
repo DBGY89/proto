@@ -533,6 +533,84 @@
     justify-content: center;
   }
 
+  /* Balanced columns: hits | strikes | best score | try again */
+  .status-bar-balanced {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5rem 0.75rem;
+    gap: 0;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(17, 17, 40, 0.55);
+    border: 1px solid var(--border-surface);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  }
+  .status-bar-balanced .stat-col {
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+  }
+  .status-bar-balanced .stat-num {
+    font-size: 1.35rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .status-bar-balanced .stat-num.num-cyan {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+  }
+  .status-bar-balanced .stat-num.num-pink {
+    color: var(--neon-pink);
+    text-shadow: 0 0 14px rgba(255, 45, 120, 0.3);
+  }
+  .status-bar-balanced .stat-num.num-gold {
+    color: var(--neon-gold);
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.25);
+  }
+  .status-bar-balanced .stat-lbl {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+  }
+  .status-bar-balanced .stat-sep {
+    width: 1px;
+    align-self: stretch;
+    min-height: 40px;
+    background: var(--border-surface);
+    flex-shrink: 0;
+  }
+  .status-bar-balanced .stat-cta {
+    flex-shrink: 0;
+    padding-left: 0.35rem;
+  }
+  .btn-try-again {
+    font-family: var(--font-main);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 240, 255, 0.55);
+    background: transparent;
+    color: var(--neon-cyan);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    white-space: nowrap;
+  }
+  .btn-try-again:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+  }
+
   .status-chip {
     padding: 0.4rem 1rem;
     border-radius: 999px;
@@ -545,23 +623,6 @@
   }
   .status-chip.active { border-color: var(--neon-cyan); color: var(--neon-cyan); }
   .status-chip.success { border-color: var(--green); color: var(--green); }
-
-  .score-display {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--neon-cyan);
-    font-variant-numeric: tabular-nums;
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-  }
-  .score-display span {
-    font-size: 0.65rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    display: block;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  #streakDisplay { color: var(--neon-purple); text-shadow: 0 0 10px rgba(178, 77, 255, 0.3); }
 
   .recordings-list {
     display: flex;
@@ -1337,7 +1398,7 @@
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
     <div class="topbar-right">
-      <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+      <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">From idea to prototype →</button>
       <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
     </div>
   </nav>
@@ -1447,11 +1508,26 @@
     <div class="mobile-landscape-actions" id="mobileLandscapeActions" aria-hidden="true"></div>
   </div>
 
-  <!-- Status -->
-  <div class="status-row" style="margin-bottom: 1.25rem;">
-    <div class="score-display guided-only" id="scoreDisplay">0<span>hits</span></div>
-    <div class="status-chip" id="statusChip">Choose a song</div>
-    <div class="score-display guided-only" id="streakDisplay">0<span>streak</span></div>
+  <!-- Status: balanced columns (hits · strikes · best score · try again) -->
+  <div class="status-row status-bar-balanced guided-only" style="margin-bottom: 1.25rem;">
+    <div class="stat-col">
+      <div class="stat-num num-cyan" id="hitsValue">0</div>
+      <div class="stat-lbl">Hits</div>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-col">
+      <div class="stat-num num-pink" id="strikesValue">0</div>
+      <div class="stat-lbl">Strikes</div>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-col">
+      <div class="stat-num num-gold" id="bestScoreValue">–</div>
+      <div class="stat-lbl">Best score</div>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-cta">
+      <button type="button" class="btn-try-again" id="tryAgainBtn">Try again</button>
+    </div>
   </div>
 
   <!-- Recordings -->
@@ -1488,21 +1564,21 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
-          <p class="modal-subtitle">Built in a few evenings.</p>
+          <p class="modal-subtitle">Built in five evenings.</p>
         </div>
         <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
       </div>
       <div class="modal-body">
         <p class="label">What problem & for whom</p>
-        <p><strong>For whom:</strong> Anyone who wants to learn simple melodies on the piano without reading sheet music first. Kids, beginners, or people who learn by ear.</p>
-        <p><strong>Problem:</strong> You want to play a tune but don't know which keys to press or how to keep time. Apps either assume you read music or feel like games with no real feedback.</p>
-        <p><strong>This:</strong> Pick a song. We show you the notes in a row and light up the next key. You play it. We tell you if you're right. One flow, your tempo, no theory required.</p>
+        <p><strong>For whom:</strong> For those of us who are not musicians but every time we see a piano wish we had spent 20 years studying just to sit down and leave everyone speechless.</p>
+        <p><strong>Problem:</strong> Not a real problem. But what if there is a piano at the next birthday party you go to?</p>
+        <p><strong>This:</strong> Follow the lights. Hit the notes. Enjoy.</p>
         <p class="label">The iteration</p>
-        <p>First version had too many modes. I simplified to one screen: you pick a song and choose guided or free. Guided mode lights up the next key and checks your playing; free mode is just the keyboard and partitura for reference. Tempo and metronome stay visible but don't get in the way.</p>
+        <p>From the first prompt the piano was already there, playable, with a metronome, a record button, and multiple modes: guided with lights or just the sheet music. Then I picked up the phone and the piano was cut in half. Portrait mode was never the answer. Landscape was, and with that decision came a simpler product: fewer features, one clear experience. Two pianists tested it before shipping. Do we trust them? Absolutely.</p>
         <p class="label">What AI could and couldn't do</p>
-        <p>AI helped with the song data and note sequences. The timing logic, the Web Audio engine, and the feedback loop (correct vs wrong, streak, score) were built by hand. Getting the feel right (when to advance, when to show "wrong") took more tweaking than the melodies.</p>
+        <p>The guided piano mechanic landed on the first prompt. The hard part was adapting it to a screen that changes size depending on whether the browser navigation bar decides to show up or not. The AI struggled to find a solution that worked without asking anything from the user. At one point it suggested a PWA, a version the user installs on their phone like an app, which removes the navigation bar entirely but requires installation first. These prototypes are built so anyone can enjoy them with as little effort as possible. A long pixel battle and a switch to Opus finally got there.</p>
         <p class="label">Minimum viable effort</p>
-        <p>One song choice. One Start button. Follow the lit key and the partitura. Record if you want a take. No account, no levels. If you can tap a key, you can use it.</p>
+        <p>Pick a song, follow the lights, and shine bright like a diamond.</p>
         <p class="label">Get in touch</p>
         <div class="modal-cta">
           <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
@@ -1652,7 +1728,43 @@ let playbackTimeoutIds = [];
 let resizeTimer = null;
 let score = 0;
 let streak = 0;
+let strikes = 0;
 let totalAttempts = 0;
+
+var BEST_SCORE_PREFIX = 'piano-maestro-best-';
+
+function getBestAccuracyStored(songId) {
+  if (!songId) return null;
+  try {
+    var v = localStorage.getItem(BEST_SCORE_PREFIX + songId);
+    if (v === null) return null;
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveBestAccuracyIfBetter(songId, accuracyPct) {
+  if (!songId || !Number.isFinite(accuracyPct)) return;
+  var prev = getBestAccuracyStored(songId);
+  if (prev === null || accuracyPct > prev) {
+    try {
+      localStorage.setItem(BEST_SCORE_PREFIX + songId, String(accuracyPct));
+    } catch (e) { /* ignore quota */ }
+  }
+}
+
+function refreshBestScoreDisplay() {
+  var el = document.getElementById('bestScoreValue');
+  if (!el) return;
+  if (!currentSong) {
+    el.textContent = '–';
+    return;
+  }
+  var b = getBestAccuracyStored(currentSong.id);
+  el.textContent = b != null ? b + '%' : '–';
+}
 let tempo = 80;
 let metronomeActive = false;
 let metronomeInterval = null;
@@ -1889,6 +2001,7 @@ function checkNote(playedNote) {
     }
   } else {
     streak = 0;
+    strikes++;
     totalAttempts++;
     if (cell) {
       cell.classList.add('played-wrong');
@@ -1904,8 +2017,10 @@ function checkNote(playedNote) {
 }
 
 function updateScore() {
-  document.getElementById('scoreDisplay').innerHTML = `${score}<span>hits</span>`;
-  document.getElementById('streakDisplay').innerHTML = `${streak}<span>streak</span>`;
+  var h = document.getElementById('hitsValue');
+  var st = document.getElementById('strikesValue');
+  if (h) h.textContent = String(score);
+  if (st) st.textContent = String(strikes);
 }
 
 function finishSong() {
@@ -1924,9 +2039,11 @@ function finishSong() {
 
   const progressBar = document.getElementById('progressBar');
   if (progressBar) progressBar.style.width = '100%';
-  const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = 'Complete!';
-  statusChip.className = 'status-chip success';
+  if (currentSong && totalAttempts > 0) {
+    var acc = Math.round((score / totalAttempts) * 100);
+    saveBestAccuracyIfBetter(currentSong.id, acc);
+  }
+  refreshBestScoreDisplay();
   document.getElementById('nextNoteChip').textContent = '🎉 Song complete!';
   if (isRecording) saveRecording();
 }
@@ -1945,6 +2062,7 @@ function startPractice() {
   currentNoteIndex = 0;
   score = 0;
   streak = 0;
+  strikes = 0;
   totalAttempts = 0;
   isPlaying = true;
   clearHighlights();
@@ -1954,9 +2072,6 @@ function startPractice() {
   const progressBar = document.getElementById('progressBar');
   if (progressBar) progressBar.style.width = '0%';
   updateScore();
-  const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = 'Playing…';
-  statusChip.className = 'status-chip active';
   updateCurrentNote();
   if (compact || metronomeActive) startMetronome();
 }
@@ -1967,17 +2082,16 @@ function resetPractice() {
   currentNoteIndex = 0;
   score = 0;
   streak = 0;
+  strikes = 0;
   totalAttempts = 0;
   clearHighlights();
   stopMetronome();
   metronomeActive = false;
   const metroBtn = document.getElementById('metroBtn');
   if (metroBtn) metroBtn.textContent = 'Metronome';
-  const statusChip = document.getElementById('statusChip');
-  statusChip.textContent = currentSong ? 'Ready' : 'Choose a song';
-  statusChip.className = 'status-chip';
   document.getElementById('nextNoteChip').textContent = '…';
   updateScore();
+  refreshBestScoreDisplay();
   buildNotesRow();
   // Si la partitura se desplazó horizontalmente (canciones largas), volvemos al inicio.
   if (isMobileCompactLandscape()) {
@@ -2077,6 +2191,7 @@ function selectSong(song) {
   currentNoteIndex = 0;
   score = 0;
   streak = 0;
+  strikes = 0;
   totalAttempts = 0;
   isPlaying = false;
   tempo = song.defaultTempo;
@@ -2084,6 +2199,7 @@ function selectSong(song) {
   updateTempo(tempo);
   clearHighlights();
   updateScore();
+  refreshBestScoreDisplay();
   buildNotesRow();
 
   syncMobileSongDropdownUI();
@@ -2201,19 +2317,16 @@ function initMobileSongDropdown() {
       currentNoteIndex = 0;
       score = 0;
       streak = 0;
+      strikes = 0;
       totalAttempts = 0;
       isPlaying = false;
       metronomeActive = false;
       stopMetronome();
       clearHighlights();
       updateScore();
+      refreshBestScoreDisplay();
       buildNotesRow();
 
-      const statusChip = document.getElementById('statusChip');
-      if (statusChip) {
-        statusChip.textContent = 'Choose a song';
-        statusChip.className = 'status-chip';
-      }
       const nextChip = document.getElementById('nextNoteChip');
       if (nextChip) nextChip.textContent = '…';
       syncMobileSongDropdownUI();
@@ -2243,16 +2356,11 @@ function setGuidedMode(on) {
   if (pillGuided) pillGuided.classList.toggle('active', on);
   if (pillFree) pillFree.classList.toggle('active', !on);
 
-  var statusChip = document.getElementById('statusChip');
   var nextChip = document.getElementById('nextNoteChip');
   if (on) {
-    statusChip.textContent = currentSong ? 'Ready' : 'Choose a song';
-    statusChip.className = 'status-chip';
     nextChip.textContent = currentSong ? '…' : '…';
   } else {
     clearHighlights();
-    statusChip.textContent = 'Play freely';
-    statusChip.className = 'status-chip';
     nextChip.textContent = '♪';
   }
 }
@@ -2347,6 +2455,11 @@ initMobileSongDropdown();
 stopMetronome();
 metronomeActive = false;
 renderRecordings();
+refreshBestScoreDisplay();
+(function () {
+  var tryAgainBtn = document.getElementById('tryAgainBtn');
+  if (tryAgainBtn) tryAgainBtn.addEventListener('click', function () { resetPractice(); });
+})();
 
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
