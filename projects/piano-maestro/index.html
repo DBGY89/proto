@@ -1477,11 +1477,11 @@
       <div class="mobile-landscape-left">
         <div class="movie-dropdown mobile-landscape-song movie-dropdown--hint" id="mobileSongDropdown">
           <button type="button" id="mobileSongSelect" class="movie-select"
-            aria-label="Choose a song"
+            aria-label="CHOOSE A SONG"
             aria-haspopup="listbox"
             aria-expanded="false"
             aria-controls="mobileSongDropdownPanel">
-            <span class="movie-select-text" id="mobileSongSelectText">choose a song</span>
+            <span class="movie-select-text" id="mobileSongSelectText">CHOOSE A SONG</span>
             <svg class="movie-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M6 9l6 6 6-6" />
             </svg>
@@ -2227,7 +2227,7 @@ function syncMobileSongDropdownUI() {
   const dropdown = document.getElementById('mobileSongDropdown');
   const label = document.getElementById('mobileSongSelectText');
   if (!dropdown || !label) return;
-  var placeholder = 'choose a song';
+  var placeholder = 'CHOOSE A SONG';
   if (currentSong) {
     label.textContent = currentSong.title;
     dropdown.classList.remove('movie-dropdown--hint');
@@ -2294,7 +2294,7 @@ function initMobileSongDropdown() {
   placeholder.setAttribute('role', 'option');
   placeholder.setAttribute('data-value', '');
   placeholder.setAttribute('tabindex', '-1');
-  placeholder.textContent = 'choose a song';
+  placeholder.textContent = 'CHOOSE A SONG';
   panel.appendChild(placeholder);
 
   SONGS.forEach(song => {
