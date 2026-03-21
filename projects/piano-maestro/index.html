@@ -922,6 +922,14 @@
   .guided-only { display: none !important; }
   .app.guided-mode .guided-only { display: revert !important; }
   .app.guided-mode #guidedControls.guided-only { display: flex !important; gap: 0.5rem; }
+  /* revert strips display:flex from .status-row; keep one horizontal row for the score bar */
+  .app.guided-mode .status-bar-balanced.guided-only {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
 
   .hidden { display: none !important; }
 
