@@ -1265,12 +1265,14 @@
     .topbar { padding-left: 1.25rem; padding-right: 1.25rem; }
   }
 
-  /* Orientation-specific visibility */
-  @media (orientation: portrait) and (max-width: 900px) {
+  /* Orientation gate: use viewport aspect ratio, not (orientation: …).
+     Some mobile browsers mis-report orientation vs CSS viewport (toolbar, WebView, DevTools).
+     Portrait / tall: width ≤ height → show "rotate" screen. Landscape narrow: show compact piano. */
+  @media (max-width: 900px) and (max-aspect-ratio: 1/1) {
     .orientation-gate { display: flex; }
     .app { display: none; }
   }
-  @media (orientation: landscape) and (max-width: 900px) {
+  @media (max-width: 900px) and (min-aspect-ratio: 1001/1000) {
     .orientation-gate { display: none; }
     .app { display: block; }
 
@@ -1341,8 +1343,8 @@
     z-index: 200;
   }
 
-  /* If already in landscape, no extra rotation so forced layout stays consistent. */
-  @media (orientation: landscape) {
+  /* If viewport is already wider than tall, no extra rotation so forced layout stays consistent. */
+  @media (min-aspect-ratio: 1001/1000) {
     body.force-landscape .app {
       width: 100vw;
       height: 100dvh;
@@ -2247,7 +2249,8 @@ function toggleMetronome() {
 function isMobileCompactLandscape() {
   if (document.body.classList.contains('force-landscape')) return true;
   if (!window.matchMedia) return false;
-  return window.matchMedia('(orientation: landscape) and (max-width: 900px)').matches;
+  /* Match CSS: narrow viewport and wider-than-tall (not orientation:, see comment above). */
+  return window.matchMedia('(max-width: 900px) and (min-aspect-ratio: 1001/1000)').matches;
 }
 
 function playClick(accent) {
