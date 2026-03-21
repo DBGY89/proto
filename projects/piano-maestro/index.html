@@ -330,8 +330,20 @@
   .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
   .sheet-scroll {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 0.5rem;
+  }
+  /* Partitura más corta que el teclado: centrar como el piano (keyboard-wrap ya centra el teclado). */
+  .sheet-scroll.sheet-scroll--narrow {
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .sheet-scroll.sheet-scroll--wide {
+    justify-content: flex-start;
+    overflow-x: auto;
   }
 
   .notes-row {
@@ -405,21 +417,6 @@
   .note-cell.current .beat-indicator {
     background: var(--neon-cyan);
     opacity: 1;
-  }
-
-  .progress-bar-wrap {
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-top: 1rem;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--neon-cyan);
-    border-radius: 2px;
-    transition: width 0.3s var(--ease);
-    box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
   }
 
   .piano-section {
@@ -1343,7 +1340,6 @@
     align-self: center;
     margin-top: 0;
   }
-  body.force-landscape .progress-bar-wrap { display: none !important; }
   body.force-landscape .section-label { display: none !important; }
 
   body.force-landscape .sheet-section { display: none !important; }
@@ -1379,6 +1375,15 @@
     overflow-y: hidden;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+  }
+  body.force-landscape .sheet-scroll.sheet-scroll--narrow {
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  body.force-landscape .sheet-scroll.sheet-scroll--wide {
+    justify-content: flex-start;
+    overflow-x: auto;
   }
   body.force-landscape .notes-row {
     padding: 0;
@@ -1498,9 +1503,6 @@
       <div class="section-label">Score</div>
       <div class="sheet-scroll">
         <div class="notes-row" id="notesRow"></div>
-      </div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
       </div>
     </div>
     <div class="piano-section">
@@ -1703,6 +1705,7 @@ function integrateSheetIntoKeyboardBox() {
   if (!sheet || !wrap) return;
   if (wrap.contains(sheet)) return;
   wrap.insertBefore(sheet, wrap.firstChild);
+  requestAnimationFrame(updateSheetScrollAlignment);
 }
 
 function enterLandscapeMode() {
@@ -1791,15 +1794,27 @@ const NO_BLACK = ['E4','B4','E5','B5','G5'];
 function resizePianoKeys() {
   // En desktop mantenemos el tamaño definido por CSS.
   // Solo recalculamos teclas cuando estamos en la vista optimizada mobile.
-  if (!document.body.classList.contains('force-landscape')) return;
+  if (!document.body.classList.contains('force-landscape')) {
+    updateSheetScrollAlignment();
+    return;
+  }
 
   const wrap = document.querySelector('.keyboard-wrap');
-  if (!wrap) return;
+  if (!wrap) {
+    updateSheetScrollAlignment();
+    return;
+  }
   const w = wrap.clientWidth || 0;
-  if (!w) return;
+  if (!w) {
+    updateSheetScrollAlignment();
+    return;
+  }
 
   let whiteW = Math.floor(w / 14);
-  if (!whiteW) return;
+  if (!whiteW) {
+    updateSheetScrollAlignment();
+    return;
+  }
   let whiteH = Math.floor(whiteW * 3.2);
   let blackW = Math.floor(whiteW * 0.6);
 
@@ -1837,6 +1852,34 @@ function resizePianoKeys() {
     slot.style.width = whiteW + 'px';
     slot.style.height = blackH + 'px';
   });
+  updateSheetScrollAlignment();
+}
+
+/** Centra la fila de notas respecto al teclado si es más corta que el piano; si no, scroll horizontal como antes. */
+function updateSheetScrollAlignment() {
+  const sheetScroll = document.querySelector('.keyboard-wrap .sheet-scroll') || document.querySelector('.sheet-scroll');
+  const row = document.getElementById('notesRow');
+  const keyboard = document.getElementById('keyboard');
+  if (!sheetScroll || !row || !keyboard) return;
+
+  if (!currentSong || row.children.length === 0) {
+    sheetScroll.classList.remove('sheet-scroll--narrow', 'sheet-scroll--wide');
+    sheetScroll.scrollLeft = 0;
+    return;
+  }
+
+  const rowW = row.scrollWidth;
+  const pianoW = keyboard.offsetWidth;
+  if (!pianoW) return;
+
+  if (rowW <= pianoW + 1) {
+    sheetScroll.classList.add('sheet-scroll--narrow');
+    sheetScroll.classList.remove('sheet-scroll--wide');
+    sheetScroll.scrollLeft = 0;
+  } else {
+    sheetScroll.classList.remove('sheet-scroll--narrow');
+    sheetScroll.classList.add('sheet-scroll--wide');
+  }
 }
 
 function buildKeyboard() {
@@ -1942,6 +1985,9 @@ function buildNotesRow() {
   });
 
   updateCurrentNote();
+  requestAnimationFrame(function () {
+    requestAnimationFrame(updateSheetScrollAlignment);
+  });
 }
 
 function updateCurrentNote() {
@@ -1952,7 +1998,10 @@ function updateCurrentNote() {
     current.classList.add('current');
     // En horizontal compacto evitamos scroll para que todo quede fijo en la pantalla.
     if (!isMobileCompactLandscape()) {
-      current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      var ssAlign = document.querySelector('.keyboard-wrap .sheet-scroll') || document.querySelector('.sheet-scroll');
+      if (!ssAlign || !ssAlign.classList.contains('sheet-scroll--narrow')) {
+        current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
     // En compacto forzamos scroll horizontal de la partitura para ver el resto.
     if (isMobileCompactLandscape() && guidedMode && isPlaying) {
@@ -1963,8 +2012,6 @@ function updateCurrentNote() {
     document.getElementById('nextNoteChip').textContent = `Play: ${noteLabel}`;
     highlightKey(note.note, 'highlight');
   }
-  const pct = currentSong ? (currentNoteIndex / currentSong.notes.length) * 100 : 0;
-  document.getElementById('progressBar').style.width = pct + '%';
 }
 
 function scrollNotesRowToCell(cellEl) {
@@ -2045,8 +2092,6 @@ function finishSong() {
     if (lastCell) scrollNotesRowToCell(lastCell);
   }
 
-  const progressBar = document.getElementById('progressBar');
-  if (progressBar) progressBar.style.width = '100%';
   if (currentSong && totalAttempts > 0) {
     var acc = Math.round((score / totalAttempts) * 100);
     saveBestAccuracyIfBetter(currentSong.id, acc);
@@ -2077,8 +2122,6 @@ function startPractice() {
   document.querySelectorAll('.note-cell').forEach(function (c) {
     c.classList.remove('current', 'played-correct', 'played-wrong');
   });
-  const progressBar = document.getElementById('progressBar');
-  if (progressBar) progressBar.style.width = '0%';
   updateScore();
   updateCurrentNote();
   if (compact || metronomeActive) startMetronome();
