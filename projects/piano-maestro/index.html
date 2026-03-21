@@ -1855,12 +1855,11 @@ function resizePianoKeys() {
   updateSheetScrollAlignment();
 }
 
-/** Centra la fila de notas respecto al teclado si es más corta que el piano; si no, scroll horizontal como antes. */
+/** Centra la partitura en el mismo ancho que el bloque del teclado cuando cabe sin scroll. Comparar solo con el ancho del piano fallaba: las celdas tienen el mismo ancho que las teclas pero hay gap entre notas, y la fila medía más ancha que el teclado aunque “cupiera” visualmente. */
 function updateSheetScrollAlignment() {
   const sheetScroll = document.querySelector('.keyboard-wrap .sheet-scroll') || document.querySelector('.sheet-scroll');
   const row = document.getElementById('notesRow');
-  const keyboard = document.getElementById('keyboard');
-  if (!sheetScroll || !row || !keyboard) return;
+  if (!sheetScroll || !row) return;
 
   if (!currentSong || row.children.length === 0) {
     sheetScroll.classList.remove('sheet-scroll--narrow', 'sheet-scroll--wide');
@@ -1869,10 +1868,13 @@ function updateSheetScrollAlignment() {
   }
 
   const rowW = row.scrollWidth;
-  const pianoW = keyboard.offsetWidth;
-  if (!pianoW) return;
+  const containerW = sheetScroll.clientWidth;
+  if (!containerW) return;
 
-  if (rowW <= pianoW + 1) {
+  /* Cabe en el área visible (mismo ancho que keyboard-wrap): centrar. Si no cabe, scroll como antes. */
+  const fitsWithoutScroll = rowW <= containerW + 2;
+
+  if (fitsWithoutScroll) {
     sheetScroll.classList.add('sheet-scroll--narrow');
     sheetScroll.classList.remove('sheet-scroll--wide');
     sheetScroll.scrollLeft = 0;
