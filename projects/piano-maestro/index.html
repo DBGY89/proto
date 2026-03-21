@@ -1683,7 +1683,6 @@ const SONGS = [
     id: 'twinkle',
     title: 'Twinkle, Twinkle',
     composer: 'Trad. / Mozart',
-    difficulty: 'Beginner',
     defaultTempo: 80,
     notes: [
       {note:'C4',dur:0.5},{note:'C4',dur:0.5},{note:'G4',dur:0.5},{note:'G4',dur:0.5},
@@ -1696,7 +1695,6 @@ const SONGS = [
     id: 'birthday',
     title: 'Happy Birthday',
     composer: 'Trad.',
-    difficulty: 'Beginner',
     defaultTempo: 75,
     notes: [
       {note:'G4',dur:0.25},{note:'G4',dur:0.25},{note:'A4',dur:0.5},{note:'G4',dur:0.5},{note:'C5',dur:0.5},{note:'B4',dur:1},
@@ -1709,7 +1707,6 @@ const SONGS = [
     id: 'ode',
     title: 'Ode to Joy',
     composer: 'Beethoven',
-    difficulty: 'Beginner',
     defaultTempo: 90,
     notes: [
       {note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'F4',dur:0.5},{note:'G4',dur:0.5},
@@ -1726,7 +1723,6 @@ const SONGS = [
     id: 'jingle',
     title: 'Jingle Bells',
     composer: 'J. Pierpont',
-    difficulty: 'Beginner',
     defaultTempo: 100,
     notes: [
       {note:'E4',dur:0.5},{note:'E4',dur:0.5},{note:'E4',dur:1},
@@ -2350,7 +2346,7 @@ function buildSongGrid() {
     btn.dataset.id = song.id;
     btn.innerHTML = `
       <div class="song-title">${song.title}</div>
-      <div class="song-meta">${song.composer} · ${song.difficulty}</div>
+      <div class="song-meta">${song.composer}</div>
     `;
     btn.addEventListener('click', () => selectSong(song));
     grid.appendChild(btn);
