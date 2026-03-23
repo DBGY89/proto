@@ -175,6 +175,35 @@
     }
     #game-canvas:active { cursor: grabbing; }
 
+    /* Minimapa completo solo en escritorio: posición fija en la esquina del área de juego */
+    .minimap-wrap {
+      display: none;
+      position: absolute;
+      right: max(12px, env(safe-area-inset-right));
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 8;
+      width: 144px;
+      height: 144px;
+      border: 2px solid rgba(253, 230, 138, 0.55);
+      border-radius: 8px;
+      background: rgba(10, 10, 26, 0.88);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .minimap-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    @media (min-width: 900px) {
+      .minimap-wrap {
+        display: block;
+      }
+    }
+
     .near-prompt {
       position: absolute;
       left: 50%;
@@ -521,7 +550,6 @@
   <div class="screen-map hidden" id="screen-map">
     <div class="hud-bar" role="banner">
       <span>PAWMAP · ESPAÑA</span>
-      <span>CAMINA HACIA LA LUZ</span>
     </div>
     <div class="map-stage-wrap" id="map-stage-wrap">
       <div class="asset-hint" id="asset-hint" hidden></div>
@@ -537,6 +565,9 @@
         <span class="dpad-spacer"></span>
         <button type="button" data-dir="down" aria-label="Abajo">▼</button>
         <span class="dpad-spacer"></span>
+      </div>
+      <div class="minimap-wrap" id="minimap-wrap">
+        <canvas id="minimap-canvas" width="144" height="144" aria-label="Minimapa: posición en la península"></canvas>
       </div>
     </div>
 
@@ -611,13 +642,15 @@
   'use strict';
 
   var WORLD = 840;
-  /* Fallback if sprite not loaded; real frames = floor(sheetWidth/3) x floor(sheetHeight/4) */
+  /* Fallback si no hay sprite; hoja típica 1024×1536 → 3×4 celdas (341×384, última col. 342px) */
   var FRAME_W = 341;
-  var FRAME_H = 307;
+  var FRAME_H = 384;
   var COLS = 3;
   var ROWS = 4;
-  var DRAW_W = 35;
-  var DRAW_H = 40;
+  /* Sube el número cuando sustituyas assets en projects/pawmap/assets/ (mapa, sprite, pin, nubes, retrato). */
+  var PAWMAP_ASSETS_BUST = '6';
+  var DRAW_W = 70;
+  var DRAW_H = 80;
   var PROX = 40;
   var MOVE_SPEED = 115;
 
@@ -637,6 +670,10 @@
   var canvas = document.getElementById('game-canvas');
   var ctx = canvas.getContext('2d', { alpha: false });
   var mapWrap = document.getElementById('map-stage-wrap');
+  var minimapCanvas = document.getElementById('minimap-canvas');
+  var minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
+  var minimapMql = window.matchMedia('(min-width: 900px)');
+  var MINIMAP_SIZE = 144;
   var assetHint = document.getElementById('asset-hint');
   var nearPrompt = document.getElementById('near-prompt');
   var sheet = document.getElementById('info-sheet');
@@ -652,6 +689,8 @@
   var imgSpriteProcessed = null;
   var imgPinProcessed = null;
   var imgClouds = null;
+  /* Un solo frame copiado 1:1 desde la hoja; luego se escala. Evita mezcla con el frame vecino al dibujar. */
+  var spriteFrameScratch = null;
   var assetsMissing = [];
 
   function tryLoad(srcs, onOk, onFail) {
@@ -698,6 +737,24 @@
     return c;
   }
 
+  function keyNearWhiteTransparent(canvas) {
+    var t = canvas.getContext('2d');
+    try {
+      var px = t.getImageData(0, 0, canvas.width, canvas.height);
+      var d = px.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var r = d[i];
+        var g = d[i + 1];
+        var b = d[i + 2];
+        if (r > 248 && g > 248 && b > 248) d[i + 3] = 0;
+      }
+      t.putImageData(px, 0, 0);
+    } catch (err) {
+      /* file:// u otro: sin clave */
+    }
+    return canvas;
+  }
+
   function imageUsesAlphaChannel(img) {
     var c = document.createElement('canvas');
     c.width = img.width;
@@ -718,7 +775,7 @@
 
   function processSpriteSheet(img) {
     if (imageUsesAlphaChannel(img)) return img;
-    return removeBlackBackground(img);
+    return keyNearWhiteTransparent(removeBlackBackground(img));
   }
 
   function processPin(img) {
@@ -882,19 +939,20 @@
       if (pending <= 0) cb();
     };
 
-    tryLoad(['assets/spain-map.png', 'assets/spain-map.jpg'], function (im) {
+    var v = '?v=' + PAWMAP_ASSETS_BUST;
+    tryLoad(['assets/spain-map.png' + v, 'assets/spain-map.jpg' + v], function (im) {
       imgMap = im;
       refreshSeaTextureFromMap(im);
       done();
     }, function () { assetsMissing.push('mapa (spain-map.png o .jpg)'); done(); });
 
-    tryLoad(['assets/sprite.png'], function (im) { imgSpriteProcessed = processSpriteSheet(im); done(); }, function () { assetsMissing.push('sprite.png'); done(); });
+    tryLoad(['assets/sprite.png' + v], function (im) { imgSpriteProcessed = processSpriteSheet(im); done(); }, function () { assetsMissing.push('sprite.png'); done(); });
 
-    tryLoad(['assets/paw-pin.png'], function (im) { imgPinProcessed = processPin(im); done(); }, function () { assetsMissing.push('paw-pin.png'); done(); });
+    tryLoad(['assets/paw-pin.png' + v], function (im) { imgPinProcessed = processPin(im); done(); }, function () { assetsMissing.push('paw-pin.png'); done(); });
 
-    tryLoad(['assets/clouds.png'], function (im) { imgClouds = im; done(); }, function () { assetsMissing.push('clouds.png'); done(); });
+    tryLoad(['assets/clouds.png' + v], function (im) { imgClouds = im; done(); }, function () { assetsMissing.push('clouds.png'); done(); });
 
-    tryLoad(['assets/llull-portrait.png'], function (im) {
+    tryLoad(['assets/llull-portrait.png' + v], function (im) {
       var wrap = document.getElementById('title-portrait-wrap');
       var ph = document.getElementById('title-portrait-placeholder');
       if (wrap && ph) {
@@ -1074,34 +1132,144 @@
 
   function spriteFrameDims() {
     var src = imgSpriteProcessed;
-    if (!src) return { fw: FRAME_W, fh: FRAME_H };
+    if (!src) return { fw: FRAME_W, fh: FRAME_H, sheetW: 0, sheetH: 0 };
     var w = (typeof src.naturalWidth === 'number' && src.naturalWidth > 0) ? src.naturalWidth : src.width;
     var h = (typeof src.naturalHeight === 'number' && src.naturalHeight > 0) ? src.naturalHeight : src.height;
-    if (!w || !h) return { fw: FRAME_W, fh: FRAME_H };
-    return { fw: Math.floor(w / COLS), fh: Math.floor(h / ROWS) };
+    if (!w || !h) return { fw: FRAME_W, fh: FRAME_H, sheetW: 0, sheetH: 0 };
+    return {
+      fw: Math.floor(w / COLS),
+      fh: Math.floor(h / ROWS),
+      sheetW: w,
+      sheetH: h
+    };
+  }
+
+  function spriteFrameSourceRect(col, row, dims) {
+    var fw = dims.fw;
+    var fh = dims.fh;
+    var w = dims.sheetW;
+    var h = dims.sheetH;
+    var sx = col * fw;
+    var sy = row * fh;
+    var sw = col === COLS - 1 ? w - sx : fw;
+    var sh = row === ROWS - 1 ? h - sy : fh;
+    /* Enteros estrictos: evita límites ambiguos en drawImage desde atlas. */
+    return {
+      sx: sx | 0,
+      sy: sy | 0,
+      sw: sw | 0,
+      sh: sh | 0
+    };
+  }
+
+  function syncMinimapAria() {
+    var wrap = document.getElementById('minimap-wrap');
+    if (!wrap) return;
+    wrap.setAttribute('aria-hidden', minimapMql.matches ? 'false' : 'true');
+  }
+  minimapMql.addEventListener('change', syncMinimapAria);
+  syncMinimapAria();
+
+  function drawMinimap() {
+    if (!minimapCanvas || !minimapCtx || !minimapMql.matches) return;
+    var sz = MINIMAP_SIZE;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var wpx = Math.floor(sz * dpr);
+    var hpx = Math.floor(sz * dpr);
+    if (minimapCanvas.width !== wpx || minimapCanvas.height !== hpx) {
+      minimapCanvas.width = wpx;
+      minimapCanvas.height = hpx;
+    }
+    var m = minimapCtx;
+    m.setTransform(1, 0, 0, 1, 0, 0);
+    m.clearRect(0, 0, wpx, hpx);
+    m.setTransform(dpr, 0, 0, dpr, 0, 0);
+    m.imageSmoothingEnabled = false;
+    if (imgMap) {
+      /* Mismo criterio que el mapa grande: imagen completa escalada a WORLD (5-arg allí = destino WORLD×WORLD). */
+      var iw = imgMap.naturalWidth || imgMap.width;
+      var ih = imgMap.naturalHeight || imgMap.height;
+      m.drawImage(imgMap, 0, 0, iw, ih, 0, 0, sz, sz);
+    } else {
+      m.fillStyle = seaFillColor;
+      m.fillRect(0, 0, sz, sz);
+      m.fillStyle = '#2d6a3a';
+      m.beginPath();
+      m.ellipse(sz * 0.52, sz * 0.48, sz * 0.38, sz * 0.22, 0.1, 0, Math.PI * 2);
+      m.fill();
+    }
+
+    /* Palito + esfera blanca arriba; el pie del palito marca el punto en el mapa. */
+    var pinScale = Math.max(0.82, Math.min(1.12, sz / 144));
+    SPOTS.forEach(function (s) {
+      var tipX = (s.wx / WORLD) * sz;
+      var tipY = (s.wy / WORLD) * sz;
+      var h = 12 * pinScale;
+      var r = 3.8 * pinScale;
+      var yTop = tipY - h;
+      var cy = yTop - r;
+      m.beginPath();
+      m.moveTo(tipX, tipY);
+      m.lineTo(tipX, yTop);
+      m.strokeStyle = '#3d2f22';
+      m.lineWidth = Math.max(1.25, 1.5 * pinScale);
+      m.lineCap = 'round';
+      m.stroke();
+      m.beginPath();
+      m.arc(tipX, cy, r, 0, Math.PI * 2);
+      m.fillStyle = '#ffffff';
+      m.fill();
+      m.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+      m.lineWidth = 0.75;
+      m.stroke();
+    });
+
+    /* Jugador encima: centro del sprite en el mundo. */
+    var pinX = player.x;
+    var pinY = player.y - DRAW_H / 2;
+    var mx = (pinX / WORLD) * sz;
+    var my = (pinY / WORLD) * sz;
+    mx = Math.max(4, Math.min(sz - 4, mx));
+    my = Math.max(4, Math.min(sz - 4, my));
+    m.fillStyle = '#ff2d78';
+    m.beginPath();
+    m.arc(mx, my, 4, 0, Math.PI * 2);
+    m.fill();
+    m.strokeStyle = 'rgba(255, 255, 255, 0.95)';
+    m.lineWidth = 1.25;
+    m.stroke();
   }
 
   function drawPlayer(dt) {
     var row = player.dir;
     var f = Math.floor(animT / 140) % 3;
     var dims = spriteFrameDims();
-    var fw = dims.fw;
-    var fh = dims.fh;
-    var sx = f * fw;
-    var sy = row * fh;
+    var r = spriteFrameSourceRect(f, row, dims);
     if (keys.up || keys.down || keys.left || keys.right) animT += dt;
     else animT = 0;
 
-    var dx = player.x - DRAW_W / 2;
-    var dy = player.y - DRAW_H;
+    var dx = Math.round(player.x - DRAW_W / 2);
+    var dy = Math.round(player.y - DRAW_H);
 
     if (imgSpriteProcessed) {
-      ctx.drawImage(imgSpriteProcessed, sx, sy, fw, fh, dx, dy, DRAW_W, DRAW_H);
+      var sw = r.sw;
+      var sh = r.sh;
+      if (!spriteFrameScratch) spriteFrameScratch = document.createElement('canvas');
+      if (spriteFrameScratch.width !== sw || spriteFrameScratch.height !== sh) {
+        spriteFrameScratch.width = sw;
+        spriteFrameScratch.height = sh;
+      }
+      var sctx = spriteFrameScratch.getContext('2d', { alpha: true });
+      sctx.imageSmoothingEnabled = false;
+      sctx.clearRect(0, 0, sw, sh);
+      sctx.drawImage(imgSpriteProcessed, r.sx, r.sy, sw, sh, 0, 0, sw, sh);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(spriteFrameScratch, 0, 0, sw, sh, dx, dy, DRAW_W, DRAW_H);
     } else {
       ctx.fillStyle = '#00f0ff';
       ctx.fillRect(dx, dy, DRAW_W, DRAW_H);
       ctx.fillStyle = '#ff2d78';
-      ctx.fillRect(dx + 8, dy + 10, 8, 8);
+      ctx.fillRect(dx + 16, dy + 20, 16, 16);
     }
   }
 
@@ -1119,8 +1287,8 @@
     if (vx && vy) { vx *= 0.707; vy *= 0.707; }
     player.x += vx * MOVE_SPEED * (dt / 1000);
     player.y += vy * MOVE_SPEED * (dt / 1000);
-    player.x = Math.max(20, Math.min(WORLD - 20, player.x));
-    player.y = Math.max(20, Math.min(WORLD - 20, player.y));
+    player.x = Math.max(20 + DRAW_W / 2, Math.min(WORLD - 20 - DRAW_W / 2, player.x));
+    player.y = Math.max(20 + DRAW_H, Math.min(WORLD - 20, player.y));
 
     if (vy < 0) player.dir = 1;
     else if (vy > 0) player.dir = 0;
@@ -1221,6 +1389,8 @@
         closeSheet();
       }
     }
+
+    drawMinimap();
 
     requestAnimationFrame(loop);
   }
