@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pawmap — AI Proto Lab</title>
   <script>
-  /* Same version as PAWMAP_ASSETS_BUST in the main script (map, sprite, etc.). */
+  /* Same version as PAWMAP_ASSETS_BUST in the main script (map, portrait, pin, clouds). */
   (function () {
-    var v = '6';
+    var v = '7';
     window.PAWMAP_ASSETS_BUST = v;
     var l = document.createElement('link');
     l.rel = 'preload';
@@ -579,7 +579,7 @@
     <div class="title-portrait-wrap" id="title-portrait-wrap">
       <img
         id="title-portrait-img"
-        src="assets/llull-portrait.png?v=6"
+        src="assets/llull-portrait.png?v=7"
         alt="Llull, the greyhound"
         width="1024"
         height="1536"
@@ -687,13 +687,8 @@
   'use strict';
 
   var WORLD = 840;
-  /* Fallback if no sprite; typical sheet 1024×1536 → 3×4 cells (341×384, last col 342px) */
-  var FRAME_W = 341;
-  var FRAME_H = 384;
-  var COLS = 3;
-  var ROWS = 4;
-  /* Bump when you replace assets in projects/pawmap/assets/ (map, sprite, pin, clouds, portrait). */
-  var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '6';
+  /* Bump when you replace assets in projects/pawmap/assets/ (map, portrait, pin, clouds). */
+  var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '7';
   var DRAW_W = 70;
   var DRAW_H = 80;
   /* Same size as the pin in drawPins (world units). */
@@ -887,11 +882,9 @@
   var seaFillColor = '#1e6aa0';
   /* Tiling sea texture (crop from PNG) for margins around the map tile. */
   var seaPattern = null;
-  var imgSpriteProcessed = null;
+  var imgPlayerPortrait = null;
   var imgPinProcessed = null;
   var imgClouds = null;
-  /* Single frame copied 1:1 from sheet, then scaled. Avoids bleeding from the neighbor cell. */
-  var spriteFrameScratch = null;
   var assetsMissing = [];
 
   function tryLoad(srcs, onOk, onFail) {
@@ -938,24 +931,6 @@
     return c;
   }
 
-  function keyNearWhiteTransparent(canvas) {
-    var t = canvas.getContext('2d');
-    try {
-      var px = t.getImageData(0, 0, canvas.width, canvas.height);
-      var d = px.data;
-      for (var i = 0; i < d.length; i += 4) {
-        var r = d[i];
-        var g = d[i + 1];
-        var b = d[i + 2];
-        if (r > 248 && g > 248 && b > 248) d[i + 3] = 0;
-      }
-      t.putImageData(px, 0, 0);
-    } catch (err) {
-      /* file:// or other: no key */
-    }
-    return canvas;
-  }
-
   function imageUsesAlphaChannel(img) {
     var c = document.createElement('canvas');
     c.width = img.width;
@@ -972,11 +947,6 @@
       return false;
     }
     return false;
-  }
-
-  function processSpriteSheet(img) {
-    if (imageUsesAlphaChannel(img)) return img;
-    return keyNearWhiteTransparent(removeBlackBackground(img));
   }
 
   function processPin(img) {
@@ -1148,7 +1118,7 @@
       done();
     }, function () { assetsMissing.push('map (spain-map.png or .jpg)'); done(); });
 
-    tryLoad(['assets/sprite.png' + v], function (im) { imgSpriteProcessed = processSpriteSheet(im); done(); }, function () { assetsMissing.push('sprite.png'); done(); });
+    tryLoad(['assets/llull-portrait.png' + v], function (im) { imgPlayerPortrait = processPin(im); done(); }, function () { assetsMissing.push('llull-portrait.png'); done(); });
 
     tryLoad(['assets/paw-pin.png' + v], function (im) { imgPinProcessed = processPin(im); done(); }, function () { assetsMissing.push('paw-pin.png'); done(); });
 
@@ -1156,10 +1126,9 @@
   }
 
   var playerStart = findSafePlayerStart();
-  var player = { x: playerStart.x, y: playerStart.y, dir: 0, frame: 0 };
+  var player = { x: playerStart.x, y: playerStart.y };
   var keys = { up: false, down: false, left: false, right: false };
   var cam = { x: 0, y: 0 };
-  var animT = 0;
   var nearSpot = null;
   var inSpotRange = false;
   var lastOpenedSpotId = null;
@@ -1347,38 +1316,6 @@
     });
   }
 
-  function spriteFrameDims() {
-    var src = imgSpriteProcessed;
-    if (!src) return { fw: FRAME_W, fh: FRAME_H, sheetW: 0, sheetH: 0 };
-    var w = (typeof src.naturalWidth === 'number' && src.naturalWidth > 0) ? src.naturalWidth : src.width;
-    var h = (typeof src.naturalHeight === 'number' && src.naturalHeight > 0) ? src.naturalHeight : src.height;
-    if (!w || !h) return { fw: FRAME_W, fh: FRAME_H, sheetW: 0, sheetH: 0 };
-    return {
-      fw: Math.floor(w / COLS),
-      fh: Math.floor(h / ROWS),
-      sheetW: w,
-      sheetH: h
-    };
-  }
-
-  function spriteFrameSourceRect(col, row, dims) {
-    var fw = dims.fw;
-    var fh = dims.fh;
-    var w = dims.sheetW;
-    var h = dims.sheetH;
-    var sx = col * fw;
-    var sy = row * fh;
-    var sw = col === COLS - 1 ? w - sx : fw;
-    var sh = row === ROWS - 1 ? h - sy : fh;
-    /* Strict integers: avoids ambiguous drawImage bounds from atlas. */
-    return {
-      sx: sx | 0,
-      sy: sy | 0,
-      sw: sw | 0,
-      sh: sh | 0
-    };
-  }
-
   function syncMinimapAria() {
     var wrap = document.getElementById('minimap-wrap');
     if (!wrap) return;
@@ -1457,31 +1394,19 @@
     m.stroke();
   }
 
-  function drawPlayer(dt) {
-    var row = player.dir;
-    var f = Math.floor(animT / 140) % 3;
-    var dims = spriteFrameDims();
-    var r = spriteFrameSourceRect(f, row, dims);
-    if (keys.up || keys.down || keys.left || keys.right) animT += dt;
-    else animT = 0;
-
+  function drawPlayer() {
     var dx = Math.round(player.x - DRAW_W / 2);
     var dy = Math.round(player.y - DRAW_H);
-
-    if (imgSpriteProcessed) {
-      var sw = r.sw;
-      var sh = r.sh;
-      if (!spriteFrameScratch) spriteFrameScratch = document.createElement('canvas');
-      if (spriteFrameScratch.width !== sw || spriteFrameScratch.height !== sh) {
-        spriteFrameScratch.width = sw;
-        spriteFrameScratch.height = sh;
-      }
-      var sctx = spriteFrameScratch.getContext('2d', { alpha: true });
-      sctx.imageSmoothingEnabled = false;
-      sctx.clearRect(0, 0, sw, sh);
-      sctx.drawImage(imgSpriteProcessed, r.sx, r.sy, sw, sh, 0, 0, sw, sh);
+    var src = imgPlayerPortrait;
+    if (!src || !(src.naturalWidth || src.width)) {
+      var el = document.getElementById('title-portrait-img');
+      if (el && el.complete && (el.naturalWidth || el.width)) src = el;
+    }
+    if (src) {
+      var iw = src.naturalWidth || src.width;
+      var ih = src.naturalHeight || src.height;
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(spriteFrameScratch, 0, 0, sw, sh, dx, dy, DRAW_W, DRAW_H);
+      ctx.drawImage(src, 0, 0, iw, ih, dx, dy, DRAW_W, DRAW_H);
     } else {
       ctx.fillStyle = '#00f0ff';
       ctx.fillRect(dx, dy, DRAW_W, DRAW_H);
@@ -1506,11 +1431,6 @@
     player.y += vy * MOVE_SPEED * (dt / 1000);
     player.x = Math.max(20 + DRAW_W / 2, Math.min(WORLD - 20 - DRAW_W / 2, player.x));
     player.y = Math.max(20 + DRAW_H, Math.min(WORLD - 20, player.y));
-
-    if (vy < 0) player.dir = 1;
-    else if (vy > 0) player.dir = 0;
-    else if (vx < 0) player.dir = 2;
-    else if (vx > 0) player.dir = 3;
 
     var dpr = window.devicePixelRatio || 1;
     var wCss = canvas.clientWidth;
@@ -1610,7 +1530,7 @@
     drawSpotActivationRects();
     drawPins(ts);
 
-    drawPlayer(dt);
+    drawPlayer();
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
