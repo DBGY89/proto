@@ -92,8 +92,10 @@
     }
     .screen-title.hidden { display: none; }
     .title-portrait-wrap {
+      /* Tamaño fijo desde el primer paint (evita salto pequeño→grande al cargar la imagen) */
       width: min(220px, 70vw);
-      aspect-ratio: 1;
+      height: min(220px, 70vw);
+      flex-shrink: 0;
       margin-bottom: 1.25rem;
       border-radius: 12px;
       border: 3px solid var(--gold);
@@ -101,7 +103,13 @@
       overflow: hidden;
       background: var(--green-dark);
     }
-    .title-portrait-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
+    .title-portrait-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      image-rendering: pixelated;
+    }
     .title-portrait-placeholder {
       width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
@@ -552,11 +560,17 @@
   </nav>
 
   <section class="screen-title" id="screen-title" aria-label="Inicio">
+    <!-- Retrato: misma ?v= en src que en el script del head -->
     <div class="title-portrait-wrap" id="title-portrait-wrap">
-      <img id="title-portrait-img" alt="Llull, el galgo" width="1024" height="1536" fetchpriority="high" decoding="sync" />
-      <script>
-      document.getElementById('title-portrait-img').src = 'assets/llull-portrait.png?v=' + window.PAWMAP_ASSETS_BUST;
-      </script>
+      <img
+        id="title-portrait-img"
+        src="assets/llull-portrait.png?v=6"
+        alt="Llull, el galgo"
+        width="1024"
+        height="1536"
+        fetchpriority="high"
+        decoding="async"
+      />
     </div>
     <h1 class="title-logo">PAWMAP</h1>
     <p class="title-tagline">España con tu perro. Camina el mapa y descubre rincones dog-friendly.</p>
