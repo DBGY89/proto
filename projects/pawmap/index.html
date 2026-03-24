@@ -1353,6 +1353,35 @@
       }
     }
 
+    /* Antes de dibujar: mismo frame para etiqueta sobre el halo y panel de información */
+    var refX = player.x;
+    var refY = player.y - DRAW_H * 0.5;
+    var best = null;
+    var bestD = Infinity;
+    SPOTS.forEach(function (s) {
+      var d = spotProximityDistance(s, refX, refY);
+      if (d < bestD) { bestD = d; best = s; }
+    });
+    if (best) {
+      if (!inSpotRange && bestD <= NEAR_ENTER) inSpotRange = true;
+      else if (inSpotRange && bestD > NEAR_OUT) inSpotRange = false;
+    } else {
+      inSpotRange = false;
+    }
+    if (inSpotRange && best) {
+      nearSpot = best;
+      if (lastOpenedSpotId !== best.id) {
+        lastOpenedSpotId = best.id;
+        openSheet(best);
+      }
+    } else {
+      nearSpot = null;
+      if (lastOpenedSpotId !== null) {
+        lastOpenedSpotId = null;
+        closeSheet();
+      }
+    }
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingEnabled = false;
@@ -1375,35 +1404,6 @@
     drawPlayer(dt);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    var refX = player.x;
-    var refY = player.y - DRAW_H * 0.5;
-    var best = null;
-    var bestD = Infinity;
-    SPOTS.forEach(function (s) {
-      var d = spotProximityDistance(s, refX, refY);
-      if (d < bestD) { bestD = d; best = s; }
-    });
-    if (best) {
-      if (!inSpotRange && bestD <= NEAR_ENTER) inSpotRange = true;
-      else if (inSpotRange && bestD > NEAR_OUT) inSpotRange = false;
-    } else {
-      inSpotRange = false;
-    }
-
-    if (inSpotRange && best) {
-      nearSpot = best;
-      if (lastOpenedSpotId !== best.id) {
-        lastOpenedSpotId = best.id;
-        openSheet(best);
-      }
-    } else {
-      nearSpot = null;
-      if (lastOpenedSpotId !== null) {
-        lastOpenedSpotId = null;
-        closeSheet();
-      }
-    }
 
     drawMinimap();
 
