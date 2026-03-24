@@ -7,7 +7,7 @@
   <script>
   /* Same version as PAWMAP_ASSETS_BUST in the main script (map, sprite, etc.). */
   (function () {
-    var v = '7';
+    var v = '6';
     window.PAWMAP_ASSETS_BUST = v;
     var l = document.createElement('link');
     l.rel = 'preload';
@@ -579,7 +579,7 @@
     <div class="title-portrait-wrap" id="title-portrait-wrap">
       <img
         id="title-portrait-img"
-        src="assets/llull-portrait.png?v=7"
+        src="assets/llull-portrait.png?v=6"
         alt="Llull, the greyhound"
         width="1024"
         height="1536"
@@ -693,7 +693,7 @@
   var COLS = 3;
   var ROWS = 4;
   /* Bump when you replace assets in projects/pawmap/assets/ (map, sprite, pin, clouds, portrait). */
-  var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '7';
+  var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '6';
   var DRAW_W = 70;
   var DRAW_H = 80;
   /* Same size as the pin in drawPins (world units). */
@@ -956,35 +956,6 @@
     return canvas;
   }
 
-  /* Chroma magenta/fuchsia (#FF00FF style): high R and B, low G. */
-  function keyFuchsiaTransparent(canvas) {
-    var t = canvas.getContext('2d');
-    try {
-      var px = t.getImageData(0, 0, canvas.width, canvas.height);
-      var d = px.data;
-      for (var i = 0; i < d.length; i += 4) {
-        var r = d[i];
-        var g = d[i + 1];
-        var b = d[i + 2];
-        if (r < 150 || b < 150) continue;
-        if (g > 100) continue;
-        if (r + b > g * 3 + 80) d[i + 3] = 0;
-      }
-      t.putImageData(px, 0, 0);
-    } catch (err) {
-      /* file:// taint */
-    }
-    return canvas;
-  }
-
-  function imageToCanvas(img) {
-    var c = document.createElement('canvas');
-    c.width = img.width;
-    c.height = img.height;
-    c.getContext('2d').drawImage(img, 0, 0);
-    return c;
-  }
-
   function imageUsesAlphaChannel(img) {
     var c = document.createElement('canvas');
     c.width = img.width;
@@ -1004,13 +975,8 @@
   }
 
   function processSpriteSheet(img) {
-    var canvas;
-    if (imageUsesAlphaChannel(img)) {
-      canvas = imageToCanvas(img);
-    } else {
-      canvas = keyNearWhiteTransparent(removeBlackBackground(img));
-    }
-    return keyFuchsiaTransparent(canvas);
+    if (imageUsesAlphaChannel(img)) return img;
+    return keyNearWhiteTransparent(removeBlackBackground(img));
   }
 
   function processPin(img) {
