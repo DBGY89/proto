@@ -1104,7 +1104,8 @@
     tryLoad(['assets/clouds.png' + v], function (im) { imgClouds = im; done(); }, function () { assetsMissing.push('clouds.png'); done(); });
   }
 
-  var player = { x: WORLD * 0.5, y: WORLD * 0.48, dir: 0, frame: 0 };
+  /* Un poco al norte del centro para no solapar el hit de Parque Natural de Cazorla (mx 0.60, my 0.58). */
+  var player = { x: WORLD * 0.5, y: WORLD * 0.44, dir: 0, frame: 0 };
   var keys = { up: false, down: false, left: false, right: false };
   var cam = { x: 0, y: 0 };
   var animT = 0;
