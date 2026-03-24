@@ -300,7 +300,8 @@
     }
     .sheet-backdrop.is-open {
       opacity: 1;
-      pointer-events: auto;
+      /* No capturar toques: el usuario puede seguir caminando; la ficha solo se cierra con la X */
+      pointer-events: none;
     }
     .info-sheet.zelda-dialog {
       position: fixed;
@@ -1582,11 +1583,7 @@
 
   document.addEventListener('keydown', function (e) {
     if (document.getElementById('screen-map').classList.contains('hidden')) return;
-    if (e.key === 'Escape' && sheet.classList.contains('is-open')) {
-      e.preventDefault();
-      closeSheet(true);
-      return;
-    }
+    /* La ficha del spot solo se cierra con la X (no Escape ni backdrop: evita cierres al seguir caminando). */
     var k = e.key;
     if (k === 'ArrowUp') { keys.up = true; e.preventDefault(); }
     else if (k === 'ArrowDown') { keys.down = true; e.preventDefault(); }
@@ -1623,17 +1620,6 @@
       closeSheet(true);
     }, { capture: true, passive: false });
   })();
-  sheetBackdrop.addEventListener('click', function (ev) {
-    if (ev.target !== sheetBackdrop) return;
-    ev.stopPropagation();
-    closeSheet(true);
-  });
-  sheetBackdrop.addEventListener('pointerup', function (ev) {
-    if (ev.target !== sheetBackdrop) return;
-    if (ev.pointerType === 'mouse') return;
-    ev.stopPropagation();
-    closeSheet(true);
-  }, true);
 
   document.querySelectorAll('.js-open-case').forEach(function (b) {
     b.addEventListener('click', function () {
