@@ -671,6 +671,11 @@
   var SPOT_HALO_CENTER_OFF_Y = PIN_WORLD * 0.35;
   var SPOT_HALO_RADIUS_OUT = PIN_WORLD * 0.85;
   var SPOT_PIN_PULSE_MAX = 1.12;
+  /* Halo (radio máx. con pulso) + mitad diagonal del sprite: tocar el halo por cualquier lado activa */
+  var HALO_ACTIVATE_R = SPOT_HALO_RADIUS_OUT * SPOT_PIN_PULSE_MAX;
+  var PLAYER_BODY_R = Math.hypot(DRAW_W, DRAW_H) * 0.5;
+  var SPOT_ENTER_R = HALO_ACTIVATE_R + PLAYER_BODY_R + 6;
+  var SPOT_EXIT_R = SPOT_ENTER_R + 48;
   var MOVE_SPEED = 115;
 
   function spotProximityDistance(s, refX, refY) {
@@ -984,9 +989,6 @@
   var cam = { x: 0, y: 0 };
   var animT = 0;
   var nearSpot = null;
-  /* Entrar al abrir ficha: todo el halo exterior (+pulso) + margen para que el sprite lo toque en móvil */
-  var NEAR_ENTER = SPOT_HALO_RADIUS_OUT * SPOT_PIN_PULSE_MAX + 36;
-  var NEAR_OUT = NEAR_ENTER + 34;
   var inSpotRange = false;
   var lastOpenedSpotId = null;
   /* Si el usuario cierra la ficha a mano, no reabrir hasta salir del spot (nombre y panel van juntos). */
@@ -1353,21 +1355,25 @@
       }
     }
 
-    /* Antes de dibujar: mismo frame para etiqueta sobre el halo y panel de información */
+    /* Antes de dibujar: solapamiento halo–personaje (isótropo); salida con histéresis por minD */
     var refX = player.x;
     var refY = player.y - DRAW_H * 0.5;
+    var minD = Infinity;
     var best = null;
     var bestD = Infinity;
     SPOTS.forEach(function (s) {
       var d = spotProximityDistance(s, refX, refY);
-      if (d < bestD) { bestD = d; best = s; }
+      if (d < minD) minD = d;
+      if (d <= SPOT_ENTER_R && d < bestD) {
+        bestD = d;
+        best = s;
+      }
     });
-    if (best) {
-      if (!inSpotRange && bestD <= NEAR_ENTER) {
+    if (minD < Infinity) {
+      if (!inSpotRange && best) {
         inSpotRange = true;
-        /* Nueva entrada en la zona (desde fuera): la ficha puede abrirse de nuevo */
         sheetDismissed = false;
-      } else if (inSpotRange && bestD > NEAR_OUT) inSpotRange = false;
+      } else if (inSpotRange && minD > SPOT_EXIT_R) inSpotRange = false;
     } else {
       inSpotRange = false;
     }
