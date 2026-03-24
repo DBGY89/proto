@@ -697,8 +697,15 @@
   var WORLD = 840;
   /* Bump when you replace assets in projects/pawmap/assets/ (map, portrait, pin, clouds). */
   var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '8';
-  var DRAW_W = 70;
-  var DRAW_H = 80;
+  var PLAYER_DRAW_BASE_W = 70;
+  var PLAYER_DRAW_BASE_H = 80;
+  var PLAYER_MOBILE_MQL = window.matchMedia('(max-width: 768px)');
+  function playerDrawW() {
+    return PLAYER_MOBILE_MQL.matches ? Math.round(PLAYER_DRAW_BASE_W * 1.5) : PLAYER_DRAW_BASE_W;
+  }
+  function playerDrawH() {
+    return PLAYER_MOBILE_MQL.matches ? Math.round(PLAYER_DRAW_BASE_H * 1.5) : PLAYER_DRAW_BASE_H;
+  }
   /* Same size as the pin in drawPins (world units). */
   var PIN_WORLD = 72;
   var SPOT_PIN_PULSE_MAX = 1.12;
@@ -733,10 +740,12 @@
   }
 
   function playerHitRectAt(px, py) {
+    var dw = playerDrawW();
+    var dh = playerDrawH();
     return {
-      left: px - DRAW_W / 2,
-      right: px + DRAW_W / 2,
-      top: py - DRAW_H,
+      left: px - dw / 2,
+      right: px + dw / 2,
+      top: py - dh,
       bottom: py
     };
   }
@@ -846,9 +855,9 @@
 
   /* Start point outside every spot hit: closest to a northwest anchor from center (~0.46, 0.38 normalized). */
   function findSafePlayerStart() {
-    var minX = 20 + DRAW_W / 2;
-    var maxX = WORLD - 20 - DRAW_W / 2;
-    var minY = 20 + DRAW_H;
+    var minX = 20 + playerDrawW() / 2;
+    var maxX = WORLD - 20 - playerDrawW() / 2;
+    var minY = 20 + playerDrawH();
     var maxY = WORLD - 20;
     var step = 3;
     var prefX = WORLD * 0.46;
@@ -1388,7 +1397,7 @@
 
     /* Player on top: sprite center in world space. */
     var pinX = player.x;
-    var pinY = player.y - DRAW_H / 2;
+    var pinY = player.y - playerDrawH() / 2;
     var mx = (pinX / WORLD) * sz;
     var my = (pinY / WORLD) * sz;
     mx = Math.max(4, Math.min(sz - 4, mx));
@@ -1403,8 +1412,10 @@
   }
 
   function drawPlayer() {
-    var dx = Math.round(player.x - DRAW_W / 2);
-    var dy = Math.round(player.y - DRAW_H);
+    var dw = playerDrawW();
+    var dh = playerDrawH();
+    var dx = Math.round(player.x - dw / 2);
+    var dy = Math.round(player.y - dh);
     var src = imgPlayerPortrait;
     if (!src || !(src.naturalWidth || src.width)) {
       var el = document.getElementById('title-portrait-img');
@@ -1414,10 +1425,10 @@
       var iw = src.naturalWidth || src.width;
       var ih = src.naturalHeight || src.height;
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(src, 0, 0, iw, ih, dx, dy, DRAW_W, DRAW_H);
+      ctx.drawImage(src, 0, 0, iw, ih, dx, dy, dw, dh);
     } else {
       ctx.fillStyle = '#00f0ff';
-      ctx.fillRect(dx, dy, DRAW_W, DRAW_H);
+      ctx.fillRect(dx, dy, dw, dh);
       ctx.fillStyle = '#ff2d78';
       ctx.fillRect(dx + 16, dy + 20, 16, 16);
     }
@@ -1437,8 +1448,8 @@
     if (vx && vy) { vx *= 0.707; vy *= 0.707; }
     player.x += vx * MOVE_SPEED * (dt / 1000);
     player.y += vy * MOVE_SPEED * (dt / 1000);
-    player.x = Math.max(20 + DRAW_W / 2, Math.min(WORLD - 20 - DRAW_W / 2, player.x));
-    player.y = Math.max(20 + DRAW_H, Math.min(WORLD - 20, player.y));
+    player.x = Math.max(20 + playerDrawW() / 2, Math.min(WORLD - 20 - playerDrawW() / 2, player.x));
+    player.y = Math.max(20 + playerDrawH(), Math.min(WORLD - 20, player.y));
 
     var dpr = window.devicePixelRatio || 1;
     var wCss = canvas.clientWidth;
@@ -1468,8 +1479,8 @@
     cam.x += (targetCamX - cam.x) * 0.2;
     cam.y += (targetCamY - cam.y) * 0.2;
 
-    var pw = DRAW_W;
-    var ph = DRAW_H;
+    var pw = playerDrawW();
+    var ph = playerDrawH();
     if (viewW < WORLD) {
       var minCamX = Math.max(0, player.x - viewW);
       var maxCamX = Math.min(WORLD - viewW, player.x - pw);
