@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pawmap — AI Proto Lab</title>
+  <script>
+  /* Misma versión que PAWMAP_ASSETS_BUST en el script principal (mapa, sprite, etc.). */
+  (function () {
+    var v = '6';
+    window.PAWMAP_ASSETS_BUST = v;
+    var l = document.createElement('link');
+    l.rel = 'preload';
+    l.as = 'image';
+    l.href = 'assets/llull-portrait.png?v=' + v;
+    document.head.appendChild(l);
+  })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -540,7 +552,10 @@
 
   <section class="screen-title" id="screen-title" aria-label="Inicio">
     <div class="title-portrait-wrap" id="title-portrait-wrap">
-      <div class="title-portrait-placeholder" id="title-portrait-placeholder">Llull (imagen en assets/llull-portrait.png)</div>
+      <img id="title-portrait-img" alt="Llull, el galgo" width="1024" height="1536" fetchpriority="high" decoding="sync" />
+      <script>
+      document.getElementById('title-portrait-img').src = 'assets/llull-portrait.png?v=' + window.PAWMAP_ASSETS_BUST;
+      </script>
     </div>
     <h1 class="title-logo">PAWMAP</h1>
     <p class="title-tagline">España con tu perro. Camina el mapa y descubre rincones dog-friendly.</p>
@@ -648,11 +663,21 @@
   var COLS = 3;
   var ROWS = 4;
   /* Sube el número cuando sustituyas assets en projects/pawmap/assets/ (mapa, sprite, pin, nubes, retrato). */
-  var PAWMAP_ASSETS_BUST = '6';
+  var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '6';
   var DRAW_W = 70;
   var DRAW_H = 80;
-  var PROX = 40;
+  /* Mismo tamaño que el pin en drawPins (mundo). Halo: arcos en py - PIN_WORLD*0.35, radio exterior PIN_WORLD*0.85 */
+  var PIN_WORLD = 72;
+  var SPOT_HALO_CENTER_OFF_Y = PIN_WORLD * 0.35;
+  var SPOT_HALO_RADIUS_OUT = PIN_WORLD * 0.85;
+  var SPOT_PIN_PULSE_MAX = 1.12;
   var MOVE_SPEED = 115;
+
+  function spotProximityDistance(s, refX, refY) {
+    var hx = s.wx;
+    var hy = s.wy - SPOT_HALO_CENTER_OFF_Y;
+    return Math.hypot(hx - refX, hy - refY);
+  }
 
   var SPOTS = [
     { id: 'cazorla', mx: 0.60, my: 0.58, emoji: '🌲', name: 'Parque Natural de Cazorla', loc: 'Jaén, Andalucía', desc: 'El espacio natural protegido más grande de España. Senderos entre pinos junto al nacimiento del Guadalquivir. En muchas zonas los perros pueden ir sueltos.', tags: ['Montaña', 'Río', 'Sin correa (zonas)', 'Todo el año'] },
@@ -933,7 +958,8 @@
   }
 
   function loadAssets(cb) {
-    var pending = 5;
+    /* Retrato de portada: carga en HTML + preload en head (no espera a este bloque). */
+    var pending = 4;
     var done = function () {
       pending--;
       if (pending <= 0) cb();
@@ -951,19 +977,6 @@
     tryLoad(['assets/paw-pin.png' + v], function (im) { imgPinProcessed = processPin(im); done(); }, function () { assetsMissing.push('paw-pin.png'); done(); });
 
     tryLoad(['assets/clouds.png' + v], function (im) { imgClouds = im; done(); }, function () { assetsMissing.push('clouds.png'); done(); });
-
-    tryLoad(['assets/llull-portrait.png' + v], function (im) {
-      var wrap = document.getElementById('title-portrait-wrap');
-      var ph = document.getElementById('title-portrait-placeholder');
-      if (wrap && ph) {
-        ph.remove();
-        var el = document.createElement('img');
-        el.src = im.src;
-        el.alt = 'Llull, el galgo';
-        wrap.insertBefore(el, wrap.firstChild);
-      }
-      done();
-    }, function () { assetsMissing.push('llull-portrait.png'); done(); });
   }
 
   var player = { x: WORLD * 0.5, y: WORLD * 0.48, dir: 0, frame: 0 };
@@ -971,8 +984,9 @@
   var cam = { x: 0, y: 0 };
   var animT = 0;
   var nearSpot = null;
-  var NEAR_ENTER = 40;
-  var NEAR_OUT = 55;
+  /* Entrar al abrir ficha: todo el halo exterior (+pulso) + margen para que el sprite lo toque en móvil */
+  var NEAR_ENTER = SPOT_HALO_RADIUS_OUT * SPOT_PIN_PULSE_MAX + 36;
+  var NEAR_OUT = NEAR_ENTER + 34;
   var inSpotRange = false;
   var lastOpenedSpotId = null;
   var clouds = [];
@@ -1031,7 +1045,6 @@
   }
 
   function drawPins(t) {
-    var PIN_WORLD = 72;
     var pulse = reducedMotion ? 1 : 1 + Math.sin(t / 260) * 0.12;
     var glowPulse = reducedMotion ? 1 : 0.85 + Math.sin(t / 380) * 0.15;
     SPOTS.forEach(function (s) {
@@ -1363,10 +1376,12 @@
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+    var refX = player.x;
+    var refY = player.y - DRAW_H * 0.5;
     var best = null;
-    var bestD = PROX + 1;
+    var bestD = Infinity;
     SPOTS.forEach(function (s) {
-      var d = Math.hypot(s.wx - player.x, s.wy - player.y);
+      var d = spotProximityDistance(s, refX, refY);
       if (d < bestD) { bestD = d; best = s; }
     });
     if (best) {
