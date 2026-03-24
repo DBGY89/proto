@@ -730,13 +730,17 @@
     return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
   }
 
-  function playerHitRect() {
+  function playerHitRectAt(px, py) {
     return {
-      left: player.x - DRAW_W / 2,
-      right: player.x + DRAW_W / 2,
-      top: player.y - DRAW_H,
-      bottom: player.y
+      left: px - DRAW_W / 2,
+      right: px + DRAW_W / 2,
+      top: py - DRAW_H,
+      bottom: py
     };
+  }
+
+  function playerHitRect() {
+    return playerHitRectAt(player.x, player.y);
   }
 
   function spotNameLines(s) {
@@ -816,6 +820,42 @@
     s.wy = s.my * WORLD;
     s.hitRect = computeSpotHitRect(s);
   });
+
+  function playerOverlapsAnySpot(px, py) {
+    var pr = playerHitRectAt(px, py);
+    var i;
+    for (i = 0; i < SPOTS.length; i++) {
+      if (rectsOverlap(pr, SPOTS[i].hitRect)) return true;
+    }
+    return false;
+  }
+
+  /* Punto inicial fuera del hit de todos los spots: el más cercano a un ancla noroeste del centro (~0.46, 0.38 normalizado). */
+  function findSafePlayerStart() {
+    var minX = 20 + DRAW_W / 2;
+    var maxX = WORLD - 20 - DRAW_W / 2;
+    var minY = 20 + DRAW_H;
+    var maxY = WORLD - 20;
+    var step = 3;
+    var prefX = WORLD * 0.46;
+    var prefY = WORLD * 0.38;
+    var best = null;
+    var bestD = Infinity;
+    var py;
+    var px;
+    for (py = minY; py <= maxY; py += step) {
+      for (px = minX; px <= maxX; px += step) {
+        if (playerOverlapsAnySpot(px, py)) continue;
+        var d = Math.hypot(px - prefX, py - prefY);
+        if (d < bestD) {
+          bestD = d;
+          best = { x: px, y: py };
+        }
+      }
+    }
+    if (best) return best;
+    return { x: WORLD * 0.5, y: WORLD * 0.5 };
+  }
 
   var canvas = document.getElementById('game-canvas');
   var ctx = canvas.getContext('2d', { alpha: false });
@@ -1104,8 +1144,8 @@
     tryLoad(['assets/clouds.png' + v], function (im) { imgClouds = im; done(); }, function () { assetsMissing.push('clouds.png'); done(); });
   }
 
-  /* Un poco al norte del centro para no solapar el hit de Parque Natural de Cazorla (mx 0.60, my 0.58). */
-  var player = { x: WORLD * 0.5, y: WORLD * 0.44, dir: 0, frame: 0 };
+  var playerStart = findSafePlayerStart();
+  var player = { x: playerStart.x, y: playerStart.y, dir: 0, frame: 0 };
   var keys = { up: false, down: false, left: false, right: false };
   var cam = { x: 0, y: 0 };
   var animT = 0;
