@@ -1111,37 +1111,35 @@
 
       ctx.restore();
 
-      var showLabel = nearSpot && nearSpot.id === s.id && !sheetDismissed;
-      if (showLabel) {
-        ctx.save();
-        var fontPx = 12;
-        ctx.font = fontPx + 'px "Press Start 2P", monospace';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillStyle = '#fff';
-        ctx.strokeStyle = '#1a3a1a';
-        ctx.lineWidth = 5;
-        var labelFull = s.name;
-        var words = labelFull.split(/\s+/).filter(function (w) { return w.length; });
-        var lines;
-        if (words.length <= 1) {
-          lines = [labelFull];
-        } else {
-          var splitAt = Math.ceil(words.length / 2);
-          lines = [
-            words.slice(0, splitAt).join(' '),
-            words.slice(splitAt).join(' ')
-          ];
-        }
-        var lineHeight = lines.length > 1 ? 12 : 14;
-        var blockH = lines.length * lineHeight;
-        var startY = py - ps - 12 - blockH;
-        for (var li = 0; li < lines.length; li++) {
-          ctx.strokeText(lines[li], px, startY + li * lineHeight);
-          ctx.fillText(lines[li], px, startY + li * lineHeight);
-        }
-        ctx.restore();
+      /* Nombre del sitio siempre visible encima del pin */
+      ctx.save();
+      var fontPx = 12;
+      ctx.font = fontPx + 'px "Press Start 2P", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = '#fff';
+      ctx.strokeStyle = '#1a3a1a';
+      ctx.lineWidth = 5;
+      var labelFull = s.name;
+      var words = labelFull.split(/\s+/).filter(function (w) { return w.length; });
+      var lines;
+      if (words.length <= 1) {
+        lines = [labelFull];
+      } else {
+        var splitAt = Math.ceil(words.length / 2);
+        lines = [
+          words.slice(0, splitAt).join(' '),
+          words.slice(splitAt).join(' ')
+        ];
       }
+      var lineHeight = lines.length > 1 ? 12 : 14;
+      var blockH = lines.length * lineHeight;
+      var startY = py - ps - 12 - blockH;
+      for (var li = 0; li < lines.length; li++) {
+        ctx.strokeText(lines[li], px, startY + li * lineHeight);
+        ctx.fillText(lines[li], px, startY + li * lineHeight);
+      }
+      ctx.restore();
     });
   }
 
