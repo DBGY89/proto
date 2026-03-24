@@ -10,6 +10,7 @@
     'amelie': { name: 'Amélie', year: '2001', palette: ['#2E7D32', '#C62828', '#1A1A1A', '#8D6E63', '#FFEBEE'] },
     'john-wick': { name: 'John Wick', year: '2014', palette: ['#0D0D0D', '#8B0000', '#2A2A2A', '#B22222', '#D4AF37'] },
     'la-la-land': { name: 'La La Land', year: '2016', palette: ['#1565C0', '#FFC107', '#FFFFFF', '#0D47A1', '#FFD54F'] },
+    'mamma-mia': { name: 'Mamma Mia!', year: '2008', palette: ['#0277BD', '#26C6DA', '#F5F5F0', '#FFD54F', '#EC407A'] },
     'her': { name: 'Her', year: '2013', palette: ['#E64A19', '#E8A0A0', '#5D4037', '#BCAAA4', '#FFF3E0'] },
     'the-matrix': { name: 'The Matrix', year: '1999', palette: ['#00FF41', '#0D0D0D', '#001A00', '#00E676', '#1B5E20'] },
     'moonrise-kingdom': { name: 'Moonrise Kingdom', year: '2012', palette: ['#F9A825', '#E65100', '#C62828', '#1A237E', '#FFF8E1'] },
