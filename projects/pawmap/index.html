@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pawmap — AI Proto Lab</title>
   <script>
-  /* Misma versión que PAWMAP_ASSETS_BUST en el script principal (mapa, sprite, etc.). */
+  /* Same version as PAWMAP_ASSETS_BUST in the main script (map, sprite, etc.). */
   (function () {
     var v = '6';
     window.PAWMAP_ASSETS_BUST = v;
@@ -93,7 +93,7 @@
     }
     .screen-title.hidden { display: none; }
     .title-portrait-wrap {
-      /* Tamaño fijo desde el primer paint (evita salto pequeño→grande al cargar la imagen) */
+      /* Fixed size from first paint (avoids small→large jump when the image loads) */
       width: min(220px, 70vw);
       height: min(220px, 70vw);
       flex-shrink: 0;
@@ -150,7 +150,7 @@
     .btn-explore:hover { transform: translateY(-2px); }
     .btn-explore:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--gold-dark); }
 
-    /* Map screen: el mapa ocupa el espacio flexible (mobile first, sin bandas vacías) */
+    /* Map screen: map fills flexible space (mobile first, no empty bands) */
     .screen-map {
       flex: 1;
       min-height: 0;
@@ -196,7 +196,7 @@
     }
     #game-canvas:active { cursor: grabbing; }
 
-    /* Minimapa completo solo en escritorio: posición fija en la esquina del área de juego */
+    /* Full minimap on desktop only: fixed corner of the play area */
     .minimap-wrap {
       display: none;
       position: absolute;
@@ -297,7 +297,7 @@
     }
     .asset-hint[hidden] { display: none !important; }
 
-    /* Diálogo estilo Zelda (caja inferior, marco dorado) */
+    /* Zelda-style dialog (bottom box, gold frame) */
     .sheet-backdrop {
       position: fixed;
       inset: 0;
@@ -309,7 +309,7 @@
     }
     .sheet-backdrop.is-open {
       opacity: 1;
-      /* No capturar toques: el usuario puede seguir caminando; la ficha solo se cierra con la X */
+      /* Do not capture touches: user can keep walking; sheet closes only with X */
       pointer-events: none;
     }
     .info-sheet.zelda-dialog {
@@ -571,16 +571,16 @@
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
-    <button type="button" class="cta-case js-open-case" aria-label="De la idea al prototipo">The story &rarr;</button>
+    <button type="button" class="cta-case js-open-case" aria-label="From idea to prototype">The story &rarr;</button>
   </nav>
 
-  <section class="screen-title" id="screen-title" aria-label="Inicio">
-    <!-- Retrato: misma ?v= en src que en el script del head -->
+  <section class="screen-title" id="screen-title" aria-label="Intro">
+    <!-- Portrait: same ?v= in src as in the head script -->
     <div class="title-portrait-wrap" id="title-portrait-wrap">
       <img
         id="title-portrait-img"
         src="assets/llull-portrait.png?v=6"
-        alt="Llull, el galgo"
+        alt="Llull, the greyhound"
         width="1024"
         height="1536"
         fetchpriority="high"
@@ -588,31 +588,31 @@
       />
     </div>
     <h1 class="title-logo">PAWMAP</h1>
-    <p class="title-tagline">España con tu perro. Camina el mapa y descubre rincones dog-friendly.</p>
-    <button type="button" class="btn-explore" id="btn-explore">EXPLORAR</button>
+    <p class="title-tagline">Spain with your dog. Walk the map and discover dog-friendly spots.</p>
+    <button type="button" class="btn-explore" id="btn-explore">EXPLORE</button>
   </section>
 
   <div class="screen-map hidden" id="screen-map">
     <div class="hud-bar" role="banner">
-      <span>PAWMAP · ESPAÑA</span>
+      <span>PAWMAP · SPAIN</span>
     </div>
     <div class="map-stage-wrap" id="map-stage-wrap">
       <div class="asset-hint" id="asset-hint" hidden></div>
-      <canvas id="game-canvas" width="840" height="840" aria-label="Mapa de España"></canvas>
-      <button type="button" class="near-prompt" id="near-prompt" hidden aria-live="polite">PULSA PARA VER MÁS</button>
-      <div class="dpad" id="dpad" aria-label="Dirección">
+      <canvas id="game-canvas" width="840" height="840" aria-label="Map of Spain"></canvas>
+      <button type="button" class="near-prompt" id="near-prompt" hidden aria-live="polite">TAP FOR MORE</button>
+      <div class="dpad" id="dpad" aria-label="Direction">
         <span class="dpad-spacer"></span>
-        <button type="button" data-dir="up" aria-label="Arriba">▲</button>
+        <button type="button" data-dir="up" aria-label="Up">▲</button>
         <span class="dpad-spacer"></span>
-        <button type="button" data-dir="left" aria-label="Izquierda">◀</button>
+        <button type="button" data-dir="left" aria-label="Left">◀</button>
         <span class="dpad-spacer"></span>
-        <button type="button" data-dir="right" aria-label="Derecha">▶</button>
+        <button type="button" data-dir="right" aria-label="Right">▶</button>
         <span class="dpad-spacer"></span>
-        <button type="button" data-dir="down" aria-label="Abajo">▼</button>
+        <button type="button" data-dir="down" aria-label="Down">▼</button>
         <span class="dpad-spacer"></span>
       </div>
       <div class="minimap-wrap" id="minimap-wrap">
-        <canvas id="minimap-canvas" width="144" height="144" aria-label="Minimapa: posición en la península"></canvas>
+        <canvas id="minimap-canvas" width="144" height="144" aria-label="Minimap: position on the peninsula"></canvas>
       </div>
     </div>
 
@@ -631,14 +631,14 @@
     </div>
 
     <footer class="footer">
-      <p>Part of <a href="/">AI Proto Lab</a>. Camina España con tu perro.</p>
+      <p>Part of <a href="/">AI Proto Lab</a>. Walk Spain with your dog.</p>
     </footer>
   </div>
 
   <div class="sheet-backdrop" id="sheet-backdrop"></div>
   <div class="info-sheet zelda-dialog" id="info-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-name" hidden>
     <div class="sheet-panel">
-      <button type="button" class="sheet-close" id="sheet-close" aria-label="Cerrar">&times;</button>
+      <button type="button" class="sheet-close" id="sheet-close" aria-label="Close">&times;</button>
       <div class="sheet-scroll">
         <div class="sheet-emoji" id="sheet-emoji"></div>
         <h2 class="sheet-name" id="sheet-name"></h2>
@@ -651,25 +651,25 @@
 
   <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal-panel">
-      <button type="button" class="modal-close js-close-modal" aria-label="Cerrar">&times;</button>
+      <button type="button" class="modal-close js-close-modal" aria-label="Close">&times;</button>
       <div class="modal-neon"></div>
       <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
-      <p class="modal-subtitle">Pawmap: mapa en pixel art para dueños de perro en España.</p>
+      <p class="modal-subtitle">Pawmap: a pixel-art map for dog owners in Spain.</p>
       <div class="modal-section">
         <p class="label">Problem</p>
-        <p>La información dog-friendly está dispersa y poco inspiradora. Queríamos un recurso único y visual.</p>
+        <p>Dog-friendly information is scattered and uninspiring. We wanted one clear, visual resource.</p>
       </div>
       <div class="modal-section">
         <p class="label">Iteration</p>
-        <p>Mapa isométrico, caminar con D-pad, fichas por punto. Sin cuentas ni APIs: solo explorar y leer.</p>
+        <p>Isometric map, walk with the D-pad, one card per spot. No accounts or APIs: just explore and read.</p>
       </div>
       <div class="modal-section">
         <p class="label">AI</p>
-        <p>Pixel art y copy inicial con asistencia de IA; integración y producto en AI Proto Lab.</p>
+        <p>Pixel art and initial copy with AI help; integration and product in AI Proto Lab.</p>
       </div>
       <div class="modal-section">
         <p class="label">MVP</p>
-        <p>Cinco spots en la península, experiencia mobile-first en un solo HTML.</p>
+        <p>Five spots on the peninsula, mobile-first experience in a single HTML file.</p>
       </div>
       <div class="modal-section">
         <p class="label">Contact</p>
@@ -687,24 +687,24 @@
   'use strict';
 
   var WORLD = 840;
-  /* Fallback si no hay sprite; hoja típica 1024×1536 → 3×4 celdas (341×384, última col. 342px) */
+  /* Fallback if no sprite; typical sheet 1024×1536 → 3×4 cells (341×384, last col 342px) */
   var FRAME_W = 341;
   var FRAME_H = 384;
   var COLS = 3;
   var ROWS = 4;
-  /* Sube el número cuando sustituyas assets en projects/pawmap/assets/ (mapa, sprite, pin, nubes, retrato). */
+  /* Bump when you replace assets in projects/pawmap/assets/ (map, sprite, pin, clouds, portrait). */
   var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '6';
   var DRAW_W = 70;
   var DRAW_H = 80;
-  /* Mismo tamaño que el pin en drawPins (mundo). */
+  /* Same size as the pin in drawPins (world units). */
   var PIN_WORLD = 72;
   var SPOT_PIN_PULSE_MAX = 1.12;
-  /* Histéresis al salir: rectángulo de activación expandido (mismo centro) */
+  /* Exit hysteresis: expanded activation rect (same center) */
   var HIT_RECT_EXIT_PAD = 40;
-  /* Margen mínimo tras unir etiqueta + halo (máx.) + pin; el ancho del nombre va con measureText. */
+  /* Minimum margin after union label + halo (max) + pin; label width from measureText. */
   var HIT_RECT_UNION_PAD = 4;
   var MOVE_SPEED = 115;
-  /* Muestra los rectángulos de activación (mismo que computeSpotHitRect). Pon false para ocultar. */
+  /* Draw activation rects (same as computeSpotHitRect). Set false to hide. */
   var SHOW_SPOT_HIT_RECTS = false;
 
   function rectUnion(a, b) {
@@ -750,7 +750,7 @@
     return [words.slice(0, splitAt).join(' '), words.slice(splitAt).join(' ')];
   }
 
-  /* Ancho real del bloque de texto (misma fuente que drawPins); + mitad del stroke (5) y un poco de aire. */
+  /* Real text block width (same font as drawPins); + half stroke (5) and a little padding. */
   function measureLabelMaxLineWidthPx(s) {
     var lines = spotNameLines(s);
     var c = document.createElement('canvas');
@@ -790,7 +790,7 @@
     return { left: minx, right: maxx, top: miny, bottom: maxy };
   }
 
-  /* Rectángulo invisible: halo exterior a pulso máx. + etiqueta (como drawPins) + pin con pulso máx. */
+  /* Invisible rect: outer halo at max pulse + label (as in drawPins) + pin at max pulse. */
   function computeSpotHitRect(s) {
     var ps = PIN_WORLD;
     var px = s.wx;
@@ -819,11 +819,11 @@
   }
 
   var SPOTS = [
-    { id: 'cazorla', mx: 0.60, my: 0.58, emoji: '🌲', name: 'Parque Natural de Cazorla', loc: 'Jaén, Andalucía', desc: 'El espacio natural protegido más grande de España. Senderos entre pinos junto al nacimiento del Guadalquivir. En muchas zonas los perros pueden ir sueltos.', tags: ['Montaña', 'Río', 'Sin correa (zonas)', 'Todo el año'] },
-    { id: 'pirineo', mx: 0.62, my: 0.29, emoji: '🏔️', name: 'Pirineo Aragonés', loc: 'Huesca, Aragón', desc: 'Rutas alpinas cerca de Ordesa. Lagos de alta montaña para un chapuzón. Ideal para perros con ganas de aventura.', tags: ['Alta montaña', 'Lago', 'Aventura', 'Verano'] },
-    { id: 'camposoto', mx: 0.26, my: 0.64, emoji: '🏖️', name: 'Playa de Camposoto', loc: 'Cádiz, Andalucía', desc: 'Una de las playas atlánticas más largas. En buena parte los perros pueden acompañarte. Arena fina y olas suaves.', tags: ['Playa', 'Atlántico', 'Perros bienvenidos', 'Verano'] },
-    { id: 'collserola', mx: 0.78, my: 0.33, emoji: '🌳', name: 'Parc Natural de Collserola', loc: 'Barcelona, Cataluña', desc: '8.000 hectáreas de bosque mediterráneo a minutos del centro. Hay zonas señaladas sin correa.', tags: ['Bosque', 'Cerca de ciudad', 'Zonas sin correa', 'Todo el año'] },
-    { id: 'rinconin', mx: 0.40, my: 0.27, emoji: '🌊', name: 'Playa del Rinconín', loc: 'Gijón, Asturias', desc: 'Perros admitidos todo el año, poco habitual en playas urbanas. Arena urbana con vistas al Cantábrico.', tags: ['Playa', 'Cantábrico', 'Todo el año', 'Urbano'] }
+    { id: 'cazorla', mx: 0.60, my: 0.58, emoji: '🌲', name: 'Parque Natural de Cazorla', loc: 'Jaén, Andalusia', desc: 'Spain\'s largest protected natural area. Trails among pines near the source of the Guadalquivir. In many areas dogs can run off-leash.', tags: ['Mountain', 'River', 'Off-leash (zones)', 'Year-round'] },
+    { id: 'pirineo', mx: 0.62, my: 0.29, emoji: '🏔️', name: 'Pirineo Aragonés', loc: 'Huesca, Aragon', desc: 'Alpine routes near Ordesa. High-mountain lakes for a swim. Ideal for dogs that want adventure.', tags: ['High mountain', 'Lake', 'Adventure', 'Summer'] },
+    { id: 'camposoto', mx: 0.26, my: 0.64, emoji: '🏖️', name: 'Playa de Camposoto', loc: 'Cádiz, Andalusia', desc: 'One of the longest Atlantic beaches. In much of it dogs can come with you. Fine sand and gentle waves.', tags: ['Beach', 'Atlantic', 'Dogs welcome', 'Summer'] },
+    { id: 'collserola', mx: 0.78, my: 0.33, emoji: '🌳', name: 'Parc Natural de Collserola', loc: 'Barcelona, Catalonia', desc: '8,000 hectares of Mediterranean forest minutes from the city center. There are marked off-leash zones.', tags: ['Forest', 'Near city', 'Off-leash zones', 'Year-round'] },
+    { id: 'rinconin', mx: 0.40, my: 0.27, emoji: '🌊', name: 'Playa del Rinconín', loc: 'Gijón, Asturias', desc: 'Dogs allowed year-round, unusual for an urban beach. Urban sand with views of the Cantabrian Sea.', tags: ['Beach', 'Cantabrian', 'Year-round', 'Urban'] }
   ];
 
   SPOTS.forEach(function (s) {
@@ -841,7 +841,7 @@
     return false;
   }
 
-  /* Punto inicial fuera del hit de todos los spots: el más cercano a un ancla noroeste del centro (~0.46, 0.38 normalizado). */
+  /* Start point outside every spot hit: closest to a northwest anchor from center (~0.46, 0.38 normalized). */
   function findSafePlayerStart() {
     var minX = 20 + DRAW_W / 2;
     var maxX = WORLD - 20 - DRAW_W / 2;
@@ -883,14 +883,14 @@
   if (reducedMotion) nearPrompt.classList.add('reduced');
 
   var imgMap = null;
-  /* Color del mar alineado con el pixel art (se mide al cargar el mapa). */
+  /* Sea color aligned with pixel art (sampled when the map loads). */
   var seaFillColor = '#1e6aa0';
-  /* Textura repetible del mar (recorte del PNG) para márgenes alrededor del tile del mapa. */
+  /* Tiling sea texture (crop from PNG) for margins around the map tile. */
   var seaPattern = null;
   var imgSpriteProcessed = null;
   var imgPinProcessed = null;
   var imgClouds = null;
-  /* Un solo frame copiado 1:1 desde la hoja; luego se escala. Evita mezcla con el frame vecino al dibujar. */
+  /* Single frame copied 1:1 from sheet, then scaled. Avoids bleeding from the neighbor cell. */
   var spriteFrameScratch = null;
   var assetsMissing = [];
 
@@ -899,7 +899,7 @@
     function next() {
       if (i >= srcs.length) { onFail(); return; }
       var im = new Image();
-      /* file:// + crossOrigin breaks image load in most browsers; http(s) is fine */
+      /* file:// + crossOrigin breaks image load in most browsers; http(s) works */
       if (location.protocol === 'http:' || location.protocol === 'https:') {
         im.crossOrigin = 'anonymous';
       }
@@ -951,7 +951,7 @@
       }
       t.putImageData(px, 0, 0);
     } catch (err) {
-      /* file:// u otro: sin clave */
+      /* file:// or other: no key */
     }
     return canvas;
   }
@@ -1134,7 +1134,7 @@
   }
 
   function loadAssets(cb) {
-    /* Retrato de portada: carga en HTML + preload en head (no espera a este bloque). */
+    /* Title portrait: load in HTML + preload in head (does not wait for this block). */
     var pending = 4;
     var done = function () {
       pending--;
@@ -1146,7 +1146,7 @@
       imgMap = im;
       refreshSeaTextureFromMap(im);
       done();
-    }, function () { assetsMissing.push('mapa (spain-map.png o .jpg)'); done(); });
+    }, function () { assetsMissing.push('map (spain-map.png or .jpg)'); done(); });
 
     tryLoad(['assets/sprite.png' + v], function (im) { imgSpriteProcessed = processSpriteSheet(im); done(); }, function () { assetsMissing.push('sprite.png'); done(); });
 
@@ -1163,7 +1163,7 @@
   var nearSpot = null;
   var inSpotRange = false;
   var lastOpenedSpotId = null;
-  /* Si el usuario cierra la ficha a mano, no reabrir hasta salir del spot (nombre y panel van juntos). */
+  /* If the user closes the sheet manually, do not reopen until they leave the spot. */
   var sheetDismissed = false;
   var clouds = [];
 
@@ -1315,7 +1315,7 @@
 
       ctx.restore();
 
-      /* Nombre del sitio siempre visible encima del pin */
+      /* Place name always visible above the pin */
       ctx.save();
       var fontPx = 12;
       ctx.font = fontPx + 'px "Press Start 2P", monospace';
@@ -1370,7 +1370,7 @@
     var sy = row * fh;
     var sw = col === COLS - 1 ? w - sx : fw;
     var sh = row === ROWS - 1 ? h - sy : fh;
-    /* Enteros estrictos: evita límites ambiguos en drawImage desde atlas. */
+    /* Strict integers: avoids ambiguous drawImage bounds from atlas. */
     return {
       sx: sx | 0,
       sy: sy | 0,
@@ -1403,7 +1403,7 @@
     m.setTransform(dpr, 0, 0, dpr, 0, 0);
     m.imageSmoothingEnabled = false;
     if (imgMap) {
-      /* Mismo criterio que el mapa grande: imagen completa escalada a WORLD (5-arg allí = destino WORLD×WORLD). */
+      /* Same rule as main map: full image scaled to WORLD (5-arg = WORLD×WORLD dest). */
       var iw = imgMap.naturalWidth || imgMap.width;
       var ih = imgMap.naturalHeight || imgMap.height;
       m.drawImage(imgMap, 0, 0, iw, ih, 0, 0, sz, sz);
@@ -1416,7 +1416,7 @@
       m.fill();
     }
 
-    /* Palito + esfera blanca arriba; el pie del palito marca el punto en el mapa. */
+    /* Pin stem + white dot on top; stem tip marks the point on the map. */
     var pinScale = Math.max(0.82, Math.min(1.12, sz / 144));
     SPOTS.forEach(function (s) {
       var tipX = (s.wx / WORLD) * sz;
@@ -1441,7 +1441,7 @@
       m.stroke();
     });
 
-    /* Jugador encima: centro del sprite en el mundo. */
+    /* Player on top: sprite center in world space. */
     var pinX = player.x;
     var pinY = player.y - DRAW_H / 2;
     var mx = (pinX / WORLD) * sz;
@@ -1515,7 +1515,7 @@
     var dpr = window.devicePixelRatio || 1;
     var wCss = canvas.clientWidth;
     var hCss = canvas.clientHeight;
-    /* Cover: el mapa cuadrado llena el lado largo (sin bandas negras en portrait). */
+    /* Cover: square map fills the long side (no black bars in portrait). */
     var baseScale = Math.max(wCss, hCss) / WORLD;
     var scale = baseScale;
     var viewW = wCss / scale;
@@ -1557,7 +1557,7 @@
       }
     }
 
-    /* Antes de dibujar: AABB jugador vs rectángulo invisible (halo máx. + nombre + pin); salida con rect expandido */
+    /* Before draw: player AABB vs invisible rect (max halo + name + pin); exit uses expanded rect */
     var pr = playerHitRect();
     var bestEnter = null;
     var bestEnterD = Infinity;
@@ -1586,7 +1586,7 @@
       nearSpot = bestEnter;
       if (!sheetDismissed) openSheet(bestEnter);
     } else if (!inSpotRange) {
-      /* Fuera de zona: no cerrar el panel al caminar; solo el usuario cierra */
+      /* Outside zone: do not close the panel by walking; user closes only */
       nearSpot = null;
     }
 
@@ -1597,7 +1597,7 @@
     ctx.translate(-cam.x, -cam.y);
 
     ctx.fillStyle = seaPattern || seaFillColor;
-    /* +2 world px evita rendijas por redondeo si la vista muestra mar alrededor del mapa. */
+    /* +2 world px avoids gaps from rounding when the view shows sea around the map. */
     ctx.fillRect(cam.x - 1, cam.y - 1, viewW + 2, viewH + 2);
 
     if (imgMap) {
@@ -1695,7 +1695,7 @@
 
   document.addEventListener('keydown', function (e) {
     if (document.getElementById('screen-map').classList.contains('hidden')) return;
-    /* La ficha del spot solo se cierra con la X (no Escape ni backdrop: evita cierres al seguir caminando). */
+    /* Spot sheet closes only with X (not Escape or backdrop: avoids closing while walking). */
     var k = e.key;
     if (k === 'ArrowUp') { keys.up = true; e.preventDefault(); }
     else if (k === 'ArrowDown') { keys.down = true; e.preventDefault(); }
@@ -1747,7 +1747,7 @@
   loadAssets(function () {
     if (assetsMissing.length) {
       assetHint.hidden = false;
-      assetHint.textContent = 'Faltan archivos en projects/pawmap/assets/: ' + assetsMissing.join(', ') + '. El mapa usa placeholders hasta que los añadas.';
+      assetHint.textContent = 'Missing files in projects/pawmap/assets/: ' + assetsMissing.join(', ') + '. The map uses placeholders until you add them.';
     }
   });
 
