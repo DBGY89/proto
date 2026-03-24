@@ -103,6 +103,9 @@
       box-shadow: 0 8px 32px rgba(253, 230, 138, 0.15);
       overflow: hidden;
       background: var(--green-dark);
+      box-sizing: border-box;
+      /* Equal inset from gold border on all sides (top = left = right = bottom band) */
+      padding: clamp(10px, 2.8vw, 14px);
       display: flex;
       align-items: center;
       justify-content: center;
