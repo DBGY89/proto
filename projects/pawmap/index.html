@@ -707,6 +707,8 @@
   /* Margen final: sombra del pin, texto un poco más ancho que el cálculo, bordes del halo */
   var HIT_RECT_UNION_PAD = 22;
   var MOVE_SPEED = 115;
+  /* Muestra los rectángulos de activación (mismo que computeSpotHitRect). Pon false para ocultar. */
+  var SHOW_SPOT_HIT_RECTS = true;
 
   function rectUnion(a, b) {
     return {
@@ -1182,6 +1184,36 @@
     ctx.fill();
   }
 
+  function drawSpotActivationRects() {
+    if (!SHOW_SPOT_HIT_RECTS) return;
+    var fills = {
+      cazorla: 'rgba(255, 45, 120, 0.16)',
+      pirineo: 'rgba(0, 240, 255, 0.16)',
+      camposoto: 'rgba(253, 230, 138, 0.2)',
+      collserola: 'rgba(134, 239, 172, 0.16)',
+      rinconin: 'rgba(147, 197, 253, 0.18)'
+    };
+    var strokes = {
+      cazorla: 'rgba(255, 80, 140, 0.85)',
+      pirineo: 'rgba(0, 220, 240, 0.85)',
+      camposoto: 'rgba(253, 210, 100, 0.9)',
+      collserola: 'rgba(100, 220, 150, 0.85)',
+      rinconin: 'rgba(120, 170, 255, 0.85)'
+    };
+    SPOTS.forEach(function (s) {
+      var r = s.hitRect;
+      var w = r.right - r.left;
+      var h = r.bottom - r.top;
+      ctx.fillStyle = fills[s.id] || 'rgba(255, 255, 255, 0.12)';
+      ctx.strokeStyle = strokes[s.id] || 'rgba(255, 255, 255, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 5]);
+      ctx.fillRect(r.left, r.top, w, h);
+      ctx.strokeRect(r.left, r.top, w, h);
+      ctx.setLineDash([]);
+    });
+  }
+
   function drawClouds(dt) {
     var t = Date.now() / 300;
     if (reducedMotion) t = 0;
@@ -1566,6 +1598,7 @@
     }
 
     drawClouds(dt);
+    drawSpotActivationRects();
     drawPins(ts);
 
     drawPlayer(dt);
