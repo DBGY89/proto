@@ -1363,8 +1363,11 @@
       if (d < bestD) { bestD = d; best = s; }
     });
     if (best) {
-      if (!inSpotRange && bestD <= NEAR_ENTER) inSpotRange = true;
-      else if (inSpotRange && bestD > NEAR_OUT) inSpotRange = false;
+      if (!inSpotRange && bestD <= NEAR_ENTER) {
+        inSpotRange = true;
+        /* Nueva entrada en la zona (desde fuera): la ficha puede abrirse de nuevo */
+        sheetDismissed = false;
+      } else if (inSpotRange && bestD > NEAR_OUT) inSpotRange = false;
     } else {
       inSpotRange = false;
     }
@@ -1373,10 +1376,8 @@
       nearSpot = best;
       if (!sheetDismissed) openSheet(best);
     } else {
+      /* Fuera de zona: no cerrar el panel al caminar; solo el usuario cierra */
       nearSpot = null;
-      lastOpenedSpotId = null;
-      sheetDismissed = false;
-      closeSheet(false);
     }
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
