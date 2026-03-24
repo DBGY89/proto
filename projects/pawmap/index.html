@@ -666,22 +666,105 @@
   var PAWMAP_ASSETS_BUST = window.PAWMAP_ASSETS_BUST || '6';
   var DRAW_W = 70;
   var DRAW_H = 80;
-  /* Mismo tamaño que el pin en drawPins (mundo). Halo: arcos en py - PIN_WORLD*0.35, radio exterior PIN_WORLD*0.85 */
+  /* Mismo tamaño que el pin en drawPins (mundo). */
   var PIN_WORLD = 72;
-  var SPOT_HALO_CENTER_OFF_Y = PIN_WORLD * 0.35;
-  var SPOT_HALO_RADIUS_OUT = PIN_WORLD * 0.85;
   var SPOT_PIN_PULSE_MAX = 1.12;
-  /* Halo (radio máx. con pulso) + mitad diagonal del sprite: tocar el halo por cualquier lado activa */
-  var HALO_ACTIVATE_R = SPOT_HALO_RADIUS_OUT * SPOT_PIN_PULSE_MAX;
-  var PLAYER_BODY_R = Math.hypot(DRAW_W, DRAW_H) * 0.5;
-  var SPOT_ENTER_R = HALO_ACTIVATE_R + PLAYER_BODY_R + 6;
-  var SPOT_EXIT_R = SPOT_ENTER_R + 48;
+  /* Histéresis al salir: rectángulo de activación expandido (mismo centro) */
+  var HIT_RECT_EXIT_PAD = 40;
   var MOVE_SPEED = 115;
 
-  function spotProximityDistance(s, refX, refY) {
-    var hx = s.wx;
-    var hy = s.wy - SPOT_HALO_CENTER_OFF_Y;
-    return Math.hypot(hx - refX, hy - refY);
+  function rectUnion(a, b) {
+    return {
+      left: Math.min(a.left, b.left),
+      right: Math.max(a.right, b.right),
+      top: Math.min(a.top, b.top),
+      bottom: Math.max(a.bottom, b.bottom)
+    };
+  }
+
+  function rectExpand(r, pad) {
+    return {
+      left: r.left - pad,
+      right: r.right + pad,
+      top: r.top - pad,
+      bottom: r.bottom + pad
+    };
+  }
+
+  function rectsOverlap(a, b) {
+    return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+  }
+
+  function playerHitRect() {
+    return {
+      left: player.x - DRAW_W / 2,
+      right: player.x + DRAW_W / 2,
+      top: player.y - DRAW_H,
+      bottom: player.y
+    };
+  }
+
+  function spotNameLines(s) {
+    var labelFull = s.name;
+    var words = labelFull.split(/\s+/).filter(function (w) { return w.length; });
+    if (words.length <= 1) return [labelFull];
+    var splitAt = Math.ceil(words.length / 2);
+    return [words.slice(0, splitAt).join(' '), words.slice(splitAt).join(' ')];
+  }
+
+  function pinWorldBoundsAtMaxPulse(px, py, ps, pulse) {
+    var minx = Infinity;
+    var maxx = -Infinity;
+    var miny = Infinity;
+    var maxy = -Infinity;
+    var corners = [
+      [px - ps / 2, py - ps],
+      [px + ps / 2, py - ps],
+      [px + ps / 2, py],
+      [px - ps / 2, py]
+    ];
+    corners.forEach(function (c) {
+      var lx = c[0] - px;
+      var ly = c[1] - (py + 10);
+      var wx = px + lx * pulse;
+      var wy = py + 10 + ly * pulse;
+      minx = Math.min(minx, wx);
+      maxx = Math.max(maxx, wx);
+      miny = Math.min(miny, wy);
+      maxy = Math.max(maxy, wy);
+    });
+    return { left: minx, right: maxx, top: miny, bottom: maxy };
+  }
+
+  /* Rectángulo invisible: halo exterior a pulso máx. + etiqueta (como drawPins) + pin con pulso máx. */
+  function computeSpotHitRect(s) {
+    var ps = PIN_WORLD;
+    var px = s.wx;
+    var py = s.wy;
+    var sPulse = SPOT_PIN_PULSE_MAX;
+    var cy = py + 10 - sPulse * (ps * 0.35 + 10);
+    var cx = px;
+    var R = sPulse * ps * 0.85;
+    var halo = { left: cx - R, right: cx + R, top: cy - R, bottom: cy + R };
+
+    var lines = spotNameLines(s);
+    var lineHeight = lines.length > 1 ? 12 : 14;
+    var blockH = lines.length * lineHeight;
+    var startY = py - ps - 12 - blockH;
+    var maxLen = 0;
+    lines.forEach(function (ln) {
+      if (ln.length > maxLen) maxLen = ln.length;
+    });
+    var labelHalfW = maxLen * 8 + 8;
+    var label = {
+      left: px - labelHalfW,
+      right: px + labelHalfW,
+      top: startY,
+      bottom: startY + blockH
+    };
+
+    var pinB = pinWorldBoundsAtMaxPulse(px, py, ps, sPulse);
+    return rectUnion(rectUnion(halo, label), pinB);
   }
 
   var SPOTS = [
@@ -695,6 +778,7 @@
   SPOTS.forEach(function (s) {
     s.wx = s.mx * WORLD;
     s.wy = s.my * WORLD;
+    s.hitRect = computeSpotHitRect(s);
   });
 
   var canvas = document.getElementById('game-canvas');
@@ -1355,33 +1439,35 @@
       }
     }
 
-    /* Antes de dibujar: solapamiento halo–personaje (isótropo); salida con histéresis por minD */
-    var refX = player.x;
-    var refY = player.y - DRAW_H * 0.5;
-    var minD = Infinity;
-    var best = null;
-    var bestD = Infinity;
+    /* Antes de dibujar: AABB jugador vs rectángulo invisible (halo máx. + nombre + pin); salida con rect expandido */
+    var pr = playerHitRect();
+    var bestEnter = null;
+    var bestEnterD = Infinity;
+    var anyEnter = false;
     SPOTS.forEach(function (s) {
-      var d = spotProximityDistance(s, refX, refY);
-      if (d < minD) minD = d;
-      if (d <= SPOT_ENTER_R && d < bestD) {
-        bestD = d;
-        best = s;
+      if (!rectsOverlap(pr, s.hitRect)) return;
+      anyEnter = true;
+      var d = Math.hypot(s.wx - player.x, s.wy - player.y);
+      if (d < bestEnterD) {
+        bestEnterD = d;
+        bestEnter = s;
       }
     });
-    if (minD < Infinity) {
-      if (!inSpotRange && best) {
-        inSpotRange = true;
-        sheetDismissed = false;
-      } else if (inSpotRange && minD > SPOT_EXIT_R) inSpotRange = false;
-    } else {
+    var anyExpandedOverlap = false;
+    SPOTS.forEach(function (s) {
+      if (rectsOverlap(pr, rectExpand(s.hitRect, HIT_RECT_EXIT_PAD))) anyExpandedOverlap = true;
+    });
+    if (!inSpotRange && anyEnter) {
+      inSpotRange = true;
+      sheetDismissed = false;
+    } else if (inSpotRange && !anyExpandedOverlap) {
       inSpotRange = false;
     }
-    if (inSpotRange && best) {
-      if (nearSpot && nearSpot.id !== best.id) sheetDismissed = false;
-      nearSpot = best;
-      if (!sheetDismissed) openSheet(best);
-    } else {
+    if (anyEnter && bestEnter) {
+      if (nearSpot && nearSpot.id !== bestEnter.id) sheetDismissed = false;
+      nearSpot = bestEnter;
+      if (!sheetDismissed) openSheet(bestEnter);
+    } else if (!inSpotRange) {
       /* Fuera de zona: no cerrar el panel al caminar; solo el usuario cierra */
       nearSpot = null;
     }
