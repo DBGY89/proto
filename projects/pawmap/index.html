@@ -701,11 +701,8 @@
   var SPOT_PIN_PULSE_MAX = 1.12;
   /* Histéresis al salir: rectángulo de activación expandido (mismo centro) */
   var HIT_RECT_EXIT_PAD = 40;
-  /* Press Start 2P ~12px: la estimación por carácter no puede ser 8px o el área queda corta a los lados del nombre */
-  var HIT_LABEL_CHAR_W = 11;
-  var HIT_LABEL_PAD_X = 18;
-  /* Margen final: sombra del pin, texto un poco más ancho que el cálculo, bordes del halo */
-  var HIT_RECT_UNION_PAD = 22;
+  /* Margen mínimo tras unir etiqueta + halo (máx.) + pin; el ancho del nombre va con measureText. */
+  var HIT_RECT_UNION_PAD = 4;
   var MOVE_SPEED = 115;
   /* Muestra los rectángulos de activación (mismo que computeSpotHitRect). Pon false para ocultar. */
   var SHOW_SPOT_HIT_RECTS = true;
@@ -753,6 +750,22 @@
     return [words.slice(0, splitAt).join(' '), words.slice(splitAt).join(' ')];
   }
 
+  /* Ancho real del bloque de texto (misma fuente que drawPins); + mitad del stroke (5) y un poco de aire. */
+  function measureLabelMaxLineWidthPx(s) {
+    var lines = spotNameLines(s);
+    var c = document.createElement('canvas');
+    var x = c.getContext('2d');
+    var fontPx = 12;
+    x.font = fontPx + 'px "Press Start 2P", monospace';
+    var maxW = 0;
+    var i;
+    for (i = 0; i < lines.length; i++) {
+      var w = x.measureText(lines[i]).width;
+      if (w > maxW) maxW = w;
+    }
+    return maxW;
+  }
+
   function pinWorldBoundsAtMaxPulse(px, py, ps, pulse) {
     var minx = Infinity;
     var maxx = -Infinity;
@@ -792,11 +805,7 @@
     var lineHeight = lines.length > 1 ? 12 : 14;
     var blockH = lines.length * lineHeight;
     var startY = py - ps - 12 - blockH;
-    var maxLen = 0;
-    lines.forEach(function (ln) {
-      if (ln.length > maxLen) maxLen = ln.length;
-    });
-    var labelHalfW = maxLen * HIT_LABEL_CHAR_W + HIT_LABEL_PAD_X;
+    var labelHalfW = measureLabelMaxLineWidthPx(s) / 2 + 7;
     var label = {
       left: px - labelHalfW,
       right: px + labelHalfW,
