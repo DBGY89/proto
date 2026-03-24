@@ -989,6 +989,8 @@
   var NEAR_OUT = NEAR_ENTER + 34;
   var inSpotRange = false;
   var lastOpenedSpotId = null;
+  /* Si el usuario cierra la ficha a mano, no reabrir hasta salir del spot (nombre y panel van juntos). */
+  var sheetDismissed = false;
   var clouds = [];
 
   function initClouds() {
@@ -1109,7 +1111,7 @@
 
       ctx.restore();
 
-      var showLabel = nearSpot && nearSpot.id === s.id;
+      var showLabel = nearSpot && nearSpot.id === s.id && !sheetDismissed;
       if (showLabel) {
         ctx.save();
         var fontPx = 12;
@@ -1369,17 +1371,14 @@
       inSpotRange = false;
     }
     if (inSpotRange && best) {
+      if (nearSpot && nearSpot.id !== best.id) sheetDismissed = false;
       nearSpot = best;
-      if (lastOpenedSpotId !== best.id) {
-        lastOpenedSpotId = best.id;
-        openSheet(best);
-      }
+      if (!sheetDismissed) openSheet(best);
     } else {
       nearSpot = null;
-      if (lastOpenedSpotId !== null) {
-        lastOpenedSpotId = null;
-        closeSheet();
-      }
+      lastOpenedSpotId = null;
+      sheetDismissed = false;
+      closeSheet(false);
     }
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1422,6 +1421,9 @@
   }
 
   function openSheet(spot) {
+    if (sheetDismissed) return;
+    if (lastOpenedSpotId === spot.id && sheet.classList.contains('is-open')) return;
+    lastOpenedSpotId = spot.id;
     document.getElementById('sheet-emoji').textContent = spot.emoji;
     document.getElementById('sheet-name').textContent = spot.name;
     document.getElementById('sheet-loc').textContent = spot.loc;
@@ -1439,7 +1441,8 @@
     sheetBackdrop.classList.add('is-open');
   }
 
-  function closeSheet() {
+  function closeSheet(fromUser) {
+    if (fromUser) sheetDismissed = true;
     if (!sheet.classList.contains('is-open')) return;
     sheet.classList.remove('is-open');
     sheetBackdrop.classList.remove('is-open');
@@ -1484,7 +1487,7 @@
     if (document.getElementById('screen-map').classList.contains('hidden')) return;
     if (e.key === 'Escape' && sheet.classList.contains('is-open')) {
       e.preventDefault();
-      closeSheet();
+      closeSheet(true);
       return;
     }
     var k = e.key;
@@ -1502,7 +1505,10 @@
   });
 
   nearPrompt.addEventListener('click', function () {
-    if (nearSpot) openSheet(nearSpot);
+    if (nearSpot) {
+      sheetDismissed = false;
+      openSheet(nearSpot);
+    }
   });
 
   (function () {
@@ -1510,26 +1516,26 @@
     function onCloseSheet(ev) {
       ev.stopPropagation();
       if (ev.cancelable) ev.preventDefault();
-      closeSheet();
+      closeSheet(true);
     }
     closeBtn.addEventListener('click', onCloseSheet, true);
     closeBtn.addEventListener('pointerup', function (ev) {
       if (ev.pointerType === 'mouse') return;
       ev.stopPropagation();
       ev.preventDefault();
-      closeSheet();
+      closeSheet(true);
     }, { capture: true, passive: false });
   })();
   sheetBackdrop.addEventListener('click', function (ev) {
     if (ev.target !== sheetBackdrop) return;
     ev.stopPropagation();
-    closeSheet();
+    closeSheet(true);
   });
   sheetBackdrop.addEventListener('pointerup', function (ev) {
     if (ev.target !== sheetBackdrop) return;
     if (ev.pointerType === 'mouse') return;
     ev.stopPropagation();
-    closeSheet();
+    closeSheet(true);
   }, true);
 
   document.querySelectorAll('.js-open-case').forEach(function (b) {
