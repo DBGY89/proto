@@ -899,6 +899,41 @@
   var mapWrap = document.getElementById('map-stage-wrap');
   var minimapCanvas = document.getElementById('minimap-canvas');
   var minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
+  /* Mobile reliability: block long-press selection/callout inside the play area. */
+  (function () {
+    var isTouchPointer = function (e) {
+      return e && (e.pointerType === 'touch' || e.type === 'touchstart');
+    };
+
+    function blockLongPress(e) {
+      if (!e || !isTouchPointer(e)) return;
+      if (sheet && sheet.classList && sheet.classList.contains('is-open')) return;
+      // Don't interfere with gameplay controls.
+      // (D-pad already calls preventDefault on pointerdown.)
+      e.preventDefault();
+    }
+
+    if (mapWrap) {
+      mapWrap.addEventListener('pointerdown', blockLongPress, { capture: true, passive: false });
+      mapWrap.addEventListener('touchstart', blockLongPress, { capture: true, passive: false });
+      mapWrap.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+      }, { capture: true });
+    }
+    if (canvas) {
+      canvas.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+      }, { capture: true });
+    }
+
+    // Prevent iOS text selection menu from appearing from long-press on any selectable text
+    // inside the map screen (hud, dpad labels, etc.), while keeping sheet/modal readable.
+    var screenMap = document.getElementById('screen-map');
+    document.addEventListener('selectstart', function (e) {
+      if (!screenMap || screenMap.classList.contains('hidden')) return;
+      if (screenMap.contains(e.target)) e.preventDefault();
+    }, { capture: true });
+  })();
   var minimapMql = window.matchMedia('(min-width: 900px)');
   var MINIMAP_SIZE = 144;
   var assetHint = document.getElementById('asset-hint');
