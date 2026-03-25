@@ -167,6 +167,20 @@
       overflow: hidden;
     }
     .screen-map.hidden { display: none; }
+    /* Prevent OS text selection/callout while playing on mobile. */
+    .screen-map, .screen-map * {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Allow selecting/copying inside the info sheet + story modal. */
+    .sheet-scroll, .sheet-scroll *,
+    .modal-panel, .modal-panel * {
+      -webkit-user-select: text;
+      user-select: text;
+      -webkit-touch-callout: default;
+    }
 
     .hud-bar {
       height: 44px;
