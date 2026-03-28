@@ -78,6 +78,11 @@
       font-family: inherit;
     }
     .cta-case:hover { border-color: var(--neon-pink); color: var(--neon-pink); }
+    .cta-case-mobile { display: none; }
+    @media (max-width: 640px) {
+      .cta-case-desktop { display: none; }
+      .cta-case-mobile { display: inline-flex; }
+    }
 
     /* Title screen */
     .screen-title {
@@ -708,7 +713,8 @@
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
-    <button type="button" class="cta-case js-open-case" aria-label="From idea to prototype">The story &rarr;</button>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype &rarr;</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story &rarr;</button>
   </nav>
 
   <section class="screen-title" id="screen-title" aria-label="Intro">
