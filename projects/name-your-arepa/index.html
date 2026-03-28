@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Name Your Arepa — AI Proto Lab</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" id="cta-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
+  </nav>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <main class="page" id="main-page">
+    <header class="hero">
+      <h1 class="hero-title">Name Your Arepa</h1>
+      <p class="intro">Elige ingredientes y mira como tu arepa se arma sola. Si tiene nombre, lo celebramos. Si no, tu la bautizas.</p>
+    </header>
+
+    <div class="layout">
+      <section class="region region-pick" aria-label="Ingredient picker">
+        <h2 class="region-title">Ingredientes</h2>
+        <p class="picker-hint">Click para agregar. No hay limite. El orden no importa.</p>
+        <div class="ingredient-grid" id="ingredient-grid" aria-label="Ingredient list"></div>
+      </section>
+
+      <section class="region region-result" aria-label="Arepa preview and matching">
+        <h2 class="region-title region-title--accent">Tu arepa</h2>
+
+        <div class="arepa-and-states">
+          <div class="arepa-stage" aria-label="Arepa illustration">
+            <svg
+              id="arepa-svg"
+              class="arepa-svg"
+              viewBox="0 0 300 240"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Arepa with selected ingredients"
+            >
+              <!-- Bread base -->
+              <g id="bread">
+                <rect x="70" y="35" width="160" height="70" rx="35" fill="#e3b35f" stroke="#8b5a21" stroke-width="4"/>
+                <rect x="55" y="115" width="190" height="115" rx="60" fill="#d9a452" stroke="#8b5a21" stroke-width="4"/>
+
+                <!-- Budare marks on the top bun -->
+                <g opacity="0.9">
+                  <path d="M95 65 C105 60 115 60 125 65" stroke="#8b5a21" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <path d="M130 60 C142 56 152 56 165 61" stroke="#8b5a21" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <path d="M110 82 C125 76 145 76 160 83" stroke="#8b5a21" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <path d="M80 85 C95 80 110 80 125 86" stroke="#8b5a21" stroke-width="3" stroke-linecap="round" fill="none"/>
+                </g>
+
+                <!-- Open pan inner shadow -->
+                <ellipse cx="150" cy="114" rx="70" ry="14" fill="rgba(0,0,0,0.18)"/>
+              </g>
+
+              <!-- Fillings (opacity toggled by JS) -->
+              <g id="fillings">
+                <!-- Meat / shred style -->
+                <g data-ing="carne_mechada" opacity="0">
+                  <g fill="#5b3a22">
+                    <rect x="75" y="142" width="22" height="7" rx="4" transform="rotate(-18 86 145)"/>
+                    <rect x="102" y="132" width="26" height="8" rx="4" transform="rotate(10 115 136)"/>
+                    <rect x="128" y="155" width="30" height="8" rx="4" transform="rotate(-6 143 159)"/>
+                    <rect x="160" y="138" width="28" height="8" rx="4" transform="rotate(16 174 142)"/>
+                    <rect x="188" y="154" width="24" height="7" rx="4" transform="rotate(-14 200 157)"/>
+                    <rect x="215" y="136" width="18" height="6" rx="3" transform="rotate(20 224 139)"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.08)">
+                    <rect x="92" y="145" width="18" height="3" rx="2" transform="rotate(-18 101 146)"/>
+                    <rect x="150" y="142" width="18" height="3" rx="2" transform="rotate(16 160 143)"/>
+                  </g>
+                </g>
+
+                <g data-ing="pollo_desmechado" opacity="0">
+                  <g fill="#c98d4d">
+                    <rect x="78" y="145" width="20" height="7" rx="4" transform="rotate(-22 88 148)"/>
+                    <rect x="106" y="135" width="26" height="7" rx="4" transform="rotate(9 119 139)"/>
+                    <rect x="135" y="152" width="32" height="8" rx="4" transform="rotate(-7 151 156)"/>
+                    <rect x="164" y="142" width="30" height="8" rx="4" transform="rotate(15 179 146)"/>
+                    <rect x="196" y="154" width="22" height="7" rx="4" transform="rotate(-15 207 157)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.08)">
+                    <rect x="97" y="146" width="16" height="3" rx="2" transform="rotate(-22 105 148)"/>
+                    <rect x="170" y="144" width="16" height="3" rx="2" transform="rotate(15 178 145)"/>
+                  </g>
+                </g>
+
+                <g data-ing="pernil" opacity="0">
+                  <g fill="#8a4b2a">
+                    <path d="M80 158 C95 140 112 146 124 160 C136 174 105 183 90 175 C78 169 74 167 80 158 Z"/>
+                    <path d="M120 140 C135 125 160 129 170 150 C180 171 152 185 132 172 C118 163 114 152 120 140 Z"/>
+                    <path d="M172 155 C190 135 214 143 222 160 C232 182 203 193 184 181 C168 171 166 168 172 155 Z"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.07)">
+                    <path d="M98 166 C110 154 120 156 130 168" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.55"/>
+                  </g>
+                </g>
+
+                <g data-ing="bistec_res" opacity="0">
+                  <g fill="#a21f2e">
+                    <rect x="78" y="148" width="55" height="18" rx="9" transform="rotate(-8 105 157)"/>
+                    <rect x="120" y="132" width="70" height="22" rx="11" transform="rotate(6 155 143)"/>
+                    <rect x="160" y="150" width="45" height="16" rx="8" transform="rotate(-10 182 158)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.18)">
+                    <rect x="96" y="150" width="40" height="7" rx="3" transform="rotate(-8 116 153)"/>
+                  </g>
+                </g>
+
+                <!-- Eggs -->
+                <g data-ing="huevo_frito" opacity="0">
+                  <g>
+                    <circle cx="132" cy="162" r="28" fill="#f2d56a"/>
+                    <circle cx="142" cy="160" r="12" fill="#f6b73f"/>
+                    <circle cx="165" cy="175" r="9" fill="rgba(0,0,0,0.12)"/>
+                    <path d="M115 168 C125 156 137 154 152 160" stroke="#fff" stroke-opacity="0.35" stroke-width="6" stroke-linecap="round" fill="none"/>
+                  </g>
+                </g>
+
+                <g data-ing="huevo_revuelto" opacity="0">
+                  <g fill="#f1d26c">
+                    <rect x="88" y="150" width="24" height="12" rx="6" transform="rotate(-12 100 156)"/>
+                    <rect x="118" y="140" width="22" height="12" rx="6" transform="rotate(10 129 146)"/>
+                    <rect x="148" y="156" width="26" height="12" rx="6" transform="rotate(-6 161 162)"/>
+                    <rect x="182" y="145" width="22" height="12" rx="6" transform="rotate(14 193 151)"/>
+                    <rect x="205" y="160" width="18" height="10" rx="5" transform="rotate(-8 214 165)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.14)">
+                    <circle cx="123" cy="155" r="6" opacity="0.6"/>
+                    <circle cx="185" cy="155" r="7" opacity="0.5"/>
+                  </g>
+                </g>
+
+                <!-- Jamon -->
+                <g data-ing="jamon" opacity="0">
+                  <g fill="#f29aa9">
+                    <rect x="88" y="135" width="62" height="20" rx="10" transform="rotate(-10 119 145)"/>
+                    <rect x="130" y="160" width="72" height="20" rx="10" transform="rotate(6 166 170)"/>
+                    <rect x="185" y="138" width="45" height="16" rx="8" transform="rotate(14 208 146)"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.18)">
+                    <rect x="98" y="140" width="45" height="6" rx="3" transform="rotate(-10 121 143)"/>
+                  </g>
+                </g>
+
+                <!-- Seafood -->
+                <g data-ing="mariscos" opacity="0">
+                  <g fill="#1aa3a3">
+                    <path d="M95 160 C110 142 126 144 138 160 C150 176 120 192 100 179 C88 172 86 170 95 160 Z"/>
+                    <path d="M135 142 C155 126 176 132 186 152 C196 172 170 188 150 175 C133 164 126 155 135 142 Z"/>
+                    <path d="M168 165 C190 145 215 153 222 168 C230 188 207 198 188 186 C172 176 160 171 168 165 Z"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.14)">
+                    <circle cx="118" cy="169" r="6"/>
+                    <circle cx="170" cy="168" r="7"/>
+                  </g>
+                </g>
+
+                <!-- Beans -->
+                <g data-ing="caraotas_negras" opacity="0">
+                  <g fill="#2a1731">
+                    <circle cx="90" cy="168" r="12"/>
+                    <circle cx="122" cy="152" r="13"/>
+                    <circle cx="145" cy="178" r="10"/>
+                    <circle cx="170" cy="158" r="14"/>
+                    <circle cx="200" cy="172" r="11"/>
+                    <circle cx="230" cy="160" r="9"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.08)">
+                    <circle cx="92" cy="164" r="4"/>
+                    <circle cx="172" cy="154" r="5"/>
+                    <circle cx="200" cy="168" r="4"/>
+                  </g>
+                </g>
+
+                <!-- Platan -->
+                <g data-ing="platan_maduro_frito" opacity="0">
+                  <g fill="#f0b04c">
+                    <rect x="80" y="152" width="44" height="18" rx="9" transform="rotate(-8 102 161)"/>
+                    <rect x="120" y="142" width="58" height="20" rx="10" transform="rotate(8 149 152)"/>
+                    <rect x="176" y="158" width="50" height="18" rx="9" transform="rotate(-10 201 167)"/>
+                    <rect x="210" y="140" width="26" height="14" rx="7" transform="rotate(14 223 147)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.12)">
+                    <path d="M92 162 C105 156 115 158 126 163" stroke="#000" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  </g>
+                </g>
+
+                <!-- Cheeses -->
+                <g data-ing="queso_amarillo_rallado" opacity="0">
+                  <g fill="#ffd24a">
+                    <rect x="80" y="148" width="16" height="6" rx="3" transform="rotate(-25 88 151)"/>
+                    <rect x="98" y="160" width="18" height="6" rx="3" transform="rotate(-10 107 163)"/>
+                    <rect x="125" y="142" width="20" height="7" rx="4" transform="rotate(8 135 146)"/>
+                    <rect x="150" y="168" width="24" height="7" rx="4" transform="rotate(-6 163 172)"/>
+                    <rect x="182" y="150" width="22" height="7" rx="4" transform="rotate(15 193 154)"/>
+                    <rect x="210" y="170" width="16" height="6" rx="3" transform="rotate(-18 218 173)"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.25)">
+                    <rect x="103" y="162" width="12" height="3" rx="2" transform="rotate(-10 109 163)"/>
+                    <rect x="188" y="152" width="14" height="3" rx="2" transform="rotate(15 195 153)"/>
+                  </g>
+                </g>
+
+                <g data-ing="queso_blanco_rallado" opacity="0">
+                  <g fill="#fff3f3">
+                    <circle cx="95" cy="168" r="6"/>
+                    <circle cx="118" cy="150" r="7"/>
+                    <circle cx="145" cy="176" r="6"/>
+                    <circle cx="170" cy="155" r="8"/>
+                    <circle cx="198" cy="170" r="6"/>
+                    <circle cx="225" cy="160" r="5"/>
+                    <circle cx="188" cy="145" r="5"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.08)">
+                    <circle cx="173" cy="159" r="3"/>
+                  </g>
+                </g>
+
+                <g data-ing="queso_guayanes" opacity="0">
+                  <g fill="#8fc08a">
+                    <rect x="86" y="160" width="22" height="12" rx="6" transform="rotate(-15 97 166)"/>
+                    <rect x="112" y="142" width="26" height="12" rx="6" transform="rotate(10 125 148)"/>
+                    <rect x="145" y="170" width="30" height="13" rx="6" transform="rotate(-8 160 176)"/>
+                    <rect x="178" y="150" width="26" height="12" rx="6" transform="rotate(14 191 156)"/>
+                    <rect x="210" y="168" width="18" height="10" rx="5" transform="rotate(-10 219 173)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.12)">
+                    <circle cx="126" cy="148" r="4"/>
+                    <circle cx="195" cy="156" r="4"/>
+                  </g>
+                </g>
+
+                <!-- Avocado -->
+                <g data-ing="aguacate" opacity="0">
+                  <g fill="#2f9a55">
+                    <rect x="88" y="154" width="34" height="20" rx="10" transform="rotate(-12 105 164)"/>
+                    <rect x="123" y="140" width="48" height="24" rx="12" transform="rotate(8 147 152)"/>
+                    <rect x="176" y="158" width="40" height="22" rx="11" transform="rotate(-10 196 169)"/>
+                    <rect x="214" y="140" width="22" height="14" rx="7" transform="rotate(15 225 147)"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.12)">
+                    <path d="M108 158 C120 152 131 152 144 158" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>
+                  </g>
+                </g>
+
+                <!-- Tomato -->
+                <g data-ing="tomate" opacity="0">
+                  <g fill="#d72c2f">
+                    <path d="M90 160 C105 138 125 140 140 160 C155 180 125 190 105 182 C92 176 82 176 90 160 Z"/>
+                    <path d="M135 150 C155 134 178 140 188 158 C198 176 178 190 158 182 C144 176 128 168 135 150 Z"/>
+                    <circle cx="205" cy="168" r="14"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.14)">
+                    <circle cx="120" cy="160" r="6"/>
+                  </g>
+                </g>
+
+                <!-- Onion / cebolla -->
+                <g data-ing="cebolla" opacity="0">
+                  <g fill="#8a62c8">
+                    <circle cx="92" cy="165" r="12"/>
+                    <circle cx="120" cy="150" r="13"/>
+                    <circle cx="165" cy="158" r="14"/>
+                    <circle cx="205" cy="170" r="11"/>
+                    <circle cx="230" cy="160" r="8"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.08)">
+                    <circle cx="92" cy="165" r="6"/>
+                    <circle cx="165" cy="158" r="7"/>
+                  </g>
+                </g>
+
+                <!-- Onion grass / cebollin -->
+                <g data-ing="cebollin" opacity="0">
+                  <g fill="#3db56a">
+                    <rect x="88" y="152" width="10" height="40" rx="5" transform="rotate(-18 93 172)"/>
+                    <rect x="105" y="140" width="10" height="45" rx="5" transform="rotate(8 110 162)"/>
+                    <rect x="150" y="150" width="10" height="45" rx="5" transform="rotate(-8 155 172)"/>
+                    <rect x="175" y="142" width="10" height="42" rx="5" transform="rotate(14 180 163)"/>
+                    <rect x="205" y="152" width="10" height="38" rx="5" transform="rotate(-10 210 171)"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.12)">
+                    <rect x="91" y="160" width="4" height="26" rx="2" transform="rotate(-18 93 172)"/>
+                  </g>
+                </g>
+
+                <!-- Aji dulce -->
+                <g data-ing="aji_dulce" opacity="0">
+                  <g fill="#f18b2b">
+                    <rect x="92" y="160" width="14" height="14" rx="7" transform="rotate(-12 99 167)"/>
+                    <rect x="120" y="144" width="16" height="16" rx="8" transform="rotate(10 128 152)"/>
+                    <rect x="160" y="162" width="18" height="18" rx="9" transform="rotate(-8 169 171)"/>
+                    <rect x="198" y="150" width="16" height="16" rx="8" transform="rotate(14 206 158)"/>
+                    <rect x="222" y="168" width="12" height="12" rx="6" transform="rotate(-10 228 174)"/>
+                  </g>
+                  <g fill="rgba(0,0,0,0.12)">
+                    <circle cx="169" cy="171" r="5"/>
+                  </g>
+                </g>
+
+                <!-- Mayonesa -->
+                <g data-ing="mayonesa" opacity="0">
+                  <g fill="#f6f2e8" opacity="0.95">
+                    <circle cx="100" cy="160" r="7"/>
+                    <circle cx="122" cy="148" r="8"/>
+                    <circle cx="146" cy="168" r="7"/>
+                    <circle cx="172" cy="150" r="8"/>
+                    <circle cx="200" cy="168" r="7"/>
+                    <circle cx="220" cy="155" r="6"/>
+                    <path d="M120 165 C135 150 155 152 170 168" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.35"/>
+                  </g>
+                </g>
+
+                <!-- Nutella trap (not valid in matching / share ingredients) -->
+                <g data-ing="nutella" opacity="0">
+                  <g fill="#3a2014">
+                    <path d="M95 168 C110 150 130 155 140 170 C150 185 130 195 110 188 C97 183 88 182 95 168 Z"/>
+                    <path d="M145 155 C165 140 195 150 205 170 C215 190 185 200 165 185 C150 174 135 170 145 155 Z"/>
+                  </g>
+                  <g fill="rgba(255,255,255,0.10)">
+                    <path d="M115 175 C125 168 136 168 145 176" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.35"/>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+          <div class="state-stack">
+            <div id="empty-hint" class="empty-hint" aria-live="polite">Elige los ingredientes. A ver que sale.</div>
+
+            <div id="match-block" class="match-block" hidden>
+              <p id="match-sentence" class="state-line"></p>
+              <p id="match-fact" class="state-fact"></p>
+            </div>
+
+            <div id="nutella-banner" class="nutella-banner" hidden>
+              Nutella no. En serio, no. Eso no es una arepa.
+            </div>
+
+            <div id="baptize-block" class="baptize-block" hidden>
+              <p class="baptize-sub">Esta combinacion no tiene nombre todavia. Ponle uno.</p>
+              <button type="button" id="btn-nameit" class="btn-secondary">Name it</button>
+
+              <div id="nameit-form" class="nameit-form" hidden>
+                <label class="sr-only" for="name-input">Arepa name</label>
+                <input id="name-input" class="text-input" type="text" maxlength="26" placeholder="Escribe un nombre para tu arepa...">
+                <button type="button" id="btn-confirm-name" class="btn-primary">Confirm</button>
+              </div>
+            </div>
+
+            <div id="baptized-confirm" class="baptized-confirm" hidden>
+              <p id="baptized-line" class="state-line"></p>
+            </div>
+
+            <div id="share-row" class="share-row" hidden>
+              <button type="button" id="btn-share" class="btn-primary">Share</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="reset-row">
+          <button type="button" id="btn-reset" class="btn-ghost">Start over</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="vote-widget" data-project="name-your-arepa" aria-label="Rate this prototype">
+      <span class="vote-label">Rate this prototype</span>
+      <span class="vote-nums">
+        <span class="vote-num" data-value="1">1</span>
+        <span class="vote-num" data-value="2">2</span>
+        <span class="vote-num" data-value="3">3</span>
+        <span class="vote-num" data-value="4">4</span>
+        <span class="vote-num" data-value="5">5</span>
+      </span>
+      <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+    </div>
+  </main>
+
+  <!-- Footer: Part of AI Proto Lab — product tagline -->
+  <footer class="footer">
+    <p>Part of <a href="/">AI Proto Lab</a>. No boring arepas.</p>
+  </footer>
+
+  <!-- Case modal -->
+  <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <span class="modal-drag" aria-hidden="true"></span>
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+          <p class="modal-subtitle">Hecho en dos tardes.</p>
+        </div>
+        <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="label">What problem & for whom</p>
+        <p><strong>For whom:</strong> Personas que aman las arepas, pero quieren descubrir "cual es cual" sin leer manuales.</p>
+        <p><strong>Problem:</strong> La arepa es cultura. Los nombres son identidad. Y muchas veces nadie explica la historia en una sola pantalla.</p>
+        <p><strong>This:</strong> Elige ingredientes. Si coincide, aparece el nombre. Si no, lo bautizas. Y se comparte como una tarjeta.</p>
+
+        <p class="label">The iteration</p>
+        <p>Primero lo idee como una lista de ingredientes y una respuesta rapida. Luego cambie a una ilustracion SVG que se arma en tiempo real. El juego pasa a ser ver tu arepa nacer en el momento.</p>
+
+        <p class="label">What AI could and couldn't do</p>
+        <p>El AI fue excelente con el texto y las reglas de matching. La parte mas dificil fue representar cada ingrediente con un "lenguaje visual" coherente. Por eso hice shapes simples pero consistentes en la SVG.</p>
+
+        <p class="label">Minimum viable effort</p>
+        <p>Un flujo claro. Matching al vuelo. Un boton de bautizo cuando no hay nombre. Y una carta PNG lista para copiar cultura.</p>
+
+        <p class="label">Get in touch</p>
+        <div class="modal-cta">
+          <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+          <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+  <script src="/rating-vote.js"></script>
+
+  <script>initRatingWidget('name-your-arepa');</script>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById('case-modal');
+      var openBtns = document.querySelectorAll('.js-open-case');
+      var closeBtn = document.querySelector('.js-close-modal');
+      if (!overlay || !openBtns.length || !closeBtn) return;
+      function openModal() {
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+      function closeModal() {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+      closeBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+      });
+    })();
+  </script>
+</body>
+</html>
+

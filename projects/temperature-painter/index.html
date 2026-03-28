@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Temperature Painter — AI Proto Lab</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Temperature Painter — PRD visual system */
+    :root {
+      --bg-navy: #030d1a;
+      --cyan: #00e5ff;
+      --heat: #ff6b35;
+      --rain: rgba(100, 180, 255, 0.7);
+      --water-top: #002850;
+      --water-bottom: #020814;
+      --font-display: 'Space Mono', monospace;
+      --font-ui: 'Syne', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg-navy);
+      color: var(--cyan);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* Topbar — AI Proto Lab styleguide */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+      background: rgba(3, 13, 26, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+    }
+    .back-link {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: rgba(0, 229, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+
+    /* Phase indicator — top right */
+    .phase-panel {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      gap: 0.75rem;
+    }
+    .phase-panel span {
+      opacity: 0.35;
+      transition: opacity 0.3s, color 0.3s;
+    }
+    .phase-panel span.active {
+      opacity: 1;
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+    }
+
+    /* Canvas fills viewport below topbar */
+    #c {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: none;
+    }
+    /* Custom cursor: cyan circle with center dot (only when over water zone we use JS) */
+    body.cursor-paint #c { cursor: none; }
+
+    /* Footer — AI Proto Lab */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 0.6rem 1.25rem;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: rgba(0, 229, 255, 0.5);
+      background: linear-gradient(to top, rgba(3, 13, 26, 0.9), transparent);
+    }
+    .footer a { color: var(--cyan); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* Vote widget — same pattern as other lab projects */
+    .vote-widget {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: rgba(0, 229, 255, 0.6);
+    }
+    .vote-widget .vote-nums { display: flex; gap: 0.25rem; }
+    .vote-widget .vote-num {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .vote-widget .vote-num:hover { border-color: var(--cyan); color: var(--cyan); }
+    .vote-widget .vote-num.vote-selected { background: var(--cyan); color: var(--bg-navy); border-color: var(--cyan); }
+    .vote-widget .vote-thanks { display: none; color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+  <nav class="topbar" aria-label="Navegación">
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
+    <div class="phase-panel" id="phase-panel" aria-live="polite">
+      <span id="phase-evap">Evaporación</span>
+      <span id="phase-cond">Condensación</span>
+      <span id="phase-precip">Precipitación</span>
+      <span id="phase-coll">Colección</span>
+    </div>
+  </nav>
+
+  <canvas id="c" width="800" height="600" aria-label="Superficie de agua interactiva. Arrastra para pintar calor y desencadenar el ciclo del agua."></canvas>
+
+  <div class="vote-widget" data-project="temperature-painter" aria-label="Valorar este prototipo">
+    <span class="vote-label">Valorar</span>
+    <span class="vote-nums">
+      <span class="vote-num" data-value="1">1</span>
+      <span class="vote-num" data-value="2">2</span>
+      <span class="vote-num" data-value="3">3</span>
+      <span class="vote-num" data-value="4">4</span>
+      <span class="vote-num" data-value="5">5</span>
+    </span>
+    <span class="vote-thanks" id="vote-thanks" aria-live="polite">Gracias ✓</span>
+  </div>
+
+  <footer class="footer">
+    <p>Parte de <a href="/">AI Proto Lab</a>. Un ciclo del agua que conduces con el dedo. Diana + Mildred.</p>
+  </footer>
+
+  <script>
+(function () {
+  'use strict';
+
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  let width, height, WATER_Y;
+  const PHASE = { EVAP: 0, COND: 1, PRECIP: 2, COLL: 3 };
+  let currentPhase = PHASE.EVAP;
+
+  // ─── Resize ───
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    WATER_Y = height * 0.72;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // ─── Heat zones (user input) ───
+  const HEAT_RADIUS = 60;
+  const HEAT_DECAY = 0.98;
+  let heatZones = [];
+
+  function addHeat(x, y) {
+    heatZones.push({ x, y, r: HEAT_RADIUS, intensity: 1 });
+  }
+
+  function updateHeat() {
+    heatZones = heatZones.filter(h => {
+      h.intensity *= HEAT_DECAY;
+      return h.intensity > 0.02;
+    });
+  }
+
+  // ─── Steam particles ───
+  const STEAM_RISE = 1.8;
+  const STEAM_DECAY = 0.992;
+  let steamParticles = [];
+
+  function spawnSteam(x, y) {
+    for (let i = 0; i < 3; i++) {
+      steamParticles.push({
+        x: x + (Math.random() - 0.5) * 40,
+        y,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -2 - Math.random() * 2,
+        life: 1,
+        r: 2 + Math.random() * 3
+      });
+    }
+  }
+
+  function updateSteam() {
+    const condenseHeight = height * 0.25;
+    steamParticles = steamParticles.filter(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy *= 0.998;
+      p.life *= STEAM_DECAY;
+      if (p.y < condenseHeight) {
+        cloudMass = Math.min(1, cloudMass + 0.0012);
+        return false;
+      }
+      return p.life > 0.02;
+    });
+  }
+
+  // ─── Cloud ───
+  const RAIN_THRESHOLD = 0.92;
+  let cloudMass = 0;
+  let cloudX = 0.5;
+  let cloudW = 0.4;
+
+  // ─── Rain ───
+  let raindrops = [];
+
+  function spawnRain() {
+    const n = Math.floor(3 + Math.random() * 5);
+    for (let i = 0; i < n; i++) {
+      raindrops.push({
+        x: (cloudX + (Math.random() - 0.5) * cloudW) * width,
+        y: 0,
+        vy: 8 + Math.random() * 6,
+        r: 1.5
+      });
+    }
+  }
+
+  function updateRain() {
+    raindrops = raindrops.filter(rd => {
+      rd.y += rd.vy;
+      if (rd.y >= WATER_Y - 5) {
+        splashes.push({ x: rd.x, y: WATER_Y, r: 0, maxR: 15, life: 1 });
+        return false;
+      }
+      return true;
+    });
+  }
+
+  // ─── Splashes ───
+  let splashes = [];
+
+  function updateSplashes() {
+    splashes = splashes.filter(s => {
+      s.r += (s.maxR - s.r) * 0.25;
+      s.life -= 0.04;
+      return s.life > 0;
+    });
+  }
+
+  // ─── Water zone (input) ───
+  function isInWaterZone(cy) {
+    return cy >= WATER_Y - 100 && cy <= WATER_Y + 40;
+  }
+
+  let pointerDown = false;
+  let lastHeatTime = 0;
+
+  function getCanvasCoords(e) {
+    const t = e.touches ? e.touches[0] : e;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = width / rect.width;
+    const scaleY = height / rect.height;
+    return {
+      x: (t.clientX - rect.left) * scaleX,
+      y: (t.clientY - rect.top) * scaleY
+    };
+  }
+
+  function onPointerDown(e) {
+    e.preventDefault();
+    const { x, y } = getCanvasCoords(e);
+    if (!isInWaterZone(y)) return;
+    pointerDown = true;
+    initAudio();
+    addHeat(x, y);
+    lastHeatTime = Date.now();
+  }
+
+  function onPointerMove(e) {
+    const { x, y } = getCanvasCoords(e);
+    if (pointerDown && isInWaterZone(y)) {
+      const now = Date.now();
+      if (now - lastHeatTime > 80) {
+        addHeat(x, y);
+        lastHeatTime = now;
+      }
+    }
+  }
+
+  function onPointerUp(e) {
+    pointerDown = false;
+  }
+
+  canvas.addEventListener('mousedown', onPointerDown);
+  canvas.addEventListener('mousemove', onPointerMove);
+  canvas.addEventListener('mouseup', onPointerUp);
+  canvas.addEventListener('mouseleave', onPointerUp);
+  canvas.addEventListener('touchstart', onPointerDown, { passive: false });
+  canvas.addEventListener('touchmove', onPointerMove, { passive: false });
+  canvas.addEventListener('touchend', onPointerUp, { passive: true });
+
+  // ─── Phase UI ───
+  function setPhase(p) {
+    currentPhase = p;
+    ['evap', 'cond', 'precip', 'coll'].forEach((id, i) => {
+      const el = document.getElementById('phase-' + id);
+      if (el) el.classList.toggle('active', i === p);
+    });
+  }
+
+  // ─── Draw ───
+  function drawBackground() {
+    ctx.fillStyle = '#030d1a';
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  function drawWater() {
+    const g = ctx.createLinearGradient(0, WATER_Y, 0, height);
+    g.addColorStop(0, '#002850');
+    g.addColorStop(1, '#020814');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, WATER_Y, width, height - WATER_Y);
+  }
+
+  function drawHeatZones() {
+    heatZones.forEach(h => {
+      const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.r);
+      g.addColorStop(0, `rgba(255, 107, 53, ${0.4 * h.intensity})`);
+      g.addColorStop(0.5, `rgba(255, 107, 53, ${0.15 * h.intensity})`);
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(h.x, h.y, h.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function drawSteam() {
+    steamParticles.forEach(p => {
+      const t = 1 - p.life;
+      const r = Math.round(255 - t * 200);
+      const g = Math.round(180 + t * 75);
+      const b = 255;
+      ctx.fillStyle = `rgba(${r},${g},${b},${p.life * 0.8})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function drawCloud() {
+    if (cloudMass <= 0) return;
+    const gray = 1 - cloudMass;
+    const fill = `rgba(${100 - gray * 60},${140 - gray * 80},${180 - gray * 100},${0.3 + cloudMass * 0.5})`;
+    const cx = cloudX * width;
+    const cw = cloudW * width;
+    const ch = 80 + cloudMass * 60;
+    ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.ellipse(cx, 80, cw * 0.5, ch * 0.4, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function drawRain() {
+    ctx.fillStyle = 'rgba(100, 180, 255, 0.7)';
+    raindrops.forEach(rd => {
+      ctx.beginPath();
+      ctx.arc(rd.x, rd.y, rd.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function drawSplashes() {
+    splashes.forEach(s => {
+      ctx.strokeStyle = `rgba(100, 180, 255, ${s.life * 0.6})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  }
+
+  function drawCursor(x, y) {
+    if (!pointerDown && isInWaterZone(y)) {
+      ctx.strokeStyle = 'rgba(0, 229, 255, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x, y, 45, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  let lastCursor = { x: -100, y: -100 };
+  canvas.addEventListener('mousemove', function (e) {
+    const co = getCanvasCoords(e);
+    lastCursor = co;
+    document.body.classList.toggle('cursor-paint', isInWaterZone(co.y));
+  });
+  canvas.addEventListener('mouseleave', function () {
+    document.body.classList.remove('cursor-paint');
+  });
+
+  // ─── Game loop & phase logic ───
+  let lastSteamSpawn = 0;
+  let rainActive = false;
+  let rainFadeOut = 0;
+
+  function tick() {
+    const now = Date.now();
+
+    updateHeat();
+    if (heatZones.length > 0 && now - lastSteamSpawn > 80) {
+      const h = heatZones[Math.floor(Math.random() * heatZones.length)];
+      spawnSteam(h.x, WATER_Y - 5);
+      lastSteamSpawn = now;
+    }
+    updateSteam();
+    updateRain();
+    updateSplashes();
+
+    if (cloudMass >= RAIN_THRESHOLD && !rainActive) {
+      rainActive = true;
+      setPhase(PHASE.PRECIP);
+      if (window.rainGain) window.rainGain.gain.setTargetAtTime(0.4, window.audioCtx.currentTime, 0.1);
+    }
+    if (rainActive) {
+      if (cloudMass > 0.3) cloudMass -= 0.002;
+      if (Math.random() < 0.15) spawnRain();
+      if (cloudMass < 0.2) {
+        rainActive = false;
+        rainFadeOut = 1;
+        setPhase(PHASE.COLL);
+        if (window.rainGain) window.rainGain.gain.setTargetAtTime(0, window.audioCtx.currentTime + 0.5, 2);
+      }
+    }
+    if (cloudMass > 0.75 && currentPhase === PHASE.EVAP) setPhase(PHASE.COND);
+    if (rainFadeOut > 0) {
+      rainFadeOut -= 0.005;
+      if (rainFadeOut <= 0 && raindrops.length === 0) setPhase(PHASE.EVAP);
+    }
+
+    drawBackground();
+    drawWater();
+    drawSplashes();
+    drawRain();
+    drawCloud();
+    drawSteam();
+    drawHeatZones();
+    drawCursor(lastCursor.x, lastCursor.y);
+
+    requestAnimationFrame(tick);
+  }
+
+  // ─── Audio (Web Audio API, no external files) ───
+  function initAudio() {
+    if (window.audioCtx) return;
+    window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = window.audioCtx;
+
+    // Sizzle buffer (white noise, high-pass 3000Hz, 80ms)
+    const sizzleDuration = 0.08;
+    const sizzleFrames = ctx.sampleRate * sizzleDuration;
+    const sizzleBuf = ctx.createBuffer(1, sizzleFrames, ctx.sampleRate);
+    const sizzleData = sizzleBuf.getChannelData(0);
+    for (let i = 0; i < sizzleFrames; i++) sizzleData[i] = (Math.random() * 2 - 1) * 0.15;
+    window.sizzleBuf = sizzleBuf;
+
+    const hp = ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 3000;
+    window.sizzleFilter = hp;
+
+    // Rain: band-pass 1200Hz loop
+    const bufferSize = ctx.sampleRate * 0.5;
+    const rainBuf = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const rainData = rainBuf.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) rainData[i] = (Math.random() * 2 - 1) * 0.08;
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 1200;
+    bp.Q.value = 1;
+    window.rainGain = ctx.createGain();
+    window.rainGain.gain.value = 0;
+    const rainSource = ctx.createBufferSource();
+    rainSource.buffer = rainBuf;
+    rainSource.loop = true;
+    rainSource.connect(bp);
+    bp.connect(window.rainGain);
+    window.rainGain.connect(ctx.destination);
+    rainSource.start(0);
+  }
+
+  function playSizzle() {
+    if (!window.audioCtx || !window.sizzleBuf) return;
+    const src = window.audioCtx.createBufferSource();
+    src.buffer = window.sizzleBuf;
+    src.connect(window.sizzleFilter);
+    window.sizzleFilter.connect(window.audioCtx.destination);
+    src.start(0);
+  }
+
+  setInterval(function () {
+    if (heatZones.length > 0 && Math.random() < 0.4) playSizzle();
+  }, 200);
+
+  // ─── Start ───
+  resize();
+  window.addEventListener('resize', resize);
+  setPhase(PHASE.EVAP);
+  requestAnimationFrame(tick);
+
+})();
+  </script>
+  <script src="/rating-vote.js"></script>
+  <script>initRatingWidget('temperature-painter');</script>
+</body>
+</html>

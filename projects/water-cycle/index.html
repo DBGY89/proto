@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Cycle — AI Proto Lab</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
+  </nav>
+
+  <main class="page" id="main">
+    <!-- Screen 1: Day selector (app starts here) -->
+    <section class="screen screen-selector" id="screen-selector">
+      <header class="selector-header">
+        <h1 class="selector-logo">WATER CYCLE</h1>
+        <p class="selector-tagline">Make your hydration as intentional as your training.</p>
+      </header>
+
+      <div class="day-selector" role="group" aria-label="Choose your day type">
+        <button type="button" class="day-btn day-btn--wod" id="btn-wod" data-day="wod">
+          <span class="day-btn-label">CROSSFIT DAY</span>
+          <span class="day-btn-sublabel">You're training today</span>
+        </button>
+        <button type="button" class="day-btn day-btn--rest" id="btn-rest" data-day="rest">
+          <span class="day-btn-label">REST DAY</span>
+          <span class="day-btn-sublabel">Recovery is part of the work</span>
+        </button>
+      </div>
+
+      <div class="filters-row" id="filters" aria-label="Dietary filters">
+        <button type="button" class="filter-chip" data-filter="vegan" aria-pressed="false">Vegan</button>
+        <button type="button" class="filter-chip" data-filter="glutenFree" aria-pressed="false">Gluten-free</button>
+        <button type="button" class="filter-chip" data-filter="dairyFree" aria-pressed="false">Dairy-free</button>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-cta" id="btn-generate" disabled>Generate my menu</button>
+      </div>
+
+        <p class="selector-disclaimer" role="status">For hydration and nutrition inspiration only. Not medical or dietary advice; consult a professional for personalized guidance.</p>
+    </section>
+
+    <!-- Screen 2: Generated menu -->
+    <section class="screen screen-menu hidden" id="screen-menu">
+      <header class="menu-header menu-header--sticky">
+        <div class="menu-header-top">
+          <span class="day-badge" id="result-day-badge"></span>
+          <h2 class="menu-plan-title" id="menu-plan-title"></h2>
+        </div>
+        <p class="menu-quote" id="menu-quote"></p>
+      </header>
+
+      <div class="tags-row" id="tags-row"></div>
+
+      <div class="macro-bar-wrap" id="macro-bar-wrap">
+        <p class="macro-bar-label">TODAY'S MACRO BALANCE (REFERENCE)</p>
+        <div class="macro-bar" id="macro-bar">
+          <div class="macro-segment macro-segment--carbs" id="macro-carbs"></div>
+          <div class="macro-segment macro-segment--protein" id="macro-protein"></div>
+          <div class="macro-segment macro-segment--fat" id="macro-fat"></div>
+        </div>
+        <div class="macro-legend" id="macro-legend"></div>
+      </div>
+
+      <div class="calories-toggle-row">
+        <button type="button" class="calories-toggle" id="btn-toggle-calories" aria-pressed="false">Calorie details</button>
+      </div>
+
+      <div class="calories-inline hidden" id="calories-inline">
+        <div class="calories-inline-row">
+          <div class="calories-adjust-row">
+            <span class="calories-adjust-label">Today my body needs</span>
+            <input type="number" id="input-calorie-target" min="1200" max="4000" step="50" placeholder="2000" aria-label="Daily calorie target">
+            <span class="calories-adjust-unit">kcal/day</span>
+            <span class="calories-scale" id="calories-scale-text"></span>
+            <button type="button" class="btn-footer btn-footer--small" id="btn-apply-target">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-cards" id="menu-cards"></div>
+
+      <div class="menu-footer-actions">
+        <button type="button" class="btn-footer btn-footer--primary" id="btn-download-menu">Download menu</button>
+        <button type="button" class="btn-footer" id="btn-shopping-list">Shopping list</button>
+        <div class="share-dropdown-wrap share-dropdown-wrap--up">
+          <button type="button" class="btn-footer" id="btn-share-toggle" aria-haspopup="true" aria-expanded="false">Share</button>
+          <div class="share-dropdown share-dropdown--up hidden" id="share-dropdown">
+            <a href="#" class="share-option" id="share-email">Email</a>
+            <a href="#" class="share-option" id="share-whatsapp">WhatsApp</a>
+            <a href="#" class="share-option" id="share-instagram">Instagram</a>
+          </div>
+        </div>
+        <button type="button" class="btn-footer" id="btn-new-menu">&larr; New Menu</button>
+      </div>
+    </section>
+
+    <!-- Shopping list overlay (2-col checkable list) -->
+    <div class="overlay hidden" id="shopping-overlay" role="dialog" aria-modal="true" aria-label="Shopping list">
+      <div class="overlay-content overlay-content--list" id="shopping-overlay-content">
+        <div class="overlay-header">
+          <h2 class="overlay-title">Shopping list</h2>
+          <button type="button" class="overlay-close" id="shopping-close" aria-label="Close">&times;</button>
+        </div>
+        <p class="shopping-overlay-hint">Tick what you already have at home. Then download the list of what you still need to buy.</p>
+        <div class="shopping-list shopping-list--two-col" id="shopping-list"></div>
+        <div class="shopping-overlay-actions">
+          <button type="button" class="btn-cta btn-cta--small" id="btn-download-what-i-need">Download what I need</button>
+          <button type="button" class="btn-header btn-header--ghost btn-header--small" id="btn-download-full-list">Download full list</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share card for html2canvas -->
+    <div class="share-card-wrap hidden" id="share-card-wrap">
+      <div class="share-card" id="share-card">
+        <div class="share-card-inner">
+          <p class="share-card-header">Water Cycle · Hydration Flow</p>
+          <p class="share-card-day" id="share-card-day"></p>
+          <div class="share-card-meals" id="share-card-meals"></div>
+          <p class="share-card-phrase" id="share-card-phrase"></p>
+          <p class="share-card-footer">aiprotolab.es/water-cycle</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="vote-widget" data-project="water-cycle" aria-label="Rate this prototype">
+      <span class="vote-label">Rate this prototype</span>
+      <span class="vote-nums">
+        <span class="vote-num" data-value="1">1</span>
+        <span class="vote-num" data-value="2">2</span>
+        <span class="vote-num" data-value="3">3</span>
+        <span class="vote-num" data-value="4">4</span>
+        <span class="vote-num" data-value="5">5</span>
+      </span>
+      <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Part of <a href="/">AI Proto Lab</a>. Water, training, recovery.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHnNBU+oZb9uQ+SCg+f+Q4u5j4kCLRnhQfwBxF0ju6gPB7Y+Y2xR2k+L/nR2nSPlWnapN4L8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./app.js"></script>
+  <script src="/rating-vote.js"></script>
+  <script>initRatingWidget('water-cycle');</script>
+</body>
+</html>

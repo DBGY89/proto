@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salad Bar — AI Proto Lab</title>
+  <title>Mandala — AI Proto Lab</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,49 +14,21 @@
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
-    <button type="button" class="cta-case cta-case-desktop js-open-case" id="cta-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
     <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
   </nav>
 
-  <div class="bg-pattern" aria-hidden="true"></div>
-
   <main class="page" id="main-page">
     <header class="hero">
-      <h1 class="hero-title">Salad Bar</h1>
-      <p class="intro">Build your salad. We'll match it with a dressing that actually works,<br class="intro-br"> plus a kitchen trick you didn't see coming.</p>
+      <h1 class="hero-title">Mandala</h1>
+      <p class="intro">Placeholder shell. We will wire the flow when you share specs.</p>
     </header>
 
-    <div class="layout">
-      <section class="region region-pick" aria-label="Build your salad">
-        <h2 class="region-title">Your salad</h2>
-        <p class="picker-hint" id="picker-hint">Pick at least one ingredient.</p>
-        <div class="ingredient-grid" id="ingredient-grid"></div>
-        <div class="more-ingredients-wrap" id="more-ingredients-wrap" hidden>
-          <button type="button" class="more-ingredients-btn" id="more-ingredients-btn">More ingredients</button>
-        </div>
-      </section>
-
-      <section class="region region-result" id="dressing-section" aria-label="Your secret ingredient">
-          <h2 class="region-title region-title--accent">Your secret ingredient</h2>
-          <div class="dressing-placeholder" id="dressing-placeholder">Pick something on the left. We'll tell you which dressing fits. No joke.</div>
-          <div class="dressing-card hidden" id="dressing-card">
-            <h3 class="dressing-name" id="dressing-name"></h3>
-            <div class="recipe">
-              <h4 class="recipe-heading">Dressing recipe</h4>
-              <ul class="recipe-ingredients" id="recipe-ingredients"></ul>
-              <ol class="recipe-steps" id="recipe-steps"></ol>
-            </div>
-          </div>
-          <div class="chef-tip hidden" id="chef-tip">
-            <span class="chef-tip-label">Chef's trick</span>
-            <div class="chef-tip-body">
-              <p class="chef-tip-text" id="chef-tip-text"></p>
-            </div>
-          </div>
-      </section>
+    <div class="shell-placeholder" role="status">
+      Canvas and controls go here.
     </div>
 
-    <div class="vote-widget" data-project="salad-bar" aria-label="Rate this prototype">
+    <div class="vote-widget" data-project="mandala" aria-label="Rate this prototype">
       <span class="vote-label">Rate this prototype</span>
       <span class="vote-nums">
         <span class="vote-num" data-value="1">1</span>
@@ -69,9 +41,8 @@
     </div>
   </main>
 
-  <!-- Footer: Part of AI Proto Lab — product tagline -->
   <footer class="footer">
-    <p>Part of <a href="/">AI Proto Lab</a>. No boring salads.</p>
+    <p>Part of <a href="/">AI Proto Lab</a>. Symmetry in progress.</p>
   </footer>
 
   <div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
@@ -80,21 +51,19 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
-          <p class="modal-subtitle">Built in two evenings.</p>
+          <p class="modal-subtitle">Story TBD.</p>
         </div>
         <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
       </div>
       <div class="modal-body">
         <p class="label">What problem & for whom</p>
-        <p><strong>For whom:</strong> People who open the fridge, see perfectly good vegetables, and still end up with olive oil and salt, because creativity in the kitchen doesn't come naturally to everyone.</p>
-        <p><strong>Problem:</strong> "I have lettuce, tomato, avocado. Vinaigrette? Yogurt?" They want a quick answer and a real recipe.</p>
-        <p><strong>This:</strong> Pick ingredients, get a matching dressing + recipe + one kitchen trick. One click. Done.</p>
+        <p>We will fill this in once the product story is defined.</p>
         <p class="label">The iteration</p>
-        <p>The original layout was a vertical stack of boxes, wasting all the horizontal space desktop offers. I moved to a side-by-side layout so both panels are visible at once. On mobile, the output box peeks from below. The same logic applies to onboarding: there's a line asking you to pick at least one ingredient, but let's be honest, most users won't read it. I added an animation that highlights the ingredients one by one, making every next step obvious without relying on anyone reading anything. Turns out, it's also just fun.</p>
+        <p>Coming soon.</p>
         <p class="label">What AI could and couldn't do</p>
-        <p>I wanted ingredients to appear visually on a plate as you picked them, a little game where your salad builds itself in real time. The AI only rendered colored dots (red for tomato, green for cucumber). The plate didn't make it. That taught me something worth keeping: AI is better at language than at spatial visualization, at least today. The fun moved from the plate to the ingredients themselves, the animation that guides you through them is where the playfulness lives now.</p>
+        <p>Coming soon.</p>
         <p class="label">Minimum viable effort</p>
-        <p>One click = one salad with dressing and recipe. The goal was simple: as few steps as possible. Then one less.</p>
+        <p>Coming soon.</p>
         <p class="label">Get in touch</p>
         <div class="modal-cta">
           <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
@@ -104,19 +73,10 @@
     </div>
   </div>
 
-  <script src="./data.js"></script>
-  <script src="./app.js"></script>
   <script src="/rating-vote.js"></script>
   <script>
   (function () {
-    var match = /[?&]layout=([1-5])/.exec(window.location.search);
-    var main = document.getElementById('main-page');
-    if (match && main) main.classList.add('layout-desk-' + match[1]);
-  })();
-  </script>
-  <script>
-  (function () {
-    var project = 'salad-bar';
+    var project = 'mandala';
     var key = 'rating_' + project;
     var widget = document.querySelector('.vote-widget');
     var thanks = document.getElementById('vote-thanks');
