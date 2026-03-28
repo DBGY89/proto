@@ -67,21 +67,46 @@
       font-weight: 600;
     }
     .back-link:hover { text-decoration: underline; }
+    /* Case modal CTA: same interaction pattern as crossfit-fuel (text link, underline on label only) */
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
     .cta-case {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
       cursor: pointer;
       font-family: inherit;
+      padding: 0.25rem 0;
+      text-decoration: none;
+      text-align: right;
+      transition: color 0.2s var(--ease);
+      flex-shrink: 0;
     }
-    .cta-case:hover { border-color: var(--neon-pink); color: var(--neon-pink); }
+    .cta-case-label {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .cta-case-arrow {
+      text-decoration: none;
+    }
+    .cta-case:hover,
+    .cta-case:hover .cta-case-label {
+      color: var(--neon-cyan);
+    }
+    .cta-case:focus-visible {
+      outline: 2px solid var(--neon-cyan);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
     .cta-case-mobile { display: none; }
     @media (max-width: 640px) {
       .cta-case-desktop { display: none; }
-      .cta-case-mobile { display: inline-flex; }
+      .cta-case-mobile { display: inline; }
     }
 
     /* Title screen */
@@ -713,8 +738,10 @@
 
   <nav class="topbar">
     <a href="/" class="back-link">&larr; AI Proto Lab</a>
-    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype &rarr;</button>
-    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story &rarr;</button>
+    <div class="topbar-right">
+      <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype"><span class="cta-case-label">How this went from idea to prototype</span><span class="cta-case-arrow" aria-hidden="true"> →</span></button>
+      <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype"><span class="cta-case-label">The story</span><span class="cta-case-arrow" aria-hidden="true"> →</span></button>
+    </div>
   </nav>
 
   <section class="screen-title" id="screen-title" aria-label="Intro">
