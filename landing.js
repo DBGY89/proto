@@ -15,6 +15,7 @@
     'movie-palette',
     'crossfit-fuel',
     'piano-maestro',
+    'pawmap',
   ];
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
