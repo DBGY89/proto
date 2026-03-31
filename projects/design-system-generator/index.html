@@ -3,26 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Design System Generator</title>
+<title>DESIGN SYSTEM GENERATOR — AI Proto Lab</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  /* App shell — warm white */
-  --app-bg:#faf8f5;
-  --app-surface:#ffffff;
-  --app-surface2:#f5f2ee;
-  --app-border:#e8e3dc;
-  --app-border2:#d4cec5;
-  --app-text:#1c1917;
-  --app-muted:#8c8479;
-  --app-accent:#7c3aed;
-  --app-accent-dim:rgba(124,58,237,0.07);
-  --app-accent-glow:rgba(124,58,237,0.15);
-  --font-ui:'Sora',sans-serif;
-  --font-mono:'DM Mono',monospace;
+  --bg-deep:#0a0a1a;
+  --bg-card:#111128;
+  --border:#1e1e3a;
+  --text-primary:#e8e8f0;
+  --text-secondary:#9090b0;
+  --text-muted:#555580;
+  --neon-pink:#ff2d78;
+  --neon-cyan:#00f0ff;
+  --neon-purple:#b24dff;
+  --neon-gold:#ffd700;
+  --font-main:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'DM Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+  /* App shell (aliases to lab tokens) */
+  --app-bg:var(--bg-deep);
+  --app-surface:var(--bg-card);
+  --app-surface2:rgba(17,17,40,0.55);
+  --app-border:var(--border);
+  --app-border2:#2a2a4a;
+  --app-text:var(--text-primary);
+  --app-muted:var(--text-secondary);
+  --app-accent:var(--neon-purple);
+  --app-accent-dim:rgba(178,77,255,0.12);
+  --app-accent-glow:rgba(178,77,255,0.22);
+  --font-ui:var(--font-main);
 
   /* User tokens — start grey */
   --u-primary:#c4bfb8;
@@ -51,7 +65,80 @@
 }
 
 html,body{min-height:100vh}
-body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);overflow-x:hidden}
+body{
+  font-family:var(--font-ui);
+  background:var(--app-bg);
+  color:var(--app-text);
+  overflow-x:hidden;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255,45,120,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 10%, rgba(0,240,255,0.05) 0%, transparent 50%);
+}
+
+/* ─── Lab chrome: topbar, hero, page shell ─── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.5rem;
+  padding-top:calc(.75rem + env(safe-area-inset-top));
+  background:rgba(10,10,26,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.back-link{
+  color:var(--text-secondary);text-decoration:none;font-size:.88rem;font-weight:500;
+  transition:color .2s var(--ease);
+}
+.back-link:hover{color:var(--neon-cyan);}
+.topbar-right{display:flex;align-items:center;gap:1rem;}
+.cta-case{
+  font-size:.8rem;color:var(--text-secondary);background:none;border:none;cursor:pointer;
+  font-family:var(--font-main);padding:.25rem 0;text-decoration:underline;text-underline-offset:2px;
+  transition:color .2s;
+}
+.cta-case:hover{color:var(--neon-cyan);}
+.cta-case-mobile{display:none;}
+@media (max-width:640px){
+  .cta-case-desktop{display:none;}
+  .cta-case-mobile{display:inline;}
+}
+.page-shell{padding-top:calc(56px + env(safe-area-inset-top));}
+@media (max-width:640px){
+  .topbar{padding-left:1rem;padding-right:1rem;}
+}
+.product-hero{
+  text-align:center;padding:1rem 1.25rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  background:rgba(10,10,26,.4);
+}
+.product-hero-title{
+  font-size:clamp(1.35rem,3.5vw,1.85rem);
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:.5rem;
+  line-height:1.15;
+}
+.product-hero-title .hl{color:var(--neon-purple);text-shadow:0 0 20px rgba(178,77,255,.35);}
+.product-hero-intro{
+  font-size:.92rem;
+  color:var(--text-secondary);
+  max-width:28rem;
+  margin:0 auto;
+  line-height:1.55;
+}
+.sticky-toolbar{
+  position:sticky;
+  top:56px;
+  top:calc(56px + env(safe-area-inset-top));
+  z-index:95;
+  background:var(--bg-deep);
+}
+@media (max-width:640px){
+  .sticky-toolbar{top:52px;top:calc(52px + env(safe-area-inset-top));}
+}
 
 /* ══════════════════════════════════════
    TOP HEADER — always visible
@@ -59,7 +146,8 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .app-header{
   background:var(--app-surface);
   border-bottom:1px solid var(--app-border);
-  position:sticky;top:0;z-index:100;
+  position:relative;
+  z-index:1;
 }
 
 /* ── State 1: Configure bar ── */
@@ -88,10 +176,10 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 /* Color picker rows */
 .hdr-color{
   display:flex;align-items:center;gap:8px;
-  background:var(--app-bg);border:1px solid var(--app-border);
+  background:var(--app-surface2);border:1px solid var(--app-border);
   border-radius:10px;padding:8px 12px;
   cursor:pointer;position:relative;
-  transition:all 0.25s;flex-shrink:0;
+  transition:border-color .25s var(--ease),box-shadow .25s var(--ease);flex-shrink:0;
 }
 .hdr-color:hover{border-color:var(--app-border2)}
 .hdr-color.active-step{
@@ -101,7 +189,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .hdr-color.active-step .hdr-swatch{
   box-shadow:0 0 0 2px var(--app-accent-glow);
 }
-.hdr-color.done-step{border-color:rgba(124,58,237,0.2)}
+.hdr-color.done-step{border-color:rgba(178,77,255,0.28)}
 .hdr-color.dimmed{opacity:0.35;pointer-events:none}
 
 .hdr-swatch{
@@ -123,23 +211,27 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .pulse-ring{
   position:absolute;inset:-3px;border-radius:13px;
   border:1.5px solid var(--app-accent);
-  animation:pulse 1.8s ease-in-out infinite;
+  animation:pulse 1.8s var(--ease) infinite;
   pointer-events:none;
 }
 @keyframes pulse{0%,100%{opacity:0.8;transform:scale(1)}50%{opacity:0.1;transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){
+  .pulse-ring{animation:none;opacity:0.5;}
+}
 
 /* Step tooltip */
 .step-tip{
   position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
-  background:var(--app-text);color:#fff;
+  background:var(--bg-card);color:var(--text-primary);
+  border:1px solid var(--border);
   font-family:var(--font-mono);font-size:10px;
   padding:5px 10px;border-radius:7px;white-space:nowrap;
   pointer-events:none;z-index:200;
-  animation:tipIn 0.25s ease both;
+  animation:tipIn .25s var(--ease) both;
 }
 .step-tip::before{
   content:'';position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-  border:5px solid transparent;border-bottom-color:var(--app-text);
+  border:5px solid transparent;border-bottom-color:var(--border);
 }
 @keyframes tipIn{from{opacity:0;transform:translateX(-50%) translateY(-4px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
@@ -149,10 +241,10 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 /* Font dropdown */
 .hdr-font{
   display:flex;align-items:center;gap:8px;
-  background:var(--app-bg);border:1px solid var(--app-border);
+  background:var(--app-surface2);border:1px solid var(--app-border);
   border-radius:10px;padding:8px 12px;
   cursor:pointer;position:relative;
-  transition:all 0.25s;flex-shrink:0;min-width:160px;
+  transition:border-color .25s var(--ease);flex-shrink:0;min-width:160px;
 }
 .hdr-font:hover{border-color:var(--app-border2)}
 .hdr-font.dimmed{opacity:0.35;pointer-events:none}
@@ -163,9 +255,9 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 /* Font dropdown panel */
 .font-dropdown{
   position:absolute;top:calc(100% + 6px);left:0;
-  background:var(--app-surface);border:1px solid var(--app-border);
+  background:var(--bg-card);border:1px solid var(--app-border);
   border-radius:12px;padding:6px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.1);
+  box-shadow:0 12px 40px rgba(0,0,0,0.45);
   min-width:220px;z-index:300;
   display:none;
 }
@@ -176,7 +268,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
   padding:9px 12px;border-radius:8px;cursor:pointer;
   transition:background 0.15s;
 }
-.font-opt:hover{background:var(--app-bg)}
+.font-opt:hover{background:var(--app-surface2)}
 .font-opt.selected{background:var(--app-accent-dim)}
 .font-opt-name{font-size:13px;font-weight:500;color:var(--app-text)}
 .font-opt-check{
@@ -189,7 +281,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 /* Stack selector */
 .hdr-stack{
   display:flex;align-items:center;gap:6px;
-  background:var(--app-bg);border:1px solid var(--app-border);
+  background:var(--app-surface2);border:1px solid var(--app-border);
   border-radius:10px;padding:6px;flex-shrink:0;
 }
 .stack-btn{
@@ -199,8 +291,8 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
   border:none;background:transparent;color:var(--app-muted);
   transition:all 0.15s;letter-spacing:0.02em;
 }
-.stack-btn:hover{background:var(--app-surface2);color:var(--app-text)}
-.stack-btn.selected{background:var(--app-accent);color:#fff}
+.stack-btn:hover{background:rgba(255,255,255,.06);color:var(--app-text)}
+.stack-btn.selected{background:var(--app-accent);color:#0a0a1a}
 .stack-btn-icon{width:16px;height:16px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--font-mono)}
 
 /* Generate CTA */
@@ -208,14 +300,15 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
   margin-left:16px;flex-shrink:0;
   display:flex;align-items:center;gap:8px;
   padding:10px 20px;border-radius:10px;
-  background:var(--app-accent);color:#fff;
+  background:var(--app-accent);color:#0a0a1a;
   font-family:var(--font-ui);font-size:13px;font-weight:600;
   border:none;cursor:pointer;
-  transition:all 0.3s;letter-spacing:0.02em;
+  transition:opacity .3s var(--ease),transform .2s var(--ease),box-shadow .25s var(--ease);
+  letter-spacing:0.02em;
   opacity:0.4;pointer-events:none;
 }
 .generate-cta.ready{opacity:1;pointer-events:auto}
-.generate-cta.ready:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(124,58,237,0.3)}
+.generate-cta.ready:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(178,77,255,0.35)}
 .generate-cta.ready:active{transform:translateY(0)}
 
 /* ── State 2: Collapsed bar ── */
@@ -229,21 +322,21 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .collapsed-colors{display:flex;align-items:center;gap:6px}
 .collapsed-swatch{
   width:22px;height:22px;border-radius:6px;
-  border:1.5px solid rgba(0,0,0,0.08);
+  border:1.5px solid rgba(255,255,255,0.12);
 }
 .collapsed-label{font-size:12px;color:var(--app-muted)}
 .collapsed-font{font-size:12px;font-weight:500;color:var(--app-text)}
 .collapsed-stack{
   font-family:var(--font-mono);font-size:10px;font-weight:600;
   padding:2px 8px;border-radius:999px;
-  background:var(--app-accent-dim);color:var(--app-accent);
-  border:1px solid rgba(124,58,237,0.15);
+  background:var(--app-accent-dim);color:var(--neon-purple);
+  border:1px solid rgba(178,77,255,0.25);
 }
 .edit-btn{
   margin-left:auto;
   display:flex;align-items:center;gap:6px;
   padding:6px 14px;border-radius:8px;
-  background:var(--app-bg);border:1px solid var(--app-border);
+  background:var(--app-surface2);border:1px solid var(--app-border);
   font-family:var(--font-ui);font-size:12px;font-weight:600;
   color:var(--app-text);cursor:pointer;transition:all 0.15s;
 }
@@ -258,8 +351,8 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
   cursor:pointer;transition:all 0.2s;border:none;
 }
 .dl-btn-primary{background:var(--app-accent);color:#fff}
-.dl-btn-primary:hover{box-shadow:0 4px 14px rgba(124,58,237,0.3);transform:translateY(-1px)}
-.dl-btn-secondary{background:var(--app-surface);color:var(--app-text);border:1px solid var(--app-border)}
+.dl-btn-primary:hover{box-shadow:0 0 20px rgba(178,77,255,0.35);transform:translateY(-1px)}
+.dl-btn-secondary{background:var(--app-surface2);color:var(--app-text);border:1px solid var(--app-border)}
 .dl-btn-secondary:hover{border-color:var(--app-border2)}
 .dl-btn.flashed{background:rgba(22,163,74,0.1)!important;color:#15803d!important;border-color:rgba(22,163,74,0.25)!important}
 
@@ -268,7 +361,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 ══════════════════════════════════════ */
 .tabs-nav{
   display:none;
-  background:var(--app-surface);
+  background:var(--bg-deep);
   border-bottom:1px solid var(--app-border);
   padding:0 32px;
   overflow-x:auto;
@@ -294,7 +387,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 /* ══════════════════════════════════════
    MAIN CONTENT
 ══════════════════════════════════════ */
-.main-content{max-width:1060px;margin:0 auto;padding:40px 32px 80px}
+.main-content{max-width:1060px;margin:0 auto;padding:40px 32px 5rem}
 
 /* Empty state */
 .empty-screen{
@@ -303,7 +396,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 }
 .empty-icon{
   width:64px;height:64px;border-radius:20px;
-  background:var(--app-accent-dim);border:1px solid rgba(124,58,237,0.12);
+  background:var(--app-accent-dim);border:1px solid rgba(178,77,255,0.2);
   display:flex;align-items:center;justify-content:center;margin-bottom:8px;
 }
 .empty-title{font-size:20px;font-weight:700;color:var(--app-text);letter-spacing:-0.3px}
@@ -369,7 +462,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .ck{color:#93c5fd}.cs{color:#a5d6ff}.cc{color:#6b7280}.cv{color:#fca5a5}.cn{color:#d6d0c8}
 
 /* Token cards */
-.token-card{background:var(--app-surface);border:1px solid var(--app-border);border-radius:10px;overflow:hidden}
+.token-card{background:var(--bg-card);border:1px solid var(--app-border);border-radius:10px;overflow:hidden}
 .token-swatch{height:44px}
 .token-info{padding:8px 10px}
 .token-name{font-size:11px;font-weight:700;margin-bottom:2px;color:var(--app-text);font-family:var(--font-mono)}
@@ -488,10 +581,154 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
 .u-tooltip-wrap{position:relative;display:inline-flex}
 .u-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--u-text);color:#fff;font-size:11px;font-weight:500;padding:5px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.15s;font-family:var(--u-font)}
 .u-tooltip-wrap:hover .u-tooltip{opacity:1}
+
+/* ─── Lab footer + vote ─── */
+.lab-footer{
+  text-align:center;
+  padding:1.5rem 1rem 2rem;
+  border-top:1px solid var(--border);
+  font-size:.82rem;
+  color:var(--text-secondary);
+  background:var(--bg-deep);
+}
+.lab-footer p{margin:0 0 .75rem;line-height:1.5;}
+.lab-footer a{color:var(--text-secondary);text-decoration:none;transition:color .2s;}
+.lab-footer a:hover{color:var(--neon-cyan);}
+.vote-widget{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.35rem;
+  margin-top:.25rem;
+  font:inherit;
+}
+.vote-label{font-size:.78rem;color:var(--text-secondary);}
+.vote-nums{display:inline-flex;gap:.45rem;font-size:.95rem;}
+.vote-num{
+  cursor:pointer;color:var(--text-secondary);transition:color .15s;
+  min-width:1.2em;text-align:center;
+}
+.vote-num:hover,.vote-num.vote-selected{color:var(--neon-pink);}
+.vote-num.vote-grey{color:var(--text-muted);}
+.vote-thanks{font-size:.75rem;color:var(--text-muted);}
+.vote-thanks[hidden]{display:none!important;}
+
+/* ─── Modal: From idea to prototype ─── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(4px);
+  display:none;align-items:flex-end;justify-content:center;
+  padding:0;opacity:0;
+  transition:opacity .25s var(--ease);
+}
+.modal-overlay.is-open{display:flex;opacity:1;}
+@media (min-width:640px){
+  .modal-overlay.is-open{align-items:center;padding:2rem;}
+}
+.modal-panel{
+  position:relative;width:100%;max-height:85vh;
+  background:var(--bg-deep);
+  border:1px solid var(--border);
+  border-radius:16px 16px 0 0;
+  box-shadow:0 -4px 40px rgba(0,0,0,.4);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .35s var(--ease);
+  overflow:hidden;
+}
+.modal-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--neon-pink),var(--neon-cyan));
+  z-index:1;
+}
+.modal-overlay.is-open .modal-panel{transform:translateY(0);}
+@media (min-width:640px){
+  .modal-panel{
+    max-width:440px;max-height:80vh;border-radius:16px;
+    transform:scale(.95);
+  }
+  .modal-overlay.is-open .modal-panel{transform:scale(1);}
+}
+.modal-drag{
+  display:block;width:36px;height:4px;background:var(--border);
+  border-radius:2px;margin:.75rem auto 0;flex-shrink:0;
+}
+@media (min-width:640px){.modal-drag{display:none;}}
+.modal-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:.75rem;padding:1rem 1.25rem .75rem;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.modal-header-text{min-width:0;}
+.modal-title{
+  font-size:1rem;font-weight:700;color:var(--neon-pink);margin:0;
+}
+.modal-subtitle{font-size:.8rem;color:var(--text-secondary);margin:.25rem 0 0;}
+.modal-close{
+  width:36px;height:36px;border:none;background:transparent;
+  color:var(--text-secondary);font-size:1.25rem;cursor:pointer;
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  transition:color .2s,background .2s;
+}
+.modal-close:hover{color:var(--text-primary);background:rgba(255,255,255,.06);}
+.modal-body{
+  padding:1rem 1.25rem 1.5rem;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.modal-body .label{
+  font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--neon-cyan);margin:.75rem 0 .25rem;opacity:.95;
+}
+.modal-body .label:first-child{margin-top:0;}
+.modal-body p{
+  font-size:.88rem;color:var(--text-secondary);line-height:1.6;margin:0 0 .35rem;
+}
+.modal-body p strong{color:var(--text-primary);}
+.modal-cta{
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:.5rem;
+}
+.modal-cta a{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.5rem 1rem;border-radius:999px;font-size:.85rem;font-weight:600;
+  text-decoration:none;font-family:var(--font-main);
+  transition:box-shadow .2s,transform .2s;
+}
+.modal-cta .btn-primary{
+  background:var(--neon-pink);color:#0a0a1a;border:none;
+}
+.modal-cta .btn-primary:hover{
+  box-shadow:0 0 20px rgba(255,45,120,.4);transform:translateY(-1px);
+}
+.modal-cta .btn-secondary{
+  background:transparent;color:var(--text-secondary);border:1px solid var(--border);
+}
+.modal-cta .btn-secondary:hover{color:var(--neon-cyan);border-color:var(--neon-cyan);}
+
+@media (prefers-reduced-motion:reduce){
+  .modal-panel,.modal-overlay{transition-duration:.01ms!important;}
+  .ds-section{animation:none;}
+}
 </style>
 </head>
 <body>
 
+<nav class="topbar">
+  <a href="/" class="back-link">&larr; AI Proto Lab</a>
+  <div class="topbar-right">
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype →</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story →</button>
+  </div>
+</nav>
+
+<div class="page-shell">
+  <header class="product-hero">
+    <h1 class="product-hero-title"><span class="hl">Design System</span> Generator</h1>
+    <p class="product-hero-intro">Pick three brand colors, a typeface, and a stack. We generate tokens, live previews, and CSS or Tailwind exports.</p>
+  </header>
+
+<div class="sticky-toolbar">
 <!-- ══════════════════════════════════════
      HEADER
 ══════════════════════════════════════ -->
@@ -621,6 +858,7 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
     <button class="tab-btn" onclick="showTab('s-navigation',this)">Navigation</button>
   </div>
 </nav>
+</div><!-- /.sticky-toolbar -->
 
 <!-- ══════════════════════════════════════
      MAIN
@@ -667,20 +905,20 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
           <div class="type-row"><span class="type-meta">2xl · 1.5rem</span><span style="font-size:1.5rem;font-weight:700;color:var(--u-text);font-family:var(--u-font)">Section title</span></div>
           <div class="type-row"><span class="type-meta">xl · 1.25rem</span><span style="font-size:1.25rem;font-weight:600;color:var(--u-text);font-family:var(--u-font)">Card heading</span></div>
           <div class="type-row"><span class="type-meta">lg · 1.125rem</span><span style="font-size:1.125rem;font-weight:500;color:var(--u-text);font-family:var(--u-font)">Large body text</span></div>
-          <div class="type-row"><span class="type-meta">base · 1rem</span><span style="font-size:1rem;color:var(--u-text);font-family:var(--u-font)">Body text — the quick brown fox jumps</span></div>
-          <div class="type-row"><span class="type-meta">sm · 0.875rem</span><span style="font-size:0.875rem;color:var(--u-text);font-family:var(--u-font)">Small text — supporting copy</span></div>
-          <div class="type-row"><span class="type-meta">xs · 0.75rem</span><span style="font-size:0.75rem;color:var(--u-text-muted);font-family:var(--u-font)">Caption — metadata and labels</span></div>
+          <div class="type-row"><span class="type-meta">base · 1rem</span><span style="font-size:1rem;color:var(--u-text);font-family:var(--u-font)">Body text: the quick brown fox jumps</span></div>
+          <div class="type-row"><span class="type-meta">sm · 0.875rem</span><span style="font-size:0.875rem;color:var(--u-text);font-family:var(--u-font)">Small text: supporting copy</span></div>
+          <div class="type-row"><span class="type-meta">xs · 0.75rem</span><span style="font-size:0.75rem;color:var(--u-text-muted);font-family:var(--u-font)">Caption: metadata and labels</span></div>
         </div>
         <div class="code-block" id="code-typography"><button class="copy-btn" onclick="copyCode(this)">Copy</button><span id="snippet-typography"></span></div>
       </div>
       <div class="component-group">
         <div class="group-label">Font weights</div>
         <div class="preview preview-standalone column" style="gap:10px">
-          <span style="font-size:1rem;font-weight:400;color:var(--u-text);font-family:var(--u-font)">Regular 400 — body copy</span>
-          <span style="font-size:1rem;font-weight:500;color:var(--u-text);font-family:var(--u-font)">Medium 500 — navigation labels</span>
-          <span style="font-size:1rem;font-weight:600;color:var(--u-text);font-family:var(--u-font)">Semibold 600 — card titles</span>
-          <span style="font-size:1rem;font-weight:700;color:var(--u-text);font-family:var(--u-font)">Bold 700 — headings and CTAs</span>
-          <span style="font-size:1rem;font-weight:800;color:var(--u-text);font-family:var(--u-font)">Extrabold 800 — display text</span>
+          <span style="font-size:1rem;font-weight:400;color:var(--u-text);font-family:var(--u-font)">Regular 400: body copy</span>
+          <span style="font-size:1rem;font-weight:500;color:var(--u-text);font-family:var(--u-font)">Medium 500: navigation labels</span>
+          <span style="font-size:1rem;font-weight:600;color:var(--u-text);font-family:var(--u-font)">Semibold 600: card titles</span>
+          <span style="font-size:1rem;font-weight:700;color:var(--u-text);font-family:var(--u-font)">Bold 700: headings and CTAs</span>
+          <span style="font-size:1rem;font-weight:800;color:var(--u-text);font-family:var(--u-font)">Extrabold 800: display text</span>
         </div>
       </div>
     </div>
@@ -952,6 +1190,54 @@ body{font-family:var(--font-ui);background:var(--app-bg);color:var(--app-text);o
   </div><!-- /ds-content -->
 </main>
 
+</div><!-- /.page-shell -->
+
+<footer class="lab-footer">
+  <p>Part of <a href="/">AI Proto Lab</a>. From palette to production files.</p>
+  <div class="vote-widget" data-project="design-system-generator" aria-label="Rate this prototype">
+    <span class="vote-label">Rate this prototype</span>
+    <span class="vote-nums">
+      <span class="vote-num" data-value="1">1</span>
+      <span class="vote-num" data-value="2">2</span>
+      <span class="vote-num" data-value="3">3</span>
+      <span class="vote-num" data-value="4">4</span>
+      <span class="vote-num" data-value="5">5</span>
+    </span>
+    <span class="vote-thanks" id="vote-thanks" aria-live="polite" hidden>Thanks</span>
+  </div>
+</footer>
+
+<div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal-panel">
+    <span class="modal-drag" aria-hidden="true"></span>
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h2 class="modal-title" id="modal-title">From idea to prototype</h2>
+        <p class="modal-subtitle">Built in focused sessions.</p>
+      </div>
+      <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="label">What problem and for whom</p>
+      <p><strong>For whom:</strong> Anyone who needs a coherent design system without starting from a blank Figma file.</p>
+      <p><strong>Problem:</strong> Brand colors and tokens scatter across repos. Preview and export should live in one place.</p>
+      <p><strong>This:</strong> You pick colors, a typeface, and a stack. We generate tokens, component previews, and downloadable files.</p>
+      <p class="label">The iteration</p>
+      <p>The first version was a single HTML page so the loop stayed fast: tweak inputs, see the preview, copy or download. The lab shell came later so it feels like the rest of AI Proto Lab.</p>
+      <p class="label">What AI could and could not do</p>
+      <p>AI helped explore layout and token naming. It does not replace your judgment on contrast and brand. You still pick the three colors that matter.</p>
+      <p class="label">Minimum viable effort</p>
+      <p>Three colors, one font, one stack. Generate. Export. Done.</p>
+      <p class="label">Get in touch</p>
+      <div class="modal-cta">
+        <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">Email</a>
+        <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/rating-vote.js"></script>
 <script>
 // ── DATA ──
 const FONTS = [
@@ -1047,6 +1333,7 @@ function toggleFontDropdown(e){
 function selectFont(name, e){
   if(e) e.stopPropagation();
   selectedFont = name;
+  ensureFontLoaded(name);
   document.getElementById('font-display').textContent = name;
   document.getElementById('font-dropdown').classList.remove('open');
   renderFontDropdown();
@@ -1100,7 +1387,7 @@ function advanceStep(key){
   } else if(picked.primary && picked.secondary && !picked.accent){
     hS.classList.replace('active-step','done-step');
     hA.classList.remove('dimmed'); hA.classList.add('active-step');
-    addHint('hdr-accent','Last one — Accent ✦');
+    addHint('hdr-accent','Last one: Accent ✦');
   } else if(picked.primary && picked.secondary && picked.accent){
     hA.classList.replace('active-step','done-step');
     font.classList.remove('dimmed');
@@ -1301,9 +1588,83 @@ function flashBtn(id){
   setTimeout(()=>{btn.innerHTML=orig;btn.classList.remove('flashed')},2000);
 }
 
+function ensureFontLoaded(name){
+  if(!name) return;
+  if(!window.__dsgLoadedFonts) window.__dsgLoadedFonts = new Set();
+  if(window.__dsgLoadedFonts.has(name)) return;
+  window.__dsgLoadedFonts.add(name);
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(name).replace(/%20/g,'+') + ':wght@400;500;600;700;800&display=swap';
+  document.head.appendChild(link);
+}
+
 // ── INIT ──
+ensureFontLoaded(selectedFont);
 renderFontDropdown();
 setupPickers();
+</script>
+<script>
+(function () {
+  var project = 'design-system-generator';
+  var key = 'rating_' + project;
+  var widget = document.querySelector('.vote-widget[data-project="' + project + '"]');
+  var thanks = document.getElementById('vote-thanks');
+  if (widget && thanks) {
+    var nums = widget.querySelectorAll('.vote-num');
+    thanks.setAttribute('hidden', '');
+    var saved = localStorage.getItem(key);
+    if (saved) {
+      var v = parseInt(saved, 10);
+      nums.forEach(function (n) {
+        var val = parseInt(n.getAttribute('data-value'), 10);
+        n.classList.toggle('vote-selected', val === v);
+        n.classList.toggle('vote-grey', val !== v);
+      });
+      thanks.removeAttribute('hidden');
+    }
+    nums.forEach(function (n) {
+      n.addEventListener('click', function () {
+        if (localStorage.getItem(key)) return;
+        var val = parseInt(this.getAttribute('data-value'), 10);
+        if (typeof saveRating === 'function') saveRating(project, val);
+        nums.forEach(function (x) {
+          var xv = parseInt(x.getAttribute('data-value'), 10);
+          x.classList.toggle('vote-selected', xv === val);
+          x.classList.toggle('vote-grey', xv !== val);
+        });
+        thanks.removeAttribute('hidden');
+      });
+    });
+  }
+})();
+</script>
+<script>
+(function () {
+  var overlay = document.getElementById('case-modal');
+  var openBtns = document.querySelectorAll('.js-open-case');
+  var closeBtn = document.querySelector('.js-close-modal');
+  if (!overlay || !openBtns.length || !closeBtn) return;
+  function openModal() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+  });
+})();
 </script>
 </body>
 </html>
