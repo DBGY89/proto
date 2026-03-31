@@ -331,17 +331,34 @@ body{
   border:1px solid rgba(124,58,237,0.15);
 }
 .edit-btn{
-  margin-left:auto;
   display:flex;align-items:center;gap:6px;
   padding:6px 14px;border-radius:8px;
   background:var(--app-bg);border:1px solid var(--app-border);
   font-family:var(--font-ui);font-size:12px;font-weight:600;
   color:var(--app-text);cursor:pointer;transition:all 0.15s;
+  flex-shrink:0;
 }
 .edit-btn:hover{border-color:var(--app-border2)}
 
-/* Download group in collapsed */
-.collapsed-downloads{display:flex;gap:8px;margin-left:16px}
+/* Download group in collapsed (pushed right; label stays one line when space allows) */
+.collapsed-downloads-wrap{
+  display:flex;align-items:center;gap:10px;
+  margin-left:auto;
+  flex-shrink:0;
+  min-width:0;
+}
+.collapsed-downloads-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:var(--app-muted);
+  line-height:1.2;
+  white-space:nowrap;
+}
+.collapsed-downloads-icon{
+  flex-shrink:0;color:var(--app-accent);opacity:.9;
+}
+.collapsed-downloads{display:flex;gap:8px;flex-wrap:wrap}
 .dl-btn{
   display:flex;align-items:center;gap:6px;
   padding:7px 14px;border-radius:8px;
@@ -846,9 +863,20 @@ body{
     gap:10px;
     align-items:center;
   }
-  .collapsed-downloads{
+  .collapsed-downloads-wrap{
     width:100%;
     margin-left:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .collapsed-downloads-label{
+    max-width:none;
+    font-size:10px;
+    white-space:normal;
+  }
+  .collapsed-downloads{
+    width:100%;
     flex-wrap:wrap;
     justify-content:flex-start;
     gap:8px;
@@ -1019,7 +1047,13 @@ body{
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 2a1.414 1.414 0 012 2L5 12l-3 1 1-3z"/></svg>
       Edit
     </button>
-    <div class="collapsed-downloads" id="collapsed-downloads"></div>
+    <div class="collapsed-downloads-wrap" role="group" aria-labelledby="collapsed-downloads-label-text">
+      <span class="collapsed-downloads-label" id="collapsed-downloads-label-text">
+        <svg class="collapsed-downloads-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download your system files
+      </span>
+      <div class="collapsed-downloads" id="collapsed-downloads"></div>
+    </div>
   </div>
 
 </header>
