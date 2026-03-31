@@ -157,19 +157,6 @@ body{
   padding:0 32px;height:72px;
 }
 
-.header-logo{
-  display:flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:700;letter-spacing:0.1em;
-  text-transform:uppercase;color:var(--app-text);
-  margin-right:32px;flex-shrink:0;
-}
-.logo-mark{
-  width:28px;height:28px;border-radius:8px;
-  background:var(--app-accent);
-  display:flex;align-items:center;justify-content:center;
-}
-.logo-mark svg{display:block}
-
 .header-inputs{
   display:flex;align-items:center;gap:12px;flex:1;
 }
@@ -193,19 +180,52 @@ body{
 .hdr-color.done-step{border-color:rgba(124,58,237,0.2)}
 .hdr-color.dimmed{opacity:0.35;pointer-events:none}
 
+.hdr-swatch-wrap{
+  position:relative;
+  width:28px;height:28px;
+  flex-shrink:0;
+  border-radius:7px;
+}
 .hdr-swatch{
-  width:28px;height:28px;border-radius:7px;flex-shrink:0;
+  width:100%;height:100%;border-radius:7px;
   border:1.5px solid rgba(0,0,0,0.07);transition:transform 0.2s;
+  pointer-events:none;
 }
 .hdr-color:hover .hdr-swatch{transform:scale(1.08)}
-
-.hdr-color-info{display:flex;flex-direction:column;gap:1px}
-.hdr-color-label{font-size:11px;font-weight:600;color:var(--app-text);line-height:1}
-.hdr-color-hex{font-family:var(--font-mono);font-size:10px;color:var(--app-muted);line-height:1}
-
-.hdr-color input[type="color"]{
+.hdr-swatch-wrap input[type="color"]{
   position:absolute;inset:0;opacity:0;cursor:pointer;
   width:100%;height:100%;border:none;padding:0;
+  touch-action:manipulation;
+}
+
+.hdr-color-info{
+  display:flex;flex-direction:column;gap:5px;
+  align-items:flex-start;min-width:0;flex:1;
+}
+.hdr-color-label{font-size:11px;font-weight:600;color:var(--app-text);line-height:1}
+.hdr-hex-input{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  width:100%;
+  max-width:7.75rem;
+  padding:5px 8px;
+  border:1px solid var(--app-border);
+  border-radius:6px;
+  background:var(--app-surface);
+  color:var(--app-text);
+  text-transform:uppercase;
+  box-sizing:border-box;
+}
+.hdr-hex-input::placeholder{
+  color:var(--app-muted);
+  text-transform:none;
+  font-weight:400;
+}
+.hdr-hex-input:focus{
+  outline:none;
+  border-color:var(--app-accent);
+  box-shadow:0 0 0 2px var(--app-accent-dim);
 }
 
 /* Pulse ring */
@@ -725,23 +745,47 @@ body{
     padding:12px 16px;
     gap:12px;
   }
-  .header-logo{
-    margin-right:0;
-    align-self:flex-start;
-  }
   .header-inputs{
-    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
     width:100%;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    overscroll-behavior-x:contain;
-    flex-wrap:nowrap;
+    overflow-x:visible;
     gap:10px;
-    padding:2px 0 6px;
-    scrollbar-width:thin;
+    padding:0;
   }
-  .header-inputs::-webkit-scrollbar{height:4px;}
-  .header-inputs::-webkit-scrollbar-thumb{background:var(--app-border2);border-radius:4px;}
+  .header-inputs > .hdr-sep{display:none;}
+  .hdr-color{
+    width:100%;
+    min-width:0;
+    flex-shrink:0;
+    align-items:center;
+    padding:10px 12px;
+    min-height:52px;
+  }
+  .hdr-hex-input{
+    max-width:100%;
+    min-height:40px;
+    font-size:12px;
+  }
+  .hdr-swatch-wrap{
+    width:44px;height:44px;
+  }
+  .hdr-stack{
+    width:100%;
+    justify-content:stretch;
+    gap:8px;
+  }
+  .stack-btn{
+    flex:1 1 0;
+    min-width:0;
+    justify-content:center;
+    min-height:44px;
+  }
+  .hdr-font{
+    width:100%;
+    min-width:0;
+  }
   .generate-cta{
     margin-left:0;
     width:100%;
@@ -829,44 +873,43 @@ body{
 
   <!-- Configure state -->
   <div class="header-configure" id="header-configure">
-    <div class="header-logo">
-      <div class="logo-mark">
-        <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="4" height="4" rx="1"/><rect x="8" y="2" width="4" height="4" rx="1"/><rect x="2" y="8" width="4" height="4" rx="1"/><rect x="8" y="8" width="4" height="4" rx="1"/></svg>
-      </div>
-      DSG
-    </div>
-
     <div class="header-inputs">
       <!-- Primary -->
       <div class="hdr-color active-step" id="hdr-primary">
         <div class="pulse-ring"></div>
-        <div class="hdr-swatch" id="swatch-primary" style="background:#c4bfb8"></div>
+        <div class="hdr-swatch-wrap">
+          <div class="hdr-swatch" id="swatch-primary" style="background:#c4bfb8"></div>
+          <input type="color" id="picker-primary" value="#2563eb" aria-label="Choose primary brand color">
+        </div>
         <div class="hdr-color-info">
           <span class="hdr-color-label">Primary</span>
-          <span class="hdr-color-hex" id="hex-primary">Pick color</span>
+          <input type="text" class="hdr-hex-input" id="hex-input-primary" placeholder="#2563eb" inputmode="text" autocomplete="off" spellcheck="false" maxlength="7">
         </div>
         <div class="step-tip">Start here ✦</div>
-        <input type="color" id="picker-primary" value="#2563eb">
       </div>
 
       <!-- Secondary -->
       <div class="hdr-color dimmed" id="hdr-secondary">
-        <div class="hdr-swatch" id="swatch-secondary" style="background:#c4bfb8"></div>
+        <div class="hdr-swatch-wrap">
+          <div class="hdr-swatch" id="swatch-secondary" style="background:#c4bfb8"></div>
+          <input type="color" id="picker-secondary" value="#7c3aed" aria-label="Choose secondary brand color">
+        </div>
         <div class="hdr-color-info">
           <span class="hdr-color-label">Secondary</span>
-          <span class="hdr-color-hex" id="hex-secondary">Pick color</span>
+          <input type="text" class="hdr-hex-input" id="hex-input-secondary" placeholder="#7c3aed" inputmode="text" autocomplete="off" spellcheck="false" maxlength="7">
         </div>
-        <input type="color" id="picker-secondary" value="#7c3aed">
       </div>
 
       <!-- Accent -->
       <div class="hdr-color dimmed" id="hdr-accent">
-        <div class="hdr-swatch" id="swatch-accent" style="background:#c4bfb8"></div>
+        <div class="hdr-swatch-wrap">
+          <div class="hdr-swatch" id="swatch-accent" style="background:#c4bfb8"></div>
+          <input type="color" id="picker-accent" value="#06b6d4" aria-label="Choose accent brand color">
+        </div>
         <div class="hdr-color-info">
           <span class="hdr-color-label">Accent</span>
-          <span class="hdr-color-hex" id="hex-accent">Pick color</span>
+          <input type="text" class="hdr-hex-input" id="hex-input-accent" placeholder="#06b6d4" inputmode="text" autocomplete="off" spellcheck="false" maxlength="7">
         </div>
-        <input type="color" id="picker-accent" value="#06b6d4">
       </div>
 
       <div class="hdr-sep"></div>
@@ -908,12 +951,6 @@ body{
 
   <!-- Collapsed state -->
   <div class="header-collapsed" id="header-collapsed">
-    <div class="header-logo" style="margin-right:20px">
-      <div class="logo-mark">
-        <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="4" height="4" rx="1"/><rect x="8" y="2" width="4" height="4" rx="1"/><rect x="2" y="8" width="4" height="4" rx="1"/><rect x="8" y="8" width="4" height="4" rx="1"/></svg>
-      </div>
-      DSG
-    </div>
     <div class="collapsed-colors">
       <div class="collapsed-swatch" id="c-swatch-primary"></div>
       <div class="collapsed-swatch" id="c-swatch-secondary"></div>
@@ -1475,18 +1512,75 @@ document.addEventListener('click', ()=>{
   clearFontDropdownFixed();
 });
 
-// ── COLOR PICKERS ──
+// ── COLOR PICKERS + HEX ──
+function normalizeHex(s){
+  if(!s||typeof s!=='string')return null;
+  s=s.trim();
+  if(s==='')return null;
+  if(s[0]!=='#')s='#'+s;
+  if(/^#[0-9a-fA-F]{3}$/.test(s)){
+    return('#'+s[1]+s[1]+s[2]+s[2]+s[3]+s[3]).toLowerCase();
+  }
+  if(/^#[0-9a-fA-F]{6}$/.test(s))return s.toLowerCase();
+  return null;
+}
+
+function applyColorKey(k,val){
+  if(!val)return;
+  colors[k]=val;
+  var sw=document.getElementById('swatch-'+k);
+  var hi=document.getElementById('hex-input-'+k);
+  var p=document.getElementById('picker-'+k);
+  if(p)p.value=val;
+  if(sw)sw.style.background=val;
+  if(hi)hi.value=val;
+}
+
 function setupPickers(){
-  ['primary','secondary','accent'].forEach(k=>{
-    const picker = document.getElementById(`picker-${k}`);
-    picker.addEventListener('input', e=>{
-      const val = e.target.value;
-      colors[k] = val;
-      document.getElementById(`swatch-${k}`).style.background = val;
-      document.getElementById(`hex-${k}`).textContent = val;
-      if(!picked[k]) advanceStep(k);
+  function commitHex(k){
+    var hi=document.getElementById('hex-input-'+k);
+    if(!hi)return;
+    var n=normalizeHex(hi.value);
+    if(n){
+      applyColorKey(k,n);
+      if(!picked[k])advanceStep(k);
       if(generated){tokens=generateTokens();applyTokens();}
-    });
+    }else if(colors[k]){
+      hi.value=colors[k];
+    }else{
+      var p=document.getElementById('picker-'+k);
+      if(p)hi.value=p.value;
+    }
+  }
+  ['primary','secondary','accent'].forEach(function(k){
+    var picker=document.getElementById('picker-'+k);
+    var hexIn=document.getElementById('hex-input-'+k);
+    if(picker){
+      picker.addEventListener('input',function(e){
+        var val=e.target.value;
+        applyColorKey(k,val);
+        if(!picked[k])advanceStep(k);
+        if(generated){tokens=generateTokens();applyTokens();}
+      });
+    }
+    if(hexIn){
+      hexIn.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){e.preventDefault();hexIn.blur();}
+      });
+      hexIn.addEventListener('blur',function(){commitHex(k);});
+      hexIn.addEventListener('paste',function(){
+        setTimeout(function(){commitHex(k);},0);
+      });
+    }
+  });
+  ['primary','secondary','accent'].forEach(function(k){
+    var p=document.getElementById('picker-'+k);
+    var hexIn=document.getElementById('hex-input-'+k);
+    if(p&&hexIn){
+      colors[k]=p.value;
+      hexIn.value=p.value;
+      document.getElementById('swatch-'+k).style.background=p.value;
+    }
   });
 }
 
