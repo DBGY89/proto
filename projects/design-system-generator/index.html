@@ -333,12 +333,18 @@ body{
 .edit-btn{
   display:flex;align-items:center;gap:6px;
   padding:6px 14px;border-radius:8px;
-  background:var(--app-bg);border:1px solid var(--app-border);
+  background:transparent;
+  border:1px solid var(--app-border);
   font-family:var(--font-ui);font-size:12px;font-weight:600;
-  color:var(--app-text);cursor:pointer;transition:all 0.15s;
+  color:var(--app-text);cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease);
   flex-shrink:0;
 }
-.edit-btn:hover{border-color:var(--app-border2)}
+.edit-btn:hover{
+  background:var(--app-accent-dim);
+  border-color:rgba(124,58,237,0.35);
+  color:var(--app-accent);
+}
 
 /* Download group in collapsed (pushed right; label stays one line when space allows) */
 .collapsed-downloads-wrap{
@@ -363,12 +369,11 @@ body{
   display:flex;align-items:center;gap:6px;
   padding:7px 14px;border-radius:8px;
   font-family:var(--font-ui);font-size:12px;font-weight:600;
-  cursor:pointer;transition:all 0.2s;border:none;
+  cursor:pointer;transition:box-shadow .2s var(--ease),transform .2s var(--ease),background .2s,color .2s,border-color .2s;
+  border:1px solid var(--app-accent);
+  background:var(--app-accent);color:#fff;
 }
-.dl-btn-primary{background:var(--app-accent);color:#fff}
-.dl-btn-primary:hover{box-shadow:0 4px 14px rgba(124,58,237,0.3);transform:translateY(-1px)}
-.dl-btn-secondary{background:var(--app-surface);color:var(--app-text);border:1px solid var(--app-border)}
-.dl-btn-secondary:hover{border-color:var(--app-border2)}
+.dl-btn:hover{box-shadow:0 4px 14px rgba(124,58,237,0.3);transform:translateY(-1px)}
 .dl-btn.flashed{background:rgba(22,163,74,0.1)!important;color:#15803d!important;border-color:rgba(22,163,74,0.25)!important}
 
 /* ══════════════════════════════════════
@@ -1043,10 +1048,7 @@ body{
     <span class="collapsed-font" id="c-font"></span>
     <span class="collapsed-label">·</span>
     <span class="collapsed-stack" id="c-stack"></span>
-    <button class="edit-btn" onclick="editSystem()">
-      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 2a1.414 1.414 0 012 2L5 12l-3 1 1-3z"/></svg>
-      Edit
-    </button>
+    <button type="button" class="edit-btn" onclick="editSystem()">Edit</button>
     <div class="collapsed-downloads-wrap" role="group" aria-labelledby="collapsed-downloads-label-text">
       <span class="collapsed-downloads-label" id="collapsed-downloads-label-text">
         <svg class="collapsed-downloads-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -1763,11 +1765,11 @@ function showTab(id, btn){
 function renderDownloadButtons(){
   const g = document.getElementById('collapsed-downloads');
   if(selectedStack==='shadcn'){
-    g.innerHTML=`<button class="dl-btn dl-btn-secondary" id="btn-twcfg" onclick="downloadTailwindConfig()">tailwind.config.js</button><button class="dl-btn dl-btn-primary" id="btn-globals" onclick="downloadGlobals()">globals.css</button>`;
+    g.innerHTML=`<button type="button" class="dl-btn" id="btn-twcfg" onclick="downloadTailwindConfig()">tailwind.config.js</button><button type="button" class="dl-btn" id="btn-globals" onclick="downloadGlobals()">globals.css</button>`;
   } else if(selectedStack==='tailwind'){
-    g.innerHTML=`<button class="dl-btn dl-btn-primary" id="btn-twcfg" onclick="downloadTailwindConfig()">tailwind.config.js</button>`;
+    g.innerHTML=`<button type="button" class="dl-btn" id="btn-twcfg" onclick="downloadTailwindConfig()">tailwind.config.js</button>`;
   } else {
-    g.innerHTML=`<button class="dl-btn dl-btn-secondary" id="btn-json" onclick="downloadJSON()">tokens.json</button><button class="dl-btn dl-btn-primary" id="btn-css" onclick="downloadCSS()">design-system.css</button>`;
+    g.innerHTML=`<button type="button" class="dl-btn" id="btn-json" onclick="downloadJSON()">tokens.json</button><button type="button" class="dl-btn" id="btn-css" onclick="downloadCSS()">design-system.css</button>`;
   }
 }
 
