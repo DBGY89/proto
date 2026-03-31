@@ -37,6 +37,8 @@
   --app-accent-dim:rgba(124,58,237,0.07);
   --app-accent-glow:rgba(124,58,237,0.15);
   --font-ui:var(--font-main);
+  /* Fixed offset for lab topbar + notch (must match .sticky-toolbar top) */
+  --lab-topbar-offset:calc(56px + env(safe-area-inset-top));
 
   /* User tokens — start grey */
   --u-primary:#c4bfb8;
@@ -78,12 +80,17 @@ body{
 .topbar{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
-  padding:.75rem 1.5rem;
-  padding-top:calc(.75rem + env(safe-area-inset-top));
+  flex-wrap:nowrap;
+  gap:.5rem;
+  height:var(--lab-topbar-offset);
+  padding:env(safe-area-inset-top) 1.5rem 0;
+  box-sizing:border-box;
   background:rgba(250,248,245,.94);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--app-border);
 }
+.topbar .back-link{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw;}
+.topbar-right{flex-shrink:0;}
 .back-link{
   color:#5c5348;text-decoration:none;font-size:.88rem;font-weight:500;
   transition:color .2s var(--ease);
@@ -101,7 +108,7 @@ body{
   .cta-case-desktop{display:none;}
   .cta-case-mobile{display:inline;}
 }
-.page-shell{padding-top:calc(56px + env(safe-area-inset-top));}
+.page-shell{padding-top:var(--lab-topbar-offset);}
 @media (max-width:640px){
   .topbar{padding-left:1rem;padding-right:1rem;}
 }
@@ -129,13 +136,9 @@ body{
 }
 .sticky-toolbar{
   position:sticky;
-  top:56px;
-  top:calc(56px + env(safe-area-inset-top));
+  top:var(--lab-topbar-offset);
   z-index:95;
   background:var(--app-surface);
-}
-@media (max-width:640px){
-  .sticky-toolbar{top:52px;top:calc(52px + env(safe-area-inset-top));}
 }
 
 /* ══════════════════════════════════════
@@ -222,8 +225,12 @@ body{
   position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
   background:var(--app-text);color:#fff;
   font-family:var(--font-mono);font-size:10px;
-  padding:5px 10px;border-radius:7px;white-space:nowrap;
-  pointer-events:none;z-index:200;
+  padding:5px 10px;border-radius:7px;
+  white-space:normal;
+  max-width:min(92vw,260px);
+  text-align:center;
+  line-height:1.35;
+  pointer-events:none;z-index:400;
   animation:tipIn .25s var(--ease) both;
 }
 .step-tip::before{
@@ -706,6 +713,95 @@ body{
 @media (prefers-reduced-motion:reduce){
   .modal-panel,.modal-overlay{transition-duration:.01ms!important;}
   .ds-section{animation:none;}
+}
+
+/* ─── Mobile layout (narrow viewports) ─── */
+@media (max-width:900px){
+  .header-configure{
+    flex-direction:column;
+    align-items:stretch;
+    height:auto;
+    min-height:0;
+    padding:12px 16px;
+    gap:12px;
+  }
+  .header-logo{
+    margin-right:0;
+    align-self:flex-start;
+  }
+  .header-inputs{
+    flex:0 0 auto;
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+    flex-wrap:nowrap;
+    gap:10px;
+    padding:2px 0 6px;
+    scrollbar-width:thin;
+  }
+  .header-inputs::-webkit-scrollbar{height:4px;}
+  .header-inputs::-webkit-scrollbar-thumb{background:var(--app-border2);border-radius:4px;}
+  .generate-cta{
+    margin-left:0;
+    width:100%;
+    min-height:48px;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .header-collapsed{
+    flex-wrap:wrap;
+    height:auto;
+    min-height:56px;
+    padding:12px 16px;
+    gap:10px;
+    align-items:center;
+  }
+  .collapsed-downloads{
+    width:100%;
+    margin-left:0;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    gap:8px;
+  }
+  .edit-btn{margin-left:0;}
+  .collapsed-font,.collapsed-stack{
+    max-width:min(200px,38vw);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .dl-btn{min-height:44px;}
+}
+
+@media (max-width:640px){
+  .product-hero{padding:.85rem 1rem 1rem;}
+  .main-content{padding:24px 16px 4.5rem;}
+  .tabs-nav{padding:0 12px;}
+  .tab-btn{
+    padding:12px 14px;
+    min-height:44px;
+    font-size:12px;
+  }
+  .empty-steps{
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    width:100%;
+  }
+  .empty-step{justify-content:center;}
+  .lab-footer{
+    padding-bottom:calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.font-dropdown.font-dropdown--fixed{
+  position:fixed!important;
+  left:12px!important;
+  right:12px!important;
+  width:auto!important;
+  max-width:none!important;
+  box-sizing:border-box;
 }
 </style>
 </head>
@@ -1321,10 +1417,46 @@ function renderFontDropdown(){
     </div>`).join('');
 }
 
+function isMobileToolbar(){
+  return window.matchMedia('(max-width: 900px)').matches;
+}
+function clearFontDropdownFixed(){
+  var dd = document.getElementById('font-dropdown');
+  if (!dd) return;
+  dd.classList.remove('font-dropdown--fixed');
+  dd.style.top = '';
+  dd.style.maxHeight = '';
+  dd.style.overflowY = '';
+}
+function syncFontDropdownFixed(){
+  var dd = document.getElementById('font-dropdown');
+  var hdr = document.getElementById('hdr-font');
+  if (!dd || !hdr || !dd.classList.contains('open')) {
+    clearFontDropdownFixed();
+    return;
+  }
+  if (!isMobileToolbar()) {
+    clearFontDropdownFixed();
+    return;
+  }
+  dd.classList.add('font-dropdown--fixed');
+  var r = hdr.getBoundingClientRect();
+  var spaceBelow = window.innerHeight - r.bottom - 16;
+  var maxH = Math.min(300, Math.max(100, spaceBelow));
+  dd.style.top = (r.bottom + 6) + 'px';
+  dd.style.maxHeight = maxH + 'px';
+  dd.style.overflowY = 'auto';
+}
+
 function toggleFontDropdown(e){
   e.stopPropagation();
   const dd = document.getElementById('font-dropdown');
   dd.classList.toggle('open');
+  if (dd.classList.contains('open')) {
+    requestAnimationFrame(syncFontDropdownFixed);
+  } else {
+    clearFontDropdownFixed();
+  }
 }
 
 function selectFont(name, e){
@@ -1333,12 +1465,14 @@ function selectFont(name, e){
   ensureFontLoaded(name);
   document.getElementById('font-display').textContent = name;
   document.getElementById('font-dropdown').classList.remove('open');
+  clearFontDropdownFixed();
   renderFontDropdown();
   if(generated){tokens=generateTokens();applyTokens();renderSnippets();}
 }
 
 document.addEventListener('click', ()=>{
   document.getElementById('font-dropdown').classList.remove('open');
+  clearFontDropdownFixed();
 });
 
 // ── COLOR PICKERS ──
@@ -1600,6 +1734,18 @@ function ensureFontLoaded(name){
 ensureFontLoaded(selectedFont);
 renderFontDropdown();
 setupPickers();
+(function(){
+  var hi = document.querySelector('.header-inputs');
+  if (hi) hi.addEventListener('scroll', syncFontDropdownFixed, {passive:true});
+  window.addEventListener('resize', function(){
+    if (document.getElementById('font-dropdown').classList.contains('open')) {
+      syncFontDropdownFixed();
+    }
+  });
+  window.addEventListener('orientationchange', function(){
+    setTimeout(syncFontDropdownFixed, 150);
+  });
+})();
 </script>
 <script>
 (function () {
