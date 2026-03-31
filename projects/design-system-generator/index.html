@@ -157,6 +157,13 @@ body{
   padding:0 32px;height:72px;
 }
 
+/* Mobile wizard: wrappers are invisible on desktop (children stay in flex row) */
+@media (min-width:901px){
+  .mobile-wizard-step{display:contents;}
+  .mobile-wizard-heading,
+  .mobile-wizard-bar{display:none!important;}
+}
+
 .header-inputs{
   display:flex;align-items:center;gap:12px;flex:1;
 }
@@ -710,27 +717,126 @@ body{
     height:auto;
     min-height:0;
     padding:12px 16px;
-    gap:12px;
+    gap:10px;
+  }
+  .mobile-wizard-heading{
+    width:100%;
+    text-align:center;
+    padding:0 4px 4px;
+  }
+  .mobile-wiz-kicker{
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--app-muted);
+    margin:0 0 .35rem;
+  }
+  .mobile-wiz-title{
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--app-text);
+    margin:0 0 .25rem;
+    line-height:1.25;
+  }
+  .mobile-wiz-desc{
+    font-size:.82rem;
+    color:var(--app-muted);
+    margin:0;
+    line-height:1.45;
+    max-width:22rem;
+    margin-left:auto;
+    margin-right:auto;
   }
   .header-inputs{
     flex:0 0 auto;
     width:100%;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    overscroll-behavior-x:contain;
-    flex-wrap:nowrap;
+    overflow:visible;
+    flex-direction:column;
+    align-items:stretch;
     gap:10px;
-    padding:2px 0 6px;
-    scrollbar-width:thin;
+    padding:0;
   }
-  .header-inputs::-webkit-scrollbar{height:4px;}
-  .header-inputs::-webkit-scrollbar-thumb{background:var(--app-border2);border-radius:4px;}
+  .header-inputs .hdr-sep{display:none;}
+  .mobile-wizard-step{
+    display:none;
+    width:100%;
+    flex-direction:column;
+    gap:10px;
+  }
+  .mobile-wizard-step.is-active{
+    display:flex;
+  }
+  .mobile-wizard-step--colors.is-active .hdr-color{
+    width:100%;
+    min-width:0;
+  }
+  .mobile-wizard-step--font.is-active .hdr-font{
+    width:100%;
+    min-width:0;
+  }
+  .mobile-wizard-step--stack.is-active .hdr-stack{
+    width:100%;
+    justify-content:stretch;
+    gap:8px;
+  }
+  .mobile-wizard-step--stack.is-active .stack-btn{
+    flex:1 1 0;
+    min-width:0;
+    min-height:44px;
+    justify-content:center;
+  }
+  .mobile-wizard-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+    padding-top:4px;
+  }
+  .mobile-wiz-back,
+  .mobile-wiz-next{
+    font-family:var(--font-main);
+    font-size:.88rem;
+    font-weight:600;
+    padding:.55rem 1rem;
+    min-height:44px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:background .2s var(--ease),border-color .2s,color .2s;
+  }
+  .mobile-wiz-back{
+    background:var(--app-bg);
+    border:1px solid var(--app-border);
+    color:var(--app-text);
+  }
+  .mobile-wiz-back:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+  }
+  .mobile-wiz-next{
+    margin-left:auto;
+    background:var(--app-accent);
+    border:1px solid var(--app-accent);
+    color:#fff;
+  }
+  .mobile-wiz-next:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+  }
   .generate-cta{
     margin-left:0;
     width:100%;
     min-height:48px;
     justify-content:center;
     flex-shrink:0;
+    display:none;
+  }
+  .header-configure[data-mobile-step="3"] .generate-cta{
+    display:flex;
+  }
+  .header-configure[data-mobile-step="3"] .mobile-wiz-next{
+    display:none;
   }
   .header-collapsed{
     flex-wrap:wrap;
@@ -811,8 +917,14 @@ body{
 <header class="app-header">
 
   <!-- Configure state -->
-  <div class="header-configure" id="header-configure">
+  <div class="header-configure" id="header-configure" data-mobile-step="1">
+    <div class="mobile-wizard-heading" id="mobile-wizard-heading">
+      <p class="mobile-wiz-kicker" id="mobile-wiz-kicker">Step 1 of 3</p>
+      <p class="mobile-wiz-title" id="mobile-wiz-title">Brand colors</p>
+      <p class="mobile-wiz-desc" id="mobile-wiz-desc">Pick primary, secondary, and accent. Tap a swatch for the full spectrum.</p>
+    </div>
     <div class="header-inputs">
+      <div class="mobile-wizard-step mobile-wizard-step--colors is-active" data-mobile-step="1">
       <!-- Primary -->
       <div class="hdr-color active-step" id="hdr-primary">
         <div class="pulse-ring"></div>
@@ -844,9 +956,11 @@ body{
         </div>
         <input type="color" id="picker-accent" value="#06b6d4">
       </div>
+      </div>
 
       <div class="hdr-sep"></div>
 
+      <div class="mobile-wizard-step mobile-wizard-step--font" data-mobile-step="2">
       <!-- Font -->
       <div class="hdr-font dimmed" id="hdr-font" onclick="toggleFontDropdown(event)">
         <div class="hdr-color-info">
@@ -856,9 +970,11 @@ body{
         <svg class="hdr-font-arrow" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 4l4 4 4-4"/></svg>
         <div class="font-dropdown" id="font-dropdown"></div>
       </div>
+      </div>
 
       <div class="hdr-sep"></div>
 
+      <div class="mobile-wizard-step mobile-wizard-step--stack" data-mobile-step="3">
       <!-- Stack -->
       <div class="hdr-stack">
         <button class="stack-btn selected" onclick="selectStack('shadcn',this)">
@@ -874,6 +990,12 @@ body{
           CSS
         </button>
       </div>
+      </div>
+    </div>
+
+    <div class="mobile-wizard-bar" id="mobile-wizard-bar">
+      <button type="button" class="mobile-wiz-back" id="mobile-wiz-back" disabled>Back</button>
+      <button type="button" class="mobile-wiz-next" id="mobile-wiz-next" disabled>Next</button>
     </div>
 
     <button class="generate-cta" id="generate-cta" onclick="generate()">
@@ -1315,6 +1437,7 @@ let selectedStack = 'shadcn';
 let tokens = {};
 let generated = false;
 const picked = {primary:false, secondary:false, accent:false};
+let mobileWizardStep = 1;
 
 // ── COLOR MATH ──
 function hexToHsl(hex){
@@ -1389,6 +1512,50 @@ function renderFontDropdown(){
 
 function isMobileToolbar(){
   return window.matchMedia('(max-width: 900px)').matches;
+}
+
+function syncMobileWizard(){
+  var mq = window.matchMedia('(max-width: 900px)');
+  var cfg = document.getElementById('header-configure');
+  if (!cfg || cfg.style.display === 'none') return;
+  if (!mq.matches) {
+    cfg.removeAttribute('data-mobile-step');
+    cfg.querySelectorAll('.mobile-wizard-step').forEach(function (el) {
+      el.classList.remove('is-active');
+    });
+    return;
+  }
+  if (mobileWizardStep < 1) mobileWizardStep = 1;
+  if (mobileWizardStep > 3) mobileWizardStep = 3;
+  cfg.setAttribute('data-mobile-step', String(mobileWizardStep));
+  cfg.querySelectorAll('.mobile-wizard-step').forEach(function (el) {
+    var n = parseInt(el.getAttribute('data-mobile-step'), 10);
+    el.classList.toggle('is-active', n === mobileWizardStep);
+  });
+  var back = document.getElementById('mobile-wiz-back');
+  var next = document.getElementById('mobile-wiz-next');
+  var kicker = document.getElementById('mobile-wiz-kicker');
+  var title = document.getElementById('mobile-wiz-title');
+  var desc = document.getElementById('mobile-wiz-desc');
+  if (back) back.disabled = mobileWizardStep <= 1;
+  if (next) {
+    if (mobileWizardStep === 1) {
+      next.disabled = !(picked.primary && picked.secondary && picked.accent);
+    } else if (mobileWizardStep === 2) {
+      next.disabled = false;
+    } else {
+      next.disabled = true;
+    }
+  }
+  var copy = [
+    { k: 'Step 1 of 3', t: 'Brand colors', d: 'Pick primary, secondary, and accent. Tap a swatch for the full spectrum.' },
+    { k: 'Step 2 of 3', t: 'Typeface', d: 'Choose the font for your system. Open the list to preview names.' },
+    { k: 'Step 3 of 3', t: 'Stack', d: 'Shadcn, Tailwind, or vanilla CSS. Then tap Generate.' }
+  ];
+  var i = mobileWizardStep - 1;
+  if (kicker && copy[i]) kicker.textContent = copy[i].k;
+  if (title && copy[i]) title.textContent = copy[i].t;
+  if (desc && copy[i]) desc.textContent = copy[i].d;
 }
 function clearFontDropdownFixed(){
   var dd = document.getElementById('font-dropdown');
@@ -1494,6 +1661,7 @@ function advanceStep(key){
     font.classList.remove('dimmed');
     cta.classList.add('ready');
   }
+  syncMobileWizard();
 }
 
 // ── STACK ──
@@ -1539,11 +1707,13 @@ function generate(){
 
 function editSystem(){
   generated = false;
+  mobileWizardStep = 1;
   document.getElementById('header-collapsed').classList.remove('visible');
   document.getElementById('header-configure').style.display = 'flex';
   document.getElementById('tabs-nav').classList.remove('visible');
   document.getElementById('ds-content').style.display = 'none';
   document.getElementById('empty-screen').style.display = 'flex';
+  syncMobileWizard();
 }
 
 // ── TABS ──
@@ -1704,16 +1874,38 @@ function ensureFontLoaded(name){
 ensureFontLoaded(selectedFont);
 renderFontDropdown();
 setupPickers();
+syncMobileWizard();
 (function(){
   var hi = document.querySelector('.header-inputs');
   if (hi) hi.addEventListener('scroll', syncFontDropdownFixed, {passive:true});
+  var back = document.getElementById('mobile-wiz-back');
+  var next = document.getElementById('mobile-wiz-next');
+  if (back) {
+    back.addEventListener('click', function () {
+      if (mobileWizardStep <= 1) return;
+      mobileWizardStep--;
+      syncMobileWizard();
+    });
+  }
+  if (next) {
+    next.addEventListener('click', function () {
+      if (mobileWizardStep >= 3) return;
+      if (mobileWizardStep === 1 && !(picked.primary && picked.secondary && picked.accent)) return;
+      mobileWizardStep++;
+      syncMobileWizard();
+    });
+  }
   window.addEventListener('resize', function(){
+    syncMobileWizard();
     if (document.getElementById('font-dropdown').classList.contains('open')) {
       syncFontDropdownFixed();
     }
   });
   window.addEventListener('orientationchange', function(){
-    setTimeout(syncFontDropdownFixed, 150);
+    setTimeout(function () {
+      syncMobileWizard();
+      syncFontDropdownFixed();
+    }, 150);
   });
 })();
 </script>
