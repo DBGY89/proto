@@ -13,6 +13,7 @@
     'bubbles',
     'salad-bar',
     'movie-palette',
+    'design-system-generator',
     'crossfit-fuel',
     'piano-maestro',
     'pawmap',
