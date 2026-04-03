@@ -233,6 +233,57 @@ body {
   text-align: center;
 }
 
+/* ─── Landing: Projects | Tools tabs (misma estética que .section-heading; reset de <button> nativo) ─── */
+.landing-tabs {
+  position: relative;
+  z-index: 5;
+  margin-bottom: 1.75rem;
+}
+.landing-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.landing-tab {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, .06);
+  color: var(--text-secondary);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), background 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.landing-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, .1);
+}
+.landing-tab:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 3px;
+}
+.landing-tab.is-active {
+  color: var(--text-primary);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.15);
+  background: rgba(0, 240, 255, 0.07);
+}
+.landing-tab-panel[hidden] {
+  display: none !important;
+}
+
 /* ─── Card grid: tarjetas compactas, mismas proporciones ─── */
 .grid {
   display: grid;
@@ -614,6 +665,11 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     text-align: center;
+  }
+
+  .landing-tab {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
   }
 
   .card-desc {

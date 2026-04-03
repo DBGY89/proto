@@ -52,50 +52,132 @@
   });
 
   // ───────────────────────────────────────────
-  //  Reveal-on-scroll for cards
+  //  Projects | Tools tabs
   // ───────────────────────────────────────────
-  const cards = document.querySelectorAll('.card:not(.card--hidden)');
+  const panelProjects = document.getElementById('panel-projects');
+  const panelTools = document.getElementById('panel-tools');
+  const tabProjectsBtn = document.querySelector('[data-landing-tab="projects"]');
+  const tabToolsBtn = document.querySelector('[data-landing-tab="tools"]');
+
+  function getActivePanel() {
+    if (panelTools && !panelTools.hidden) return panelTools;
+    return panelProjects;
+  }
+
+  function getTeaseCards() {
+    const panel = getActivePanel();
+    if (!panel) return [];
+    return Array.from(panel.querySelectorAll('.card:not(.card--hidden)'));
+  }
 
   if (reducedMotion) {
-    cards.forEach((c) => c.classList.add('is-visible'));
-  } else if ('IntersectionObserver' in window) {
-    const obs = new IntersectionObserver(
+    document.querySelectorAll('.card:not(.card--hidden)').forEach((c) => c.classList.add('is-visible'));
+  }
+
+  let cardObserver = null;
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    cardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target.classList.add('is-visible');
-            obs.unobserve(e.target);
+            cardObserver.unobserve(e.target);
           }
         });
       },
       { threshold: 0.15 }
     );
-    cards.forEach((c) => obs.observe(c));
-  } else {
-    cards.forEach((c) => c.classList.add('is-visible'));
   }
 
-  // ───────────────────────────────────────────
-  //  Tease: una sola tarjeta iluminada a la vez; aleatorio si nadie toca; al hover/focus esa es la prioridad
-  // ───────────────────────────────────────────
-  const TEASE_INTERVAL_MS = 3000;
-  const TEASE_FIRST_MS = 2000;
+  function initRevealForActivePanel() {
+    if (reducedMotion) return;
+    const panel = getActivePanel();
+    if (!panel) return;
+    const panelCards = panel.querySelectorAll('.card:not(.card--hidden)');
+    if (!cardObserver) {
+      panelCards.forEach((c) => c.classList.add('is-visible'));
+      return;
+    }
+    panelCards.forEach((c) => {
+      if (!c.classList.contains('is-visible')) {
+        cardObserver.observe(c);
+      }
+    });
+  }
 
   let teaseIndex = 0;
   let userTeaseCard = null;
 
-  function getVisibleCards() {
-    return Array.from(document.querySelectorAll('.card:not(.card--hidden)'));
-  }
-
   function setOnlyTease(card) {
-    getVisibleCards().forEach((c) => c.classList.remove('card--tease'));
+    document.querySelectorAll('.card.card--tease').forEach((c) => c.classList.remove('card--tease'));
     if (card) card.classList.add('card--tease');
   }
 
+  function activateLandingTab(which) {
+    const tools = which === 'tools';
+    if (panelProjects) {
+      panelProjects.hidden = tools;
+      panelProjects.classList.toggle('is-active', !tools);
+    }
+    if (panelTools) {
+      panelTools.hidden = !tools;
+      panelTools.classList.toggle('is-active', tools);
+    }
+    if (tabProjectsBtn) {
+      tabProjectsBtn.classList.toggle('is-active', !tools);
+      tabProjectsBtn.setAttribute('aria-selected', String(!tools));
+      tabProjectsBtn.tabIndex = tools ? -1 : 0;
+    }
+    if (tabToolsBtn) {
+      tabToolsBtn.classList.toggle('is-active', tools);
+      tabToolsBtn.setAttribute('aria-selected', String(tools));
+      tabToolsBtn.tabIndex = tools ? 0 : -1;
+    }
+    document.querySelectorAll('.card.card--tease').forEach((c) => c.classList.remove('card--tease'));
+    teaseIndex = 0;
+    initRevealForActivePanel();
+  }
+
+  const landingTabRow = document.querySelector('.landing-tabs-row');
+  if (landingTabRow) {
+    landingTabRow.addEventListener('click', (e) => {
+      const t = e.target;
+      const btn = t && t.closest ? t.closest('[data-landing-tab]') : null;
+      if (!btn) return;
+      const which = btn.getAttribute('data-landing-tab');
+      if (which === 'projects' || which === 'tools') activateLandingTab(which);
+    });
+  }
+
+  if (tabProjectsBtn && tabToolsBtn) {
+    tabProjectsBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        activateLandingTab('tools');
+        tabToolsBtn.focus();
+      }
+    });
+    tabToolsBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activateLandingTab('projects');
+        tabProjectsBtn.focus();
+      }
+    });
+  }
+
+  initRevealForActivePanel();
+
+  // ───────────────────────────────────────────
+  //  Tease: una sola tarjeta iluminada a la vez; aleatorio si nadie toca; al hover/focus esa es la prioridad
+  //  (solo tarjetas de la pestaña activa; initRevealForActivePanel al cambiar de tab)
+  // ───────────────────────────────────────────
+  const TEASE_INTERVAL_MS = 3000;
+  const TEASE_FIRST_MS = 2000;
+
   function teaseNextCard() {
     if (userTeaseCard) return;
-    const visible = getVisibleCards();
+    const visible = getTeaseCards();
     if (visible.length === 0) return;
     setOnlyTease(visible[teaseIndex]);
     teaseIndex = (teaseIndex + 1) % visible.length;
@@ -107,7 +189,7 @@
   }
 
   let teaseTimer;
-  if (!reducedMotion && cards.length > 0) {
+  if (!reducedMotion && getTeaseCards().length > 0) {
     setTimeout(() => {
       teaseNextCard();
       teaseTimer = setInterval(teaseNextCard, TEASE_INTERVAL_MS);
@@ -117,7 +199,7 @@
   // ───────────────────────────────────────────
   //  3D tilt on card hover; iluminar solo la tarjeta señalada
   // ───────────────────────────────────────────
-  cards.forEach((card) => {
+  document.querySelectorAll('.card:not(.card--hidden)').forEach((card) => {
     if (card.classList.contains('card--soon')) return;
     card.addEventListener('mouseenter', () => {
       userTeaseCard = card;
