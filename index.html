@@ -227,31 +227,29 @@
     </div>
   </header>
 
-  <!-- ─── Projects ─── -->
+  <!-- ─── Projects & Tools ─── -->
   <main class="projects" id="projects">
-    <h2 class="section-heading">Projects</h2>
+    <div class="landing-tabs">
+      <div class="landing-tabs-row" role="tablist" aria-label="Browse by category">
+        <button type="button" class="landing-tab is-active" role="tab" id="landing-tab-projects" aria-selected="true" aria-controls="panel-projects" data-landing-tab="projects">Projects</button>
+        <button type="button" class="landing-tab" role="tab" id="landing-tab-tools" aria-selected="false" aria-controls="panel-tools" data-landing-tab="tools" tabindex="-1">Tools</button>
+      </div>
+    </div>
     <!--
-      ── ADD A NEW PROJECT CARD ──
-      Copy this template into the grid and add data-project="my-project" (mismo id que la carpeta).
-      Para que aparezca en la landing, añade ese id al array PUBLIC_PROJECTS en landing.js.
-      Use canonical URL: href="/my-project/"
+      ── ADD A NEW CARD ──
+      Put product-style prototypes in #panel-projects .grid.
+      Put small utilities (generators, extractors) in #panel-tools .grid.
+      data-project = folder id; add id to PUBLIC_PROJECTS in landing.js to publish.
+      href="/my-project/" (Vercel rewrites to /projects/my-project/index.html)
 
-      <a href="/my-project/" class="card card--pink" data-project="my-project">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">Project Name</h3>
-          <p class="card-desc">One-line description.</p>
-        </div>
-      </a>
-
-      Accent options: card--pink | card--cyan | card--purple
+      Accent: card--pink | card--cyan | card--purple
     -->
+    <div id="panel-projects" class="landing-tab-panel is-active" role="tabpanel" aria-labelledby="landing-tab-projects">
     <div class="grid">
 
       <a href="/pawmap/" class="card card--pink" data-project="pawmap">
         <div class="card-border"></div>
         <div class="card-body">
-          <span class="card-badge card-badge--corner" aria-hidden="true">New</span>
           <h3 class="card-title">PAWMAP</h3>
           <p class="card-desc">Spain with your dog. Walk the map and discover dog-friendly spots.</p>
           <span class="card-rating" data-project="pawmap" aria-hidden="true"></span>
@@ -312,24 +310,6 @@
         </div>
       </a>
 
-      <a href="/movie-palette/" class="card card--purple" data-project="movie-palette">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">MOVIE PALETTE</h3>
-          <p class="card-desc">Warning: your projects may start looking like movies.</p>
-          <span class="card-rating" data-project="movie-palette" aria-hidden="true"></span>
-        </div>
-      </a>
-
-      <a href="/design-system-generator/" class="card card--cyan" data-project="design-system-generator">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">DESIGN SYSTEM GENERATOR</h3>
-          <p class="card-desc">Pick three colors, a typeface, and a stack. We generate tokens, component previews, and CSS or Tailwind you can download.</p>
-          <span class="card-rating" data-project="design-system-generator" aria-hidden="true"></span>
-        </div>
-      </a>
-
       <a href="/xylophone/" class="card card--purple" data-project="xylophone">
         <div class="card-border"></div>
         <div class="card-body">
@@ -357,6 +337,32 @@
         </div>
       </a>
 
+    </div>
+    </div>
+
+    <div id="panel-tools" class="landing-tab-panel" role="tabpanel" aria-labelledby="landing-tab-tools" hidden>
+    <div class="grid">
+
+      <a href="/movie-palette/" class="card card--purple" data-project="movie-palette">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">MOVIE PALETTE</h3>
+          <p class="card-desc">Warning: your projects may start looking like movies.</p>
+          <span class="card-rating" data-project="movie-palette" aria-hidden="true"></span>
+        </div>
+      </a>
+
+      <a href="/design-system-generator/" class="card card--cyan" data-project="design-system-generator">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <span class="card-badge card-badge--corner" aria-hidden="true">New</span>
+          <h3 class="card-title">DESIGN SYSTEM GENERATOR</h3>
+          <p class="card-desc">Pick three colors, a typeface, and a stack. We generate tokens, component previews, and CSS or Tailwind you can download.</p>
+          <span class="card-rating" data-project="design-system-generator" aria-hidden="true"></span>
+        </div>
+      </a>
+
+    </div>
     </div>
   </main>
 
