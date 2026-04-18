@@ -994,6 +994,22 @@ body {
     margin-bottom: 32px;
   }
 
+  .next-level-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    padding-top: 16px;
+    text-align: center;
+  }
+
+  .next-level-footer .ghost-btn {
+    font-size: 11px;
+    opacity: 0.75;
+  }
+
+  .next-level-footer .ghost-btn:hover {
+    opacity: 1;
+  }
+
   .l4-review-label {
     font-size: 11px;
     font-weight: 600;

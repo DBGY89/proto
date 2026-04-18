@@ -261,6 +261,15 @@ function completeMarkSvg() {
   return '<div class="complete-mark" aria-hidden="true"><svg class="complete-mark-svg" viewBox="0 0 64 64" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.5" opacity="0.32"/><path d="M21 33 L29 41 L45 23" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
 }
 
+function nextLevelCta(n) {
+  const label = n === 2 ? 'Level 2: Soft Consonants'
+              : n === 3 ? 'Level 3: Strong Consonants'
+              : 'Level 4: First Words';
+  return `<div class="next-level-footer">
+    <button type="button" class="ghost-btn" onclick="openLevel(${n})">Go to ${label} →</button>
+  </div>`;
+}
+
 // State
 let state = {
   // Level 1
@@ -547,7 +556,8 @@ function renderLearn2(el) {
   });
 
   html += `</div>
-  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>
+  ${nextLevelCta(3)}`;
 
   el.innerHTML = html;
 }
@@ -578,6 +588,7 @@ function renderWords2(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+      ${nextLevelCta(3)}
     </div>`;
     return;
   }
@@ -624,6 +635,7 @@ function renderWordBuilderL2(el) {
           <button class="primary-btn" onclick="checkWordL2()">Check →</button>
         </div>
       </div>
+      ${nextLevelCta(3)}
     </div>`;
 
   setupDropZoneL2();
@@ -737,6 +749,7 @@ function renderFlash2(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 7 consonants.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+      ${nextLevelCta(3)}
     </div>`;
     return;
   }
@@ -778,7 +791,10 @@ function renderFlashCardL2(el) {
         <button class="fc-btn review" onclick="fcAnswerL2(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
       </div>
-      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash2()">Skip to Memory →</button>
+      <div class="next-level-footer" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:16px;">
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="skipFlash2()">Skip to Memory →</button>
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="openLevel(3)">Go to Level 3: Strong Consonants →</button>
+      </div>
     </div>`;
 }
 
@@ -813,7 +829,8 @@ function renderLearn3(el) {
   });
 
   html += `</div>
-  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>
+  ${nextLevelCta(4)}`;
 
   el.innerHTML = html;
 }
@@ -844,6 +861,7 @@ function renderWords3(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+      ${nextLevelCta(4)}
     </div>`;
     return;
   }
@@ -890,6 +908,7 @@ function renderWordBuilderL3(el) {
           <button class="primary-btn" onclick="checkWordL3()">Check →</button>
         </div>
       </div>
+      ${nextLevelCta(4)}
     </div>`;
 
   setupDropZoneL3();
@@ -1003,6 +1022,7 @@ function renderFlash3(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 6 aspirated consonants.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+      ${nextLevelCta(4)}
     </div>`;
     return;
   }
@@ -1044,7 +1064,10 @@ function renderFlashCardL3(el) {
         <button class="fc-btn review" onclick="fcAnswerL3(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
       </div>
-      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash3()">Skip to Memory →</button>
+      <div class="next-level-footer" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:16px;">
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="skipFlash3()">Skip to Memory →</button>
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="openLevel(4)">Go to Level 4: First Words →</button>
+      </div>
     </div>`;
 }
 
@@ -1079,7 +1102,8 @@ function renderLearn(el) {
   });
 
   html += `</div>
-  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>
+  ${nextLevelCta(2)}`;
 
   el.innerHTML = html;
 }
@@ -1120,6 +1144,7 @@ function renderWords(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+      ${nextLevelCta(2)}
     </div>`;
     return;
   }
@@ -1168,6 +1193,7 @@ function renderWordBuilder(el) {
           <button class="primary-btn" onclick="checkWord()">Check →</button>
         </div>
       </div>
+      ${nextLevelCta(2)}
     </div>`;
 
   setupDropZone();
@@ -1284,6 +1310,7 @@ function renderFlash(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 10 vowels.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+      ${nextLevelCta(2)}
     </div>`;
     return;
   }
@@ -1327,7 +1354,10 @@ function renderFlashCard(el) {
         <button class="fc-btn review" onclick="fcAnswer(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
       </div>
-      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash1()">Skip to Memory →</button>
+      <div class="next-level-footer" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:16px;">
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="skipFlash1()">Skip to Memory →</button>
+        <button type="button" class="ghost-btn" style="font-size:11px;" onclick="openLevel(2)">Go to Level 2: Soft Consonants →</button>
+      </div>
     </div>`;
 }
 
