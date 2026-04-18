@@ -15,6 +15,7 @@
     'movie-palette',
     'design-system-generator',
     'crossfit-fuel',
+    'learn-hangul',
     'piano-maestro',
     'pawmap',
   ];

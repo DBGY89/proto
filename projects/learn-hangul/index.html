@@ -1,885 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learn Hangul</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #F5F0E8;
-    --bg2: #EDE8DF;
-    --ink: #1A1410;
-    --ink2: #5C4F3D;
-    --accent: #C8412A;
-    --accent2: #E8956D;
-    --gold: #D4A843;
-    --green: #3D7A5C;
-    --card: #FDFAF4;
-    --border: rgba(26,20,16,0.12);
-    --radius: 16px;
-    --shadow: 0 4px 24px rgba(26,20,16,0.08);
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    font-family: 'DM Mono', 'Noto Sans KR', monospace;
-    background: var(--bg);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── SCREENS ── */
-  .screen { display:none; min-height:100vh; }
-  .screen.active { display:flex; flex-direction:column; }
-
-  /* ── HOME ── */
-  #home {
-    padding: 48px 24px 80px;
-    align-items: center;
-  }
-
-  .home-header {
-    text-align: center;
-    margin-bottom: 64px;
-  }
-
-  .home-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink2);
-    margin-bottom: 12px;
-  }
-
-  .home-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(52px, 12vw, 88px);
-    line-height: 0.9;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-
-  .home-title .hangul-accent {
-    color: var(--accent);
-    font-style: italic;
-  }
-
-  .home-sub {
-    font-size: 13px;
-    color: var(--ink2);
-    margin-top: 20px;
-    line-height: 1.6;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .levels-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .level-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 28px 24px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .level-card:not(.locked):hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-  }
-
-  .level-card.locked {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .level-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
-    background: var(--accent);
-  }
-
-  .level-card.locked::before { background: var(--ink2); }
-  .level-card.completed::before { background: var(--green); }
-
-  .level-num {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink2);
-    margin-bottom: 6px;
-  }
-
-  .level-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-
-  .level-desc {
-    font-size: 12px;
-    color: var(--ink2);
-    line-height: 1.5;
-  }
-
-  .level-chars {
-    display: flex;
-    gap: 6px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-
-  .level-char {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    background: var(--bg2);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink);
-  }
-
-  .level-status {
-    position: absolute;
-    top: 24px; right: 24px;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: var(--bg2);
-    color: var(--ink2);
-  }
-
-  .level-status.done { background: #D4EDDA; color: var(--green); }
-  .level-status.locked-tag { background: var(--bg2); color: var(--ink2); }
-
-  /* ── LEVEL VIEW ── */
-  #level-view { padding: 0; }
-
-  .nav-bar {
-    display: flex;
-    align-items: center;
-    padding: 20px 24px;
-    gap: 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--card);
-    position: sticky; top: 0; z-index: 10;
-  }
-
-  .back-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.15s;
-  }
-  .back-btn:hover { background: var(--bg2); }
-
-  .nav-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-  }
-
-  .section-tabs {
-    display: flex;
-    gap: 0;
-    padding: 20px 24px 0;
-    border-bottom: 1px solid var(--border);
-    background: var(--card);
-  }
-
-  .tab {
-    padding: 10px 20px 12px;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    color: var(--ink2);
-    transition: color 0.15s, border-color 0.15s;
-  }
-
-  .tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-
-  .tab.locked-tab { opacity: 0.4; cursor: not-allowed; }
-
-  .section-content { flex: 1; padding: 32px 24px; max-width: 600px; margin: 0 auto; width: 100%; }
-
-  /* ── INTRO SCREEN ── */
-  #intro-screen { padding: 32px 24px; max-width: 560px; margin: 0 auto; }
-
-  .intro-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-    margin-bottom: 20px;
-  }
-
-  .intro-card h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    margin-bottom: 16px;
-  }
-
-  .intro-card p {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--ink2);
-    margin-bottom: 14px;
-  }
-
-  .block-demo {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    margin: 24px 0;
-    flex-wrap: wrap;
-  }
-
-  .block-demo-item {
-    text-align: center;
-  }
-
-  .hangul-big {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 56px;
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  .block-parts {
-    display: flex;
-    gap: 4px;
-    margin-top: 8px;
-    justify-content: center;
-  }
-
-  .block-part {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 20px;
-    width: 32px; height: 32px;
-    background: var(--accent);
-    color: white;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .block-part.vowel { background: var(--gold); }
-  .block-part.final { background: var(--ink2); }
-
-  .arrow-right { font-size: 24px; color: var(--ink2); align-self: center; }
-
-  .primary-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 12px;
-    border: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-    text-transform: uppercase;
-  }
-
-  .primary-btn:hover { background: #B03520; transform: translateY(-1px); }
-
-  /* ── LEARN LETTERS ── */
-  .letters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
-  .letter-tile {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 12px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-    position: relative;
-  }
-
-  .letter-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-
-  .tile-hangul {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 40px;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .tile-roman {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink2);
-    margin-bottom: 4px;
-  }
-
-  .tile-tap-hint {
-    position: absolute;
-    bottom: 8px;
-    right: 10px;
-    font-size: 16px;
-    color: var(--accent2);
-    line-height: 1;
-  }
-
-  .letter-tile.seen {
-    background: #EDF7F1;
-    border-color: #3D7A5C;
-  }
-
-  .letter-tile.seen .tile-hangul { color: var(--ink); }
-  .letter-tile.seen .tile-roman { color: var(--green); }
-
-  /* Letter detail modal */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(26,20,16,0.5);
-    display: none; align-items: center; justify-content: center;
-    z-index: 100;
-    padding: 24px;
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--card);
-    border-radius: 20px;
-    padding: 40px 32px 32px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-    animation: slideUp 0.25s ease;
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity:0; }
-    to { transform: translateY(0); opacity:1; }
-  }
-
-  .modal-hangul {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 96px;
-    line-height: 1;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-
-  .modal-roman {
-    font-size: 28px;
-    font-family: 'DM Serif Display', serif;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .modal-sound {
-    font-size: 13px;
-    color: var(--ink2);
-    margin-bottom: 8px;
-  }
-
-  .modal-example {
-    margin: 20px 0;
-    padding: 16px;
-    background: var(--bg2);
-    border-radius: 10px;
-    font-size: 13px;
-    color: var(--ink2);
-    line-height: 1.6;
-  }
-
-  .modal-example .ex-hangul {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 24px;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-
-  .modal-section-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--ink2);
-    margin-bottom: 4px;
-  }
-
-  .modal-ex-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--ink);
-  }
-
-  .modal-ex-pill {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background: var(--bg);
-    color: var(--ink2);
-    padding: 2px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-
-
-    margin-top: 16px;
-    background: var(--bg2);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: background 0.15s;
-  }
-  .modal-close:hover { background: var(--border); }
-
-  /* ── WORD BUILDER ── */
-  .word-builder {
-    margin-top: 16px;
-  }
-
-  .builder-word-display {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    margin-bottom: 20px;
-  }
-
-  .word-target-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink2);
-    margin-bottom: 12px;
-  }
-
-  .word-target-hangul {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 48px;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-
-  .word-target-roman {
-    font-size: 13px;
-    color: var(--accent);
-    margin-bottom: 2px;
-  }
-
-  .word-target-meaning {
-    font-size: 12px;
-    color: var(--ink2);
-  }
-
-  .drop-zone {
-    display: flex;
-    gap: 8px;
-    min-height: 64px;
-    padding: 12px;
-    background: var(--bg2);
-    border-radius: 10px;
-    border: 2px dashed var(--border);
-    margin: 16px 0;
-    flex-wrap: wrap;
-    align-items: center;
-    transition: border-color 0.2s;
-  }
-
-  .drop-zone.drag-over { border-color: var(--accent); }
-
-  .dropped-char {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 32px;
-    width: 52px; height: 52px;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: grab;
-    animation: popIn 0.15s ease;
-  }
-
-  @keyframes popIn {
-    from { transform: scale(0.7); opacity:0; }
-    to { transform: scale(1); opacity:1; }
-  }
-
-  .drop-hint {
-    font-size: 12px;
-    color: var(--ink2);
-    opacity: 0.5;
-  }
-
-  .char-bank {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-
-  .char-option {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 28px;
-    width: 52px; height: 52px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: grab;
-    transition: transform 0.15s, box-shadow 0.15s;
-    user-select: none;
-  }
-
-  .char-option:hover { transform: scale(1.05); box-shadow: var(--shadow); }
-  .char-option.used { opacity: 0.3; pointer-events: none; }
-
-  .word-feedback {
-    text-align: center;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-bottom: 12px;
-    display: none;
-  }
-
-  .word-feedback.correct { background: #D4EDDA; color: var(--green); display:block; }
-  .word-feedback.wrong { background: #FAD4CF; color: var(--accent); display:block; animation: shake 0.3s; }
-
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  .word-nav {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .ghost-btn {
-    background: var(--bg2);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: background 0.15s;
-  }
-  .ghost-btn:hover { background: var(--border); }
-
-  .word-counter {
-    font-size: 12px;
-    color: var(--ink2);
-  }
-
-  /* ── FLASHCARDS ── */
-  .flashcard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .flashcard-progress {
-    font-size: 12px;
-    color: var(--ink2);
-    letter-spacing: 0.08em;
-  }
-
-  .flashcard-wrap {
-    width: 100%;
-    max-width: 340px;
-    height: 220px;
-    perspective: 1000px;
-    cursor: pointer;
-  }
-
-  .flashcard-inner {
-    width: 100%; height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-  }
-
-  .flashcard-wrap.flipped .flashcard-inner { transform: rotateY(180deg); }
-
-  .flashcard-face {
-    position: absolute; inset: 0;
-    border-radius: 20px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    backface-visibility: hidden;
-    border: 1px solid var(--border);
-  }
-
-  .flashcard-front { background: var(--card); }
-  .flashcard-back { background: var(--ink); transform: rotateY(180deg); }
-
-  .fc-hangul {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 72px;
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  .fc-hint {
-    font-size: 11px;
-    color: var(--ink2);
-    margin-top: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .fc-roman {
-    font-family: 'DM Serif Display', serif;
-    font-size: 40px;
-    color: white;
-    margin-bottom: 4px;
-  }
-
-  .fc-sound {
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-  }
-
-  .flashcard-actions {
-    display: flex;
-    gap: 12px;
-  }
-
-  .fc-btn {
-    flex: 1;
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 0.1s;
-  }
-  .fc-btn:hover { transform: translateY(-1px); }
-  .fc-btn.know { background: #D4EDDA; color: var(--green); }
-  .fc-btn.review { background: #FAD4CF; color: var(--accent); }
-
-  .fc-complete {
-    text-align: center;
-    padding: 40px 20px;
-  }
-
-  .fc-complete h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    margin-bottom: 8px;
-  }
-
-  .fc-complete p {
-    font-size: 13px;
-    color: var(--ink2);
-    margin-bottom: 24px;
-  }
-
-  /* ── MATCH GAME ── */
-  .match-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .match-score {
-    font-size: 12px;
-    color: var(--ink2);
-  }
-
-  .match-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-
-  .match-col { display: flex; flex-direction: column; gap: 8px; }
-
-  .match-hangul-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 10px;
-    text-align: center;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 28px;
-    transition: border-color 0.15s, background 0.15s, opacity 0.3s;
-    min-height: 64px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .match-hangul-card.matched {
-    background: #EDF7F1;
-    border-color: var(--green);
-    opacity: 0.5;
-  }
-
-  .match-roman-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 10px;
-    text-align: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--accent);
-    cursor: grab;
-    transition: border-color 0.2s, background 0.15s, transform 0.15s, opacity 0.3s;
-    min-height: 64px;
-    display: flex; align-items: center; justify-content: center;
-    user-select: none;
-  }
-
-  .match-roman-card:hover { transform: scale(1.03); box-shadow: var(--shadow); }
-  .match-roman-card.dragging { opacity: 0.4; cursor: grabbing; }
-
-  .match-roman-card.matched {
-    background: #EDF7F1;
-    border-color: var(--green);
-    color: var(--green);
-    opacity: 0.5;
-    cursor: default;
-  }
-
-  .match-roman-card.wrong {
-    border-color: var(--accent);
-    background: #FAD4CF;
-    animation: shake 0.3s;
-  }
-
-  .match-drop-target {
-    min-height: 64px;
-    border-radius: 12px;
-    border: 2px dashed var(--border);
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.15s, background 0.15s;
-    font-size: 12px;
-    color: var(--ink2);
-    letter-spacing: 0.06em;
-  }
-
-  .match-drop-target.over { border-color: var(--accent); background: #FAF0EE; }
-  .match-drop-target.matched {
-    border-style: solid;
-    border-color: var(--green);
-    background: #EDF7F1;
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--green);
-    opacity: 0.5;
-  }
-
-  .memory-complete {
-    text-align: center;
-    padding: 48px 24px;
-    animation: slideUp 0.4s ease;
-  }
-
-  .memory-complete .big-emoji { font-size: 64px; margin-bottom: 16px; }
-
-  .memory-complete h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-
-  .memory-complete p {
-    font-size: 13px;
-    color: var(--ink2);
-    margin-bottom: 28px;
-  }
-
-
-  /* ── PROGRESS BAR ── */
-  .progress-bar-wrap {
-    background: var(--bg2);
-    border-radius: 4px;
-    height: 4px;
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-
-  /* ── SECTION LOCKED ── */
-  .section-locked {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--ink2);
-  }
-
-  .section-locked .lock-icon { font-size: 40px; margin-bottom: 16px; }
-  .section-locked p { font-size: 13px; line-height: 1.6; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 400px) {
-    .memory-grid { grid-template-columns: repeat(4,1fr); gap: 6px; }
-    .mem-front-face .mf-hangul { font-size: 20px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Hangul — From blocks to words</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<nav class="topbar">
+  <a href="/" class="back-link">&larr; AI Proto Lab</a>
+  <div class="topbar-right">
+    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype &rarr;</button>
+    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story &rarr;</button>
+  </div>
+</nav>
+
+<main class="page" id="main">
 
 <!-- ══════════ HOME ══════════ -->
 <div id="home" class="screen active">
   <div class="home-header">
-    <div class="home-eyebrow">AIProtoLab</div>
     <div class="home-title">Learn<br><span class="hangul-accent">한글</span></div>
     <p class="home-sub">The Korean alphabet was designed to be easy. Let's prove it.</p>
   </div>
@@ -949,7 +94,7 @@
 <div id="intro-screen" class="screen">
   <div style="padding:20px 24px; border-bottom:1px solid var(--border); background:var(--card); display:flex; align-items:center; gap:16px;">
     <button class="back-btn" onclick="showScreen('home')">←</button>
-    <span style="font-family:'DM Serif Display',serif; font-size:20px;">How Hangul Works</span>
+    <span class="nav-title">How Hangul Works</span>
   </div>
   <div style="padding:32px 24px; max-width:560px; margin:0 auto; width:100%;">
     <div class="intro-card">
@@ -997,33 +142,85 @@
   <div class="section-content" id="section-content"></div>
 </div>
 
+</main>
+
 <!-- ══════════ LETTER MODAL ══════════ -->
-<div class="modal-overlay" id="letter-modal" onclick="closeModal(event)">
-  <div class="modal">
+<div class="hangul-letter-overlay" id="letter-modal" onclick="closeModal(event)">
+  <div class="hangul-letter-panel" onclick="event.stopPropagation()">
 
-    <div class="modal-section-label">Vowel</div>
-    <div class="modal-hangul" id="modal-hangul"></div>
+    <div class="hangul-letter-label">Vowel</div>
+    <div class="hangul-letter-big" id="modal-hangul"></div>
 
-    <div class="modal-section-label" style="margin-top:16px;">Sounds like</div>
-    <div class="modal-roman" id="modal-roman"></div>
-    <div class="modal-sound" id="modal-sound"></div>
+    <div class="hangul-letter-label" style="margin-top:16px;">Sounds like</div>
+    <div class="hangul-letter-roman" id="modal-roman"></div>
+    <div class="hangul-letter-sound" id="modal-sound"></div>
 
-    <div class="modal-example">
-      <div class="modal-section-label" style="margin-bottom:10px;">Example word</div>
+    <div class="hangul-letter-example">
+      <div class="hangul-letter-label" style="margin-bottom:10px;">Example word</div>
       <div class="ex-hangul" id="modal-ex-hangul"></div>
-      <div class="modal-ex-row">
-        <span class="modal-ex-pill">pronunciation</span>
+      <div class="hangul-ex-row">
+        <span class="hangul-ex-pill">pronunciation</span>
         <span id="modal-ex-roman"></span>
       </div>
-      <div class="modal-ex-row">
-        <span class="modal-ex-pill">meaning</span>
+      <div class="hangul-ex-row">
+        <span class="hangul-ex-pill">meaning</span>
         <span id="modal-ex-meaning"></span>
       </div>
     </div>
 
-    <button class="modal-close" onclick="document.getElementById('letter-modal').classList.remove('open')">Close</button>
+    <button type="button" class="hangul-letter-close" onclick="document.getElementById('letter-modal').classList.remove('is-open')">Close</button>
   </div>
 </div>
+
+
+<div class="vote-widget-wrap">
+  <div class="vote-widget" data-project="learn-hangul" aria-label="Rate this prototype">
+    <span class="vote-label">Rate this prototype</span>
+    <span class="vote-nums">
+      <span class="vote-num" data-value="1">1</span>
+      <span class="vote-num" data-value="2">2</span>
+      <span class="vote-num" data-value="3">3</span>
+      <span class="vote-num" data-value="4">4</span>
+      <span class="vote-num" data-value="5">5</span>
+    </span>
+    <span class="vote-thanks" id="vote-thanks" aria-live="polite">Thanks ✓</span>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Part of <a href="/">AI Proto Lab</a>. Read it before you need it.</p>
+</footer>
+
+<div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-modal-title" aria-hidden="true">
+  <div class="modal-panel">
+    <span class="modal-drag" aria-hidden="true"></span>
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h2 class="modal-title" id="case-modal-title">From idea to prototype</h2>
+        <p class="modal-subtitle">Built for learners who like structure.</p>
+      </div>
+      <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="label">What problem & for whom</p>
+      <p><strong>For whom:</strong> Anyone who wants to read Korean, not just parrot sounds. You get the logic of Hangul first, then practice in small loops: learn, build words, flip cards, match sounds.</p>
+      <p><strong>Problem:</strong> Alphabet apps often dump every character at once or skip why syllables are blocks. That makes Hangul feel harder than it is.</p>
+      <p><strong>This:</strong> Four levels from vowels to first real words. One path. Clear progress.</p>
+      <p class="label">The iteration</p>
+      <p>The first pass was too pretty and too light. It did not sit next to the rest of the lab. I moved the shell to the same dark frame as our other prototypes: top bar, story modal, rating, footer. Inside, the lessons stay playful, but the chrome now reads as one product family.</p>
+      <p class="label">What AI could and could not do</p>
+      <p>AI helped shape explanations and examples. The progression, games, and unlock rules are hand tuned so you cannot skip the hard part and still feel lost.</p>
+      <p class="label">Minimum viable effort</p>
+      <p>Tap a level, learn the letters, prove it in words and memory. No account. Your progress stays on this device.</p>
+      <p class="label">Get in touch</p>
+      <div class="modal-cta">
+        <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
+        <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 // ══════════════════════════════════════
@@ -1382,14 +579,14 @@ function openLetterModalL2(i) {
   state.l2learnSeen.add(i);
   saveState();
 
-  document.querySelector('#letter-modal .modal-section-label').textContent = 'Consonant';
+  document.querySelector('#letter-modal .hangul-letter-label').textContent = 'Consonant';
   document.getElementById('modal-hangul').textContent = v.h;
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
   document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
-  document.getElementById('letter-modal').classList.add('open');
+  document.getElementById('letter-modal').classList.add('is-open');
 
   if (state.currentTab === 'learn' && Number(state.currentLevel) === 2) {
     renderLearn2(document.getElementById('section-content'));
@@ -1635,14 +832,14 @@ function openLetterModalL3(i) {
   state.l3learnSeen.add(i);
   saveState();
 
-  document.querySelector('#letter-modal .modal-section-label').textContent = 'Consonant';
+  document.querySelector('#letter-modal .hangul-letter-label').textContent = 'Consonant';
   document.getElementById('modal-hangul').textContent = v.h;
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
   document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
-  document.getElementById('letter-modal').classList.add('open');
+  document.getElementById('letter-modal').classList.add('is-open');
 
   if (state.currentTab === 'learn' && Number(state.currentLevel) === 3) {
     renderLearn3(document.getElementById('section-content'));
@@ -1888,14 +1085,14 @@ function openLetterModal(i) {
   state.learnSeen.add(i);
   saveState();
 
-  document.querySelector('#letter-modal .modal-section-label').textContent = 'Vowel';
+  document.querySelector('#letter-modal .hangul-letter-label').textContent = 'Vowel';
   document.getElementById('modal-hangul').textContent = v.h;
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
   document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
-  document.getElementById('letter-modal').classList.add('open');
+  document.getElementById('letter-modal').classList.add('is-open');
 
   // Re-render to update seen state
   if (state.currentTab === 'learn' && Number(state.currentLevel) === 1) {
@@ -1905,7 +1102,7 @@ function openLetterModal(i) {
 
 function closeModal(e) {
   if (e.target.id === 'letter-modal') {
-    document.getElementById('letter-modal').classList.remove('open');
+    document.getElementById('letter-modal').classList.remove('is-open');
   }
 }
 
@@ -2352,7 +1549,7 @@ function renderLevel4Intro(el) {
   el.innerHTML = `
     <div style="max-width:480px;margin:0 auto;">
       <div class="intro-card" style="margin-bottom:20px;">
-        <h2 style="font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:14px;">One new concept</h2>
+        <h2 style="font-size:24px;margin-bottom:14px;">One new concept</h2>
         <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px;">
           You already know all the letters. Now you'll use them to write real words.
         </p>
@@ -2417,7 +1614,7 @@ function renderLevel4Word(el) {
 
         <div class="builder-word-display" style="margin-bottom:20px;">
           <div class="word-target-label">Write this word in Korean</div>
-          <div style="font-size:32px;font-family:'DM Serif Display',serif;color:var(--accent);margin:8px 0 2px;">${word.roman}</div>
+          <div style="font-size:32px;color:var(--accent);margin:8px 0 2px;">${word.roman}</div>
           <div style="font-size:13px;color:var(--ink2);">${word.meaning}</div>
           <div style="margin-top:12px;display:flex;gap:6px;justify-content:center;">
             ${word.syllables.map(() => '<div style="width:32px;height:4px;background:var(--border);border-radius:2px;"></div>').join('')}
@@ -2505,6 +1702,69 @@ function renderLevel4Word(el) {
 // ══════════════════════════════════════
 loadState();
 updateHomeCards();
+</script>
+<script src="/rating-vote.js"></script>
+<script>
+(function () {
+  var project = 'learn-hangul';
+  var key = 'rating_' + project;
+  var widget = document.querySelector('.vote-widget');
+  var thanks = document.getElementById('vote-thanks');
+  if (widget && thanks) {
+    var nums = widget.querySelectorAll('.vote-num');
+    thanks.style.display = 'none';
+    var saved = localStorage.getItem(key);
+    if (saved) {
+      var v = parseInt(saved, 10);
+      nums.forEach(function (n) {
+        var val = parseInt(n.getAttribute('data-value'), 10);
+        n.classList.toggle('vote-selected', val === v);
+        n.classList.toggle('vote-grey', val !== v);
+      });
+      thanks.style.display = 'inline';
+    }
+    nums.forEach(function (n) {
+      n.addEventListener('click', function () {
+        if (localStorage.getItem(key)) return;
+        var v = parseInt(this.getAttribute('data-value'), 10);
+        if (typeof saveRating === 'function') saveRating(project, v);
+        nums.forEach(function (x) {
+          var val = parseInt(x.getAttribute('data-value'), 10);
+          x.classList.toggle('vote-selected', val === v);
+          x.classList.toggle('vote-grey', val !== v);
+        });
+        thanks.style.display = 'inline';
+      });
+    });
+  }
+})();
+</script>
+<script>
+(function () {
+  var overlay = document.getElementById('case-modal');
+  var openBtns = document.querySelectorAll('.js-open-case');
+  var closeBtn = document.querySelector('.js-close-modal');
+  if (!overlay || !openBtns.length || !closeBtn) return;
+  function openModal() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+  });
+})();
 </script>
 </body>
 </html>
