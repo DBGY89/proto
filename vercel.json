@@ -1,6 +1,10 @@
 {
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/hangul", "destination": "/learn-hangul/", "permanent": true },
+    { "source": "/hangul/", "destination": "/learn-hangul/", "permanent": true },
+    { "source": "/projects/hangul", "destination": "/learn-hangul/", "permanent": true },
+    { "source": "/projects/hangul/", "destination": "/learn-hangul/", "permanent": true },
     { "source": "/projects/:project/index.html", "destination": "/:project/", "permanent": true },
     { "source": "/projects/:project", "destination": "/:project/", "permanent": true },
     { "source": "/projects/:project/", "destination": "/:project/", "permanent": true },
