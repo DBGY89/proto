@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn Hangul</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F0E8;
+    --bg2: #EDE8DF;
+    --ink: #1A1410;
+    --ink2: #5C4F3D;
+    --accent: #C8412A;
+    --accent2: #E8956D;
+    --gold: #D4A843;
+    --green: #3D7A5C;
+    --card: #FDFAF4;
+    --border: rgba(26,20,16,0.12);
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(26,20,16,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Mono', 'Noto Sans KR', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display:none; min-height:100vh; }
+  .screen.active { display:flex; flex-direction:column; }
+
+  /* ── HOME ── */
+  #home {
+    padding: 48px 24px 80px;
+    align-items: center;
+  }
+
+  .home-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .home-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 12px;
+  }
+
+  .home-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 12vw, 88px);
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .home-title .hangul-accent {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .home-sub {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-top: 20px;
+    line-height: 1.6;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .levels-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .level-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 28px 24px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .level-card:not(.locked):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .level-card.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .level-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--accent);
+  }
+
+  .level-card.locked::before { background: var(--ink2); }
+  .level-card.completed::before { background: var(--green); }
+
+  .level-num {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 6px;
+  }
+
+  .level-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .level-desc {
+    font-size: 12px;
+    color: var(--ink2);
+    line-height: 1.5;
+  }
+
+  .level-chars {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .level-char {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--bg2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+  }
+
+  .level-status {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--bg2);
+    color: var(--ink2);
+  }
+
+  .level-status.done { background: #D4EDDA; color: var(--green); }
+  .level-status.locked-tag { background: var(--bg2); color: var(--ink2); }
+
+  /* ── LEVEL VIEW ── */
+  #level-view { padding: 0; }
+
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    position: sticky; top: 0; z-index: 10;
+  }
+
+  .back-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.15s;
+  }
+  .back-btn:hover { background: var(--bg2); }
+
+  .nav-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+  }
+
+  .section-tabs {
+    display: flex;
+    gap: 0;
+    padding: 20px 24px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  .tab {
+    padding: 10px 20px 12px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--ink2);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab.locked-tab { opacity: 0.4; cursor: not-allowed; }
+
+  .section-content { flex: 1; padding: 32px 24px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+  /* ── INTRO SCREEN ── */
+  #intro-screen { padding: 32px 24px; max-width: 560px; margin: 0 auto; }
+
+  .intro-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+
+  .intro-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .intro-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink2);
+    margin-bottom: 14px;
+  }
+
+  .block-demo {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .block-demo-item {
+    text-align: center;
+  }
+
+  .hangul-big {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .block-parts {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    justify-content: center;
+  }
+
+  .block-part {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    width: 32px; height: 32px;
+    background: var(--accent);
+    color: white;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .block-part.vowel { background: var(--gold); }
+  .block-part.final { background: var(--ink2); }
+
+  .arrow-right { font-size: 24px; color: var(--ink2); align-self: center; }
+
+  .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    text-transform: uppercase;
+  }
+
+  .primary-btn:hover { background: #B03520; transform: translateY(-1px); }
+
+  /* ── LEARN LETTERS ── */
+  .letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .letter-tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 12px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    position: relative;
+  }
+
+  .letter-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+  .tile-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .tile-roman {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink2);
+    margin-bottom: 4px;
+  }
+
+  .tile-tap-hint {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 16px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .letter-tile.seen {
+    background: #EDF7F1;
+    border-color: #3D7A5C;
+  }
+
+  .letter-tile.seen .tile-hangul { color: var(--ink); }
+  .letter-tile.seen .tile-roman { color: var(--green); }
+
+  /* Letter detail modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,20,16,0.5);
+    display: none; align-items: center; justify-content: center;
+    z-index: 100;
+    padding: 24px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 40px 32px 32px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    animation: slideUp 0.25s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity:0; }
+    to { transform: translateY(0); opacity:1; }
+  }
+
+  .modal-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .modal-roman {
+    font-size: 28px;
+    font-family: 'DM Serif Display', serif;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .modal-sound {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-bottom: 8px;
+  }
+
+  .modal-example {
+    margin: 20px 0;
+    padding: 16px;
+    background: var(--bg2);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  .modal-example .ex-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .modal-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink2);
+    margin-bottom: 4px;
+  }
+
+  .modal-ex-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .modal-ex-pill {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--bg);
+    color: var(--ink2);
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+
+    margin-top: 16px;
+    background: var(--bg2);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+
+  /* ── WORD BUILDER ── */
+  .word-builder {
+    margin-top: 16px;
+  }
+
+  .builder-word-display {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .word-target-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink2);
+    margin-bottom: 12px;
+  }
+
+  .word-target-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 48px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .word-target-roman {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .word-target-meaning {
+    font-size: 12px;
+    color: var(--ink2);
+  }
+
+  .drop-zone {
+    display: flex;
+    gap: 8px;
+    min-height: 64px;
+    padding: 12px;
+    background: var(--bg2);
+    border-radius: 10px;
+    border: 2px dashed var(--border);
+    margin: 16px 0;
+    flex-wrap: wrap;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+
+  .drop-zone.drag-over { border-color: var(--accent); }
+
+  .dropped-char {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 32px;
+    width: 52px; height: 52px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: grab;
+    animation: popIn 0.15s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity:0; }
+    to { transform: scale(1); opacity:1; }
+  }
+
+  .drop-hint {
+    font-size: 12px;
+    color: var(--ink2);
+    opacity: 0.5;
+  }
+
+  .char-bank {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .char-option {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    width: 52px; height: 52px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: grab;
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+  }
+
+  .char-option:hover { transform: scale(1.05); box-shadow: var(--shadow); }
+  .char-option.used { opacity: 0.3; pointer-events: none; }
+
+  .word-feedback {
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .word-feedback.correct { background: #D4EDDA; color: var(--green); display:block; }
+  .word-feedback.wrong { background: #FAD4CF; color: var(--accent); display:block; animation: shake 0.3s; }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .word-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ghost-btn {
+    background: var(--bg2);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.15s;
+  }
+  .ghost-btn:hover { background: var(--border); }
+
+  .word-counter {
+    font-size: 12px;
+    color: var(--ink2);
+  }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .flashcard-progress {
+    font-size: 12px;
+    color: var(--ink2);
+    letter-spacing: 0.08em;
+  }
+
+  .flashcard-wrap {
+    width: 100%;
+    max-width: 340px;
+    height: 220px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .flashcard-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+
+  .flashcard-wrap.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .flashcard-face {
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    backface-visibility: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .flashcard-front { background: var(--card); }
+  .flashcard-back { background: var(--ink); transform: rotateY(180deg); }
+
+  .fc-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .fc-hint {
+    font-size: 11px;
+    color: var(--ink2);
+    margin-top: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fc-roman {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .fc-sound {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .flashcard-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .fc-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .fc-btn:hover { transform: translateY(-1px); }
+  .fc-btn.know { background: #D4EDDA; color: var(--green); }
+  .fc-btn.review { background: #FAD4CF; color: var(--accent); }
+
+  .fc-complete {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .fc-complete h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .fc-complete p {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-bottom: 24px;
+  }
+
+  /* ── MATCH GAME ── */
+  .match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .match-score {
+    font-size: 12px;
+    color: var(--ink2);
+  }
+
+  .match-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .match-col { display: flex; flex-direction: column; gap: 8px; }
+
+  .match-hangul-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    transition: border-color 0.15s, background 0.15s, opacity 0.3s;
+    min-height: 64px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .match-hangul-card.matched {
+    background: #EDF7F1;
+    border-color: var(--green);
+    opacity: 0.5;
+  }
+
+  .match-roman-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    cursor: grab;
+    transition: border-color 0.2s, background 0.15s, transform 0.15s, opacity 0.3s;
+    min-height: 64px;
+    display: flex; align-items: center; justify-content: center;
+    user-select: none;
+  }
+
+  .match-roman-card:hover { transform: scale(1.03); box-shadow: var(--shadow); }
+  .match-roman-card.dragging { opacity: 0.4; cursor: grabbing; }
+
+  .match-roman-card.matched {
+    background: #EDF7F1;
+    border-color: var(--green);
+    color: var(--green);
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .match-roman-card.wrong {
+    border-color: var(--accent);
+    background: #FAD4CF;
+    animation: shake 0.3s;
+  }
+
+  .match-drop-target {
+    min-height: 64px;
+    border-radius: 12px;
+    border: 2px dashed var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 12px;
+    color: var(--ink2);
+    letter-spacing: 0.06em;
+  }
+
+  .match-drop-target.over { border-color: var(--accent); background: #FAF0EE; }
+  .match-drop-target.matched {
+    border-style: solid;
+    border-color: var(--green);
+    background: #EDF7F1;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--green);
+    opacity: 0.5;
+  }
+
+  .memory-complete {
+    text-align: center;
+    padding: 48px 24px;
+    animation: slideUp 0.4s ease;
+  }
+
+  .memory-complete .big-emoji { font-size: 64px; margin-bottom: 16px; }
+
+  .memory-complete h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .memory-complete p {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-bottom: 28px;
+  }
+
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--bg2);
+    border-radius: 4px;
+    height: 4px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── SECTION LOCKED ── */
+  .section-locked {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink2);
+  }
+
+  .section-locked .lock-icon { font-size: 40px; margin-bottom: 16px; }
+  .section-locked p { font-size: 13px; line-height: 1.6; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 400px) {
+    .memory-grid { grid-template-columns: repeat(4,1fr); gap: 6px; }
+    .mem-front-face .mf-hangul { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="screen active">
+  <div class="home-header">
+    <div class="home-eyebrow">AIProtoLab</div>
+    <div class="home-title">Learn<br><span class="hangul-accent">한글</span></div>
+    <p class="home-sub">The Korean alphabet was designed to be easy. Let's prove it.</p>
+  </div>
+  <div class="levels-grid">
+    <div class="level-card" id="card-1" onclick="openLevel(1)">
+      <div class="level-num">Level 1</div>
+      <div class="level-name">The Vowels</div>
+      <div class="level-desc">10 vowels. The foundation of every Korean syllable.</div>
+      <div class="level-chars">
+        <div class="level-char">ㅏ</div>
+        <div class="level-char">ㅓ</div>
+        <div class="level-char">ㅗ</div>
+        <div class="level-char">ㅜ</div>
+        <div class="level-char">ㅣ</div>
+        <div class="level-char" style="opacity:0.4">+5</div>
+      </div>
+      <div class="level-status" id="status-1">Start</div>
+    </div>
+
+    <div class="level-card locked" id="card-2">
+      <div class="level-num">Level 2</div>
+      <div class="level-name">Soft Consonants</div>
+      <div class="level-desc">7 consonants. Start forming real words.</div>
+      <div class="level-chars">
+        <div class="level-char">ㄱ</div>
+        <div class="level-char">ㄴ</div>
+        <div class="level-char">ㄷ</div>
+        <div class="level-char">ㄹ</div>
+        <div class="level-char">ㅁ</div>
+        <div class="level-char" style="opacity:0.4">+2</div>
+      </div>
+      <div class="level-status locked-tag">Locked</div>
+    </div>
+
+    <div class="level-card locked" id="card-3">
+      <div class="level-num">Level 3</div>
+      <div class="level-name">Strong Consonants</div>
+      <div class="level-desc">6 aspirated consonants. Complete the alphabet.</div>
+      <div class="level-chars">
+        <div class="level-char">ㅈ</div>
+        <div class="level-char">ㅊ</div>
+        <div class="level-char">ㅋ</div>
+        <div class="level-char">ㅌ</div>
+        <div class="level-char">ㅍ</div>
+        <div class="level-char">ㅎ</div>
+      </div>
+      <div class="level-status locked-tag">Locked</div>
+    </div>
+    <div class="level-card locked" id="card-4">
+      <div class="level-num">Level 4</div>
+      <div class="level-name">First Words</div>
+      <div class="level-desc">8 real words. Practice writing what you know.</div>
+      <div class="level-chars">
+        <div class="level-char">물</div>
+        <div class="level-char">밥</div>
+        <div class="level-char">안</div>
+        <div class="level-char">녕</div>
+        <div class="level-char">한</div>
+        <div class="level-char" style="opacity:0.4">+3</div>
+      </div>
+      <div class="level-status locked-tag">Locked</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ INTRO SCREEN ══════════ -->
+<div id="intro-screen" class="screen">
+  <div style="padding:20px 24px; border-bottom:1px solid var(--border); background:var(--card); display:flex; align-items:center; gap:16px;">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <span style="font-family:'DM Serif Display',serif; font-size:20px;">How Hangul Works</span>
+  </div>
+  <div style="padding:32px 24px; max-width:560px; margin:0 auto; width:100%;">
+    <div class="intro-card">
+      <h2>Before you start</h2>
+      <p>Korean is written in <strong>syllable blocks</strong>, not in a line of individual letters. Each block is one syllable, made of 2 or 3 characters stacked together.</p>
+      <p>This is what makes it different from the alphabet you already know. Once it clicks, it's one of the most logical writing systems in the world.</p>
+
+      <div class="block-demo">
+        <div class="block-demo-item">
+          <div style="display:flex;gap:4px;margin-bottom:8px;">
+            <div class="block-part">ㅎ</div>
+            <div class="block-part vowel">ㅏ</div>
+            <div class="block-part final">ㄴ</div>
+          </div>
+          <div style="font-size:11px;color:var(--ink2);">consonant + vowel + final</div>
+        </div>
+        <div class="arrow-right">→</div>
+        <div class="block-demo-item">
+          <div class="hangul-big">한</div>
+          <div style="font-size:13px;color:var(--accent);margin-top:4px;">han</div>
+          <div style="font-size:11px;color:var(--ink2);">Korea</div>
+        </div>
+      </div>
+
+      <p>In Level 1 you'll learn the vowels first. Since vowels can't stand alone in a block, Korean uses a silent placeholder consonant: <strong style="font-family:'Noto Sans KR',sans-serif;">ㅇ</strong>. So 아 is just ㅇ + ㅏ, pronounced "a".</p>
+      <p>Don't worry. It will make sense as soon as you see it in action.</p>
+    </div>
+    <button class="primary-btn" onclick="startLevel1()">Got it. Let's start →</button>
+  </div>
+</div>
+
+<!-- ══════════ LEVEL VIEW ══════════ -->
+<div id="level-view" class="screen">
+  <div class="nav-bar">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <span class="nav-title" id="level-view-title">Level 1: The Vowels</span>
+  </div>
+  <div class="section-tabs">
+    <div class="tab active" id="tab-learn" onclick="switchTab('learn')">Learn</div>
+    <div class="tab" id="tab-words" onclick="switchTab('words')">Words</div>
+    <div class="tab" id="tab-flash" onclick="switchTab('flash')">Flashcards</div>
+    <div class="tab" id="tab-memory" onclick="switchTab('memory')">Memory</div>
+
+  </div>
+  <div class="section-content" id="section-content"></div>
+</div>
+
+<!-- ══════════ LETTER MODAL ══════════ -->
+<div class="modal-overlay" id="letter-modal" onclick="closeModal(event)">
+  <div class="modal">
+
+    <div class="modal-section-label">Vowel</div>
+    <div class="modal-hangul" id="modal-hangul"></div>
+
+    <div class="modal-section-label" style="margin-top:16px;">Sounds like</div>
+    <div class="modal-roman" id="modal-roman"></div>
+    <div class="modal-sound" id="modal-sound"></div>
+
+    <div class="modal-example">
+      <div class="modal-section-label" style="margin-bottom:10px;">Example word</div>
+      <div class="ex-hangul" id="modal-ex-hangul"></div>
+      <div class="modal-ex-row">
+        <span class="modal-ex-pill">pronunciation</span>
+        <span id="modal-ex-roman"></span>
+      </div>
+      <div class="modal-ex-row">
+        <span class="modal-ex-pill">meaning</span>
+        <span id="modal-ex-meaning"></span>
+      </div>
+    </div>
+
+    <button class="modal-close" onclick="document.getElementById('letter-modal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+const VOWELS = [
+  { h:'ㅏ', r:'a', sound:'like "a" in father', ex:{h:'아이',r:'a-i',m:'child'} },
+  { h:'ㅑ', r:'ya', sound:'like "ya" in yard', ex:{h:'야구',r:'ya-gu',m:'baseball'} },
+  { h:'ㅓ', r:'eo', sound:'like "o" in other', ex:{h:'어머니',r:'eo-meo-ni',m:'mother'} },
+  { h:'ㅕ', r:'yeo', sound:'like "yuh"', ex:{h:'여우',r:'yeo-u',m:'fox'} },
+  { h:'ㅗ', r:'o', sound:'like "o" in old', ex:{h:'오이',r:'o-i',m:'cucumber'} },
+  { h:'ㅛ', r:'yo', sound:'like "yo" in yoga', ex:{h:'요리',r:'yo-ri',m:'cooking'} },
+  { h:'ㅜ', r:'u', sound:'like "oo" in food', ex:{h:'우유',r:'u-yu',m:'milk'} },
+  { h:'ㅠ', r:'yu', sound:'like "you"', ex:{h:'유리',r:'yu-ri',m:'glass'} },
+  { h:'ㅡ', r:'eu', sound:'like "u" in put', ex:{h:'으뜸',r:'eu-tteum',m:'top/best'} },
+  { h:'ㅣ', r:'i', sound:'like "ee" in see', ex:{h:'이름',r:'i-reum',m:'name'} },
+];
+
+const WORDS_L1 = [
+  { hangul:'아이', roman:'a-i', meaning:'child', chars:['아','이'] },
+  { hangul:'오이', roman:'o-i', meaning:'cucumber', chars:['오','이'] },
+  { hangul:'우유', roman:'u-yu', meaning:'milk', chars:['우','유'] },
+];
+
+// ── LEVEL 2 DATA ──
+const CONSONANTS = [
+  { h:'ㄱ', r:'g/k', sound:'like "g" in go', ex:{h:'고기',r:'go-gi',m:'meat'} },
+  { h:'ㄴ', r:'n',   sound:'like "n" in no', ex:{h:'나라',r:'na-ra',m:'country'} },
+  { h:'ㄷ', r:'d/t', sound:'like "d" in door', ex:{h:'다리',r:'da-ri',m:'bridge'} },
+  { h:'ㄹ', r:'r/l', sound:'between "r" and "l"', ex:{h:'라면',r:'ra-myeon',m:'ramen'} },
+  { h:'ㅁ', r:'m',   sound:'like "m" in moon', ex:{h:'마음',r:'ma-eum',m:'heart'} },
+  { h:'ㅂ', r:'b/p', sound:'like "b" in book', ex:{h:'바다',r:'ba-da',m:'sea'} },
+  { h:'ㅅ', r:'s',   sound:'like "s" in sun', ex:{h:'사람',r:'sa-ram',m:'person'} },
+];
+
+// Words using only consonants from L2 + vowels from L1
+const WORDS_L2 = [
+  { hangul:'나라', roman:'na-ra', meaning:'country', chars:['나','라'] },
+  { hangul:'바다', roman:'ba-da', meaning:'sea', chars:['바','다'] },
+  { hangul:'사람', roman:'sa-ram', meaning:'person', chars:['사','람'] },
+];
+
+// ── LEVEL 3 DATA ──
+const ASPIRATED = [
+  { h:'ㅈ', r:'j',  sound:'like "j" in jump',  ex:{h:'자다', r:'ja-da',   m:'to sleep'} },
+  { h:'ㅊ', r:'ch', sound:'like "ch" in chair', ex:{h:'치즈', r:'chi-jeu', m:'cheese'} },
+  { h:'ㅋ', r:'k',  sound:'like "k" in key',    ex:{h:'커피', r:'keo-pi',  m:'coffee'} },
+  { h:'ㅌ', r:'t',  sound:'like "t" in top',    ex:{h:'타다', r:'ta-da',   m:'to ride'} },
+  { h:'ㅍ', r:'p',  sound:'like "p" in park',   ex:{h:'파다', r:'pa-da',   m:'to dig'} },
+  { h:'ㅎ', r:'h',  sound:'like "h" in hat',    ex:{h:'하늘', r:'ha-neul', m:'sky'} },
+];
+
+const WORDS_L3 = [
+  { hangul:'하늘', roman:'ha-neul', meaning:'sky',    chars:['하','늘'] },
+  { hangul:'커피', roman:'keo-pi',  meaning:'coffee', chars:['커','피'] },
+  { hangul:'치즈', roman:'chi-jeu', meaning:'cheese', chars:['치','즈'] },
+];
+
+// ── LEVEL 4 DATA ──
+const WORDS_L4 = [
+  { word:'물',      roman:'mul',        meaning:'water',   syllables:['물'],           distractors:['불','술','글','달'] },
+  { word:'밥',      roman:'bap',        meaning:'rice / food', syllables:['밥'],       distractors:['납','랍','갑','밀'] },
+  { word:'한국',    roman:'han-guk',    meaning:'Korea',   syllables:['한','국'],       distractors:['반','목','각','선'] },
+  { word:'안녕',    roman:'an-nyeong',  meaning:'hi / bye', syllables:['안','녕'],      distractors:['반','용','강','달'] },
+  { word:'사람',    roman:'sa-ram',     meaning:'person',  syllables:['사','람'],       distractors:['나','바','라','감'] },
+  { word:'나라',    roman:'na-ra',      meaning:'country', syllables:['나','라'],       distractors:['다','가','마','사'] },
+  { word:'하늘',    roman:'ha-neul',    meaning:'sky',     syllables:['하','늘'],       distractors:['바','달','라','나'] },
+  { word:'커피',    roman:'keo-pi',     meaning:'coffee',  syllables:['커','피'],       distractors:['터','치','포','주'] },
+];
+
+// State
+let state = {
+  // Level 1
+  learnSeen: new Set(),
+  wordsCompleted: false,
+  flashDone: false,
+  memoryDone: false,
+  memoryReached: false,
+  currentTab: 'learn',
+  wordIndex: 0,
+  dropChars: [],
+  fcIndex: 0,
+  fcKnow: new Set(),
+  memCards: [],
+  memFlipped: [],
+  memMatched: new Set(),
+  memMoves: 0,
+  memLock: false,
+  // Level 2
+  currentLevel: 1,
+  l2learnSeen: new Set(),
+  l2wordsCompleted: false,
+  l2flashDone: false,
+  l2memoryDone: false,
+  l2wordIndex: 0,
+  l2dropChars: [],
+  l2fcIndex: 0,
+  l2fcKnow: new Set(),
+  l2memCards: [],
+  l2memFlipped: [],
+  l2memMatched: new Set(),
+  l2memMoves: 0,
+  l2memLock: false,
+  // Level 3
+  l2memoryReached: false,
+  l3learnSeen: new Set(),
+  l3wordsCompleted: false,
+  l3flashDone: false,
+  l3memoryDone: false,
+  l3wordIndex: 0,
+  l3dropChars: [],
+  l3fcIndex: 0,
+  l3fcKnow: new Set(),
+  l3memCards: [],
+  l3memFlipped: [],
+  l3memMatched: new Set(),
+  l3memMoves: 0,
+  l3memLock: false,
+  // Level 4
+  l3memoryReached: false,
+  l4wordIndex: 0,
+  l4completed: false,
+};
+
+// Load from localStorage
+function loadState() {
+  try {
+    const s = localStorage.getItem('hangul_state');
+    if (s) {
+      const loaded = JSON.parse(s);
+      state.learnSeen = new Set(loaded.learnSeen || []);
+      state.wordsCompleted = loaded.wordsCompleted || false;
+      state.flashDone = loaded.flashDone || false;
+      state.memoryDone = loaded.memoryDone || false;
+      state.memoryReached = loaded.memoryReached || false;
+      state.l2learnSeen = new Set(loaded.l2learnSeen || []);
+      state.l2wordsCompleted = loaded.l2wordsCompleted || false;
+      state.l2flashDone = loaded.l2flashDone || false;
+      state.l2memoryDone = loaded.l2memoryDone || false;
+      state.l2memoryReached = loaded.l2memoryReached || false;
+      state.l3learnSeen = new Set(loaded.l3learnSeen || []);
+      state.l3wordsCompleted = loaded.l3wordsCompleted || false;
+      state.l3flashDone = loaded.l3flashDone || false;
+      state.l3memoryDone = loaded.l3memoryDone || false;
+      state.l3memoryReached = loaded.l3memoryReached || false;
+      state.l4completed = loaded.l4completed || false;
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('hangul_state', JSON.stringify({
+      learnSeen: [...state.learnSeen],
+      wordsCompleted: state.wordsCompleted,
+      flashDone: state.flashDone,
+      memoryDone: state.memoryDone,
+      memoryReached: state.memoryReached,
+      l2learnSeen: [...state.l2learnSeen],
+      l2wordsCompleted: state.l2wordsCompleted,
+      l2flashDone: state.l2flashDone,
+      l2memoryDone: state.l2memoryDone,
+      l2memoryReached: state.l2memoryReached,
+      l3learnSeen: [...state.l3learnSeen],
+      l3wordsCompleted: state.l3wordsCompleted,
+      l3flashDone: state.l3flashDone,
+      l3memoryDone: state.l3memoryDone,
+      l3memoryReached: state.l3memoryReached,
+      l4completed: state.l4completed,
+    }));
+  } catch(e) {}
+}
+
+// ══════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  updateHomeCards();
+}
+
+function updateHomeCards() {
+  const s1 = document.getElementById('status-1');
+
+  if (state.memoryDone) {
+    s1.textContent = 'Completed';
+    s1.className = 'level-status done';
+    document.getElementById('card-1').classList.add('completed');
+  } else if (state.learnSeen.size > 0) {
+    s1.textContent = 'In progress';
+  }
+
+  // Unlock level 2 when memory tab is reached
+  if (state.memoryReached || state.memoryDone) {
+    const card2 = document.getElementById('card-2');
+    const status2 = document.querySelector('#card-2 .level-status');
+    card2.classList.remove('locked');
+    card2.setAttribute('onclick','openLevel(2)');
+
+    if (state.l2memoryDone) {
+      status2.textContent = 'Completed';
+      status2.className = 'level-status done';
+      card2.classList.add('completed');
+    } else if (state.l2learnSeen.size > 0) {
+      status2.textContent = 'In progress';
+      status2.className = 'level-status';
+    } else {
+      status2.textContent = 'Start';
+      status2.className = 'level-status';
+    }
+
+    // Unlock level 3 when memory tab of level 2 is reached
+    if (state.l2memoryReached || state.l2memoryDone) {
+      const card3 = document.getElementById('card-3');
+      const status3 = document.querySelector('#card-3 .level-status');
+      card3.classList.remove('locked');
+      card3.setAttribute('onclick','openLevel(3)');
+
+      if (state.l3memoryDone) {
+        status3.textContent = 'Completed';
+        status3.className = 'level-status done';
+        card3.classList.add('completed');
+      } else if (state.l3learnSeen.size > 0) {
+        status3.textContent = 'In progress';
+        status3.className = 'level-status';
+      } else {
+        status3.textContent = 'Start';
+        status3.className = 'level-status';
+      }
+
+      // Unlock level 4 when memory tab of level 3 is reached
+      if (state.l3memoryReached || state.l3memoryDone) {
+        const card4 = document.getElementById('card-4');
+        const status4 = document.querySelector('#card-4 .level-status');
+        card4.classList.remove('locked');
+        card4.setAttribute('onclick','openLevel(4)');
+        if (state.l4completed) {
+          status4.textContent = 'Completed';
+          status4.className = 'level-status done';
+          card4.classList.add('completed');
+        } else {
+          status4.textContent = 'Start';
+          status4.className = 'level-status';
+        }
+      }
+    }
+  }
+}
+
+function openLevel(n) {
+  state.currentLevel = n;
+  if (n === 1) {
+    if (state.learnSeen.size === 0) {
+      showScreen('intro-screen');
+    } else {
+      showScreen('level-view');
+      document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
+      document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
+      switchTab('learn');
+    }
+  } else if (n === 2) {
+    showScreen('level-view');
+    document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
+    document.getElementById('level-view-title').textContent = 'Level 2: Soft Consonants';
+    switchTab('learn');
+  } else if (n === 3) {
+    showScreen('level-view');
+    document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
+    document.getElementById('level-view-title').textContent = 'Level 3: Strong Consonants';
+    switchTab('learn');
+  } else if (n === 4) {
+    showScreen('level-view');
+    document.getElementById('level-view-title').textContent = 'Level 4: First Words';
+    // Level 4 has single tab — practice
+    document.querySelectorAll('.tab').forEach(t => { t.style.display = 'none'; });
+    const content = document.getElementById('section-content');
+    renderLevel4Intro(content);
+  } else {
+    showScreen('level-view');
+    document.getElementById('level-view-title').textContent = `Level ${n}: Coming soon`;
+    document.getElementById('section-content').innerHTML = `
+      <div class="section-locked">
+        <div class="lock-icon">🚧</div>
+        <p>Level ${n} is being built. Complete Level 2 first and check back soon.</p>
+      </div>`;
+  }
+}
+
+function startLevel1() {
+  state.currentLevel = 1;
+  showScreen('level-view');
+  document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
+  switchTab('learn');
+}
+
+// ══════════════════════════════════════
+// TABS
+// ══════════════════════════════════════
+function switchTab(tab) {
+  state.currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+
+  const content = document.getElementById('section-content');
+  const lv = state.currentLevel;
+
+  if (lv === 3) {
+    if (tab === 'learn') renderLearn3(content);
+    else if (tab === 'words') renderWords3(content);
+    else if (tab === 'flash') renderFlash3(content);
+    else if (tab === 'memory') renderMemory3(content);
+  } else if (lv === 2) {
+    if (tab === 'learn') renderLearn2(content);
+    else if (tab === 'words') renderWords2(content);
+    else if (tab === 'flash') renderFlash2(content);
+    else if (tab === 'memory') renderMemory2(content);
+  } else {
+    if (tab === 'learn') renderLearn(content);
+    else if (tab === 'words') renderWords(content);
+    else if (tab === 'flash') renderFlash(content);
+    else if (tab === 'memory') renderMemory(content);
+  }
+}
+
+// ══════════════════════════════════════
+// LEARN
+// ══════════════════════════════════════
+function renderLearn(el) {
+  const pct = Math.round((state.learnSeen.size / VOWELS.length) * 100);
+  let html = `
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6;">
+      Tap any letter to learn it. Each vowel pairs with the silent consonant <strong style="font-family:'Noto Sans KR'">ㅇ</strong> to form a syllable block.
+    </p>
+    <div class="letters-grid">`;
+
+  VOWELS.forEach((v, i) => {
+    const seen = state.learnSeen.has(i) ? 'seen' : '';
+    html += `<div class="letter-tile ${seen}" onclick="openLetterModal(${i})">
+      <div class="tile-hangul">${v.h}</div>
+      <div class="tile-roman">${v.r}</div>
+      ${!seen ? '<div class="tile-tap-hint">›</div>' : ''}
+    </div>`;
+  });
+
+  html += `</div>
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+
+  el.innerHTML = html;
+}
+
+function openLetterModal(i) {
+  const v = VOWELS[i];
+  state.learnSeen.add(i);
+  saveState();
+
+  document.querySelector('#letter-modal .modal-section-label').textContent = 'Vowel';
+  document.getElementById('modal-hangul').textContent = v.h;
+  document.getElementById('modal-roman').textContent = v.r;
+  document.getElementById('modal-sound').textContent = v.sound;
+  document.getElementById('modal-ex-hangul').textContent = v.ex.h;
+  document.getElementById('modal-ex-roman').textContent = v.ex.r;
+  document.getElementById('modal-ex-meaning').textContent = v.ex.m;
+  document.getElementById('letter-modal').classList.add('open');
+
+  // Re-render to update seen state
+  if (state.currentTab === 'learn') {
+    renderLearn(document.getElementById('section-content'));
+  }
+}
+
+function closeModal(e) {
+  if (e.target.id === 'letter-modal') {
+    document.getElementById('letter-modal').classList.remove('open');
+  }
+}
+
+// ══════════════════════════════════════
+// WORDS
+// ══════════════════════════════════════
+function renderWords(el) {
+  if (state.wordsCompleted) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Words done!</h3>
+      <p>You built all three words correctly.</p>
+      <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+    </div>`;
+    return;
+  }
+
+  state.wordIndex = state.wordIndex || 0;
+  renderWordBuilder(el);
+}
+
+function renderWordBuilder(el) {
+  const word = WORDS_L1[state.wordIndex];
+  state.dropChars = [];
+
+  // Build distractor chars (all vowel syllables)
+  const allChars = ['아','야','어','여','오','요','우','유','으','이'];
+  const correctSet = new Set(word.chars);
+  const distractors = allChars.filter(c => !correctSet.has(c));
+  // Pick 4 distractors
+  const shuffled = [...distractors].sort(() => Math.random() - 0.5).slice(0, 4);
+  const bank = [...word.chars, ...shuffled].sort(() => Math.random() - 0.5);
+
+  el.innerHTML = `
+    <div class="word-builder">
+      <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
+        Drag the correct syllables to form the word.
+      </p>
+      <div class="builder-word-display">
+        <div class="word-target-label">Build this word</div>
+        <div class="word-target-hangul">${word.hangul}</div>
+        <div class="word-target-roman">${word.roman}</div>
+        <div class="word-target-meaning">${word.meaning}</div>
+      </div>
+      <div class="drop-zone" id="drop-zone">
+        <span class="drop-hint">Drop syllables here</span>
+      </div>
+      <div id="word-feedback" class="word-feedback"></div>
+      <div class="char-bank" id="char-bank">
+        ${bank.map((c,i) => `<div class="char-option" draggable="true" id="co-${i}" data-char="${c}" 
+          ondragstart="dragStart(event,'${c}',${i})"
+          onclick="tapChar('${c}',${i})">${c}</div>`).join('')}
+      </div>
+      <div class="word-nav">
+        <span class="word-counter">${state.wordIndex + 1} / ${WORDS_L1.length}</span>
+        <div style="display:flex;gap:8px;">
+          <button class="ghost-btn" onclick="clearDrop()">Clear</button>
+          <button class="primary-btn" onclick="checkWord()">Check →</button>
+        </div>
+      </div>
+    </div>`;
+
+  setupDropZone();
+}
+
+function setupDropZone() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('drag-over');
+    const char = e.dataTransfer.getData('char');
+    const idx = e.dataTransfer.getData('idx');
+    addToDrop(char, idx);
+  });
+}
+
+let dragging = { char: '', idx: '' };
+function dragStart(e, char, idx) {
+  e.dataTransfer.setData('char', char);
+  e.dataTransfer.setData('idx', idx);
+}
+
+function tapChar(char, idx) {
+  // Mobile: tap to add/remove
+  const el = document.getElementById(`co-${idx}`);
+  if (el.classList.contains('used')) return;
+  addToDrop(char, idx);
+}
+
+function addToDrop(char, idx) {
+  const word = WORDS_L1[state.wordIndex];
+  if (state.dropChars.length >= word.chars.length) return;
+
+  state.dropChars.push({ char, idx });
+  const el = document.getElementById(`co-${idx}`);
+  if (el) el.classList.add('used');
+
+  renderDropZone();
+}
+
+function renderDropZone() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  if (state.dropChars.length === 0) {
+    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    return;
+  }
+  dz.innerHTML = state.dropChars.map((c, i) =>
+    `<div class="dropped-char" onclick="removeFromDrop(${i})">${c.char}</div>`
+  ).join('');
+}
+
+function removeFromDrop(i) {
+  const removed = state.dropChars.splice(i, 1)[0];
+  const el = document.getElementById(`co-${removed.idx}`);
+  if (el) el.classList.remove('used');
+  renderDropZone();
+}
+
+function clearDrop() {
+  state.dropChars.forEach(c => {
+    const el = document.getElementById(`co-${c.idx}`);
+    if (el) el.classList.remove('used');
+  });
+  state.dropChars = [];
+  renderDropZone();
+}
+
+function checkWord() {
+  const word = WORDS_L1[state.wordIndex];
+  const built = state.dropChars.map(c => c.char).join('');
+  const fb = document.getElementById('word-feedback');
+
+  if (built === word.hangul) {
+    fb.textContent = '✓ Correct!';
+    fb.className = 'word-feedback correct';
+    setTimeout(() => {
+      state.wordIndex++;
+      if (state.wordIndex >= WORDS_L1.length) {
+        state.wordsCompleted = true;
+        saveState();
+        renderWords(document.getElementById('section-content'));
+      } else {
+        renderWordBuilder(document.getElementById('section-content'));
+      }
+    }, 900);
+  } else {
+    fb.textContent = '✗ Not quite. Try again';
+    fb.className = 'word-feedback wrong';
+  }
+}
+
+// ══════════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════════
+function renderFlash(el) {
+  if (state.flashDone) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Flashcards done!</h3>
+      <p>You reviewed all 10 vowels.</p>
+      <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+    </div>`;
+    return;
+  }
+
+  state.fcIndex = 0;
+  state.fcKnow = new Set();
+  renderFlashCard(el);
+}
+
+function renderFlashCard(el) {
+  const remaining = VOWELS.filter((_, i) => !state.fcKnow.has(i));
+  if (remaining.length === 0) {
+    state.flashDone = true;
+    saveState();
+    renderFlash(el);
+    return;
+  }
+
+  const cardIdx = VOWELS.indexOf(remaining[state.fcIndex % remaining.length]);
+  const v = VOWELS[cardIdx];
+  const total = VOWELS.length;
+  const done = state.fcKnow.size;
+
+  el.innerHTML = `
+    <div class="flashcard-container">
+      <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
+      <div class="flashcard-progress">${done} / ${total} learned</div>
+      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+        <div class="flashcard-inner">
+          <div class="flashcard-face flashcard-front">
+            <div class="fc-hangul">${v.h}</div>
+            <div class="fc-hint">tap to reveal</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="fc-roman">${v.r}</div>
+            <div class="fc-sound">${v.sound}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-actions" style="width:100%;max-width:340px;">
+        <button class="fc-btn review" onclick="fcAnswer(${cardIdx}, false)">Review again</button>
+        <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
+      </div>
+    </div>`;
+}
+
+function flipCard() {
+  document.getElementById('fc-wrap')?.classList.toggle('flipped');
+}
+
+function fcAnswer(cardIdx, know) {
+  const el = document.getElementById('section-content');
+  if (know) state.fcKnow.add(cardIdx);
+  else {
+    state.fcIndex++;
+  }
+  renderFlashCard(el);
+}
+
+// ══════════════════════════════════════
+// MATCH GAME — shared helpers
+// ══════════════════════════════════════
+function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn) {
+  // data: array of {h, r} — hangul left col, romanization right col (shuffled)
+  const leftItems  = data.map((v, i) => ({ h: v.h, idx: i }));
+  const rightItems = data.map((v, i) => ({ r: v.r, idx: i })).sort(() => Math.random() - 0.5);
+  stateObj.matched = new Set();
+  stateObj.selected = null; // index into rightItems
+
+  function render() {
+    const el = document.getElementById('section-content');
+    if (!el) return;
+    const total = data.length;
+    const done  = stateObj.matched.size;
+    const pct   = Math.round(done / total * 100);
+
+    let leftHTML  = '';
+    let rightHTML = '';
+
+    leftItems.forEach((item, i) => {
+      const isMatched = stateObj.matched.has(item.idx);
+      leftHTML += `<div class="match-hangul-card ${isMatched ? 'matched' : ''}" id="mh-${i}">${item.h}</div>`;
+    });
+
+    rightItems.forEach((item, ri) => {
+      const isMatched = stateObj.matched.has(item.idx);
+      const isSel = stateObj.selected === ri;
+      leftItems.forEach((li, i) => {
+        if (li.idx === item.idx && isMatched) {
+          // find which left card this matched — add label to right
+        }
+      });
+      rightHTML += `<div class="match-roman-card ${isMatched ? 'matched' : ''} ${isSel ? 'selected' : ''}"
+        id="mr-${ri}"
+        draggable="${!isMatched}"
+        ondragstart="matchDragStart(event,${ri})"
+        onclick="matchTap(${ri})"
+        >${item.r.toUpperCase()}</div>`;
+    });
+
+    el.innerHTML = `
+      <div class="match-header">
+        <span style="font-size:13px;color:var(--ink2);">Drag each sound to its Korean letter</span>
+        <span class="match-score">${done} / ${total}</span>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+      <div class="match-columns">
+        <div class="match-col" id="match-left">${leftHTML}</div>
+        <div class="match-col" id="match-right">${rightHTML}</div>
+      </div>
+      ${nextLevelLabel ? `<div style="margin-top:8px;padding-top:20px;border-top:1px solid var(--border);text-align:center;">
+        <p style="font-size:12px;color:var(--ink2);margin-bottom:12px;">Ready to move on? ${nextLevelLabel} is already unlocked.</p>
+        <button class="ghost-btn" onclick="${nextLevelFn}">Go to ${nextLevelLabel} →</button>
+      </div>` : ''}`;
+
+    // Attach drop listeners to left cards
+    leftItems.forEach((item, i) => {
+      const el = document.getElementById(`mh-${i}`);
+      if (!el || stateObj.matched.has(item.idx)) return;
+      el.addEventListener('dragover', e => { e.preventDefault(); el.style.borderColor = 'var(--accent)'; });
+      el.addEventListener('dragleave', () => { el.style.borderColor = ''; });
+      el.addEventListener('drop', e => {
+        e.preventDefault();
+        el.style.borderColor = '';
+        const ri = parseInt(e.dataTransfer.getData('ri'));
+        tryMatch(i, ri);
+      });
+      el.addEventListener('click', () => matchTapLeft(i));
+    });
+  }
+
+  function tryMatch(leftIdx, rightIdx) {
+    const leftItem  = leftItems[leftIdx];
+    const rightItem = rightItems[rightIdx];
+    if (leftItem.idx === rightItem.idx) {
+      // Correct
+      stateObj.matched.add(leftItem.idx);
+      stateObj.selected = null;
+      render();
+      if (stateObj.matched.size === data.length) {
+        setTimeout(() => completeFn(), 400);
+      }
+    } else {
+      // Wrong — flash the right card red then reset
+      const rCard = document.getElementById(`mr-${rightIdx}`);
+      if (rCard) {
+        rCard.classList.add('wrong');
+        setTimeout(() => { rCard && rCard.classList.remove('wrong'); stateObj.selected = null; render(); }, 600);
+      }
+    }
+  }
+
+  window.matchDragStart = function(e, ri) {
+    e.dataTransfer.setData('ri', ri);
+    const el = document.getElementById(`mr-${ri}`);
+    if (el) el.classList.add('dragging');
+    setTimeout(() => { const el2 = document.getElementById(`mr-${ri}`); if (el2) el2.classList.remove('dragging'); }, 0);
+  };
+
+  window.matchTap = function(ri) {
+    if (stateObj.matched.has(rightItems[ri].idx)) return;
+    stateObj.selected = stateObj.selected === ri ? null : ri;
+    render();
+  };
+
+  window.matchTapLeft = function(leftIdx) {
+    if (stateObj.selected === null) return;
+    if (stateObj.matched.has(leftItems[leftIdx].idx)) return;
+    tryMatch(leftIdx, stateObj.selected);
+  };
+
+  render();
+}
+
+// ══════════════════════════════════════
+// MEMORY — LEVEL 1
+// ══════════════════════════════════════
+function renderMemory(el) {
+  if (!state.memoryReached) {
+    state.memoryReached = true;
+    saveState();
+    updateHomeCards();
+  }
+  if (state.memoryDone) {
+    el.innerHTML = `<div class="memory-complete">
+      <div class="big-emoji">🎉</div>
+      <h3>Level 1 Complete!</h3>
+      <p>You've learned all 10 Korean vowels. Level 2 is waiting for you.</p>
+      <button class="primary-btn" onclick="showScreen('home')">Go to Level 2 →</button>
+    </div>`;
+    updateHomeCards();
+    return;
+  }
+  const matchState = { matched: new Set(), selected: null };
+  buildMatchGame(
+    VOWELS.map(v => ({ h: v.h, r: v.r })),
+    matchState,
+    () => {
+      state.memoryDone = true;
+      saveState();
+      renderMemory(document.getElementById('section-content'));
+    },
+    'Level 2',
+    "showScreen('home')"
+  );
+}
+
+// ══════════════════════════════════════
+// MEMORY — LEVEL 2
+// ══════════════════════════════════════
+function renderMemory2(el) {
+  if (!state.l2memoryReached) {
+    state.l2memoryReached = true;
+    saveState();
+    updateHomeCards();
+  }
+  if (state.l2memoryDone) {
+    el.innerHTML = `<div class="memory-complete">
+      <div class="big-emoji">🎉</div>
+      <h3>Level 2 Complete!</h3>
+      <p>You've learned the 7 soft consonants. Level 3 is waiting for you.</p>
+      <button class="primary-btn" onclick="showScreen('home')">Go to Level 3 →</button>
+    </div>`;
+    updateHomeCards();
+    return;
+  }
+  const matchState = { matched: new Set(), selected: null };
+  buildMatchGame(
+    CONSONANTS.map(v => ({ h: v.h, r: v.r })),
+    matchState,
+    () => {
+      state.l2memoryDone = true;
+      saveState();
+      renderMemory2(document.getElementById('section-content'));
+    },
+    'Level 3',
+    "showScreen('home')"
+  );
+}
+
+// ══════════════════════════════════════
+// MEMORY — LEVEL 3
+// ══════════════════════════════════════
+function renderMemory3(el) {
+  if (!state.l3memoryReached) {
+    state.l3memoryReached = true;
+    saveState();
+    updateHomeCards();
+  }
+  if (state.l3memoryDone) {
+    el.innerHTML = `<div class="memory-complete">
+      <div class="big-emoji">🎉</div>
+      <h3>You did it!</h3>
+      <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
+      <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
+    </div>`;
+    updateHomeCards();
+    return;
+  }
+  const matchState = { matched: new Set(), selected: null };
+  buildMatchGame(
+    ASPIRATED.map(v => ({ h: v.h, r: v.r })),
+    matchState,
+    () => {
+      state.l3memoryDone = true;
+      saveState();
+      renderMemory3(document.getElementById('section-content'));
+    },
+    null,
+    null
+  );
+}
+
+
+// ══════════════════════════════════════
+// LEVEL 4: FIRST WORDS
+// ══════════════════════════════════════
+function renderLevel4Intro(el) {
+  el.innerHTML = `
+    <div style="max-width:480px;margin:0 auto;">
+      <div class="intro-card" style="margin-bottom:20px;">
+        <h2 style="font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:14px;">One new concept</h2>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px;">
+          You already know all the letters. Now you'll use them to write real words.
+        </p>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px;">
+          Some of these words have a consonant at the bottom of the syllable block. This is called <strong>받침</strong> (batchim). It's not a new letter — it's the same ones you know, just in a new position.
+        </p>
+        <div style="display:flex;gap:16px;align-items:center;margin:20px 0;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="display:flex;gap:4px;margin-bottom:6px;">
+              <div class="block-part">ㅁ</div>
+              <div class="block-part vowel">ㅜ</div>
+            </div>
+            <div style="font-size:11px;color:var(--ink2);">no batchim</div>
+            <div style="font-size:32px;font-family:'Noto Sans KR',sans-serif;margin-top:4px;">무</div>
+          </div>
+          <div style="font-size:24px;color:var(--ink2);">→</div>
+          <div style="text-align:center;">
+            <div style="display:flex;gap:4px;margin-bottom:6px;">
+              <div class="block-part">ㅁ</div>
+              <div class="block-part vowel">ㅜ</div>
+              <div class="block-part final">ㄹ</div>
+            </div>
+            <div style="font-size:11px;color:var(--ink2);">with batchim ㄹ</div>
+            <div style="font-size:32px;font-family:'Noto Sans KR',sans-serif;margin-top:4px;">물</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.7;">
+          Same block, one extra letter at the bottom. That's all.
+        </p>
+      </div>
+      <button class="primary-btn" onclick="startLevel4Practice()">Start practicing →</button>
+    </div>`;
+}
+
+function startLevel4Practice() {
+  state.l4wordIndex = 0;
+  renderLevel4Word(document.getElementById('section-content'));
+}
+
+function renderLevel4Word(el) {
+  if (state.l4completed) {
+    el.innerHTML = `<div class="memory-complete">
+      <div class="big-emoji">🎉</div>
+      <h3>You did it!</h3>
+      <p>You've written 8 real Korean words from scratch. That's the whole alphabet, put to use.</p>
+      <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
+    </div>`;
+    updateHomeCards();
+    return;
+  }
+
+  const word = WORDS_L4[state.l4wordIndex];
+  const bank = [...word.syllables, ...word.distractors].sort(() => Math.random() - 0.5);
+  let answer = [];
+
+  function render() {
+    const pct = Math.round(state.l4wordIndex / WORDS_L4.length * 100);
+    el.innerHTML = `
+      <div style="max-width:480px;margin:0 auto;">
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:11px;color:var(--ink2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;">${state.l4wordIndex + 1} of ${WORDS_L4.length}</div>
+
+        <div class="builder-word-display" style="margin-bottom:20px;">
+          <div class="word-target-label">Write this word in Korean</div>
+          <div style="font-size:32px;font-family:'DM Serif Display',serif;color:var(--accent);margin:8px 0 2px;">${word.roman}</div>
+          <div style="font-size:13px;color:var(--ink2);">${word.meaning}</div>
+          <div style="margin-top:12px;display:flex;gap:6px;justify-content:center;">
+            ${word.syllables.map(() => '<div style="width:32px;height:4px;background:var(--border);border-radius:2px;"></div>').join('')}
+          </div>
+        </div>
+
+        <div class="drop-zone" id="l4-answer" style="min-height:72px;margin-bottom:16px;">
+          ${answer.length === 0
+            ? '<span class="drop-hint">Tap the syllables below</span>'
+            : answer.map((s,i) => `<div class="dropped-char" onclick="l4Remove(${i})" style="font-size:28px;">${s}</div>`).join('')}
+        </div>
+
+        <div id="l4-feedback" class="word-feedback"></div>
+
+        <div class="char-bank" id="l4-bank">
+          ${bank.map((s,i) => {
+            const used = answer.includes(s) && answer.indexOf(s) !== -1;
+            return `<div class="char-option ${used ? 'used' : ''}" id="l4c-${i}" onclick="l4Add('${s}',${i})" style="font-size:24px;">${s}</div>`;
+          }).join('')}
+        </div>
+
+        <div class="word-nav" style="margin-top:20px;">
+          <button class="ghost-btn" onclick="l4Clear()">Clear</button>
+          <button class="primary-btn" onclick="l4Check()">Check →</button>
+        </div>
+      </div>`;
+  }
+
+  window.l4Add = function(syl, idx) {
+    if (answer.length >= word.syllables.length) return;
+    const el2 = document.getElementById(`l4c-${idx}`);
+    if (el2 && el2.classList.contains('used')) return;
+    answer.push(syl);
+    if (el2) el2.classList.add('used');
+    render();
+  };
+
+  window.l4Remove = function(i) {
+    const syl = answer[i];
+    answer.splice(i, 1);
+    // Un-use matching bank card
+    const bankEls = document.querySelectorAll('.char-option');
+    bankEls.forEach(b => {
+      if (b.textContent === syl && b.classList.contains('used')) {
+        b.classList.remove('used');
+      }
+    });
+    render();
+  };
+
+  window.l4Clear = function() {
+    answer = [];
+    render();
+  };
+
+  window.l4Check = function() {
+    const built = answer.join('');
+    const fb = document.getElementById('l4-feedback');
+    if (built === word.word) {
+      fb.textContent = '✓ Correct!';
+      fb.className = 'word-feedback correct';
+      setTimeout(() => {
+        state.l4wordIndex++;
+        if (state.l4wordIndex >= WORDS_L4.length) {
+          state.l4completed = true;
+          saveState();
+        }
+        renderLevel4Word(document.getElementById('section-content'));
+      }, 800);
+    } else {
+      fb.textContent = '✗ Not quite. Try again';
+      fb.className = 'word-feedback wrong';
+      setTimeout(() => {
+        const fb2 = document.getElementById('l4-feedback');
+        if (fb2) fb2.className = 'word-feedback';
+      }, 700);
+    }
+  };
+
+  render();
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+loadState();
+updateHomeCards();
+</script>
+</body>
+</html>
