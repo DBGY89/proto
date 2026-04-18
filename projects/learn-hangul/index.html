@@ -124,18 +124,30 @@
 
 <!-- ══════════ LEVEL VIEW ══════════ -->
 <div id="level-view" class="screen">
-  <div class="nav-bar">
-    <button class="back-btn" onclick="showScreen('home')">←</button>
-    <span class="nav-title" id="level-view-title">Level 1: The Vowels</span>
-  </div>
-  <div class="section-tabs">
-    <div class="tab active" id="tab-learn" onclick="switchTab('learn')">Learn</div>
-    <div class="tab" id="tab-words" onclick="switchTab('words')">Words</div>
-    <div class="tab" id="tab-flash" onclick="switchTab('flash')">Flashcards</div>
-    <div class="tab" id="tab-memory" onclick="switchTab('memory')">Match</div>
+  <div class="level-view-grid">
+    <aside class="level-sidebar">
+      <button type="button" class="level-sidebar-title" onclick="showScreen('home')">
+        <span>Learn</span>
+        <span class="hangul-accent">한글</span>
+      </button>
+      <div class="level-sidebar-list" id="level-sidebar-list"></div>
+    </aside>
 
+    <section class="level-main">
+      <div class="level-switcher">
+        <button type="button" class="level-home-link" onclick="showScreen('home')">All levels</button>
+        <div class="level-chips" id="level-chips"></div>
+      </div>
+
+      <div class="section-tabs">
+        <div class="tab active" id="tab-learn" onclick="switchTab('learn')">Learn</div>
+        <div class="tab" id="tab-words" onclick="switchTab('words')">Words</div>
+        <div class="tab" id="tab-flash" onclick="switchTab('flash')">Flashcards</div>
+        <div class="tab" id="tab-memory" onclick="switchTab('memory')">Match</div>
+      </div>
+      <div class="section-content" id="section-content"></div>
+    </section>
   </div>
-  <div class="section-content" id="section-content"></div>
 </div>
 
 </main>
@@ -449,34 +461,98 @@ function updateHomeCards() {
   }
 }
 
+const LEVELS_META = [
+  { n: 1, short: 'L1', name: 'The Vowels' },
+  { n: 2, short: 'L2', name: 'Soft Consonants' },
+  { n: 3, short: 'L3', name: 'Strong Consonants' },
+  { n: 4, short: 'L4', name: 'First Words' },
+];
+
+function isLevelUnlocked(n) {
+  if (n === 1) return true;
+  if (n === 2) return state.memoryReached || state.memoryDone;
+  if (n === 3) return state.l2memoryReached || state.l2memoryDone;
+  if (n === 4) return state.l3memoryReached || state.l3memoryDone;
+  return false;
+}
+
+function levelStatus(n) {
+  if (n === 1) {
+    if (state.memoryDone) return 'done';
+    if (state.learnSeen.size > 0 || state.memoryReached) return 'progress';
+  } else if (n === 2) {
+    if (state.l2memoryDone) return 'done';
+    if (state.l2learnSeen.size > 0 || state.l2memoryReached) return 'progress';
+  } else if (n === 3) {
+    if (state.l3memoryDone) return 'done';
+    if (state.l3learnSeen.size > 0 || state.l3memoryReached) return 'progress';
+  } else if (n === 4) {
+    if (state.l4completed) return 'done';
+    if (state.l4wordIndex > 0) return 'progress';
+  }
+  return 'idle';
+}
+
+function renderLevelNav() {
+  const sidebar = document.getElementById('level-sidebar-list');
+  const chips = document.getElementById('level-chips');
+  if (!sidebar || !chips) return;
+  const current = Number(state.currentLevel) || 1;
+
+  sidebar.innerHTML = LEVELS_META.map(lv => {
+    const unlocked = isLevelUnlocked(lv.n);
+    const status = levelStatus(lv.n);
+    const active = lv.n === current ? 'is-active' : '';
+    const locked = unlocked ? '' : 'is-locked';
+    const click = unlocked ? `onclick="openLevel(${lv.n})"` : '';
+    const statusLabel = !unlocked ? 'Locked'
+      : status === 'done' ? 'Completed'
+      : status === 'progress' ? 'In progress'
+      : 'Start';
+    return `<button type="button" class="nav-level-card ${active} ${locked}" ${click} ${unlocked ? '' : 'disabled'}>
+      <span class="nav-level-num">Level ${lv.n}</span>
+      <span class="nav-level-name">${lv.name}</span>
+      <span class="nav-level-status nav-level-status--${status}">${statusLabel}</span>
+    </button>`;
+  }).join('');
+
+  chips.innerHTML = LEVELS_META.map(lv => {
+    const unlocked = isLevelUnlocked(lv.n);
+    const active = lv.n === current ? 'is-active' : '';
+    const locked = unlocked ? '' : 'is-locked';
+    const click = unlocked ? `onclick="openLevel(${lv.n})"` : '';
+    return `<button type="button" class="nav-chip ${active} ${locked}" ${click} ${unlocked ? '' : 'disabled'}>${lv.short}</button>`;
+  }).join('');
+}
+
 function openLevel(n) {
   state.currentLevel = n;
   if (n === 1) {
     if (state.learnSeen.size === 0) {
       showScreen('intro-screen');
-    } else {
-      if (!state.memoryReached) { state.memoryReached = true; saveState(); updateHomeCards(); }
-      showScreen('level-view');
-      document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
-      document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
-      switchTab('learn');
+      return;
     }
+    if (!state.memoryReached) { state.memoryReached = true; saveState(); updateHomeCards(); }
+    showScreen('level-view');
+    document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
+    renderLevelNav();
+    switchTab('learn');
   } else if (n === 2) {
     if (!state.l2memoryReached) { state.l2memoryReached = true; saveState(); updateHomeCards(); }
     showScreen('level-view');
     document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
-    document.getElementById('level-view-title').textContent = 'Level 2: Soft Consonants';
+    renderLevelNav();
     switchTab('learn');
   } else if (n === 3) {
     if (!state.l3memoryReached) { state.l3memoryReached = true; saveState(); updateHomeCards(); }
     showScreen('level-view');
     document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
-    document.getElementById('level-view-title').textContent = 'Level 3: Strong Consonants';
+    renderLevelNav();
     switchTab('learn');
   } else if (n === 4) {
     showScreen('level-view');
-    document.getElementById('level-view-title').textContent = 'Level 4: First Words';
     document.querySelectorAll('.tab').forEach(t => { t.style.display = 'none'; });
+    renderLevelNav();
     const content = document.getElementById('section-content');
     if (state.l4completed) {
       state.l4wordIndex = 0;
@@ -486,11 +562,11 @@ function openLevel(n) {
     }
   } else {
     showScreen('level-view');
-    document.getElementById('level-view-title').textContent = `Level ${n}: Coming soon`;
+    renderLevelNav();
     document.getElementById('section-content').innerHTML = `
       <div class="section-locked">
         <div class="lock-icon">🚧</div>
-        <p>Level ${n} is being built. Complete Level 2 first and check back soon.</p>
+        <p>Level ${n} is being built. Check back soon.</p>
       </div>`;
   }
 }
@@ -499,7 +575,7 @@ function startLevel1() {
   state.currentLevel = 1;
   if (!state.memoryReached) { state.memoryReached = true; saveState(); updateHomeCards(); }
   showScreen('level-view');
-  document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
+  renderLevelNav();
   switchTab('learn');
 }
 
@@ -510,6 +586,7 @@ function switchTab(tab) {
   state.currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
+  renderLevelNav();
 
   const content = document.getElementById('section-content');
   const lv = Number(state.currentLevel);
