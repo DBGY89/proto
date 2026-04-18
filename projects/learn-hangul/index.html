@@ -448,17 +448,20 @@ function openLevel(n) {
     if (state.learnSeen.size === 0) {
       showScreen('intro-screen');
     } else {
+      if (!state.memoryReached) { state.memoryReached = true; saveState(); updateHomeCards(); }
       showScreen('level-view');
       document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
       document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
       switchTab('learn');
     }
   } else if (n === 2) {
+    if (!state.l2memoryReached) { state.l2memoryReached = true; saveState(); updateHomeCards(); }
     showScreen('level-view');
     document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
     document.getElementById('level-view-title').textContent = 'Level 2: Soft Consonants';
     switchTab('learn');
   } else if (n === 3) {
+    if (!state.l3memoryReached) { state.l3memoryReached = true; saveState(); updateHomeCards(); }
     showScreen('level-view');
     document.querySelectorAll('.tab').forEach(t => { t.style.display = ''; });
     document.getElementById('level-view-title').textContent = 'Level 3: Strong Consonants';
@@ -487,6 +490,7 @@ function openLevel(n) {
 
 function startLevel1() {
   state.currentLevel = 1;
+  if (!state.memoryReached) { state.memoryReached = true; saveState(); updateHomeCards(); }
   showScreen('level-view');
   document.getElementById('level-view-title').textContent = 'Level 1: The Vowels';
   switchTab('learn');
@@ -616,6 +620,7 @@ function renderWordBuilderL2(el) {
         <span class="word-counter">${state.l2wordIndex + 1} / ${WORDS_L2.length}</span>
         <div style="display:flex;gap:8px;">
           <button class="ghost-btn" onclick="clearDropL2()">Clear</button>
+          <button class="ghost-btn" onclick="skipWordL2()">Skip</button>
           <button class="primary-btn" onclick="checkWordL2()">Check →</button>
         </div>
       </div>
@@ -714,6 +719,17 @@ function checkWordL2() {
   }
 }
 
+function skipWordL2() {
+  state.l2wordIndex++;
+  if (state.l2wordIndex >= WORDS_L2.length) {
+    state.l2wordsCompleted = true;
+    saveState();
+    renderWords2(document.getElementById('section-content'));
+  } else {
+    renderWordBuilderL2(document.getElementById('section-content'));
+  }
+}
+
 function renderFlash2(el) {
   if (state.l2flashDone) {
     el.innerHTML = `<div class="fc-complete">
@@ -762,6 +778,7 @@ function renderFlashCardL2(el) {
         <button class="fc-btn review" onclick="fcAnswerL2(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
       </div>
+      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash2()">Skip to Memory →</button>
     </div>`;
 }
 
@@ -869,6 +886,7 @@ function renderWordBuilderL3(el) {
         <span class="word-counter">${state.l3wordIndex + 1} / ${WORDS_L3.length}</span>
         <div style="display:flex;gap:8px;">
           <button class="ghost-btn" onclick="clearDropL3()">Clear</button>
+          <button class="ghost-btn" onclick="skipWordL3()">Skip</button>
           <button class="primary-btn" onclick="checkWordL3()">Check →</button>
         </div>
       </div>
@@ -967,6 +985,17 @@ function checkWordL3() {
   }
 }
 
+function skipWordL3() {
+  state.l3wordIndex++;
+  if (state.l3wordIndex >= WORDS_L3.length) {
+    state.l3wordsCompleted = true;
+    saveState();
+    renderWords3(document.getElementById('section-content'));
+  } else {
+    renderWordBuilderL3(document.getElementById('section-content'));
+  }
+}
+
 function renderFlash3(el) {
   if (state.l3flashDone) {
     el.innerHTML = `<div class="fc-complete">
@@ -1015,6 +1044,7 @@ function renderFlashCardL3(el) {
         <button class="fc-btn review" onclick="fcAnswerL3(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
       </div>
+      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash3()">Skip to Memory →</button>
     </div>`;
 }
 
@@ -1134,6 +1164,7 @@ function renderWordBuilder(el) {
         <span class="word-counter">${state.wordIndex + 1} / ${WORDS_L1.length}</span>
         <div style="display:flex;gap:8px;">
           <button class="ghost-btn" onclick="clearDrop()">Clear</button>
+          <button class="ghost-btn" onclick="skipWordL1()">Skip</button>
           <button class="primary-btn" onclick="checkWord()">Check →</button>
         </div>
       </div>
@@ -1232,6 +1263,17 @@ function checkWord() {
   }
 }
 
+function skipWordL1() {
+  state.wordIndex++;
+  if (state.wordIndex >= WORDS_L1.length) {
+    state.wordsCompleted = true;
+    saveState();
+    renderWords(document.getElementById('section-content'));
+  } else {
+    renderWordBuilder(document.getElementById('section-content'));
+  }
+}
+
 // ══════════════════════════════════════
 // FLASHCARDS
 // ══════════════════════════════════════
@@ -1285,6 +1327,7 @@ function renderFlashCard(el) {
         <button class="fc-btn review" onclick="fcAnswer(${cardIdx}, false)">Review again</button>
         <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
       </div>
+      <button type="button" class="ghost-btn" style="margin-top:16px;font-size:11px;" onclick="skipFlash1()">Skip to Memory →</button>
     </div>`;
 }
 
@@ -1299,6 +1342,24 @@ function fcAnswer(cardIdx, know) {
     state.fcIndex++;
   }
   renderFlashCard(el);
+}
+
+function skipFlash1() {
+  state.flashDone = true;
+  saveState();
+  switchTab('memory');
+}
+
+function skipFlash2() {
+  state.l2flashDone = true;
+  saveState();
+  switchTab('memory');
+}
+
+function skipFlash3() {
+  state.l3flashDone = true;
+  saveState();
+  switchTab('memory');
 }
 
 // ══════════════════════════════════════
@@ -1496,7 +1557,8 @@ function renderMemory3(el) {
       ${completeMarkSvg()}
       <h3>You did it!</h3>
       <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
-      <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
+      <button class="primary-btn" onclick="openLevel(4)">Go to Level 4 →</button>
+      <button class="ghost-btn" style="margin-top:10px;" onclick="showScreen('home')">Back to home</button>
     </div>`;
     updateHomeCards();
     return;
@@ -1510,8 +1572,8 @@ function renderMemory3(el) {
       saveState();
       renderMemory3(document.getElementById('section-content'));
     },
-    null,
-    null
+    'Level 4',
+    "openLevel(4)"
   );
 }
 
