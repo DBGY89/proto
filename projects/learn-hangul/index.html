@@ -1330,7 +1330,7 @@ function switchTab(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
 
   const content = document.getElementById('section-content');
-  const lv = state.currentLevel;
+  const lv = Number(state.currentLevel);
 
   if (lv === 3) {
     if (tab === 'learn') renderLearn3(content);
@@ -1348,6 +1348,512 @@ function switchTab(tab) {
     else if (tab === 'flash') renderFlash(content);
     else if (tab === 'memory') renderMemory(content);
   }
+}
+
+// ══════════════════════════════════════
+// LEARN / WORDS / FLASH — LEVEL 2
+// ══════════════════════════════════════
+function renderLearn2(el) {
+  const pct = Math.round((state.l2learnSeen.size / CONSONANTS.length) * 100);
+  let html = `
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6;">
+      Tap any consonant to learn it. You will combine these with the vowels from Level 1 inside each syllable block.
+    </p>
+    <div class="letters-grid">`;
+
+  CONSONANTS.forEach((v, i) => {
+    const seen = state.l2learnSeen.has(i) ? 'seen' : '';
+    html += `<div class="letter-tile ${seen}" onclick="openLetterModalL2(${i})">
+      <div class="tile-hangul">${v.h}</div>
+      <div class="tile-roman">${v.r}</div>
+      ${!seen ? '<div class="tile-tap-hint">›</div>' : ''}
+    </div>`;
+  });
+
+  html += `</div>
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+
+  el.innerHTML = html;
+}
+
+function openLetterModalL2(i) {
+  const v = CONSONANTS[i];
+  state.l2learnSeen.add(i);
+  saveState();
+
+  document.querySelector('#letter-modal .modal-section-label').textContent = 'Consonant';
+  document.getElementById('modal-hangul').textContent = v.h;
+  document.getElementById('modal-roman').textContent = v.r;
+  document.getElementById('modal-sound').textContent = v.sound;
+  document.getElementById('modal-ex-hangul').textContent = v.ex.h;
+  document.getElementById('modal-ex-roman').textContent = v.ex.r;
+  document.getElementById('modal-ex-meaning').textContent = v.ex.m;
+  document.getElementById('letter-modal').classList.add('open');
+
+  if (state.currentTab === 'learn' && Number(state.currentLevel) === 2) {
+    renderLearn2(document.getElementById('section-content'));
+  }
+}
+
+function renderWords2(el) {
+  if (state.l2wordsCompleted) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Words done!</h3>
+      <p>You built all three words correctly.</p>
+      <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+    </div>`;
+    return;
+  }
+
+  state.l2wordIndex = state.l2wordIndex || 0;
+  renderWordBuilderL2(el);
+}
+
+function renderWordBuilderL2(el) {
+  const word = WORDS_L2[state.l2wordIndex];
+  state.l2dropChars = [];
+
+  const allChars = ['나','라','바','다','사','람','고','마','가','두','니','아','이','오','우','버','더'];
+  const correctSet = new Set(word.chars);
+  const distractors = allChars.filter(c => !correctSet.has(c));
+  const shuffled = [...distractors].sort(() => Math.random() - 0.5).slice(0, 4);
+  const bank = [...word.chars, ...shuffled].sort(() => Math.random() - 0.5);
+
+  el.innerHTML = `
+    <div class="word-builder">
+      <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
+        Drag the correct syllables to form the word.
+      </p>
+      <div class="builder-word-display">
+        <div class="word-target-label">Build this word</div>
+        <div class="word-target-hangul">${word.hangul}</div>
+        <div class="word-target-roman">${word.roman}</div>
+        <div class="word-target-meaning">${word.meaning}</div>
+      </div>
+      <div class="drop-zone" id="drop-zone">
+        <span class="drop-hint">Drop syllables here</span>
+      </div>
+      <div id="word-feedback" class="word-feedback"></div>
+      <div class="char-bank" id="char-bank">
+        ${bank.map((c,i) => `<div class="char-option" draggable="true" id="co2-${i}" data-char="${c}"
+          ondragstart="dragStartL2(event,'${c}',${i})"
+          onclick="tapCharL2('${c}',${i})">${c}</div>`).join('')}
+      </div>
+      <div class="word-nav">
+        <span class="word-counter">${state.l2wordIndex + 1} / ${WORDS_L2.length}</span>
+        <div style="display:flex;gap:8px;">
+          <button class="ghost-btn" onclick="clearDropL2()">Clear</button>
+          <button class="primary-btn" onclick="checkWordL2()">Check →</button>
+        </div>
+      </div>
+    </div>`;
+
+  setupDropZoneL2();
+}
+
+function setupDropZoneL2() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  dz.replaceWith(dz.cloneNode(true));
+  const dz2 = document.getElementById('drop-zone');
+  dz2.addEventListener('dragover', e => { e.preventDefault(); dz2.classList.add('drag-over'); });
+  dz2.addEventListener('dragleave', () => dz2.classList.remove('drag-over'));
+  dz2.addEventListener('drop', e => {
+    e.preventDefault();
+    dz2.classList.remove('drag-over');
+    const char = e.dataTransfer.getData('char');
+    const idx = e.dataTransfer.getData('idx');
+    addToDropL2(char, idx);
+  });
+}
+
+function dragStartL2(e, char, idx) {
+  e.dataTransfer.setData('char', char);
+  e.dataTransfer.setData('idx', idx);
+}
+
+function tapCharL2(char, idx) {
+  const el = document.getElementById(`co2-${idx}`);
+  if (el.classList.contains('used')) return;
+  addToDropL2(char, idx);
+}
+
+function addToDropL2(char, idx) {
+  const word = WORDS_L2[state.l2wordIndex];
+  if (state.l2dropChars.length >= word.chars.length) return;
+
+  state.l2dropChars.push({ char, idx });
+  const el = document.getElementById(`co2-${idx}`);
+  if (el) el.classList.add('used');
+
+  renderDropZoneL2();
+}
+
+function renderDropZoneL2() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  if (state.l2dropChars.length === 0) {
+    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    return;
+  }
+  dz.innerHTML = state.l2dropChars.map((c, i) =>
+    `<div class="dropped-char" onclick="removeFromDropL2(${i})">${c.char}</div>`
+  ).join('');
+}
+
+function removeFromDropL2(i) {
+  const removed = state.l2dropChars.splice(i, 1)[0];
+  const el = document.getElementById(`co2-${removed.idx}`);
+  if (el) el.classList.remove('used');
+  renderDropZoneL2();
+}
+
+function clearDropL2() {
+  state.l2dropChars.forEach(c => {
+    const el = document.getElementById(`co2-${c.idx}`);
+    if (el) el.classList.remove('used');
+  });
+  state.l2dropChars = [];
+  renderDropZoneL2();
+}
+
+function checkWordL2() {
+  const word = WORDS_L2[state.l2wordIndex];
+  const built = state.l2dropChars.map(c => c.char).join('');
+  const fb = document.getElementById('word-feedback');
+
+  if (built === word.hangul) {
+    fb.textContent = '✓ Correct!';
+    fb.className = 'word-feedback correct';
+    setTimeout(() => {
+      state.l2wordIndex++;
+      if (state.l2wordIndex >= WORDS_L2.length) {
+        state.l2wordsCompleted = true;
+        saveState();
+        renderWords2(document.getElementById('section-content'));
+      } else {
+        renderWordBuilderL2(document.getElementById('section-content'));
+      }
+    }, 900);
+  } else {
+    fb.textContent = '✗ Not quite. Try again';
+    fb.className = 'word-feedback wrong';
+  }
+}
+
+function renderFlash2(el) {
+  if (state.l2flashDone) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Flashcards done!</h3>
+      <p>You reviewed all 7 consonants.</p>
+      <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+    </div>`;
+    return;
+  }
+
+  renderFlashCardL2(el);
+}
+
+function renderFlashCardL2(el) {
+  const remaining = CONSONANTS.filter((_, i) => !state.l2fcKnow.has(i));
+  if (remaining.length === 0) {
+    state.l2flashDone = true;
+    saveState();
+    renderFlash2(el);
+    return;
+  }
+
+  const cardIdx = CONSONANTS.indexOf(remaining[state.l2fcIndex % remaining.length]);
+  const v = CONSONANTS[cardIdx];
+  const total = CONSONANTS.length;
+  const done = state.l2fcKnow.size;
+
+  el.innerHTML = `
+    <div class="flashcard-container">
+      <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
+      <div class="flashcard-progress">${done} / ${total} learned</div>
+      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+        <div class="flashcard-inner">
+          <div class="flashcard-face flashcard-front">
+            <div class="fc-hangul">${v.h}</div>
+            <div class="fc-hint">tap to reveal</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="fc-roman">${v.r}</div>
+            <div class="fc-sound">${v.sound}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-actions" style="width:100%;max-width:340px;">
+        <button class="fc-btn review" onclick="fcAnswerL2(${cardIdx}, false)">Review again</button>
+        <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
+      </div>
+    </div>`;
+}
+
+function fcAnswerL2(cardIdx, know) {
+  const el = document.getElementById('section-content');
+  if (know) state.l2fcKnow.add(cardIdx);
+  else {
+    state.l2fcIndex++;
+  }
+  renderFlashCardL2(el);
+}
+
+// ══════════════════════════════════════
+// LEARN / WORDS / FLASH — LEVEL 3
+// ══════════════════════════════════════
+function renderLearn3(el) {
+  const pct = Math.round((state.l3learnSeen.size / ASPIRATED.length) * 100);
+  let html = `
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6;">
+      Tap each letter. These are the aspirated (strong) consonants. They are the same mouth shape as the soft ones, with a puff of air.
+    </p>
+    <div class="letters-grid">`;
+
+  ASPIRATED.forEach((v, i) => {
+    const seen = state.l3learnSeen.has(i) ? 'seen' : '';
+    html += `<div class="letter-tile ${seen}" onclick="openLetterModalL3(${i})">
+      <div class="tile-hangul">${v.h}</div>
+      <div class="tile-roman">${v.r}</div>
+      ${!seen ? '<div class="tile-tap-hint">›</div>' : ''}
+    </div>`;
+  });
+
+  html += `</div>
+  <button class="primary-btn" style="margin-top:8px;" onclick="switchTab('words')">Practice words →</button>`;
+
+  el.innerHTML = html;
+}
+
+function openLetterModalL3(i) {
+  const v = ASPIRATED[i];
+  state.l3learnSeen.add(i);
+  saveState();
+
+  document.querySelector('#letter-modal .modal-section-label').textContent = 'Consonant';
+  document.getElementById('modal-hangul').textContent = v.h;
+  document.getElementById('modal-roman').textContent = v.r;
+  document.getElementById('modal-sound').textContent = v.sound;
+  document.getElementById('modal-ex-hangul').textContent = v.ex.h;
+  document.getElementById('modal-ex-roman').textContent = v.ex.r;
+  document.getElementById('modal-ex-meaning').textContent = v.ex.m;
+  document.getElementById('letter-modal').classList.add('open');
+
+  if (state.currentTab === 'learn' && Number(state.currentLevel) === 3) {
+    renderLearn3(document.getElementById('section-content'));
+  }
+}
+
+function renderWords3(el) {
+  if (state.l3wordsCompleted) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Words done!</h3>
+      <p>You built all three words correctly.</p>
+      <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+    </div>`;
+    return;
+  }
+
+  state.l3wordIndex = state.l3wordIndex || 0;
+  renderWordBuilderL3(el);
+}
+
+function renderWordBuilderL3(el) {
+  const word = WORDS_L3[state.l3wordIndex];
+  state.l3dropChars = [];
+
+  const allChars = ['하','늘','커','피','치','즈','타','파','카','주','니','도','루','무','개'];
+  const correctSet = new Set(word.chars);
+  const distractors = allChars.filter(c => !correctSet.has(c));
+  const shuffled = [...distractors].sort(() => Math.random() - 0.5).slice(0, 4);
+  const bank = [...word.chars, ...shuffled].sort(() => Math.random() - 0.5);
+
+  el.innerHTML = `
+    <div class="word-builder">
+      <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
+        Drag the correct syllables to form the word.
+      </p>
+      <div class="builder-word-display">
+        <div class="word-target-label">Build this word</div>
+        <div class="word-target-hangul">${word.hangul}</div>
+        <div class="word-target-roman">${word.roman}</div>
+        <div class="word-target-meaning">${word.meaning}</div>
+      </div>
+      <div class="drop-zone" id="drop-zone">
+        <span class="drop-hint">Drop syllables here</span>
+      </div>
+      <div id="word-feedback" class="word-feedback"></div>
+      <div class="char-bank" id="char-bank">
+        ${bank.map((c,i) => `<div class="char-option" draggable="true" id="co3-${i}" data-char="${c}"
+          ondragstart="dragStartL3(event,'${c}',${i})"
+          onclick="tapCharL3('${c}',${i})">${c}</div>`).join('')}
+      </div>
+      <div class="word-nav">
+        <span class="word-counter">${state.l3wordIndex + 1} / ${WORDS_L3.length}</span>
+        <div style="display:flex;gap:8px;">
+          <button class="ghost-btn" onclick="clearDropL3()">Clear</button>
+          <button class="primary-btn" onclick="checkWordL3()">Check →</button>
+        </div>
+      </div>
+    </div>`;
+
+  setupDropZoneL3();
+}
+
+function setupDropZoneL3() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  dz.replaceWith(dz.cloneNode(true));
+  const dz2 = document.getElementById('drop-zone');
+  dz2.addEventListener('dragover', e => { e.preventDefault(); dz2.classList.add('drag-over'); });
+  dz2.addEventListener('dragleave', () => dz2.classList.remove('drag-over'));
+  dz2.addEventListener('drop', e => {
+    e.preventDefault();
+    dz2.classList.remove('drag-over');
+    const char = e.dataTransfer.getData('char');
+    const idx = e.dataTransfer.getData('idx');
+    addToDropL3(char, idx);
+  });
+}
+
+function dragStartL3(e, char, idx) {
+  e.dataTransfer.setData('char', char);
+  e.dataTransfer.setData('idx', idx);
+}
+
+function tapCharL3(char, idx) {
+  const el = document.getElementById(`co3-${idx}`);
+  if (el.classList.contains('used')) return;
+  addToDropL3(char, idx);
+}
+
+function addToDropL3(char, idx) {
+  const word = WORDS_L3[state.l3wordIndex];
+  if (state.l3dropChars.length >= word.chars.length) return;
+
+  state.l3dropChars.push({ char, idx });
+  const el = document.getElementById(`co3-${idx}`);
+  if (el) el.classList.add('used');
+
+  renderDropZoneL3();
+}
+
+function renderDropZoneL3() {
+  const dz = document.getElementById('drop-zone');
+  if (!dz) return;
+  if (state.l3dropChars.length === 0) {
+    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    return;
+  }
+  dz.innerHTML = state.l3dropChars.map((c, i) =>
+    `<div class="dropped-char" onclick="removeFromDropL3(${i})">${c.char}</div>`
+  ).join('');
+}
+
+function removeFromDropL3(i) {
+  const removed = state.l3dropChars.splice(i, 1)[0];
+  const el = document.getElementById(`co3-${removed.idx}`);
+  if (el) el.classList.remove('used');
+  renderDropZoneL3();
+}
+
+function clearDropL3() {
+  state.l3dropChars.forEach(c => {
+    const el = document.getElementById(`co3-${c.idx}`);
+    if (el) el.classList.remove('used');
+  });
+  state.l3dropChars = [];
+  renderDropZoneL3();
+}
+
+function checkWordL3() {
+  const word = WORDS_L3[state.l3wordIndex];
+  const built = state.l3dropChars.map(c => c.char).join('');
+  const fb = document.getElementById('word-feedback');
+
+  if (built === word.hangul) {
+    fb.textContent = '✓ Correct!';
+    fb.className = 'word-feedback correct';
+    setTimeout(() => {
+      state.l3wordIndex++;
+      if (state.l3wordIndex >= WORDS_L3.length) {
+        state.l3wordsCompleted = true;
+        saveState();
+        renderWords3(document.getElementById('section-content'));
+      } else {
+        renderWordBuilderL3(document.getElementById('section-content'));
+      }
+    }, 900);
+  } else {
+    fb.textContent = '✗ Not quite. Try again';
+    fb.className = 'word-feedback wrong';
+  }
+}
+
+function renderFlash3(el) {
+  if (state.l3flashDone) {
+    el.innerHTML = `<div class="fc-complete">
+      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      <h3>Flashcards done!</h3>
+      <p>You reviewed all 6 aspirated consonants.</p>
+      <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+    </div>`;
+    return;
+  }
+
+  renderFlashCardL3(el);
+}
+
+function renderFlashCardL3(el) {
+  const remaining = ASPIRATED.filter((_, i) => !state.l3fcKnow.has(i));
+  if (remaining.length === 0) {
+    state.l3flashDone = true;
+    saveState();
+    renderFlash3(el);
+    return;
+  }
+
+  const cardIdx = ASPIRATED.indexOf(remaining[state.l3fcIndex % remaining.length]);
+  const v = ASPIRATED[cardIdx];
+  const total = ASPIRATED.length;
+  const done = state.l3fcKnow.size;
+
+  el.innerHTML = `
+    <div class="flashcard-container">
+      <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
+      <div class="flashcard-progress">${done} / ${total} learned</div>
+      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+        <div class="flashcard-inner">
+          <div class="flashcard-face flashcard-front">
+            <div class="fc-hangul">${v.h}</div>
+            <div class="fc-hint">tap to reveal</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="fc-roman">${v.r}</div>
+            <div class="fc-sound">${v.sound}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-actions" style="width:100%;max-width:340px;">
+        <button class="fc-btn review" onclick="fcAnswerL3(${cardIdx}, false)">Review again</button>
+        <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
+      </div>
+    </div>`;
+}
+
+function fcAnswerL3(cardIdx, know) {
+  const el = document.getElementById('section-content');
+  if (know) state.l3fcKnow.add(cardIdx);
+  else {
+    state.l3fcIndex++;
+  }
+  renderFlashCardL3(el);
 }
 
 // ══════════════════════════════════════
@@ -1392,7 +1898,7 @@ function openLetterModal(i) {
   document.getElementById('letter-modal').classList.add('open');
 
   // Re-render to update seen state
-  if (state.currentTab === 'learn') {
+  if (state.currentTab === 'learn' && Number(state.currentLevel) === 1) {
     renderLearn(document.getElementById('section-content'));
   }
 }
