@@ -14,10 +14,6 @@
 
 <nav class="topbar">
   <a href="/" class="back-link">&larr; AI Proto Lab</a>
-  <div class="topbar-right">
-    <button type="button" class="cta-case cta-case-desktop js-open-case" aria-label="Open from idea to prototype">How this went from idea to prototype &rarr;</button>
-    <button type="button" class="cta-case cta-case-mobile js-open-case" aria-label="Open from idea to prototype">The story &rarr;</button>
-  </div>
 </nav>
 
 <main class="page" id="main">
@@ -190,37 +186,6 @@
 <footer class="footer">
   <p>Part of <a href="/">AI Proto Lab</a>. Read it before you need it.</p>
 </footer>
-
-<div class="modal-overlay js-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-modal-title" aria-hidden="true">
-  <div class="modal-panel">
-    <span class="modal-drag" aria-hidden="true"></span>
-    <div class="modal-header">
-      <div class="modal-header-text">
-        <h2 class="modal-title" id="case-modal-title">From idea to prototype</h2>
-        <p class="modal-subtitle">Built for learners who like structure.</p>
-      </div>
-      <button type="button" class="modal-close js-close-modal" aria-label="Close">×</button>
-    </div>
-    <div class="modal-body">
-      <p class="label">What problem & for whom</p>
-      <p><strong>For whom:</strong> Anyone who wants to read Korean, not just parrot sounds. You get the logic of Hangul first, then practice in small loops: learn, build words, flip cards, match sounds.</p>
-      <p><strong>Problem:</strong> Alphabet apps often dump every character at once or skip why syllables are blocks. That makes Hangul feel harder than it is.</p>
-      <p><strong>This:</strong> Four levels from vowels to first real words. One path. Clear progress.</p>
-      <p class="label">The iteration</p>
-      <p>The first pass was too pretty and too light. It did not sit next to the rest of the lab. I moved the shell to the same dark frame as our other prototypes: top bar, story modal, rating, footer. Inside, the lessons stay playful, but the chrome now reads as one product family.</p>
-      <p class="label">What AI could and could not do</p>
-      <p>AI helped shape explanations and examples. The progression, games, and unlock rules are hand tuned so you cannot skip the hard part and still feel lost.</p>
-      <p class="label">Minimum viable effort</p>
-      <p>Tap a level, learn the letters, prove it in words and memory. No account. Your progress stays on this device.</p>
-      <p class="label">Get in touch</p>
-      <div class="modal-cta">
-        <a href="mailto:dianagerardi89@gmail.com" class="btn-primary">✉️ Email</a>
-        <a href="https://www.linkedin.com/in/dianagerardi/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <script>
 // ══════════════════════════════════════
@@ -1737,33 +1702,6 @@ updateHomeCards();
       });
     });
   }
-})();
-</script>
-<script>
-(function () {
-  var overlay = document.getElementById('case-modal');
-  var openBtns = document.querySelectorAll('.js-open-case');
-  var closeBtn = document.querySelector('.js-close-modal');
-  if (!overlay || !openBtns.length || !closeBtn) return;
-  function openModal() {
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-  function closeModal() {
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-  openBtns.forEach(function (btn) { btn.addEventListener('click', openModal); });
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) closeModal();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
-  });
 })();
 </script>
 </body>
