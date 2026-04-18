@@ -1629,9 +1629,27 @@ function renderLevel4Word(el) {
   if (state.l4wordIndex >= WORDS_L4.length) {
     el.innerHTML = `<div class="memory-complete memory-complete--l4">
       ${completeMarkSvg()}
-      <h3>Basics complete</h3>
-      <p>You've finished the basics of the Korean alphabet. Keep practicing with listening, reading, and writing.</p>
-      <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
+      <div class="l4-badge">Level 4 complete</div>
+      <h3>You know the Korean alphabet.</h3>
+      <p>You've finished the basics. Keep practicing.</p>
+      <div class="l4-review-label">Go back and practice</div>
+      <div class="l4-shortcuts">
+        <button class="l4-shortcut" onclick="openLevel(1)">
+          <span class="l4-sc-num">01</span>
+          <span class="l4-sc-title">The Vowels</span>
+          <span class="l4-sc-arrow">→</span>
+        </button>
+        <button class="l4-shortcut" onclick="openLevel(2)">
+          <span class="l4-sc-num">02</span>
+          <span class="l4-sc-title">Soft Consonants</span>
+          <span class="l4-sc-arrow">→</span>
+        </button>
+        <button class="l4-shortcut" onclick="openLevel(3)">
+          <span class="l4-sc-num">03</span>
+          <span class="l4-sc-title">Strong Consonants</span>
+          <span class="l4-sc-arrow">→</span>
+        </button>
+      </div>
     </div>`;
     updateHomeCards();
     return;
