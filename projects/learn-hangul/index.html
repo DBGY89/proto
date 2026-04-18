@@ -118,7 +118,7 @@
       <p>In Level 1 you'll learn the vowels first. Since vowels can't stand alone in a block, Korean uses a silent placeholder consonant: <strong style="font-family:'Noto Sans KR',sans-serif;">ㅇ</strong>. So 아 is just ㅇ + ㅏ, pronounced "a".</p>
       <p>Don't worry. It will make sense as soon as you see it in action.</p>
     </div>
-    <button class="primary-btn" onclick="startLevel1()">Got it. Let's start →</button>
+    <button class="primary-btn" onclick="startLevel1()">Got it. Let's start</button>
   </div>
 </div>
 
@@ -132,7 +132,7 @@
     <div class="tab active" id="tab-learn" onclick="switchTab('learn')">Learn</div>
     <div class="tab" id="tab-words" onclick="switchTab('words')">Words</div>
     <div class="tab" id="tab-flash" onclick="switchTab('flash')">Flashcards</div>
-    <div class="tab" id="tab-memory" onclick="switchTab('memory')">Memory</div>
+    <div class="tab" id="tab-memory" onclick="switchTab('memory')">Match</div>
 
   </div>
   <div class="section-content" id="section-content"></div>
@@ -265,7 +265,7 @@ function nextLevelCta(n) {
   const label = n === 2 ? 'Level 2'
               : n === 3 ? 'Level 3'
               : 'Level 4';
-  return `<button type="button" class="btn-outline" onclick="openLevel(${n})">Go to ${label} →</button>`;
+  return `<button type="button" class="btn-outline" onclick="openLevel(${n})">Go to ${label}</button>`;
 }
 
 // State
@@ -555,7 +555,7 @@ function renderLearn2(el) {
 
   html += `</div>
   <div class="cta-row">
-    <button class="primary-btn" onclick="switchTab('words')">Practice words →</button>
+    <button class="primary-btn" onclick="switchTab('words')">Practice words</button>
     ${nextLevelCta(3)}
   </div>`;
 
@@ -588,7 +588,7 @@ function renderWords2(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(3)}
       </div>
     </div>`;
@@ -631,7 +631,7 @@ function renderWordBuilderL2(el) {
       </div>
       <div class="word-counter">${state.l2wordIndex + 1} / ${WORDS_L2.length}</div>
       <div class="cta-row">
-        <button class="primary-btn" onclick="checkWordL2()">Check →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(3)}
       </div>
     </div>`;
@@ -675,6 +675,7 @@ function addToDropL2(char, idx) {
   if (el) el.classList.add('used');
 
   renderDropZoneL2();
+  if (state.l2dropChars.length >= word.chars.length) checkWordL2();
 }
 
 function renderDropZoneL2() {
@@ -694,6 +695,8 @@ function removeFromDropL2(i) {
   const el = document.getElementById(`co2-${removed.idx}`);
   if (el) el.classList.remove('used');
   renderDropZoneL2();
+  const fb = document.getElementById('word-feedback');
+  if (fb) { fb.textContent = ''; fb.className = 'word-feedback'; }
 }
 
 function clearDropL2() {
@@ -747,7 +750,7 @@ function renderFlash2(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 7 consonants.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+        <button class="primary-btn" onclick="switchTab('memory')">Go to Match</button>
         ${nextLevelCta(3)}
       </div>
     </div>`;
@@ -792,7 +795,7 @@ function renderFlashCardL2(el) {
         <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash2()">Go to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash2()">Go to Match</button>
         <button type="button" class="btn-outline" onclick="openLevel(3)">Go to Level 3 →</button>
       </div>
     </div>`;
@@ -830,7 +833,7 @@ function renderLearn3(el) {
 
   html += `</div>
   <div class="cta-row">
-    <button class="primary-btn" onclick="switchTab('words')">Practice words →</button>
+    <button class="primary-btn" onclick="switchTab('words')">Practice words</button>
     ${nextLevelCta(4)}
   </div>`;
 
@@ -863,7 +866,7 @@ function renderWords3(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(4)}
       </div>
     </div>`;
@@ -906,7 +909,7 @@ function renderWordBuilderL3(el) {
       </div>
       <div class="word-counter">${state.l3wordIndex + 1} / ${WORDS_L3.length}</div>
       <div class="cta-row">
-        <button class="primary-btn" onclick="checkWordL3()">Check →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(4)}
       </div>
     </div>`;
@@ -950,6 +953,7 @@ function addToDropL3(char, idx) {
   if (el) el.classList.add('used');
 
   renderDropZoneL3();
+  if (state.l3dropChars.length >= word.chars.length) checkWordL3();
 }
 
 function renderDropZoneL3() {
@@ -969,6 +973,8 @@ function removeFromDropL3(i) {
   const el = document.getElementById(`co3-${removed.idx}`);
   if (el) el.classList.remove('used');
   renderDropZoneL3();
+  const fb = document.getElementById('word-feedback');
+  if (fb) { fb.textContent = ''; fb.className = 'word-feedback'; }
 }
 
 function clearDropL3() {
@@ -1022,7 +1028,7 @@ function renderFlash3(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 6 aspirated consonants.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+        <button class="primary-btn" onclick="switchTab('memory')">Go to Match</button>
         ${nextLevelCta(4)}
       </div>
     </div>`;
@@ -1067,7 +1073,7 @@ function renderFlashCardL3(el) {
         <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash3()">Go to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash3()">Go to Match</button>
         <button type="button" class="btn-outline" onclick="openLevel(4)">Go to Level 4 →</button>
       </div>
     </div>`;
@@ -1105,7 +1111,7 @@ function renderLearn(el) {
 
   html += `</div>
   <div class="cta-row">
-    <button class="primary-btn" onclick="switchTab('words')">Practice words →</button>
+    <button class="primary-btn" onclick="switchTab('words')">Practice words</button>
     ${nextLevelCta(2)}
   </div>`;
 
@@ -1148,7 +1154,7 @@ function renderWords(el) {
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(2)}
       </div>
     </div>`;
@@ -1193,7 +1199,7 @@ function renderWordBuilder(el) {
       </div>
       <div class="word-counter">${state.wordIndex + 1} / ${WORDS_L1.length}</div>
       <div class="cta-row">
-        <button class="primary-btn" onclick="checkWord()">Check →</button>
+        <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards</button>
         ${nextLevelCta(2)}
       </div>
     </div>`;
@@ -1237,6 +1243,7 @@ function addToDrop(char, idx) {
   if (el) el.classList.add('used');
 
   renderDropZone();
+  if (state.dropChars.length >= word.chars.length) checkWord();
 }
 
 function renderDropZone() {
@@ -1256,6 +1263,8 @@ function removeFromDrop(i) {
   const el = document.getElementById(`co-${removed.idx}`);
   if (el) el.classList.remove('used');
   renderDropZone();
+  const fb = document.getElementById('word-feedback');
+  if (fb) { fb.textContent = ''; fb.className = 'word-feedback'; }
 }
 
 function clearDrop() {
@@ -1312,7 +1321,7 @@ function renderFlash(el) {
       <h3>Flashcards done!</h3>
       <p>You reviewed all 10 vowels.</p>
       <div class="cta-row">
-        <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
+        <button class="primary-btn" onclick="switchTab('memory')">Go to Match</button>
         ${nextLevelCta(2)}
       </div>
     </div>`;
@@ -1359,7 +1368,7 @@ function renderFlashCard(el) {
         <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash1()">Go to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash1()">Go to Match</button>
         <button type="button" class="btn-outline" onclick="openLevel(2)">Go to Level 2 →</button>
       </div>
     </div>`;
@@ -1449,7 +1458,7 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
       </div>
       ${nextLevelLabel ? `<div style="margin-top:8px;padding-top:20px;border-top:1px solid var(--border);text-align:center;">
         <p style="font-size:12px;color:var(--ink2);margin-bottom:12px;">Ready to move on? ${nextLevelLabel} is already unlocked.</p>
-        <button class="ghost-btn" onclick="${nextLevelFn}">Go to ${nextLevelLabel} →</button>
+        <button class="ghost-btn" onclick="${nextLevelFn}">Go to ${nextLevelLabel}</button>
       </div>` : ''}`;
 
     // Attach drop listeners to left cards
@@ -1525,7 +1534,7 @@ function renderMemory(el) {
       ${completeMarkSvg()}
       <h3>Level 1 Complete!</h3>
       <p>You've learned all 10 Korean vowels. Level 2 is waiting for you.</p>
-      <button class="primary-btn" onclick="showScreen('home')">Go to Level 2 →</button>
+      <button class="primary-btn" onclick="openLevel(2)">Go to Level 2</button>
     </div>`;
     updateHomeCards();
     return;
@@ -1558,7 +1567,7 @@ function renderMemory2(el) {
       ${completeMarkSvg()}
       <h3>Level 2 Complete!</h3>
       <p>You've learned the 7 soft consonants. Level 3 is waiting for you.</p>
-      <button class="primary-btn" onclick="showScreen('home')">Go to Level 3 →</button>
+      <button class="primary-btn" onclick="openLevel(3)">Go to Level 3</button>
     </div>`;
     updateHomeCards();
     return;
@@ -1591,7 +1600,7 @@ function renderMemory3(el) {
       ${completeMarkSvg()}
       <h3>You did it!</h3>
       <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
-      <button class="primary-btn" onclick="openLevel(4)">Go to Level 4 →</button>
+      <button class="primary-btn" onclick="openLevel(4)">Go to Level 4</button>
       <button class="ghost-btn" style="margin-top:10px;" onclick="showScreen('home')">Back to home</button>
     </div>`;
     updateHomeCards();
@@ -1650,7 +1659,7 @@ function renderLevel4Intro(el) {
           Same block, one extra letter at the bottom. That's all.
         </p>
       </div>
-      <button class="primary-btn" onclick="startLevel4Practice()">See the words →</button>
+      <button class="primary-btn" onclick="startLevel4Practice()">See the words</button>
     </div>`;
 }
 
@@ -1671,17 +1680,14 @@ function renderLevel4Word(el) {
         <button class="l4-shortcut" onclick="openLevel(1)">
           <span class="l4-sc-num">01</span>
           <span class="l4-sc-title">The Vowels</span>
-          <span class="l4-sc-arrow">→</span>
         </button>
         <button class="l4-shortcut" onclick="openLevel(2)">
           <span class="l4-sc-num">02</span>
           <span class="l4-sc-title">Soft Consonants</span>
-          <span class="l4-sc-arrow">→</span>
         </button>
         <button class="l4-shortcut" onclick="openLevel(3)">
           <span class="l4-sc-num">03</span>
           <span class="l4-sc-title">Strong Consonants</span>
-          <span class="l4-sc-arrow">→</span>
         </button>
       </div>
     </div>`;
@@ -1710,7 +1716,7 @@ function renderLevel4Word(el) {
 
       <div class="word-nav" style="margin-top:8px;">
         <button type="button" class="ghost-btn" onclick="l4GoBack()" ${state.l4wordIndex === 0 ? 'disabled' : ''}>← Previous</button>
-        <button type="button" class="primary-btn" onclick="l4GoNext()">${isLast ? 'Finish' : 'Next →'}</button>
+        <button type="button" class="primary-btn" onclick="l4GoNext()">${isLast ? 'Finish' : 'Next'}</button>
       </div>
     </div>`;
 }
