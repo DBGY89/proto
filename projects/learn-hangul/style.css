@@ -830,6 +830,10 @@ body {
     padding: 40px 20px;
   }
 
+  .fc-complete .complete-mark {
+    margin-bottom: 12px;
+  }
+
   .fc-complete h3 {
     font-family: var(--font);
     font-size: 28px;
@@ -944,7 +948,17 @@ body {
     animation: slideUp 0.4s ease;
   }
 
-  .memory-complete .big-emoji { font-size: 64px; margin-bottom: 16px; }
+  .complete-mark {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--neon-cyan);
+  }
+
+  .complete-mark-svg {
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.25));
+  }
 
   .memory-complete h3 {
     font-family: var(--font);

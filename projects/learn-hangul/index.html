@@ -256,6 +256,11 @@ const WORDS_L4 = [
   { word: '커피', roman: 'keo-pi', meaning: 'coffee' },
 ];
 
+/** Minimal stroke icon for completion screens (replaces emoji). */
+function completeMarkSvg() {
+  return '<div class="complete-mark" aria-hidden="true"><svg class="complete-mark-svg" viewBox="0 0 64 64" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.5" opacity="0.32"/><path d="M21 33 L29 41 L45 23" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+}
+
 // State
 let state = {
   // Level 1
@@ -565,7 +570,7 @@ function openLetterModalL2(i) {
 function renderWords2(el) {
   if (state.l2wordsCompleted) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
@@ -712,7 +717,7 @@ function checkWordL2() {
 function renderFlash2(el) {
   if (state.l2flashDone) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Flashcards done!</h3>
       <p>You reviewed all 7 consonants.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
@@ -818,7 +823,7 @@ function openLetterModalL3(i) {
 function renderWords3(el) {
   if (state.l3wordsCompleted) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
@@ -965,7 +970,7 @@ function checkWordL3() {
 function renderFlash3(el) {
   if (state.l3flashDone) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Flashcards done!</h3>
       <p>You reviewed all 6 aspirated consonants.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
@@ -1081,7 +1086,7 @@ function closeModal(e) {
 function renderWords(el) {
   if (state.wordsCompleted) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Words done!</h3>
       <p>You built all three words correctly.</p>
       <button class="primary-btn" onclick="switchTab('flash')">Go to Flashcards →</button>
@@ -1233,7 +1238,7 @@ function checkWord() {
 function renderFlash(el) {
   if (state.flashDone) {
     el.innerHTML = `<div class="fc-complete">
-      <div style="font-size:48px;margin-bottom:12px;">✓</div>
+      ${completeMarkSvg()}
       <h3>Flashcards done!</h3>
       <p>You reviewed all 10 vowels.</p>
       <button class="primary-btn" onclick="switchTab('memory')">Go to Memory game →</button>
@@ -1422,7 +1427,7 @@ function renderMemory(el) {
   }
   if (state.memoryDone) {
     el.innerHTML = `<div class="memory-complete">
-      <div class="big-emoji">🎉</div>
+      ${completeMarkSvg()}
       <h3>Level 1 Complete!</h3>
       <p>You've learned all 10 Korean vowels. Level 2 is waiting for you.</p>
       <button class="primary-btn" onclick="showScreen('home')">Go to Level 2 →</button>
@@ -1455,7 +1460,7 @@ function renderMemory2(el) {
   }
   if (state.l2memoryDone) {
     el.innerHTML = `<div class="memory-complete">
-      <div class="big-emoji">🎉</div>
+      ${completeMarkSvg()}
       <h3>Level 2 Complete!</h3>
       <p>You've learned the 7 soft consonants. Level 3 is waiting for you.</p>
       <button class="primary-btn" onclick="showScreen('home')">Go to Level 3 →</button>
@@ -1488,7 +1493,7 @@ function renderMemory3(el) {
   }
   if (state.l3memoryDone) {
     el.innerHTML = `<div class="memory-complete">
-      <div class="big-emoji">🎉</div>
+      ${completeMarkSvg()}
       <h3>You did it!</h3>
       <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
       <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
@@ -1560,10 +1565,10 @@ function startLevel4Practice() {
 
 function renderLevel4Word(el) {
   if (state.l4wordIndex >= WORDS_L4.length) {
-    el.innerHTML = `<div class="memory-complete">
-      <div class="big-emoji">🎉</div>
-      <h3>You did it!</h3>
-      <p>You've seen ${WORDS_L4.length} example words in Hangul, with romanization and meaning.</p>
+    el.innerHTML = `<div class="memory-complete memory-complete--l4">
+      ${completeMarkSvg()}
+      <h3>Basics complete</h3>
+      <p>You've finished the basics of the Korean alphabet. Keep practicing with listening, reading, and writing.</p>
       <button class="primary-btn" onclick="showScreen('home')">Back to home →</button>
     </div>`;
     updateHomeCards();
