@@ -723,6 +723,11 @@ body {
     transition: background 0.15s;
   }
   .ghost-btn:hover { background: var(--border); }
+  .ghost-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 
   .word-counter {
     font-size: 12px;
