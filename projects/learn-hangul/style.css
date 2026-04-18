@@ -994,20 +994,45 @@ body {
     margin-bottom: 32px;
   }
 
-  .next-level-footer {
-    border-top: 1px solid var(--border);
-    margin-top: 24px;
-    padding-top: 16px;
-    text-align: center;
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+    white-space: nowrap;
   }
 
-  .next-level-footer .ghost-btn {
-    font-size: 11px;
-    opacity: 0.75;
+  .btn-outline:hover {
+    background: rgba(0, 240, 255, 0.08);
   }
 
-  .next-level-footer .ghost-btn:hover {
-    opacity: 1;
+  .cta-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cta-row .primary-btn,
+  .cta-row .btn-outline {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .cta-row--solo {
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .cta-row--solo .btn-outline {
+    flex: none;
   }
 
   .l4-review-label {
