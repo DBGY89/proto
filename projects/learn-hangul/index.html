@@ -629,15 +629,11 @@ function renderWordBuilderL2(el) {
           ondragstart="dragStartL2(event,'${c}',${i})"
           onclick="tapCharL2('${c}',${i})">${c}</div>`).join('')}
       </div>
-      <div class="word-nav">
-        <span class="word-counter">${state.l2wordIndex + 1} / ${WORDS_L2.length}</span>
-        <div style="display:flex;gap:8px;">
-          <button class="ghost-btn" onclick="clearDropL2()">Clear</button>
-          <button class="ghost-btn" onclick="skipWordL2()">Skip</button>
-          <button class="primary-btn" onclick="checkWordL2()">Check →</button>
-        </div>
+      <div class="word-counter">${state.l2wordIndex + 1} / ${WORDS_L2.length}</div>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="checkWordL2()">Check →</button>
+        ${nextLevelCta(3)}
       </div>
-      <div class="cta-row cta-row--solo">${nextLevelCta(3)}</div>
     </div>`;
 
   setupDropZoneL2();
@@ -796,7 +792,7 @@ function renderFlashCardL2(el) {
         <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash2()">Skip to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash2()">Go to Memory →</button>
         <button type="button" class="btn-outline" onclick="openLevel(3)">Go to Level 3 →</button>
       </div>
     </div>`;
@@ -908,15 +904,11 @@ function renderWordBuilderL3(el) {
           ondragstart="dragStartL3(event,'${c}',${i})"
           onclick="tapCharL3('${c}',${i})">${c}</div>`).join('')}
       </div>
-      <div class="word-nav">
-        <span class="word-counter">${state.l3wordIndex + 1} / ${WORDS_L3.length}</span>
-        <div style="display:flex;gap:8px;">
-          <button class="ghost-btn" onclick="clearDropL3()">Clear</button>
-          <button class="ghost-btn" onclick="skipWordL3()">Skip</button>
-          <button class="primary-btn" onclick="checkWordL3()">Check →</button>
-        </div>
+      <div class="word-counter">${state.l3wordIndex + 1} / ${WORDS_L3.length}</div>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="checkWordL3()">Check →</button>
+        ${nextLevelCta(4)}
       </div>
-      <div class="cta-row cta-row--solo">${nextLevelCta(4)}</div>
     </div>`;
 
   setupDropZoneL3();
@@ -1075,7 +1067,7 @@ function renderFlashCardL3(el) {
         <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash3()">Skip to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash3()">Go to Memory →</button>
         <button type="button" class="btn-outline" onclick="openLevel(4)">Go to Level 4 →</button>
       </div>
     </div>`;
@@ -1199,15 +1191,11 @@ function renderWordBuilder(el) {
           ondragstart="dragStart(event,'${c}',${i})"
           onclick="tapChar('${c}',${i})">${c}</div>`).join('')}
       </div>
-      <div class="word-nav">
-        <span class="word-counter">${state.wordIndex + 1} / ${WORDS_L1.length}</span>
-        <div style="display:flex;gap:8px;">
-          <button class="ghost-btn" onclick="clearDrop()">Clear</button>
-          <button class="ghost-btn" onclick="skipWordL1()">Skip</button>
-          <button class="primary-btn" onclick="checkWord()">Check →</button>
-        </div>
+      <div class="word-counter">${state.wordIndex + 1} / ${WORDS_L1.length}</div>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="checkWord()">Check →</button>
+        ${nextLevelCta(2)}
       </div>
-      <div class="cta-row cta-row--solo">${nextLevelCta(2)}</div>
     </div>`;
 
   setupDropZone();
@@ -1371,7 +1359,7 @@ function renderFlashCard(el) {
         <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
-        <button type="button" class="primary-btn" onclick="skipFlash1()">Skip to Memory →</button>
+        <button type="button" class="primary-btn" onclick="skipFlash1()">Go to Memory →</button>
         <button type="button" class="btn-outline" onclick="openLevel(2)">Go to Level 2 →</button>
       </div>
     </div>`;
