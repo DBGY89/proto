@@ -1468,7 +1468,8 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
   const leftItems  = data.map((v, i) => ({ h: v.h, idx: i }));
   const rightItems = data.map((v, i) => ({ r: v.r, idx: i })).sort(() => Math.random() - 0.5);
   stateObj.matched = new Set();
-  stateObj.selected = null; // index into rightItems
+  stateObj.selected = null; // { side: 'left'|'right', i }
+  stateObj.locked = false;
 
   function render() {
     const el = document.getElementById('section-content');
@@ -1477,33 +1478,30 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
     const done  = stateObj.matched.size;
     const pct   = Math.round(done / total * 100);
 
+    const sel = stateObj.selected;
+
     let leftHTML  = '';
     let rightHTML = '';
 
     leftItems.forEach((item, i) => {
       const isMatched = stateObj.matched.has(item.idx);
-      leftHTML += `<div class="match-hangul-card ${isMatched ? 'matched' : ''}" id="mh-${i}">${item.h}</div>`;
+      const isSel = sel && sel.side === 'left' && sel.i === i;
+      leftHTML += `<div class="match-hangul-card ${isMatched ? 'matched' : ''} ${isSel ? 'selected' : ''}" id="mh-${i}">${item.h}</div>`;
     });
 
     rightItems.forEach((item, ri) => {
       const isMatched = stateObj.matched.has(item.idx);
-      const isSel = stateObj.selected === ri;
-      leftItems.forEach((li, i) => {
-        if (li.idx === item.idx && isMatched) {
-          // find which left card this matched — add label to right
-        }
-      });
+      const isSel = sel && sel.side === 'right' && sel.i === ri;
       rightHTML += `<div class="match-roman-card ${isMatched ? 'matched' : ''} ${isSel ? 'selected' : ''}"
         id="mr-${ri}"
         draggable="${!isMatched}"
         ondragstart="matchDragStart(event,${ri})"
-        onclick="matchTap(${ri})"
         >${item.r.toUpperCase()}</div>`;
     });
 
     el.innerHTML = `
       <div class="match-header">
-        <span style="font-size:13px;color:var(--ink2);">Match each sound to its Korean letter</span>
+        <span style="font-size:13px;color:var(--ink2);">Tap a Korean letter, then its sound (or the other way around).</span>
         <span class="match-score">${done} / ${total}</span>
       </div>
       <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
@@ -1518,40 +1516,82 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
         </div>
       </div>` : ''}`;
 
-    // Attach drop listeners to left cards
+    // Attach listeners
     leftItems.forEach((item, i) => {
-      const el = document.getElementById(`mh-${i}`);
-      if (!el || stateObj.matched.has(item.idx)) return;
-      el.addEventListener('dragover', e => { e.preventDefault(); el.style.borderColor = 'var(--accent)'; });
-      el.addEventListener('dragleave', () => { el.style.borderColor = ''; });
-      el.addEventListener('drop', e => {
+      const node = document.getElementById(`mh-${i}`);
+      if (!node || stateObj.matched.has(item.idx)) return;
+      node.addEventListener('click', () => tapCard('left', i));
+      node.addEventListener('dragover', e => { e.preventDefault(); node.style.borderColor = 'var(--accent)'; });
+      node.addEventListener('dragleave', () => { node.style.borderColor = ''; });
+      node.addEventListener('drop', e => {
         e.preventDefault();
-        el.style.borderColor = '';
+        node.style.borderColor = '';
         const ri = parseInt(e.dataTransfer.getData('ri'));
-        tryMatch(i, ri);
+        resolveMatch(i, ri);
       });
-      el.addEventListener('click', () => matchTapLeft(i));
+    });
+    rightItems.forEach((item, ri) => {
+      const node = document.getElementById(`mr-${ri}`);
+      if (!node || stateObj.matched.has(item.idx)) return;
+      node.addEventListener('click', () => tapCard('right', ri));
     });
   }
 
-  function tryMatch(leftIdx, rightIdx) {
-    const leftItem  = leftItems[leftIdx];
-    const rightItem = rightItems[rightIdx];
-    if (leftItem.idx === rightItem.idx) {
-      // Correct
-      stateObj.matched.add(leftItem.idx);
+  function tapCard(side, i) {
+    if (stateObj.locked) return;
+    const items = side === 'left' ? leftItems : rightItems;
+    if (stateObj.matched.has(items[i].idx)) return;
+
+    const sel = stateObj.selected;
+    // Deselect if tapping the same card
+    if (sel && sel.side === side && sel.i === i) {
       stateObj.selected = null;
       render();
-      if (stateObj.matched.size === data.length) {
-        setTimeout(() => completeFn(), 400);
-      }
+      return;
+    }
+    // Replace selection on same side
+    if (!sel || sel.side === side) {
+      stateObj.selected = { side, i };
+      render();
+      return;
+    }
+    // Opposite side → try to match
+    const leftIdx  = side === 'left'  ? i : sel.i;
+    const rightIdx = side === 'right' ? i : sel.i;
+    resolveMatch(leftIdx, rightIdx);
+  }
+
+  function resolveMatch(leftIdx, rightIdx) {
+    const leftItem  = leftItems[leftIdx];
+    const rightItem = rightItems[rightIdx];
+    const lCard = document.getElementById(`mh-${leftIdx}`);
+    const rCard = document.getElementById(`mr-${rightIdx}`);
+
+    if (leftItem.idx === rightItem.idx) {
+      stateObj.locked = true;
+      if (lCard) lCard.classList.add('correct-flash');
+      if (rCard) rCard.classList.add('correct-flash');
+      setTimeout(() => {
+        stateObj.matched.add(leftItem.idx);
+        stateObj.selected = null;
+        stateObj.locked = false;
+        render();
+        if (stateObj.matched.size === data.length) {
+          setTimeout(() => completeFn(), 350);
+        }
+      }, 320);
     } else {
-      // Wrong — flash the right card red then reset
-      const rCard = document.getElementById(`mr-${rightIdx}`);
-      if (rCard) {
-        rCard.classList.add('wrong');
-        setTimeout(() => { rCard && rCard.classList.remove('wrong'); stateObj.selected = null; render(); }, 600);
-      }
+      stateObj.locked = true;
+      if (navigator.vibrate) { try { navigator.vibrate(60); } catch(e) {} }
+      if (lCard) lCard.classList.add('wrong');
+      if (rCard) rCard.classList.add('wrong');
+      setTimeout(() => {
+        if (lCard) lCard.classList.remove('wrong');
+        if (rCard) rCard.classList.remove('wrong');
+        stateObj.selected = null;
+        stateObj.locked = false;
+        render();
+      }, 520);
     }
   }
 
@@ -1560,18 +1600,6 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
     const el = document.getElementById(`mr-${ri}`);
     if (el) el.classList.add('dragging');
     setTimeout(() => { const el2 = document.getElementById(`mr-${ri}`); if (el2) el2.classList.remove('dragging'); }, 0);
-  };
-
-  window.matchTap = function(ri) {
-    if (stateObj.matched.has(rightItems[ri].idx)) return;
-    stateObj.selected = stateObj.selected === ri ? null : ri;
-    render();
-  };
-
-  window.matchTapLeft = function(leftIdx) {
-    if (stateObj.selected === null) return;
-    if (stateObj.matched.has(leftItems[leftIdx].idx)) return;
-    tryMatch(leftIdx, stateObj.selected);
   };
 
   render();

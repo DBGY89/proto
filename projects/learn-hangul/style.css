@@ -1327,7 +1327,9 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
     line-height: 1;
-    transition: border-color 0.15s, background 0.15s, opacity 0.3s;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.3s;
     height: 64px;
     box-sizing: border-box;
     display: flex; align-items: center; justify-content: center;
@@ -1337,6 +1339,26 @@ body {
     background: rgba(92, 219, 149, 0.12);
     border-color: var(--green);
     opacity: 0.5;
+  }
+
+  .match-hangul-card.selected {
+    border-color: var(--accent);
+    background: rgba(0, 240, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.18);
+  }
+
+  .match-hangul-card.wrong {
+    border-color: var(--neon-pink);
+    background: rgba(255, 45, 120, 0.12);
+    animation: shake 0.3s;
+  }
+
+  .match-hangul-card.correct-flash,
+  .match-roman-card.correct-flash {
+    border-color: var(--green);
+    background: rgba(92, 219, 149, 0.22);
+    color: var(--green);
+    transform: scale(1.03);
   }
 
   .match-roman-card {
@@ -1369,9 +1391,17 @@ body {
   }
 
   .match-roman-card.wrong {
-    border-color: var(--accent);
-    background: #FAD4CF;
+    border-color: var(--neon-pink);
+    background: rgba(255, 45, 120, 0.12);
+    color: var(--neon-pink);
     animation: shake 0.3s;
+  }
+
+  .match-roman-card.selected {
+    border-color: var(--accent);
+    background: rgba(0, 240, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.18);
+    transform: scale(1.02);
   }
 
   .match-drop-target {
