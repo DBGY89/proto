@@ -853,7 +853,7 @@ function renderFlashCardL2(el) {
     <div class="flashcard-container">
       <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
       <div class="flashcard-progress">${done} / ${total} learned</div>
-      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+      <div class="flashcard-wrap" id="fc-wrap" onclick="revealOrNext(2, ${cardIdx})">
         <div class="flashcard-inner">
           <div class="flashcard-face flashcard-front">
             <div class="fc-hangul">${v.h}</div>
@@ -862,12 +862,9 @@ function renderFlashCardL2(el) {
           <div class="flashcard-face flashcard-back">
             <div class="fc-roman">${v.r}</div>
             <div class="fc-sound">${v.sound}</div>
+            <div class="fc-hint">tap for next</div>
           </div>
         </div>
-      </div>
-      <div class="flashcard-actions" style="width:100%;max-width:340px;">
-        <button class="fc-btn review" onclick="fcAnswerL2(${cardIdx}, false)">Review again</button>
-        <button class="fc-btn know" onclick="fcAnswerL2(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
         <button type="button" class="primary-btn" onclick="skipFlash2()">Go to Match</button>
@@ -1130,7 +1127,7 @@ function renderFlashCardL3(el) {
     <div class="flashcard-container">
       <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
       <div class="flashcard-progress">${done} / ${total} learned</div>
-      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+      <div class="flashcard-wrap" id="fc-wrap" onclick="revealOrNext(3, ${cardIdx})">
         <div class="flashcard-inner">
           <div class="flashcard-face flashcard-front">
             <div class="fc-hangul">${v.h}</div>
@@ -1139,12 +1136,9 @@ function renderFlashCardL3(el) {
           <div class="flashcard-face flashcard-back">
             <div class="fc-roman">${v.r}</div>
             <div class="fc-sound">${v.sound}</div>
+            <div class="fc-hint">tap for next</div>
           </div>
         </div>
-      </div>
-      <div class="flashcard-actions" style="width:100%;max-width:340px;">
-        <button class="fc-btn review" onclick="fcAnswerL3(${cardIdx}, false)">Review again</button>
-        <button class="fc-btn know" onclick="fcAnswerL3(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
         <button type="button" class="primary-btn" onclick="skipFlash3()">Go to Match</button>
@@ -1424,7 +1418,7 @@ function renderFlashCard(el) {
     <div class="flashcard-container">
       <div class="progress-bar-wrap" style="width:100%"><div class="progress-bar-fill" style="width:${Math.round(done/total*100)}%"></div></div>
       <div class="flashcard-progress">${done} / ${total} learned</div>
-      <div class="flashcard-wrap" id="fc-wrap" onclick="flipCard()">
+      <div class="flashcard-wrap" id="fc-wrap" onclick="revealOrNext(1, ${cardIdx})">
         <div class="flashcard-inner">
           <div class="flashcard-face flashcard-front">
             <div class="fc-hangul">${v.h}</div>
@@ -1433,12 +1427,9 @@ function renderFlashCard(el) {
           <div class="flashcard-face flashcard-back">
             <div class="fc-roman">${v.r}</div>
             <div class="fc-sound">${v.sound}</div>
+            <div class="fc-hint">tap for next</div>
           </div>
         </div>
-      </div>
-      <div class="flashcard-actions" style="width:100%;max-width:340px;">
-        <button class="fc-btn review" onclick="fcAnswer(${cardIdx}, false)">Review again</button>
-        <button class="fc-btn know" onclick="fcAnswer(${cardIdx}, true)">Got it ✓</button>
       </div>
       <div class="cta-row" style="margin-top:16px;">
         <button type="button" class="primary-btn" onclick="skipFlash1()">Go to Match</button>
@@ -1449,6 +1440,18 @@ function renderFlashCard(el) {
 
 function flipCard() {
   document.getElementById('fc-wrap')?.classList.toggle('flipped');
+}
+
+function revealOrNext(level, cardIdx) {
+  const wrap = document.getElementById('fc-wrap');
+  if (!wrap) return;
+  if (!wrap.classList.contains('flipped')) {
+    wrap.classList.add('flipped');
+    return;
+  }
+  if (level === 2) fcAnswerL2(cardIdx, true);
+  else if (level === 3) fcAnswerL3(cardIdx, true);
+  else fcAnswer(cardIdx, true);
 }
 
 function fcAnswer(cardIdx, know) {

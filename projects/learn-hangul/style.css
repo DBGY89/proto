@@ -982,27 +982,6 @@ body {
     color: var(--text-secondary);
   }
 
-  .flashcard-actions {
-    display: flex;
-    gap: 12px;
-  }
-
-  .fc-btn {
-    flex: 1;
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: none;
-    font-family: var(--font);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 0.1s;
-  }
-  .fc-btn:hover { transform: translateY(-1px); }
-  .fc-btn.know { background: rgba(92, 219, 149, 0.2); color: #7ae8b3; }
-  .fc-btn.review { background: rgba(255, 45, 120, 0.15); color: var(--neon-pink); }
-
   .fc-complete {
     text-align: center;
     padding: 40px 20px;
