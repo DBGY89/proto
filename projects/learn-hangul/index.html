@@ -417,10 +417,11 @@ let state = {
   l4reached: false,
 };
 
-// Load from localStorage
+// Load from sessionStorage — state lives only for the current tab session
+// so every fresh visit starts clean, but reloading the tab keeps progress.
 function loadState() {
   try {
-    const s = localStorage.getItem('hangul_state');
+    const s = sessionStorage.getItem('hangul_state');
     if (s) {
       const loaded = JSON.parse(s);
       state.learnSeen = new Set(loaded.learnSeen || []);
@@ -446,7 +447,7 @@ function loadState() {
 
 function saveState() {
   try {
-    localStorage.setItem('hangul_state', JSON.stringify({
+    sessionStorage.setItem('hangul_state', JSON.stringify({
       learnSeen: [...state.learnSeen],
       wordsCompleted: state.wordsCompleted,
       flashDone: state.flashDone,
