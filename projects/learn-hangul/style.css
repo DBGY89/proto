@@ -274,16 +274,44 @@ body:has(#level-view.active) .vote-widget-wrap {
 
     .roadmap-step .level-card {
       width: 100%;
-      padding: 22px 22px 20px;
+      padding: 24px 20px 20px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
     }
     .roadmap-step .level-card::before { display: none; }
+
+    .roadmap-step .level-card .level-num { margin-bottom: 8px; }
+    .roadmap-step .level-card .level-name {
+      font-size: 20px;
+      margin-bottom: 10px;
+      min-height: 2.4em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .roadmap-step .level-card .level-desc {
+      font-size: 12px;
+      margin-bottom: 20px;
+      min-height: 2.5em;
+    }
+    .roadmap-step .level-card .level-chars {
+      justify-content: center;
+      gap: 6px;
+      margin: 0 auto 22px;
+      max-width: 200px;
+    }
+    .roadmap-step .level-card .level-char {
+      width: 30px; height: 30px;
+      font-size: 15px;
+      border-radius: 7px;
+    }
     .roadmap-step .level-card .level-status {
       position: static;
-      margin: 4px auto 0;
+      margin: auto auto 0;
       align-self: center;
+      display: inline-block;
     }
-    .roadmap-step .level-card .level-chars { justify-content: center; }
 
     /* Visited / current accent underline on the card */
     .roadmap-step .level-card {
@@ -330,36 +358,40 @@ body:has(#level-view.active) .vote-widget-wrap {
   .level-card.visited::before { background: var(--green); }
 
   .level-num {
-    font-size: 11px;
-    letter-spacing: 0.15em;
+    font-size: 10px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--ink2);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .level-name {
     font-family: var(--font);
-    font-size: 24px;
-    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 10px;
   }
 
   .level-desc {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--ink2);
-    line-height: 1.5;
+    line-height: 1.55;
+    margin-bottom: 20px;
   }
 
   .level-chars {
     display: flex;
     gap: 6px;
-    margin-top: 16px;
     flex-wrap: wrap;
+    margin-bottom: 20px;
   }
 
   .level-char {
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    width: 36px; height: 36px;
+    font-size: 16px;
+    width: 32px; height: 32px;
     border-radius: 8px;
     background: var(--bg2);
     display: flex; align-items: center; justify-content: center;
