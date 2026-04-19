@@ -407,67 +407,55 @@ function showScreen(id) {
 }
 
 function updateHomeCards() {
+  // Level 1 — always unlocked
+  const card1 = document.getElementById('card-1');
   const s1 = document.getElementById('status-1');
-
-  if (state.memoryDone) {
-    s1.textContent = 'Completed';
-    s1.className = 'level-status done';
-    document.getElementById('card-1').classList.add('completed');
-  } else if (state.learnSeen.size > 0) {
-    s1.textContent = 'In progress';
+  const l1Visited = state.learnSeen.size > 0 || state.memoryReached || state.memoryDone;
+  if (l1Visited) {
+    card1.classList.add('visited');
+    s1.style.display = 'none';
   }
 
-  // Unlock level 2 when memory tab is reached
+  // Level 2
   if (state.memoryReached || state.memoryDone) {
     const card2 = document.getElementById('card-2');
     const status2 = document.querySelector('#card-2 .level-status');
     card2.classList.remove('locked');
     card2.setAttribute('onclick','openLevel(2)');
-
-    if (state.l2memoryDone) {
-      status2.textContent = 'Completed';
-      status2.className = 'level-status done';
-      card2.classList.add('completed');
-    } else if (state.l2learnSeen.size > 0) {
-      status2.textContent = 'In progress';
-      status2.className = 'level-status';
+    const l2Visited = state.l2learnSeen.size > 0 || state.l2memoryReached || state.l2memoryDone;
+    if (l2Visited) {
+      card2.classList.add('visited');
+      status2.style.display = 'none';
     } else {
       status2.textContent = 'Start';
-      status2.className = 'level-status';
     }
 
-    // Unlock level 3 when memory tab of level 2 is reached
+    // Level 3
     if (state.l2memoryReached || state.l2memoryDone) {
       const card3 = document.getElementById('card-3');
       const status3 = document.querySelector('#card-3 .level-status');
       card3.classList.remove('locked');
       card3.setAttribute('onclick','openLevel(3)');
-
-      if (state.l3memoryDone) {
-        status3.textContent = 'Completed';
-        status3.className = 'level-status done';
-        card3.classList.add('completed');
-      } else if (state.l3learnSeen.size > 0) {
-        status3.textContent = 'In progress';
-        status3.className = 'level-status';
+      const l3Visited = state.l3learnSeen.size > 0 || state.l3memoryReached || state.l3memoryDone;
+      if (l3Visited) {
+        card3.classList.add('visited');
+        status3.style.display = 'none';
       } else {
         status3.textContent = 'Start';
-        status3.className = 'level-status';
       }
 
-      // Unlock level 4 when memory tab of level 3 is reached
+      // Level 4
       if (state.l3memoryReached || state.l3memoryDone) {
         const card4 = document.getElementById('card-4');
         const status4 = document.querySelector('#card-4 .level-status');
         card4.classList.remove('locked');
         card4.setAttribute('onclick','openLevel(4)');
-        if (state.l4completed) {
-          status4.textContent = 'Completed';
-          status4.className = 'level-status done';
-          card4.classList.add('completed');
+        const l4Visited = state.l4wordIndex > 0 || state.l4completed;
+        if (l4Visited) {
+          card4.classList.add('visited');
+          status4.style.display = 'none';
         } else {
           status4.textContent = 'Start';
-          status4.className = 'level-status';
         }
       }
     }
@@ -490,19 +478,10 @@ function isLevelUnlocked(n) {
 }
 
 function levelStatus(n) {
-  if (n === 1) {
-    if (state.memoryDone) return 'done';
-    if (state.learnSeen.size > 0 || state.memoryReached) return 'progress';
-  } else if (n === 2) {
-    if (state.l2memoryDone) return 'done';
-    if (state.l2learnSeen.size > 0 || state.l2memoryReached) return 'progress';
-  } else if (n === 3) {
-    if (state.l3memoryDone) return 'done';
-    if (state.l3learnSeen.size > 0 || state.l3memoryReached) return 'progress';
-  } else if (n === 4) {
-    if (state.l4completed) return 'done';
-    if (state.l4wordIndex > 0) return 'progress';
-  }
+  if (n === 1) return (state.learnSeen.size > 0 || state.memoryReached || state.memoryDone) ? 'visited' : 'idle';
+  if (n === 2) return (state.l2learnSeen.size > 0 || state.l2memoryReached || state.l2memoryDone) ? 'visited' : 'idle';
+  if (n === 3) return (state.l3learnSeen.size > 0 || state.l3memoryReached || state.l3memoryDone) ? 'visited' : 'idle';
+  if (n === 4) return (state.l4wordIndex > 0 || state.l4completed) ? 'visited' : 'idle';
   return 'idle';
 }
 
@@ -518,14 +497,11 @@ function renderLevelNav() {
     const active = lv.n === current ? 'is-active' : '';
     const locked = unlocked ? '' : 'is-locked';
     const click = unlocked ? `onclick="openLevel(${lv.n})"` : '';
-    const statusLabel = !unlocked ? 'Locked'
-      : status === 'done' ? 'Completed'
-      : status === 'progress' ? 'In progress'
-      : 'Start';
-    return `<button type="button" class="nav-level-card ${active} ${locked}" ${click} ${unlocked ? '' : 'disabled'}>
+    const statusLabel = !unlocked ? 'Locked' : status === 'visited' ? '' : 'Start';
+    return `<button type="button" class="nav-level-card ${active} ${locked} ${status === 'visited' ? 'nav-level-visited' : ''}" ${click} ${unlocked ? '' : 'disabled'}>
       <span class="nav-level-num">Level ${lv.n}</span>
       <span class="nav-level-name">${lv.name}</span>
-      <span class="nav-level-status nav-level-status--${status}">${statusLabel}</span>
+      ${statusLabel ? `<span class="nav-level-status nav-level-status--${status}">${statusLabel}</span>` : ''}
     </button>`;
   }).join('');
 

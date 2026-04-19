@@ -234,7 +234,7 @@ body:has(#level-view.active) .vote-widget-wrap {
   }
 
   .level-card.locked::before { background: var(--ink2); }
-  .level-card.completed::before { background: var(--green); }
+  .level-card.visited::before { background: var(--green); }
 
   .level-num {
     font-size: 11px;
@@ -285,7 +285,6 @@ body:has(#level-view.active) .vote-widget-wrap {
     color: var(--ink2);
   }
 
-  .level-status.done { background: rgba(92, 219, 149, 0.15); color: #7ae8b3; }
   .level-status.locked-tag { background: var(--bg2); color: var(--ink2); }
 
   /* ── LEVEL VIEW ── */
@@ -495,8 +494,7 @@ body:has(#level-view.active) .vote-widget-wrap {
     text-transform: uppercase;
     color: var(--text-secondary);
   }
-  .nav-level-status--done { color: #6be3a8; }
-  .nav-level-status--progress { color: var(--neon-cyan); }
+  .nav-level-card.nav-level-visited .nav-level-num { color: var(--green); }
 
   .section-tabs {
     display: flex;
