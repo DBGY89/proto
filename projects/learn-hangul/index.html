@@ -166,14 +166,7 @@
     <div class="hangul-letter-example">
       <div class="hangul-letter-label" style="margin-bottom:10px;">Example word</div>
       <div class="ex-hangul" id="modal-ex-hangul"></div>
-      <div class="hangul-ex-row">
-        <span class="hangul-ex-pill">pronunciation</span>
-        <span id="modal-ex-roman"></span>
-      </div>
-      <div class="hangul-ex-row">
-        <span class="hangul-ex-pill">meaning</span>
-        <span id="modal-ex-meaning"></span>
-      </div>
+      <div class="ex-meaning" id="modal-ex-meaning"></div>
     </div>
 
     <button type="button" class="hangul-letter-close" onclick="document.getElementById('letter-modal').classList.remove('is-open')">Close</button>
@@ -655,7 +648,6 @@ function openLetterModalL2(i) {
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
-  document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
   document.getElementById('letter-modal').classList.add('is-open');
 
@@ -933,7 +925,6 @@ function openLetterModalL3(i) {
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
-  document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
   document.getElementById('letter-modal').classList.add('is-open');
 
@@ -1211,7 +1202,6 @@ function openLetterModal(i) {
   document.getElementById('modal-roman').textContent = v.r;
   document.getElementById('modal-sound').textContent = v.sound;
   document.getElementById('modal-ex-hangul').textContent = v.ex.h;
-  document.getElementById('modal-ex-roman').textContent = v.ex.r;
   document.getElementById('modal-ex-meaning').textContent = v.ex.m;
   document.getElementById('letter-modal').classList.add('is-open');
 

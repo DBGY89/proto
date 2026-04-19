@@ -716,19 +716,23 @@ body {
 
   .hangul-letter-example {
     margin: 20px 0;
-    padding: 16px;
+    padding: 20px 16px;
     background: var(--bg2);
     border-radius: 10px;
-    font-size: 13px;
-    color: var(--ink2);
-    line-height: 1.6;
+    text-align: center;
+    line-height: 1.5;
   }
 
   .hangul-letter-example .ex-hangul {
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 24px;
+    font-size: 32px;
     color: var(--ink);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+  }
+
+  .hangul-letter-example .ex-meaning {
+    font-size: 14px;
+    color: var(--ink2);
   }
 
   .hangul-letter-label {
@@ -737,26 +741,6 @@ body {
     letter-spacing: 0.15em;
     color: var(--ink2);
     margin-bottom: 4px;
-  }
-
-  .hangul-ex-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--ink);
-  }
-
-  .hangul-ex-pill {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background: var(--bg2);
-    color: var(--ink2);
-    padding: 2px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
   }
 
   .hangul-letter-close {
