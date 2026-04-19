@@ -515,12 +515,6 @@ function renderLevelNav() {
 }
 
 function openLevel(n) {
-  if (n >= 2 && !state.memoryDone) state.memoryDone = true;
-  if (n >= 3 && !state.l2memoryDone) state.l2memoryDone = true;
-  if (n >= 4 && !state.l3memoryDone) state.l3memoryDone = true;
-  saveState();
-  updateHomeCards();
-
   state.currentLevel = n;
   if (n === 1) {
     if (state.learnSeen.size === 0) {
@@ -1594,6 +1588,17 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
   render();
 }
 
+function replayMatch(n) {
+  if (n === 1) state.memoryDone = false;
+  else if (n === 2) state.l2memoryDone = false;
+  else if (n === 3) state.l3memoryDone = false;
+  saveState();
+  const el = document.getElementById('section-content');
+  if (n === 1) renderMemory(el);
+  else if (n === 2) renderMemory2(el);
+  else if (n === 3) renderMemory3(el);
+}
+
 // ══════════════════════════════════════
 // MEMORY — LEVEL 1
 // ══════════════════════════════════════
@@ -1610,6 +1615,7 @@ function renderMemory(el) {
       <p>You've learned all 10 Korean vowels. Level 2 is waiting for you.</p>
       <div class="cta-row">
         <button class="primary-btn" onclick="openLevel(2)">Go to Level 2</button>
+        <button class="btn-outline" onclick="replayMatch(1)">Play again</button>
       </div>
     </div>`;
     updateHomeCards();
@@ -1645,6 +1651,7 @@ function renderMemory2(el) {
       <p>You've learned the 7 soft consonants. Level 3 is waiting for you.</p>
       <div class="cta-row">
         <button class="primary-btn" onclick="openLevel(3)">Go to Level 3</button>
+        <button class="btn-outline" onclick="replayMatch(2)">Play again</button>
       </div>
     </div>`;
     updateHomeCards();
@@ -1680,6 +1687,7 @@ function renderMemory3(el) {
       <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
       <div class="cta-row">
         <button class="primary-btn" onclick="openLevel(4)">Go to Level 4</button>
+        <button class="btn-outline" onclick="replayMatch(3)">Play again</button>
       </div>
     </div>`;
     updateHomeCards();
