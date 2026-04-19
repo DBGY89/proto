@@ -316,16 +316,38 @@ const WORDS_L3 = [
   { hangul:'치즈', roman:'chi-jeu', meaning:'cheese', chars:['치','즈'] },
 ];
 
-// ── LEVEL 4 DATA (example words: hangul + romanization + meaning) ──
+// ── LEVEL 4 DATA (example words: hangul + romanization + meaning + syllable breakdown) ──
 const WORDS_L4 = [
-  { word: '물', roman: 'mul', meaning: 'water' },
-  { word: '밥', roman: 'bap', meaning: 'rice / food' },
-  { word: '한국', roman: 'han-guk', meaning: 'South Korea' },
-  { word: '안녕', roman: 'an-nyeong', meaning: 'hi / bye' },
-  { word: '사람', roman: 'sa-ram', meaning: 'person' },
-  { word: '나라', roman: 'na-ra', meaning: 'country' },
-  { word: '하늘', roman: 'ha-neul', meaning: 'sky' },
-  { word: '커피', roman: 'keo-pi', meaning: 'coffee' },
+  { word: '물', roman: 'mul', meaning: 'water', syllables: [
+    { char: '물', parts: ['ㅁ','ㅜ','ㄹ'], roman: 'mul' },
+  ]},
+  { word: '밥', roman: 'bap', meaning: 'rice / food', syllables: [
+    { char: '밥', parts: ['ㅂ','ㅏ','ㅂ'], roman: 'bap' },
+  ]},
+  { word: '한국', roman: 'han-guk', meaning: 'South Korea', syllables: [
+    { char: '한', parts: ['ㅎ','ㅏ','ㄴ'], roman: 'han' },
+    { char: '국', parts: ['ㄱ','ㅜ','ㄱ'], roman: 'guk' },
+  ]},
+  { word: '안녕', roman: 'an-nyeong', meaning: 'hi / bye', syllables: [
+    { char: '안', parts: ['ㅇ','ㅏ','ㄴ'], roman: 'an' },
+    { char: '녕', parts: ['ㄴ','ㅕ','ㅇ'], roman: 'nyeong' },
+  ]},
+  { word: '사람', roman: 'sa-ram', meaning: 'person', syllables: [
+    { char: '사', parts: ['ㅅ','ㅏ'], roman: 'sa' },
+    { char: '람', parts: ['ㄹ','ㅏ','ㅁ'], roman: 'ram' },
+  ]},
+  { word: '나라', roman: 'na-ra', meaning: 'country', syllables: [
+    { char: '나', parts: ['ㄴ','ㅏ'], roman: 'na' },
+    { char: '라', parts: ['ㄹ','ㅏ'], roman: 'ra' },
+  ]},
+  { word: '하늘', roman: 'ha-neul', meaning: 'sky', syllables: [
+    { char: '하', parts: ['ㅎ','ㅏ'], roman: 'ha' },
+    { char: '늘', parts: ['ㄴ','ㅡ','ㄹ'], roman: 'neul' },
+  ]},
+  { word: '커피', roman: 'keo-pi', meaning: 'coffee', syllables: [
+    { char: '커', parts: ['ㅋ','ㅓ'], roman: 'keo' },
+    { char: '피', parts: ['ㅍ','ㅣ'], roman: 'pi' },
+  ]},
 ];
 
 /** Minimal stroke icon for completion screens (replaces emoji). */
@@ -1822,23 +1844,28 @@ function startLevel4Practice() {
 }
 
 function renderLevel4Word(el) {
-  const cards = WORDS_L4.map((w, i) => `
-    <div class="word-flip" onclick="this.classList.toggle('flipped')">
-      <div class="word-flip-inner">
-        <div class="word-flip-face word-flip-front">
-          <div class="word-flip-roman">${w.roman}</div>
-          <div class="word-flip-meaning">${w.meaning}</div>
+  const cards = WORDS_L4.map((w) => {
+    const sylRows = w.syllables.map(s =>
+      `<div class="syl-row"><span class="syl-char">${s.char}</span> = ${s.parts.join(' + ')} = <em>${s.roman}</em></div>`
+    ).join('');
+    return `
+      <div class="word-flip" onclick="this.classList.toggle('flipped')">
+        <div class="word-flip-inner">
+          <div class="word-flip-face word-flip-front">
+            <div class="word-flip-roman">${w.roman}</div>
+            <div class="word-flip-meaning">${w.meaning}</div>
+          </div>
+          <div class="word-flip-face word-flip-back">
+            <div class="word-flip-hangul">${w.word}</div>
+            <div class="word-flip-syllables">${sylRows}</div>
+          </div>
         </div>
-        <div class="word-flip-face word-flip-back">
-          <div class="word-flip-hangul">${w.word}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+      </div>`;
+  }).join('');
 
   el.innerHTML = `
     <div class="l4-browse" style="max-width:560px;margin:0 auto;">
-      <p class="l4-instruction">Tap any card to flip it and see the word in hangul.</p>
+      <p class="l4-instruction">Tap any card to flip it and see how each word is built.</p>
       <div class="word-grid">${cards}</div>
       <div class="cta-row" style="margin-top:24px;">
         <button type="button" class="primary-btn" onclick="l4Finish()">Finish</button>
