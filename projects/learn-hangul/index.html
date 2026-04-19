@@ -429,10 +429,21 @@ function saveState() {
 // ══════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════
+function scrollToTop() {
+  // Reset scroll on both the window and any scrollable inner containers so
+  // navigating to a new page/tab always starts from the top.
+  try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }
+  catch(e) { window.scrollTo(0, 0); }
+  const main = document.querySelector('.level-view-main');
+  if (main) main.scrollTop = 0;
+  const content = document.getElementById('section-content');
+  if (content) content.scrollTop = 0;
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+  scrollToTop();
   updateHomeCards();
 }
 
@@ -572,6 +583,7 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   renderLevelNav();
+  scrollToTop();
 
   const content = document.getElementById('section-content');
   const lv = Number(state.currentLevel);
@@ -1621,6 +1633,7 @@ function replayMatch(n) {
   if (n === 1) renderMemory(el);
   else if (n === 2) renderMemory2(el);
   else if (n === 3) renderMemory3(el);
+  scrollToTop();
 }
 
 // ══════════════════════════════════════
@@ -1785,6 +1798,7 @@ function renderLevel4Intro(el) {
 function startLevel4Practice() {
   state.l4wordIndex = 0;
   renderLevel4Word(document.getElementById('section-content'));
+  scrollToTop();
 }
 
 function renderLevel4Word(el) {
