@@ -112,53 +112,60 @@
     <button class="back-btn" onclick="showScreen('home')">←</button>
     <span class="nav-title">How Hangul Works</span>
   </div>
-  <div style="padding:32px 24px; max-width:560px; margin:0 auto; width:100%;">
-    <div class="intro-card">
-      <h2>Before you start</h2>
-      <p>Korean is written in <strong>syllable blocks</strong>, not in a line of individual letters. Each block is one syllable, made of 2 or 3 characters stacked together.</p>
-      <p>This is what makes it different from the alphabet you already know. Once it clicks, it's one of the most logical writing systems in the world.</p>
+  <div class="narrative">
+    <header class="narrative-intro">
+      <div class="narrative-kicker">Before you start</div>
+      <h1 class="narrative-h1">Hangul is built in blocks, not lines.</h1>
+    </header>
+    <p class="narrative-p">Each <em>syllable block</em> stacks 2 or 3 letters together. One block, one syllable. That's the whole trick.</p>
 
-      <div class="block-demo">
-        <div class="block-demo-item">
-          <div style="display:flex;gap:4px;margin-bottom:8px;">
+    <section class="narrative-section">
+      <div class="narrative-section-label">One block</div>
+      <div class="narrative-pair">
+        <div class="narrative-col">
+          <div class="block-parts">
             <div class="block-part">ㅎ</div>
             <div class="block-part vowel">ㅏ</div>
             <div class="block-part final">ㄴ</div>
           </div>
-          <div style="font-size:11px;color:var(--ink2);">consonant + vowel + final</div>
+          <div class="narrative-tag">consonant · vowel · final</div>
         </div>
-        <div class="arrow-right">→</div>
-        <div class="block-demo-item">
-          <div class="hangul-big">한</div>
-          <div style="font-size:13px;color:var(--accent);margin-top:4px;">han</div>
-          <div style="font-size:11px;color:var(--ink2);">one syllable</div>
-        </div>
-      </div>
-
-      <p>Two blocks together make a word. <strong style="font-family:'Noto Sans KR',sans-serif;">한</strong> + <strong style="font-family:'Noto Sans KR',sans-serif;">국</strong> = <strong style="font-family:'Noto Sans KR',sans-serif;">한국</strong>, han-guk, South Korea.</p>
-
-      <div class="block-demo">
-        <div class="block-demo-item">
-          <div class="hangul-big">한</div>
-          <div style="font-size:13px;color:var(--accent);margin-top:4px;">han</div>
-        </div>
-        <div class="arrow-right">+</div>
-        <div class="block-demo-item">
-          <div class="hangul-big">국</div>
-          <div style="font-size:13px;color:var(--accent);margin-top:4px;">guk</div>
-        </div>
-        <div class="arrow-right">=</div>
-        <div class="block-demo-item">
-          <div class="hangul-big">한국</div>
-          <div style="font-size:13px;color:var(--accent);margin-top:4px;">han-guk</div>
-          <div style="font-size:11px;color:var(--ink2);">South Korea</div>
+        <div class="narrative-arrow">→</div>
+        <div class="narrative-col">
+          <div class="narrative-big mid">한</div>
+          <div class="narrative-rom">han</div>
         </div>
       </div>
+      <div class="narrative-legend">
+        <span><i style="background:var(--neon-cyan)"></i>consonant</span>
+        <span><i style="background:var(--gold)"></i>vowel</span>
+        <span><i style="background:var(--ink2)"></i>final</span>
+      </div>
+    </section>
 
-      <p>In Level 1 you'll learn the vowels first. Since vowels can't stand alone in a block, Korean uses a silent placeholder consonant: <strong style="font-family:'Noto Sans KR',sans-serif;">ㅇ</strong>. So 아 is just ㅇ + ㅏ, pronounced "a".</p>
-      <p>Don't worry. It will make sense as soon as you see it in action.</p>
+    <p class="narrative-p">Two blocks side by side make a word. Stack <span class="kbd">한</span> + <span class="kbd">국</span> and you get the name of the country.</p>
+
+    <section class="narrative-section">
+      <div class="narrative-section-label">A word</div>
+      <div class="narrative-pair">
+        <div class="narrative-col"><div class="narrative-big small">한</div><div class="narrative-rom">han</div></div>
+        <div class="narrative-arrow">+</div>
+        <div class="narrative-col"><div class="narrative-big small">국</div><div class="narrative-rom">guk</div></div>
+        <div class="narrative-arrow">=</div>
+        <div class="narrative-col">
+          <div class="narrative-big mid">한국</div>
+          <div class="narrative-rom">han-guk</div>
+          <div class="narrative-tag">South Korea</div>
+        </div>
+      </div>
+    </section>
+
+    <p class="narrative-p">Vowels can't stand alone, so Korean uses a silent placeholder: <span class="kbd">ㅇ</span>. So <span class="kbd">아</span> is just <span class="kbd">ㅇ + ㅏ</span>, pronounced "a".</p>
+    <p class="narrative-note">Don't worry. It will make sense as soon as you see it in action.</p>
+
+    <div class="narrative-cta">
+      <button class="primary-btn" onclick="startLevel1()">Got it. Let's start</button>
     </div>
-    <button class="primary-btn" onclick="startLevel1()">Got it. Let's start</button>
   </div>
 </div>
 
@@ -1730,40 +1737,48 @@ function renderMemory3(el) {
 // ══════════════════════════════════════
 function renderLevel4Intro(el) {
   el.innerHTML = `
-    <div style="max-width:480px;margin:0 auto;">
-      <div class="intro-card" style="margin-bottom:20px;">
-        <h2 style="font-size:24px;margin-bottom:14px;">See it all come together</h2>
-        <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px;">
-          No exercises here. This level is just about seeing your knowledge in action. You'll go through 8 real Korean words, one by one, built entirely from letters you already know.
-        </p>
-        <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px;">
-          Some words have a consonant at the bottom of the syllable block. This is called <strong>받침</strong> (batchim). It's not a new letter — it's the same ones you know, just in a new position.
-        </p>
-        <div style="display:flex;gap:16px;align-items:center;justify-content:center;margin:20px 0;flex-wrap:wrap;">
-          <div style="text-align:center;">
-            <div style="display:flex;gap:4px;margin-bottom:6px;">
+    <div class="narrative">
+      <header class="narrative-intro">
+        <div class="narrative-kicker">Level 4 · First words</div>
+        <h1 class="narrative-h1">See it all come together.</h1>
+      </header>
+      <p class="narrative-p">No exercises here. This level is just about seeing your knowledge in action, through <em>8 real Korean words</em>, one by one, built entirely from letters you already know.</p>
+      <p class="narrative-p">Some words add a consonant at the bottom of the syllable block. It's called <span class="kbd">받침</span> (batchim). Not a new letter, just the same ones in a new position.</p>
+
+      <section class="narrative-section">
+        <div class="narrative-section-label">Batchim in one picture</div>
+        <div class="narrative-pair">
+          <div class="narrative-col">
+            <div class="block-parts">
               <div class="block-part">ㅁ</div>
               <div class="block-part vowel">ㅜ</div>
             </div>
-            <div style="font-size:11px;color:var(--ink2);">no batchim</div>
-            <div style="font-size:32px;font-family:'Noto Sans KR',sans-serif;margin-top:4px;">무</div>
+            <div class="narrative-big mid" style="margin-top:10px;">무</div>
+            <div class="narrative-tag">no batchim</div>
           </div>
-          <div style="font-size:24px;color:var(--ink2);">→</div>
-          <div style="text-align:center;">
-            <div style="display:flex;gap:4px;margin-bottom:6px;">
+          <div class="narrative-arrow">→</div>
+          <div class="narrative-col">
+            <div class="block-parts">
               <div class="block-part">ㅁ</div>
               <div class="block-part vowel">ㅜ</div>
               <div class="block-part final">ㄹ</div>
             </div>
-            <div style="font-size:11px;color:var(--ink2);">with batchim ㄹ</div>
-            <div style="font-size:32px;font-family:'Noto Sans KR',sans-serif;margin-top:4px;">물</div>
+            <div class="narrative-big mid" style="margin-top:10px;">물</div>
+            <div class="narrative-tag">with batchim ㄹ</div>
           </div>
         </div>
-        <p style="font-size:13px;color:var(--ink2);line-height:1.7;">
-          Same block, one extra letter at the bottom. You're ready.
-        </p>
+        <div class="narrative-legend">
+          <span><i style="background:var(--neon-cyan)"></i>consonant</span>
+          <span><i style="background:var(--gold)"></i>vowel</span>
+          <span><i style="background:var(--ink2)"></i>batchim</span>
+        </div>
+      </section>
+
+      <p class="narrative-note">Same block, one extra letter at the bottom. You're ready.</p>
+
+      <div class="narrative-cta">
+        <button class="primary-btn" onclick="startLevel4Practice()">See the words</button>
       </div>
-      <button class="primary-btn" onclick="startLevel4Practice()">See the words</button>
     </div>`;
 }
 

@@ -753,7 +753,7 @@ body {
   .section-content { flex: 1; padding: 32px 24px; max-width: 600px; margin: 0 auto; width: 100%; }
 
   /* ── INTRO SCREEN ── */
-  #intro-screen { padding: 32px 24px; max-width: 560px; margin: 0 auto; }
+  #intro-screen { padding: 0; max-width: none; margin: 0; }
 
   .intro-card {
     background: var(--card);
@@ -774,6 +774,158 @@ body {
     line-height: 1.7;
     color: var(--ink2);
     margin-bottom: 14px;
+  }
+
+  /* ── NARRATIVE LAYOUT (intro-screen, level 4 intro) ── */
+  .narrative {
+    width: 100%;
+    padding-bottom: 28px;
+  }
+  .narrative-intro {
+    padding: 28px 20px 8px;
+  }
+  .narrative-kicker {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--neon-cyan);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .narrative-h1 {
+    font-family: var(--font);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+  .narrative-p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 20px 20px;
+  }
+  .narrative-p em,
+  .narrative .accent {
+    font-style: normal;
+    color: var(--neon-cyan);
+    font-weight: 600;
+  }
+  .narrative .kbd {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .narrative-section {
+    padding: 24px 16px;
+    margin: 0 0 4px;
+    background: linear-gradient(180deg, rgba(0, 240, 255, 0.04), transparent 75%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .narrative-section + .narrative-section { margin-top: -1px; }
+  .narrative-section + .narrative-p,
+  .narrative-p + .narrative-section { margin-top: 8px; }
+  .narrative-section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .narrative-pair {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .narrative-col { text-align: center; }
+  .narrative-col .block-parts { margin-top: 0; margin-bottom: 10px; }
+  .narrative-arrow {
+    color: var(--text-muted);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .narrative-tag {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-top: 10px;
+  }
+  .narrative-rom {
+    font-size: 14px;
+    color: var(--accent);
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .narrative-big {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--ink);
+    text-shadow: 0 0 28px rgba(0, 240, 255, 0.22);
+  }
+  .narrative-big.mid { font-size: 52px; }
+  .narrative-big.small { font-size: 40px; }
+  .narrative-legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 18px 16px 0;
+    font-size: 11px;
+    color: var(--ink2);
+    letter-spacing: 0.04em;
+  }
+  .narrative-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .narrative-legend i {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .narrative-note {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.65;
+    margin: 0 20px 24px;
+  }
+  .narrative-cta {
+    padding: 8px 20px 0;
+  }
+  .narrative-cta .primary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* When narrative is used inside section-content (batchim), negate its padding
+     so sections go edge-to-edge on mobile. */
+  .section-content > .narrative {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+
+  @media (min-width: 768px) {
+    .narrative,
+    .section-content > .narrative {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .narrative-intro { padding: 44px 32px 12px; }
+    .narrative-p,
+    .narrative-note { margin-left: 32px; margin-right: 32px; }
+    .narrative-section { padding: 32px 24px; }
+    .narrative-cta { padding: 20px 32px 0; }
+    .narrative-h1 { font-size: 36px; }
+    .narrative-big { font-size: 80px; }
+    .narrative-big.mid { font-size: 64px; }
+    .narrative-big.small { font-size: 48px; }
   }
 
   .block-demo {
