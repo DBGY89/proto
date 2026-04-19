@@ -1029,12 +1029,14 @@ body {
     background: var(--card);
     border: 2px solid var(--border);
     border-radius: 12px;
-    padding: 14px 10px;
+    padding: 0 10px;
     text-align: center;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
+    line-height: 1;
     transition: border-color 0.15s, background 0.15s, opacity 0.3s;
-    min-height: 64px;
+    height: 64px;
+    box-sizing: border-box;
     display: flex; align-items: center; justify-content: center;
   }
 
@@ -1048,14 +1050,16 @@ body {
     background: var(--card);
     border: 2px solid var(--border);
     border-radius: 12px;
-    padding: 14px 10px;
+    padding: 0 10px;
     text-align: center;
     font-family: var(--font);
     font-size: 20px;
+    line-height: 1;
     color: var(--accent);
     cursor: grab;
     transition: border-color 0.2s, background 0.15s, transform 0.15s, opacity 0.3s;
-    min-height: 64px;
+    height: 64px;
+    box-sizing: border-box;
     display: flex; align-items: center; justify-content: center;
     user-select: none;
   }
