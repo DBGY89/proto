@@ -245,7 +245,12 @@ body:has(#level-view.active) .vote-widget-wrap {
   /* Desktop: 4-column stepper with a connector line through the dots */
   @media (min-width: 960px) {
     #home { padding-left: 32px; padding-right: 32px; }
-    .home-sub { max-width: 520px; }
+    .home-sub {
+      max-width: 640px;
+      font-size: 17px;
+      line-height: 1.55;
+      margin-top: 24px;
+    }
 
     .roadmap {
       display: grid;
@@ -299,10 +304,12 @@ body:has(#level-view.active) .vote-widget-wrap {
       justify-content: center;
     }
     .roadmap-step .level-card .level-desc {
-      font-size: 13.5px;
+      font-size: 15px;
       line-height: 1.55;
       margin-bottom: 28px;
-      min-height: 2.5em;
+      min-height: 2.8em;
+      color: var(--ink);
+      opacity: 0.78;
     }
     .roadmap-step .level-card .level-chars {
       justify-content: center;
