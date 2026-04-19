@@ -1260,15 +1260,20 @@ body:has(#level-view.active) .vote-widget-wrap {
 
   .cta-row {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     margin-top: 20px;
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .cta-row .primary-btn,
-  .cta-row .btn-outline {
-    flex: 1;
-    min-width: 120px;
+  .cta-row .btn-outline,
+  .cta-row .ghost-btn {
+    flex: 1 1 0;
+    min-width: 140px;
+    max-width: 220px;
+    justify-content: center;
+    white-space: nowrap;
   }
 
   .l4-review-label {

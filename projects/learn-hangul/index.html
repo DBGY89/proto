@@ -1530,7 +1530,9 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
       </div>
       ${nextLevelLabel ? `<div style="margin-top:8px;padding-top:20px;border-top:1px solid var(--border);text-align:center;">
         <p style="font-size:12px;color:var(--ink2);margin-bottom:12px;">Ready to move on? ${nextLevelLabel} is already unlocked.</p>
-        <button class="btn-outline" onclick="${nextLevelFn}">Go to ${nextLevelLabel}</button>
+        <div class="cta-row">
+          <button class="btn-outline" onclick="${nextLevelFn}">Go to ${nextLevelLabel}</button>
+        </div>
       </div>` : ''}`;
 
     // Attach drop listeners to left cards
@@ -1606,7 +1608,9 @@ function renderMemory(el) {
       ${completeMarkSvg()}
       <h3>Level 1 Complete!</h3>
       <p>You've learned all 10 Korean vowels. Level 2 is waiting for you.</p>
-      <button class="primary-btn" onclick="openLevel(2)">Go to Level 2</button>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="openLevel(2)">Go to Level 2</button>
+      </div>
     </div>`;
     updateHomeCards();
     return;
@@ -1639,7 +1643,9 @@ function renderMemory2(el) {
       ${completeMarkSvg()}
       <h3>Level 2 Complete!</h3>
       <p>You've learned the 7 soft consonants. Level 3 is waiting for you.</p>
-      <button class="primary-btn" onclick="openLevel(3)">Go to Level 3</button>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="openLevel(3)">Go to Level 3</button>
+      </div>
     </div>`;
     updateHomeCards();
     return;
@@ -1672,8 +1678,9 @@ function renderMemory3(el) {
       ${completeMarkSvg()}
       <h3>You did it!</h3>
       <p>You've learned the full Korean alphabet. All 23 characters, every vowel and consonant.</p>
-      <button class="primary-btn" onclick="openLevel(4)">Go to Level 4</button>
-      <button class="btn-outline" style="margin-top:10px;" onclick="showScreen('home')">Back to home</button>
+      <div class="cta-row">
+        <button class="primary-btn" onclick="openLevel(4)">Go to Level 4</button>
+      </div>
     </div>`;
     updateHomeCards();
     return;
@@ -1770,7 +1777,7 @@ function renderLevel4Word(el) {
     <div class="l4-browse" style="max-width:560px;margin:0 auto;">
       <p class="l4-instruction">Tap any card to flip it and see the word in hangul.</p>
       <div class="word-grid">${cards}</div>
-      <div class="cta-row" style="margin-top:24px;justify-content:center;">
+      <div class="cta-row" style="margin-top:24px;">
         <button type="button" class="primary-btn" onclick="l4Finish()">Finish</button>
       </div>
     </div>`;
