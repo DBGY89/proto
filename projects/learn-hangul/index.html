@@ -697,7 +697,7 @@ function renderWordBuilderL2(el) {
   el.innerHTML = `
     <div class="word-builder">
       <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
-        Drag the correct syllables to form the word.
+        Tap the correct syllables to build the word.
       </p>
       <div class="builder-word-display">
         <div class="word-target-label">Build this word</div>
@@ -706,7 +706,7 @@ function renderWordBuilderL2(el) {
         <div class="word-target-meaning">${word.meaning}</div>
       </div>
       <div class="drop-zone" id="drop-zone">
-        <span class="drop-hint">Drop syllables here</span>
+        <span class="drop-hint">Syllables go here</span>
       </div>
       <div id="word-feedback" class="word-feedback"></div>
       <div class="char-bank" id="char-bank">
@@ -767,7 +767,7 @@ function renderDropZoneL2() {
   const dz = document.getElementById('drop-zone');
   if (!dz) return;
   if (state.l2dropChars.length === 0) {
-    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    dz.innerHTML = '<span class="drop-hint">Syllables go here</span>';
     return;
   }
   dz.innerHTML = state.l2dropChars.map((c, i) =>
@@ -971,7 +971,7 @@ function renderWordBuilderL3(el) {
   el.innerHTML = `
     <div class="word-builder">
       <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
-        Drag the correct syllables to form the word.
+        Tap the correct syllables to build the word.
       </p>
       <div class="builder-word-display">
         <div class="word-target-label">Build this word</div>
@@ -980,7 +980,7 @@ function renderWordBuilderL3(el) {
         <div class="word-target-meaning">${word.meaning}</div>
       </div>
       <div class="drop-zone" id="drop-zone">
-        <span class="drop-hint">Drop syllables here</span>
+        <span class="drop-hint">Syllables go here</span>
       </div>
       <div id="word-feedback" class="word-feedback"></div>
       <div class="char-bank" id="char-bank">
@@ -1041,7 +1041,7 @@ function renderDropZoneL3() {
   const dz = document.getElementById('drop-zone');
   if (!dz) return;
   if (state.l3dropChars.length === 0) {
-    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    dz.innerHTML = '<span class="drop-hint">Syllables go here</span>';
     return;
   }
   dz.innerHTML = state.l3dropChars.map((c, i) =>
@@ -1257,7 +1257,7 @@ function renderWordBuilder(el) {
   el.innerHTML = `
     <div class="word-builder">
       <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">
-        Drag the correct syllables to form the word.
+        Tap the correct syllables to build the word.
       </p>
       <div class="builder-word-display">
         <div class="word-target-label">Build this word</div>
@@ -1266,7 +1266,7 @@ function renderWordBuilder(el) {
         <div class="word-target-meaning">${word.meaning}</div>
       </div>
       <div class="drop-zone" id="drop-zone">
-        <span class="drop-hint">Drop syllables here</span>
+        <span class="drop-hint">Syllables go here</span>
       </div>
       <div id="word-feedback" class="word-feedback"></div>
       <div class="char-bank" id="char-bank">
@@ -1327,7 +1327,7 @@ function renderDropZone() {
   const dz = document.getElementById('drop-zone');
   if (!dz) return;
   if (state.dropChars.length === 0) {
-    dz.innerHTML = '<span class="drop-hint">Drop syllables here</span>';
+    dz.innerHTML = '<span class="drop-hint">Syllables go here</span>';
     return;
   }
   dz.innerHTML = state.dropChars.map((c, i) =>
@@ -1534,7 +1534,7 @@ function buildMatchGame(data, stateObj, completeFn, nextLevelLabel, nextLevelFn)
 
     el.innerHTML = `
       <div class="match-header">
-        <span style="font-size:13px;color:var(--ink2);">Drag each sound to its Korean letter</span>
+        <span style="font-size:13px;color:var(--ink2);">Match each sound to its Korean letter</span>
         <span class="match-score">${done} / ${total}</span>
       </div>
       <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
