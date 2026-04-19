@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Learn Hangul — how syllables build (light, prototype palette)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand palette */
+    --brand-pink: #e0175e;
+    --brand-teal: #0aa39b;
+    --brand-ink:  #3a4758;
+
+    /* Light surface tokens */
+    --bg:      #ffffff;
+    --card:    #ffffff;
+    --bg-soft: #f4f5f9;
+    --border:  #e3e7ee;
+    --ink:     var(--brand-ink);
+    --ink2:    #6b7688;
+    --ink3:    #9aa2b2;
+
+    --accent: var(--brand-pink);
+    --radius: 14px;
+    --font: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --kr:   'Noto Sans KR', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+  }
+
+  body { padding: 56px 32px 96px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+
+  .page-title {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .page-intro {
+    font-size: 14px;
+    color: var(--ink2);
+    margin: 0 auto 48px;
+    line-height: 1.6;
+    text-align: center;
+    max-width: 520px;
+  }
+
+  .stage {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 64px 48px;
+    box-shadow: 0 12px 40px rgba(15, 16, 32, 0.04);
+  }
+
+  /* ── Tiles (components) ── */
+  .tile {
+    font-family: var(--kr);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    width: 50px; height: 50px;
+    font-size: 24px;
+    position: relative;
+  }
+  .tile.consonant { border-top: 2px solid var(--brand-pink); }
+  .tile.vowel     { border-top: 2px solid var(--brand-teal); }
+  .tile.final     { border-top: 2px solid var(--brand-ink); }
+
+  .op {
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--ink3);
+    font-size: 24px;
+  }
+
+  /* ── Syllable result (한, 국) ── */
+  .result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .result .hangul {
+    font-family: var(--kr);
+    font-size: 52px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .result .roman {
+    font-family: var(--font);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--brand-teal);
+    margin-top: 8px;
+  }
+
+  /* ── Chain layout ── */
+  .chain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .chain .row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .arrow-down {
+    font-size: 26px;
+    color: var(--ink3);
+    line-height: 1;
+  }
+
+  /* ── Final word pill (한국) ── */
+  .final-pill {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 32px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 0 0 4px rgba(224, 23, 94, 0.08);
+  }
+  .final-pill .hangul {
+    font-family: var(--kr);
+    font-size: 80px;
+    line-height: 1;
+    color: var(--brand-pink);
+    text-shadow: 0 0 28px rgba(224, 23, 94, 0.18);
+  }
+  .final-meta { text-align: left; }
+  .final-meta .roman {
+    font-family: var(--font);
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: var(--brand-pink);
+  }
+  .final-meta .label {
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--ink2);
+    margin-top: 4px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--ink2);
+    letter-spacing: 0.02em;
+  }
+  .legend-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-title">Learn Hangul · building blocks</div>
+    <p class="page-intro">
+      Syllable by syllable, then joined into a word.
+    </p>
+
+    <div class="stage">
+      <div class="chain">
+
+        <!-- Syllable 1 -->
+        <div class="row">
+          <div class="tile consonant">ㅎ</div>
+          <span class="op">+</span>
+          <div class="tile vowel">ㅏ</div>
+          <span class="op">+</span>
+          <div class="tile final">ㄴ</div>
+          <span class="op">=</span>
+          <div class="result">
+            <div class="hangul">한</div>
+            <div class="roman">han</div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <!-- Syllable 2 -->
+        <div class="row">
+          <div class="tile consonant">ㄱ</div>
+          <span class="op">+</span>
+          <div class="tile vowel">ㅜ</div>
+          <span class="op">+</span>
+          <div class="tile final">ㄱ</div>
+          <span class="op">=</span>
+          <div class="result">
+            <div class="hangul">국</div>
+            <div class="roman">guk</div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <!-- Final word -->
+        <div class="final-pill">
+          <div class="hangul">한국</div>
+          <div class="final-meta">
+            <div class="roman">han-guk</div>
+            <div class="label">South Korea</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="legend">
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--brand-pink)"></span> consonant</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--brand-teal)"></span> vowel</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:var(--brand-ink)"></span> final</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
