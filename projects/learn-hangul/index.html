@@ -24,64 +24,77 @@
     <div class="home-title">Learn<br><span class="hangul-accent">한글</span></div>
     <p class="home-sub">The Korean alphabet was designed to be easy. Let's prove it.</p>
   </div>
-  <div class="levels-grid">
-    <div class="level-card" id="card-1" onclick="openLevel(1)">
-      <div class="level-num">Level 1</div>
-      <div class="level-name">The Vowels</div>
-      <div class="level-desc">10 vowels. The foundation of every Korean syllable.</div>
-      <div class="level-chars">
-        <div class="level-char">ㅏ</div>
-        <div class="level-char">ㅓ</div>
-        <div class="level-char">ㅗ</div>
-        <div class="level-char">ㅜ</div>
-        <div class="level-char">ㅣ</div>
-        <div class="level-char" style="opacity:0.4">+5</div>
+  <div class="levels-grid roadmap">
+    <div class="roadmap-step">
+      <div class="roadmap-dot">1</div>
+      <div class="level-card" id="card-1" onclick="openLevel(1)">
+        <div class="level-num">Level 1</div>
+        <div class="level-name">The Vowels</div>
+        <div class="level-desc">10 vowels. The foundation of every Korean syllable.</div>
+        <div class="level-chars">
+          <div class="level-char">ㅏ</div>
+          <div class="level-char">ㅓ</div>
+          <div class="level-char">ㅗ</div>
+          <div class="level-char">ㅜ</div>
+          <div class="level-char">ㅣ</div>
+          <div class="level-char" style="opacity:0.4">+5</div>
+        </div>
+        <div class="level-status" id="status-1">Start</div>
       </div>
-      <div class="level-status" id="status-1">Start</div>
     </div>
 
-    <div class="level-card locked" id="card-2">
-      <div class="level-num">Level 2</div>
-      <div class="level-name">Soft Consonants</div>
-      <div class="level-desc">7 consonants. Start forming real words.</div>
-      <div class="level-chars">
-        <div class="level-char">ㄱ</div>
-        <div class="level-char">ㄴ</div>
-        <div class="level-char">ㄷ</div>
-        <div class="level-char">ㄹ</div>
-        <div class="level-char">ㅁ</div>
-        <div class="level-char" style="opacity:0.4">+2</div>
+    <div class="roadmap-step">
+      <div class="roadmap-dot">2</div>
+      <div class="level-card locked" id="card-2">
+        <div class="level-num">Level 2</div>
+        <div class="level-name">Soft Consonants</div>
+        <div class="level-desc">7 consonants. Start forming real words.</div>
+        <div class="level-chars">
+          <div class="level-char">ㄱ</div>
+          <div class="level-char">ㄴ</div>
+          <div class="level-char">ㄷ</div>
+          <div class="level-char">ㄹ</div>
+          <div class="level-char">ㅁ</div>
+          <div class="level-char" style="opacity:0.4">+2</div>
+        </div>
+        <div class="level-status locked-tag">Locked</div>
       </div>
-      <div class="level-status locked-tag">Locked</div>
     </div>
 
-    <div class="level-card locked" id="card-3">
-      <div class="level-num">Level 3</div>
-      <div class="level-name">Strong Consonants</div>
-      <div class="level-desc">6 aspirated consonants. Complete the alphabet.</div>
-      <div class="level-chars">
-        <div class="level-char">ㅈ</div>
-        <div class="level-char">ㅊ</div>
-        <div class="level-char">ㅋ</div>
-        <div class="level-char">ㅌ</div>
-        <div class="level-char">ㅍ</div>
-        <div class="level-char">ㅎ</div>
+    <div class="roadmap-step">
+      <div class="roadmap-dot">3</div>
+      <div class="level-card locked" id="card-3">
+        <div class="level-num">Level 3</div>
+        <div class="level-name">Strong Consonants</div>
+        <div class="level-desc">6 aspirated consonants. Complete the alphabet.</div>
+        <div class="level-chars">
+          <div class="level-char">ㅈ</div>
+          <div class="level-char">ㅊ</div>
+          <div class="level-char">ㅋ</div>
+          <div class="level-char">ㅌ</div>
+          <div class="level-char">ㅍ</div>
+          <div class="level-char">ㅎ</div>
+        </div>
+        <div class="level-status locked-tag">Locked</div>
       </div>
-      <div class="level-status locked-tag">Locked</div>
     </div>
-    <div class="level-card locked" id="card-4">
-      <div class="level-num">Level 4</div>
-      <div class="level-name">First Words</div>
-      <div class="level-desc">8 real words. Practice writing what you know.</div>
-      <div class="level-chars">
-        <div class="level-char">물</div>
-        <div class="level-char">밥</div>
-        <div class="level-char">안</div>
-        <div class="level-char">녕</div>
-        <div class="level-char">한</div>
-        <div class="level-char" style="opacity:0.4">+3</div>
+
+    <div class="roadmap-step">
+      <div class="roadmap-dot">4</div>
+      <div class="level-card locked" id="card-4">
+        <div class="level-num">Level 4</div>
+        <div class="level-name">First Words</div>
+        <div class="level-desc">8 real words. Practice writing what you know.</div>
+        <div class="level-chars">
+          <div class="level-char">물</div>
+          <div class="level-char">밥</div>
+          <div class="level-char">안</div>
+          <div class="level-char">녕</div>
+          <div class="level-char">한</div>
+          <div class="level-char" style="opacity:0.4">+3</div>
+        </div>
+        <div class="level-status locked-tag">Locked</div>
       </div>
-      <div class="level-status locked-tag">Locked</div>
     </div>
   </div>
 </div>
