@@ -1641,6 +1641,150 @@ body {
     margin-bottom: 32px;
   }
 
+  /* ── LEVEL 4 COMPLETE — FULL SCREEN CELEBRATION ── */
+  /* Let the celebration break out of the normal .page max-width/padding */
+  .page:has(#level4-complete.active) {
+    max-width: none;
+    padding: 0;
+  }
+  #level4-complete { padding: 0; }
+  .celebrate {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+    padding: 60px 24px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 25%, rgba(0, 240, 255, 0.18), transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(179, 136, 255, 0.12), transparent 50%),
+      radial-gradient(ellipse at 15% 75%, rgba(255, 45, 120, 0.08), transparent 50%),
+      var(--bg-deep);
+  }
+  .celebrate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(0, 240, 255, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .celebrate-glyphs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 2vw;
+    padding: 4vh 6vw;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    opacity: 0.07;
+    font-size: clamp(48px, 9vw, 140px);
+    line-height: 1;
+  }
+  .celebrate-glyphs span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .celebrate-glyphs span:nth-child(2n) { color: var(--neon-purple); opacity: 0.9; }
+  .celebrate-glyphs span:nth-child(3n) { color: var(--neon-pink); opacity: 0.7; }
+  .celebrate-glyphs span:nth-child(5n) { transform: translateY(8%); }
+  .celebrate-glyphs span:nth-child(7n) { transform: translateY(-6%); }
+
+  .celebrate-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 860px;
+    width: 100%;
+    animation: celebrateIn 0.7s var(--ease) both;
+  }
+  @keyframes celebrateIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .celebrate-badge {
+    display: inline-block;
+    padding: 8px 18px;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--neon-cyan);
+    background: rgba(0, 240, 255, 0.06);
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  .celebrate-title {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: clamp(44px, 9vw, 112px);
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    margin: 0 0 24px;
+    color: var(--ink);
+    text-shadow: 0 0 60px rgba(0, 240, 255, 0.18);
+  }
+
+  .celebrate-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: clamp(90px, 18vw, 220px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin: 0 auto 32px;
+    background: linear-gradient(180deg, var(--neon-cyan) 0%, var(--neon-purple) 70%, rgba(255, 45, 120, 0.8) 110%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.35));
+  }
+
+  .celebrate-sub {
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0 auto 40px;
+    max-width: 560px;
+  }
+  .celebrate-sub strong {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--neon-cyan);
+    font-weight: 500;
+  }
+
+  .celebrate-cta {
+    font-size: 14px;
+    padding: 16px 44px;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 640px) {
+    .celebrate { padding: 44px 20px; }
+    .celebrate-badge { margin-bottom: 24px; }
+    .celebrate-title { margin-bottom: 18px; }
+    .celebrate-hangul { margin-bottom: 26px; }
+    .celebrate-sub { margin-bottom: 32px; }
+    .celebrate-glyphs {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3vw;
+      padding: 3vh 3vw;
+      opacity: 0.06;
+    }
+  }
+
   .btn-outline {
     display: inline-flex;
     align-items: center;

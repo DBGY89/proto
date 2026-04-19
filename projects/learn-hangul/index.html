@@ -197,6 +197,26 @@
   </div>
 </div>
 
+<!-- ══════════ LEVEL 4 COMPLETE — FULL SCREEN CELEBRATION ══════════ -->
+<div id="level4-complete" class="screen">
+  <div class="celebrate">
+    <div class="celebrate-glyphs" aria-hidden="true">
+      <span>ㄱ</span><span>ㄴ</span><span>ㄷ</span><span>ㄹ</span><span>ㅁ</span>
+      <span>ㅂ</span><span>ㅅ</span><span>ㅇ</span><span>ㅈ</span><span>ㅊ</span>
+      <span>ㅋ</span><span>ㅌ</span><span>ㅍ</span><span>ㅎ</span><span>ㅏ</span>
+      <span>ㅑ</span><span>ㅓ</span><span>ㅕ</span><span>ㅗ</span><span>ㅛ</span>
+      <span>ㅜ</span><span>ㅠ</span><span>ㅡ</span><span>ㅣ</span>
+    </div>
+    <div class="celebrate-inner">
+      <div class="celebrate-badge">Level 4 complete</div>
+      <h1 class="celebrate-title">You know the<br>Korean alphabet.</h1>
+      <div class="celebrate-hangul">한글</div>
+      <p class="celebrate-sub">Book the ticket. Seoul is waiting.<br>Order a <strong>십원빵</strong>.</p>
+      <button type="button" class="primary-btn celebrate-cta" onclick="showScreen('home')">Keep practicing</button>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <!-- ══════════ LETTER MODAL ══════════ -->
@@ -1802,17 +1822,6 @@ function startLevel4Practice() {
 }
 
 function renderLevel4Word(el) {
-  if (state.l4completed) {
-    el.innerHTML = `<div class="memory-complete memory-complete--l4">
-      ${completeMarkSvg()}
-      <div class="l4-badge">Level 4 complete</div>
-      <h3>You know the Korean alphabet.</h3>
-      <p>Book the ticket. Seoul is waiting. Order a <strong style="font-family:'Noto Sans KR',sans-serif;color:var(--ink);">십원빵</strong>.</p>
-    </div>`;
-    updateHomeCards();
-    return;
-  }
-
   const cards = WORDS_L4.map((w, i) => `
     <div class="word-flip" onclick="this.classList.toggle('flipped')">
       <div class="word-flip-inner">
@@ -1840,7 +1849,8 @@ function renderLevel4Word(el) {
 function l4Finish() {
   state.l4completed = true;
   saveState();
-  renderLevel4Word(document.getElementById('section-content'));
+  updateHomeCards();
+  showScreen('level4-complete');
 }
 
 // ══════════════════════════════════════
