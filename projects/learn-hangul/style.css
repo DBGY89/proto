@@ -235,11 +235,71 @@ body:has(#level-view.active) .vote-widget-wrap {
     box-shadow: 0 0 24px rgba(92, 219, 149, 0.18);
   }
 
-  /* Mobile: keep roadmap as a single column; put the dot inline above the card */
+  /* Mobile: vertical stepper with a rail connecting the dots */
   @media (max-width: 959px) {
-    .roadmap { max-width: 480px; gap: 28px; }
-    .roadmap-step { gap: 12px; align-items: flex-start; }
-    .roadmap-dot { width: 36px; height: 36px; font-size: 13px; }
+    .roadmap {
+      max-width: 480px;
+      gap: 20px;
+      position: relative;
+    }
+
+    .roadmap::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      bottom: 22px;
+      left: 21px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple), var(--ink2));
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    .roadmap-step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .roadmap-dot {
+      width: 44px; height: 44px;
+      font-size: 14px;
+      background: var(--bg-deep);
+    }
+
+    .roadmap-step .level-card {
+      padding: 16px 18px 14px;
+    }
+    .roadmap-step .level-card .level-num {
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+    .roadmap-step .level-card .level-name {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .roadmap-step .level-card .level-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .roadmap-step .level-card .level-chars {
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .roadmap-step .level-card .level-char {
+      width: 28px; height: 28px;
+      font-size: 14px;
+      border-radius: 7px;
+    }
+    .roadmap-step .level-card .level-status {
+      position: static;
+      display: inline-block;
+      margin-top: 2px;
+    }
   }
 
   /* Desktop: 4-column stepper with a connector line through the dots */
