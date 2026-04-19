@@ -1013,6 +1013,74 @@ body:has(#level-view.active) .vote-widget-wrap {
     margin-bottom: 24px;
   }
 
+  /* ── LEVEL 4: WORD FLIP CARDS ── */
+  .l4-instruction {
+    font-size: 13px;
+    color: var(--ink2);
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  @media (min-width: 560px) {
+    .word-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .word-flip {
+    aspect-ratio: 1;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .word-flip-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+
+  .word-flip.flipped .word-flip-inner { transform: rotateY(180deg); }
+
+  .word-flip-face {
+    position: absolute; inset: 0;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    backface-visibility: hidden;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .word-flip-front { background: var(--card); }
+  .word-flip-back  { background: #15152a; transform: rotateY(180deg); }
+
+  .word-flip-roman {
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .word-flip-meaning {
+    font-size: 11px;
+    color: var(--ink2);
+    line-height: 1.3;
+  }
+
+  .word-flip-hangul {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
   /* ── MATCH GAME ── */
   .match-header {
     display: flex;
