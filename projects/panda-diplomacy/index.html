@@ -495,6 +495,21 @@ body::before { content:''; position:fixed; inset:0; background:radial-gradient(e
 }
 .lab-back:hover { color:var(--accent); }
 
+/* Vote widget in right panel */
+.lab-vote { margin-top:16px; padding-top:14px; border-top:1px solid var(--panel-border); }
+.lab-vote-label { font-size:10px; letter-spacing:0.2em; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; font-family:'Orbitron',monospace; }
+.lab-vote-nums { display:flex; gap:5px; }
+.lab-vote-num {
+  font-family:'Share Tech Mono',monospace; font-size:12px;
+  color:var(--text-muted); cursor:pointer; padding:4px 8px;
+  border:1px solid var(--panel-border); background:none;
+  transition:all 0.15s; min-width:28px; text-align:center;
+}
+.lab-vote-num:hover { border-color:var(--accent); color:var(--accent); }
+.lab-vote-num.v-selected { color:var(--accent); border-color:var(--accent); background:var(--accent-faint); }
+.lab-vote-num.v-grey { opacity:0.3; cursor:default; }
+.lab-vote-thanks { font-size:10px; color:var(--accent); letter-spacing:0.15em; display:none; margin-top:8px; font-family:'Orbitron',monospace; }
+
 /* Lab footer line in right panel */
 .lab-footer-line {
   margin-top:16px; padding-top:12px;
@@ -595,6 +610,17 @@ body::before { content:''; position:fixed; inset:0; background:radial-gradient(e
       ▸ AUG 2024: Berlin twin births<br>
       ▸ JUN 2024: Madrid reactivated
     </div>
+  </div>
+  <div class="lab-vote">
+    <div class="lab-vote-label">// RATE THIS PROTOTYPE</div>
+    <div class="lab-vote-nums" id="vote-nums">
+      <button class="lab-vote-num" data-value="1">1</button>
+      <button class="lab-vote-num" data-value="2">2</button>
+      <button class="lab-vote-num" data-value="3">3</button>
+      <button class="lab-vote-num" data-value="4">4</button>
+      <button class="lab-vote-num" data-value="5">5</button>
+    </div>
+    <div class="lab-vote-thanks" id="vote-thanks">TRANSMISSION RECEIVED ✓</div>
   </div>
   <div class="lab-footer-line">
     Part of <a href="/">AI Proto Lab</a>.<br>Bamboo is the cover story.
@@ -1309,5 +1335,39 @@ window.addEventListener('load',()=>{
 });
 </script>
 
+<script src="/rating-vote.js"></script>
+<script>
+(function(){
+  var project = 'panda-diplomacy';
+  var key     = 'rating_' + project;
+  var nums    = document.querySelectorAll('#vote-nums .lab-vote-num');
+  var thanks  = document.getElementById('vote-thanks');
+  if(!nums.length || !thanks) return;
+  thanks.style.display = 'none';
+  var saved = localStorage.getItem(key);
+  if(saved){
+    var sv = parseInt(saved, 10);
+    nums.forEach(function(n){
+      var v = parseInt(n.getAttribute('data-value'), 10);
+      n.classList.toggle('v-selected', v===sv);
+      n.classList.toggle('v-grey', v!==sv);
+    });
+    thanks.style.display = 'block';
+  }
+  nums.forEach(function(n){
+    n.addEventListener('click', function(){
+      if(localStorage.getItem(key)) return;
+      var v = parseInt(this.getAttribute('data-value'), 10);
+      if(typeof saveRating==='function') saveRating(project, v);
+      nums.forEach(function(x){
+        var xv = parseInt(x.getAttribute('data-value'), 10);
+        x.classList.toggle('v-selected', xv===v);
+        x.classList.toggle('v-grey', xv!==v);
+      });
+      thanks.style.display = 'block';
+    });
+  });
+})();
+</script>
 </body>
 </html>
