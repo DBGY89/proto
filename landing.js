@@ -10,6 +10,7 @@
   //  Quita o comenta el id para ocultar; añádelo para publicar.
   // ───────────────────────────────────────────
   const PUBLIC_PROJECTS = [
+    'panda-diplomacy',
     'bubbles',
     'salad-bar',
     'movie-palette',
