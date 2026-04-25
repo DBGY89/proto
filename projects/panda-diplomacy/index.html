@@ -495,96 +495,6 @@ body::before { content:''; position:fixed; inset:0; background:radial-gradient(e
 }
 .lab-back:hover { color:var(--accent); }
 
-.story-btn {
-  font-family:'Share Tech Mono',monospace;
-  font-size:11px; letter-spacing:0.08em;
-  color:var(--text-muted); background:none; border:none;
-  cursor:pointer; white-space:nowrap; padding:0;
-  transition:color 0.15s;
-}
-.story-btn:hover { color:var(--accent); }
-.story-btn-mobile { display:none; }
-@media(max-width:768px) {
-  .story-btn-mobile { display:inline-block; }
-}
-
-/* Story modal */
-#story-modal {
-  position:fixed; inset:0; z-index:10000;
-  background:rgba(0,4,0,0.8); backdrop-filter:blur(4px);
-  display:flex; align-items:flex-end; justify-content:center;
-  opacity:0; pointer-events:none;
-  transition:opacity 0.25s;
-}
-#story-modal.open { opacity:1; pointer-events:all; }
-#story-modal.open .story-panel { transform:translateY(0); }
-.story-panel {
-  width:100%; max-width:500px; max-height:86vh;
-  overflow-y:auto;
-  background:var(--panel-bg); border:1px solid var(--panel-border);
-  border-radius:12px 12px 0 0;
-  transform:translateY(20px);
-  transition:transform 0.3s cubic-bezier(0.23,1,0.32,1);
-}
-@media(min-width:640px) {
-  #story-modal { align-items:center; }
-  .story-panel { border-radius:12px; }
-}
-.story-bar { height:3px; background:linear-gradient(90deg,var(--accent),#00f0ff); border-radius:12px 12px 0 0; }
-.story-handle { display:block; width:32px; height:4px; border-radius:2px; background:var(--panel-border); margin:10px auto 0; }
-.story-head {
-  display:flex; align-items:flex-start; justify-content:space-between;
-  padding:16px 20px 14px; border-bottom:1px solid var(--panel-border);
-}
-.story-title { font-family:'Orbitron',monospace; font-size:13px; letter-spacing:0.12em; color:var(--text-primary); margin-bottom:3px; }
-.story-sub { font-size:11px; color:var(--text-muted); letter-spacing:0.05em; }
-.story-close {
-  background:none; border:1px solid var(--panel-border); color:var(--text-muted);
-  font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.1em;
-  cursor:pointer; padding:5px 12px; transition:all 0.15s; flex-shrink:0;
-}
-.story-close:hover { border-color:var(--accent); color:var(--accent); }
-.story-body { padding:18px 20px 28px; }
-.story-section-label {
-  display:block; font-family:'Orbitron',monospace; font-size:10px;
-  letter-spacing:0.2em; color:var(--accent); text-transform:uppercase;
-  margin:20px 0 6px;
-}
-.story-section-label:first-child { margin-top:0; }
-.story-body p { font-size:13px; color:var(--text-secondary); line-height:1.8; margin-bottom:6px; }
-.story-ctas { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
-.story-btn-primary {
-  display:inline-block; padding:10px 20px;
-  background:var(--accent); color:#080d08;
-  font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.1em;
-  text-decoration:none; border-radius:4px; border:none; cursor:pointer;
-  transition:opacity 0.15s;
-}
-.story-btn-primary:hover { opacity:0.85; }
-.story-btn-secondary-link {
-  display:inline-block; padding:10px 20px;
-  background:none; color:var(--text-secondary);
-  font-family:'Share Tech Mono',monospace; font-size:12px;
-  border:1px solid var(--panel-border); border-radius:4px;
-  text-decoration:none; transition:all 0.15s;
-}
-.story-btn-secondary-link:hover { border-color:var(--accent); color:var(--accent); }
-
-/* Vote widget in modal */
-.story-vote { margin-top:24px; padding-top:18px; border-top:1px solid var(--panel-border); }
-.story-vote-label { font-size:10px; letter-spacing:0.2em; color:var(--text-muted); margin-bottom:10px; text-transform:uppercase; font-family:'Orbitron',monospace; }
-.story-vote-nums { display:flex; gap:6px; }
-.story-vote-num {
-  font-family:'Share Tech Mono',monospace; font-size:13px;
-  color:var(--text-muted); cursor:pointer; padding:5px 10px;
-  border:1px solid var(--panel-border); background:none;
-  transition:all 0.15s; min-width:32px; text-align:center;
-}
-.story-vote-num:hover { border-color:var(--accent); color:var(--accent); }
-.story-vote-num.v-selected { color:var(--accent); border-color:var(--accent); background:var(--accent-faint); }
-.story-vote-num.v-grey { opacity:0.3; cursor:default; }
-.story-vote-thanks { font-size:11px; color:var(--accent); letter-spacing:0.15em; display:none; margin-top:8px; font-family:'Orbitron',monospace; }
-
 /* Lab footer line in right panel */
 .lab-footer-line {
   margin-top:16px; padding-top:12px;
@@ -614,14 +524,12 @@ body::before { content:''; position:fixed; inset:0; background:radial-gradient(e
     <a href="/" class="lab-back">← AI Proto Lab</a>
     <span class="header-logo" style="margin-right:8px;">PANDA DIPLOMACY</span>
     <span class="header-badge">⬛ TOP SECRET</span>
-    <button class="story-btn story-btn-mobile" id="story-btn-mobile" style="margin-left:12px;">The story →</button>
   </div>
   <div class="header-center">
     GIANT PANDA DIPLOMATIC DEPLOYMENT SYSTEM<br>
     <span style="font-size:12px;letter-spacing:0.25em;color:var(--text-muted)">BUREAU OF SOFT POWER OPERATIONS — BEIJING HQ</span>
   </div>
   <div class="header-right">
-    <button class="story-btn" id="story-btn" style="margin-bottom:2px;">The story →</button>
     <div id="clock">--:--:--</div>
     <div style="font-size:12px;color:var(--text-muted)">39°55'N / 116°23'E</div>
   </div>
@@ -703,56 +611,6 @@ body::before { content:''; position:fixed; inset:0; background:radial-gradient(e
 </div>
 
 <div id="tooltip"></div>
-
-<!-- ── FROM IDEA TO PROTOTYPE MODAL ── -->
-<div id="story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title" aria-hidden="true">
-  <div class="story-panel">
-    <div class="story-bar"></div>
-    <span class="story-handle" aria-hidden="true"></span>
-    <div class="story-head">
-      <div>
-        <div class="story-title" id="story-modal-title">From idea to prototype</div>
-        <div class="story-sub">Built in three evenings.</div>
-      </div>
-      <button class="story-close" id="story-close" aria-label="Close">✕ CLOSE</button>
-    </div>
-    <div class="story-body">
-      <span class="story-section-label">What problem & for whom</span>
-      <p><strong>For whom:</strong> Anyone who has ever wondered why pandas keep showing up in other countries — and suspected it wasn't just about conservation.</p>
-      <p><strong>Problem:</strong> Panda diplomacy is one of China's most documented soft power strategies, and almost nobody knows it by name. The data is public. The stories are wild. Nobody had put them on a globe.</p>
-      <p><strong>This:</strong> A spy-dashboard interface for tracking panda deployments. Click an agent. Read their file. Understand the geopolitics behind the bamboo.</p>
-
-      <span class="story-section-label">The iteration</span>
-      <p>The first version was a plain list. It worked but missed the point entirely: the fun of this project is the absurdity of treating pandas as intelligence assets. The dashboard format — with code names, threat levels, alliance indexes and a live globe — turns real diplomatic data into something people actually want to explore.</p>
-      <p>The briefing screen was added last. Without it, you land cold on a spy UI. With it, the tone is set before you even see a panda.</p>
-
-      <span class="story-section-label">What AI could and couldn't do</span>
-      <p>AI was fast at generating the agent profiles: mission, behavior, context, the quote. The humor required more back-and-forth than expected. Getting the tone right — absurd but grounded in real facts — took iteration. The globe and Three.js setup was AI-assisted but needed manual tuning to place markers correctly and handle mobile gracefully.</p>
-      <p>The hardest part: deciding what the threat level of a panda actually means. That I had to figure out alone.</p>
-
-      <span class="story-section-label">Minimum viable effort</span>
-      <p>One globe. Twenty agents. One dossier per agent. The whole thing works in a single HTML file with no backend. The data is static but the experience feels live. That is the whole trick.</p>
-
-      <span class="story-section-label">Get in touch</span>
-      <div class="story-ctas">
-        <a href="mailto:dianagerardi89@gmail.com" class="story-btn-primary">✉ Email</a>
-        <a href="https://www.linkedin.com/in/dianagerardi/" class="story-btn-secondary-link" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-
-      <div class="story-vote">
-        <div class="story-vote-label">// RATE THIS PROTOTYPE</div>
-        <div class="story-vote-nums" id="story-vote-nums" data-project="panda-diplomacy" aria-label="Rate this prototype">
-          <button class="story-vote-num" data-value="1">1</button>
-          <button class="story-vote-num" data-value="2">2</button>
-          <button class="story-vote-num" data-value="3">3</button>
-          <button class="story-vote-num" data-value="4">4</button>
-          <button class="story-vote-num" data-value="5">5</button>
-        </div>
-        <div class="story-vote-thanks" id="story-vote-thanks">TRANSMISSION RECEIVED ✓</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 const AGENTS = [
@@ -1451,64 +1309,5 @@ window.addEventListener('load',()=>{
 });
 </script>
 
-<script src="/rating-vote.js"></script>
-<script>
-(function(){
-  // ── Story modal ──
-  var modal   = document.getElementById('story-modal');
-  var closeBtn= document.getElementById('story-close');
-  var openBtns= [document.getElementById('story-btn'), document.getElementById('story-btn-mobile')];
-
-  function openModal(){
-    if(!modal) return;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    if(closeBtn) closeBtn.focus();
-  }
-  function closeModal(){
-    if(!modal) return;
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-  }
-
-  openBtns.forEach(function(btn){ if(btn) btn.addEventListener('click', openModal); });
-  if(closeBtn) closeBtn.addEventListener('click', closeModal);
-  if(modal) modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
-
-  // ── Vote widget ──
-  var project = 'panda-diplomacy';
-  var key     = 'rating_' + project;
-  var nums    = document.querySelectorAll('#story-vote-nums .story-vote-num');
-  var thanks  = document.getElementById('story-vote-thanks');
-
-  if(nums.length && thanks){
-    thanks.style.display = 'none';
-    var saved = localStorage.getItem(key);
-    if(saved){
-      var sv = parseInt(saved,10);
-      nums.forEach(function(n){
-        var v = parseInt(n.getAttribute('data-value'),10);
-        n.classList.toggle('v-selected', v===sv);
-        n.classList.toggle('v-grey', v!==sv);
-      });
-      thanks.style.display = 'block';
-    }
-    nums.forEach(function(n){
-      n.addEventListener('click', function(){
-        if(localStorage.getItem(key)) return;
-        var v = parseInt(this.getAttribute('data-value'),10);
-        if(typeof saveRating==='function') saveRating(project, v);
-        nums.forEach(function(x){
-          var xv = parseInt(x.getAttribute('data-value'),10);
-          x.classList.toggle('v-selected', xv===v);
-          x.classList.toggle('v-grey', xv!==v);
-        });
-        thanks.style.display = 'block';
-      });
-    });
-  }
-})();
-</script>
 </body>
 </html>
