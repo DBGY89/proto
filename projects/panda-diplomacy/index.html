@@ -809,7 +809,7 @@ function buildLists(){
     const d=document.createElement('div');
     d.className='agent-item'+(a.status==='retired'?' retired':'');
     d.dataset.id=a.id;
-    const dc=a.status==='retired'?'dot-off': a.threat==='critical'?'dot-red': a.alliance==='allied'?'dot-active':'dot-amber';
+    const dc=a.status==='retired'?'dot-off': a.alliance==='allied'?'dot-active': a.alliance==='tense'?'dot-red':'dot-amber';
     d.innerHTML=`<span class="agent-dot ${dc}"></span><span class="agent-flag">${a.flag}</span><span class="agent-name">${a.name}</span>`;
     d.addEventListener('click',()=>openDossier(a.id));
     (a.status==='retired'?rl:al).appendChild(d);
