@@ -81,7 +81,7 @@
   }
 
   if (reducedMotion) {
-    document.querySelectorAll('.card:not(.card--hidden)').forEach((c) => c.classList.add('is-visible'));
+    document.querySelectorAll('.card:not(.card--hidden), .poster-card').forEach((c) => c.classList.add('is-visible'));
   }
 
   let cardObserver = null;
@@ -103,7 +103,7 @@
     if (reducedMotion) return;
     const panel = getActivePanel();
     if (!panel) return;
-    const panelCards = panel.querySelectorAll('.card:not(.card--hidden)');
+    const panelCards = panel.querySelectorAll('.card:not(.card--hidden), .poster-card');
     if (!cardObserver) {
       panelCards.forEach((c) => c.classList.add('is-visible'));
       return;
