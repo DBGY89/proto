@@ -54,16 +54,24 @@
   });
 
   // ───────────────────────────────────────────
-  //  Projects | Tools tabs
+  //  Projects | Tools | Posters tabs
   // ───────────────────────────────────────────
   const panelProjects = document.getElementById('panel-projects');
   const panelTools = document.getElementById('panel-tools');
+  const panelPosters = document.getElementById('panel-posters');
   const tabProjectsBtn = document.querySelector('[data-landing-tab="projects"]');
   const tabToolsBtn = document.querySelector('[data-landing-tab="tools"]');
+  const tabPostersBtn = document.querySelector('[data-landing-tab="posters"]');
+
+  const allPanels = [
+    { id: 'projects', panel: panelProjects, btn: tabProjectsBtn },
+    { id: 'tools',    panel: panelTools,    btn: tabToolsBtn },
+    { id: 'posters',  panel: panelPosters,  btn: tabPostersBtn },
+  ];
 
   function getActivePanel() {
-    if (panelTools && !panelTools.hidden) return panelTools;
-    return panelProjects;
+    const active = allPanels.find((t) => t.panel && !t.panel.hidden);
+    return active ? active.panel : panelProjects;
   }
 
   function getTeaseCards() {
@@ -116,25 +124,18 @@
   }
 
   function activateLandingTab(which) {
-    const tools = which === 'tools';
-    if (panelProjects) {
-      panelProjects.hidden = tools;
-      panelProjects.classList.toggle('is-active', !tools);
-    }
-    if (panelTools) {
-      panelTools.hidden = !tools;
-      panelTools.classList.toggle('is-active', tools);
-    }
-    if (tabProjectsBtn) {
-      tabProjectsBtn.classList.toggle('is-active', !tools);
-      tabProjectsBtn.setAttribute('aria-selected', String(!tools));
-      tabProjectsBtn.tabIndex = tools ? -1 : 0;
-    }
-    if (tabToolsBtn) {
-      tabToolsBtn.classList.toggle('is-active', tools);
-      tabToolsBtn.setAttribute('aria-selected', String(tools));
-      tabToolsBtn.tabIndex = tools ? 0 : -1;
-    }
+    allPanels.forEach(({ id, panel, btn }) => {
+      const isActive = id === which;
+      if (panel) {
+        panel.hidden = !isActive;
+        panel.classList.toggle('is-active', isActive);
+      }
+      if (btn) {
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+        btn.tabIndex = isActive ? 0 : -1;
+      }
+    });
     document.querySelectorAll('.card.card--tease').forEach((c) => c.classList.remove('card--tease'));
     teaseIndex = 0;
     initRevealForActivePanel();
@@ -147,26 +148,28 @@
       const btn = t && t.closest ? t.closest('[data-landing-tab]') : null;
       if (!btn) return;
       const which = btn.getAttribute('data-landing-tab');
-      if (which === 'projects' || which === 'tools') activateLandingTab(which);
+      if (allPanels.some((p) => p.id === which)) activateLandingTab(which);
     });
   }
 
-  if (tabProjectsBtn && tabToolsBtn) {
-    tabProjectsBtn.addEventListener('keydown', (e) => {
+  allPanels.forEach(({ id, btn }, i) => {
+    if (!btn) return;
+    btn.addEventListener('keydown', (e) => {
+      let targetIndex = -1;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
-        activateLandingTab('tools');
-        tabToolsBtn.focus();
-      }
-    });
-    tabToolsBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        targetIndex = (i + 1) % allPanels.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
-        activateLandingTab('projects');
-        tabProjectsBtn.focus();
+        targetIndex = (i - 1 + allPanels.length) % allPanels.length;
+      }
+      if (targetIndex !== -1) {
+        const target = allPanels[targetIndex];
+        activateLandingTab(target.id);
+        if (target.btn) target.btn.focus();
       }
     });
-  }
+  });
 
   initRevealForActivePanel();
 
