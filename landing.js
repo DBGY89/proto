@@ -139,6 +139,15 @@
     document.querySelectorAll('.card.card--tease').forEach((c) => c.classList.remove('card--tease'));
     teaseIndex = 0;
     initRevealForActivePanel();
+
+    // Hide snake entirely on the Posters tab
+    const onPosters = which === 'posters';
+    const snakeCanvas = document.getElementById('snake-canvas');
+    const snakeHud    = document.getElementById('snake-hud');
+    const snakeRevive = document.getElementById('snake-revive');
+    if (snakeCanvas) snakeCanvas.style.display = onPosters ? 'none' : '';
+    if (snakeHud && onPosters)    snakeHud.hidden    = true;
+    if (snakeRevive && onPosters) snakeRevive.hidden = true;
   }
 
   const landingTabRow = document.querySelector('.landing-tabs-row');
@@ -422,6 +431,7 @@
 
   function triggerSnake() {
     if (snakeLaunched) return;
+    if (panelPosters && !panelPosters.hidden) return;
     snakeLaunched = true;
     launch();
   }
