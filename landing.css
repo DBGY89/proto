@@ -614,6 +614,14 @@ body {
   opacity: .8;
 }
 
+/* ─── Posters panel: white gallery break ─── */
+#panel-posters {
+  background: #fff;
+  margin: 0 -1.75rem -1.5rem;
+  padding: 1.75rem;
+  min-height: 280px;
+}
+
 /* ─── Poster grid ─── */
 .poster-grid {
   display: grid;
@@ -626,8 +634,8 @@ body {
   aspect-ratio: 2/3;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: #1a1a30;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #e8e8ec;
   opacity: 0;
   transform: translateY(30px);
 }
@@ -812,6 +820,11 @@ body {
       0 0 20px var(--accent-dim),
       inset 0 0 40px var(--accent-dim);
     background: #0a0a1aee;
+  }
+
+  #panel-posters {
+    margin: 0 -1.25rem -1.25rem;
+    padding: 1.25rem;
   }
 
   .poster-grid {
