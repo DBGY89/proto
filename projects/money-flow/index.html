@@ -776,9 +776,9 @@
     .lifestyle-btn:nth-child(2) { border-right: 2px solid #333; }
     .ls-desc { display: none; }
 
-    .retirement-controls { grid-template-columns: 1fr 1fr; }
-    .ret-control:nth-child(2n) { border-right: none; }
-    .ret-control { border-bottom: var(--border); }
+    .retirement-controls { grid-template-columns: 1fr; }
+    .ret-control { border-right: none; border-bottom: var(--border); }
+    .ret-control:last-child { border-bottom: none; }
 
     .countries-grid { grid-template-columns: 1fr 1fr; }
     .country-card:nth-child(2n) { border-right: none; }
