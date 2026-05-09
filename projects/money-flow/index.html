@@ -1326,6 +1326,57 @@
       padding: 12px 24px;
     }
   }
+
+  /* ── Vote widget ── */
+  .vote-widget {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 900;
+    background: var(--black);
+    border: 3px solid var(--black);
+    padding: 0.65rem 1rem;
+    text-align: right;
+  }
+  .vote-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .vote-nums {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .vote-num {
+    cursor: pointer;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+    border: 2px solid rgba(245,245,240,0.3);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .vote-num:hover { border-color: var(--yellow); color: var(--yellow); }
+  .vote-num.vote-selected { color: var(--yellow); border-color: var(--yellow); }
+  .vote-num.vote-grey { color: rgba(245,245,240,0.2); border-color: rgba(245,245,240,0.1); cursor: default; }
+  .vote-thanks {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-top: 0.35rem;
+  }
 </style>
 </head>
 <body>
@@ -2840,5 +2891,53 @@ updateMyRetirement();
 updateReverse();
 selectFund('sp500');
 </script>
+
+  <div class="vote-widget" data-project="money-flow" aria-label="Rate this prototype">
+    <span class="vote-label">Rate this prototype</span>
+    <span class="vote-nums">
+      <span class="vote-num" data-value="1">1</span>
+      <span class="vote-num" data-value="2">2</span>
+      <span class="vote-num" data-value="3">3</span>
+      <span class="vote-num" data-value="4">4</span>
+      <span class="vote-num" data-value="5">5</span>
+    </span>
+    <span class="vote-thanks" id="vote-thanks" aria-live="polite" style="display:none">Thanks ✓</span>
+  </div>
+
+  <script src="/rating-vote.js"></script>
+  <script>
+  (function () {
+    var project = 'money-flow';
+    var key = 'rating_' + project;
+    var widget = document.querySelector('.vote-widget');
+    var thanks = document.getElementById('vote-thanks');
+    if (widget && thanks) {
+      var nums = widget.querySelectorAll('.vote-num');
+      var saved = localStorage.getItem(key);
+      if (saved) {
+        var v = parseInt(saved, 10);
+        nums.forEach(function (n) {
+          var val = parseInt(n.getAttribute('data-value'), 10);
+          n.classList.toggle('vote-selected', val === v);
+          n.classList.toggle('vote-grey', val !== v);
+        });
+        thanks.style.display = 'block';
+      }
+      nums.forEach(function (n) {
+        n.addEventListener('click', function () {
+          if (localStorage.getItem(key)) return;
+          var v = parseInt(this.getAttribute('data-value'), 10);
+          if (typeof saveRating === 'function') saveRating(project, v);
+          nums.forEach(function (x) {
+            var val = parseInt(x.getAttribute('data-value'), 10);
+            x.classList.toggle('vote-selected', val === v);
+            x.classList.toggle('vote-grey', val !== v);
+          });
+          thanks.style.display = 'block';
+        });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
