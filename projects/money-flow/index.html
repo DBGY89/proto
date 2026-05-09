@@ -1,0 +1,2844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUTALIST FINANCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f5f0;
+    --yellow: #FFE600;
+    --red: #FF2B2B;
+    --border: 3px solid #0a0a0a;
+    --border-thick: 5px solid #0a0a0a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 0;
+    border-bottom: var(--border-thick);
+    display: flex;
+    align-items: stretch;
+  }
+
+  .header-title {
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-right: var(--border-thick);
+    border-color: #333;
+    flex: 1;
+    line-height: 1;
+  }
+
+  .header-title span {
+    color: var(--white);
+    font-size: 0.35em;
+    display: block;
+    letter-spacing: 4px;
+    font-weight: 400;
+    margin-top: 3px;
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .nav-tab {
+    padding: 0 18px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    color: #aaa;
+  }
+
+  .nav-tab:hover { background: #1a1a1a; color: var(--white); }
+  .nav-tab.active { background: var(--yellow); color: var(--black); }
+
+  /* MAIN LAYOUT */
+  main { padding: 0; }
+
+  /* SECTION PANELS */
+  .panel {
+    display: none;
+    animation: appear 0.15s ease;
+  }
+  .panel.active { display: block; }
+
+  @keyframes appear {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* INPUT SECTION */
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: var(--border-thick);
+  }
+
+  .input-col {
+    padding: 16px 24px;
+    border-right: var(--border);
+  }
+  .input-col:last-child { border-right: none; }
+
+  .col-label {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: var(--border);
+  }
+
+  .field-row {
+    display: flex;
+    align-items: center;
+    border: var(--border);
+    margin-bottom: -3px;
+    background: var(--white);
+    transition: background 0.1s;
+  }
+  .field-row:hover { background: #f0f0e8; }
+  .field-row:focus-within { background: var(--yellow); z-index: 1; position: relative; }
+
+  .field-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    flex: 1;
+    border-right: var(--border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .field-input {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    width: 120px;
+    text-align: right;
+    outline: none;
+    color: var(--black);
+  }
+
+  .field-input::placeholder { color: #bbb; }
+
+  .currency-symbol {
+    padding: 12px 6px 12px 0;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .add-row-btn {
+    width: 100%;
+    padding: 12px;
+    border: var(--border);
+    margin-top: -3px;
+    background: transparent;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .add-row-btn:hover { background: var(--black); color: var(--yellow); }
+
+  /* CALCULATE BTN */
+  .calculate-bar {
+    border-bottom: var(--border-thick);
+  }
+
+  .calculate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--black);
+    color: var(--yellow);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .calculate-btn:hover { background: var(--yellow); color: var(--black); }
+  .calculate-btn .arrow { font-size: 1.5em; line-height: 1; }
+
+  /* RESULTS */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: var(--border-thick);
+  }
+
+  .result-card {
+    padding: 32px;
+    border-right: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card:last-child { border-right: none; }
+
+  .result-card.highlight { background: var(--yellow); }
+  .result-card.danger { background: var(--red); color: var(--white); }
+
+  .result-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  .result-number {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .result-sub {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-top: 8px;
+  }
+
+  /* 50/30/20 BAR */
+  .breakdown-section {
+    border-bottom: var(--border-thick);
+    padding: 32px;
+  }
+
+  .breakdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+
+  .breakdown-title {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+
+  .breakdown-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border: var(--border);
+  }
+
+  .bar-container {
+    display: flex;
+    height: 64px;
+    border: var(--border-thick);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .bar-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 8px;
+    position: relative;
+  }
+
+  .bar-segment.fixed { background: var(--black); color: var(--yellow); }
+  .bar-segment.fun { background: var(--yellow); color: var(--black); border-left: var(--border-thick); border-right: var(--border-thick); }
+  .bar-segment.savings { background: #4ADE80; color: var(--black); }
+  .bar-segment.overflow { background: var(--red); color: var(--white); }
+
+  .bar-legend {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    align-items: stretch;
+  }
+
+  .legend-item {
+    padding: 16px;
+    border-right: var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .legend-item:last-child { border-right: none; }
+  .legend-item.hero { background: #fffef0; }
+
+  .legend-item .chips {
+    margin-top: auto;
+    padding-top: 12px;
+  }
+
+  /* CHIPS */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .chip {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 0;
+    border: 1.5px solid currentColor;
+    opacity: 0.75;
+  }
+  .chip-fixed { color: var(--black); border-color: #aaa; background: transparent; }
+  .chip-fun { color: var(--black); border-color: var(--black); background: var(--yellow); opacity:0.85; }
+  .chip-savings { color: #166534; border-color: #4ADE80; background: #f0fdf4; }
+
+  .legend-dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--black);
+    margin-bottom: 4px;
+  }
+  .legend-dot.fixed { background: var(--black); }
+  .legend-dot.fun { background: var(--yellow); }
+  .legend-dot.savings { background: #4ADE80; }
+
+  .legend-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.75;
+  }
+
+  .legend-amount {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .legend-pct {
+    font-size: 0.75rem;
+    font-weight: 700;
+    opacity: 0.6;
+  }
+
+  /* HIDDEN RESULTS */
+  #results-section { display: none; }
+  #results-section.visible { display: block; }
+
+  /* SIMULATION PANEL */
+  .sim-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: var(--border-thick);
+  }
+
+  .sim-control {
+    padding: 24px 32px;
+    border-right: var(--border);
+  }
+  .sim-control:last-child { border-right: none; }
+
+  .sim-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 12px;
+    opacity: 0.75;
+  }
+
+  .sim-input {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    border-bottom: var(--border-thick);
+    background: transparent;
+    outline: none;
+    width: 100%;
+    color: var(--black);
+    padding-bottom: 8px;
+  }
+
+  .sim-unit {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.55;
+    margin-top: 6px;
+  }
+
+  /* CHART */
+  .chart-area {
+    padding: 32px;
+    border-bottom: var(--border-thick);
+    position: relative;
+  }
+
+  .chart-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+
+  .chart-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .chart-final {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--black);
+    color: var(--yellow);
+    padding: 8px 16px;
+  }
+
+  .chart-wrapper {
+    width: 100%;
+    height: 260px;
+    position: relative;
+  }
+
+  canvas#simChart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .sim-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: var(--border-thick);
+    margin-top: 24px;
+  }
+
+  .sim-stat {
+    padding: 20px 24px;
+    border-right: var(--border);
+  }
+  .sim-stat:last-child { border-right: none; }
+  .sim-stat:nth-child(2) { background: var(--yellow); }
+
+  .sim-stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .sim-stat-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  /* LIFESTYLE FILTER */
+  .lifestyle-bar {
+    display: flex;
+    border-bottom: var(--border-thick);
+    background: var(--black);
+  }
+
+  .lifestyle-btn {
+    flex: 1;
+    padding: 20px 16px;
+    background: transparent;
+    border: none;
+    border-right: 2px solid #333;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #555;
+    transition: all 0.1s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .lifestyle-btn:last-child { border-right: none; }
+  .lifestyle-btn:hover { background: #1a1a1a; color: var(--white); }
+  .lifestyle-btn.active { background: var(--yellow); color: var(--black); }
+
+  .lifestyle-btn .ls-icon {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+  .lifestyle-btn .ls-desc {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    opacity: 0.75;
+  }
+  .lifestyle-btn.active .ls-desc { opacity: 0.6; }
+
+  /* RETIREMENT PANEL */
+  .retirement-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: var(--border-thick);
+  }
+
+  .ret-control {
+    padding: 24px 32px;
+    border-right: var(--border);
+  }
+  .ret-control:last-child { border-right: none; }
+
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: var(--border-thick);
+  }
+
+  .country-card {
+    padding: 28px 32px;
+    border-right: var(--border);
+    border-bottom: var(--border);
+    position: relative;
+    cursor: default;
+    transition: background 0.1s;
+  }
+
+  .country-card:hover { background: #f5f5e8; }
+
+  .country-card:nth-child(3n) { border-right: none; }
+  .country-card:nth-last-child(-n+3) { border-bottom: none; }
+
+  .country-flag {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .country-name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .country-cost {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: 12px;
+  }
+
+  .retire-age-label {
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+
+  .retire-age {
+    font-family: 'Space Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .retire-years {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  .country-card.highlight-card {
+    background: var(--yellow);
+  }
+
+  .country-card.danger-card {
+    background: #ffe8e8;
+  }
+
+  .best-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--black);
+    color: var(--yellow);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 80px 32px;
+    border: var(--border);
+    margin: 32px;
+  }
+
+  .empty-state-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    opacity: 0.15;
+    margin-bottom: 16px;
+  }
+
+  .empty-state-sub {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.4;
+  }
+
+  /* WARNING BANNER */
+  .warning-banner {
+    background: var(--red);
+    color: var(--white);
+    padding: 16px 32px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: none;
+    border-bottom: var(--border-thick);
+    border-color: #cc0000;
+  }
+  .warning-banner.visible { display: block; }
+
+  /* FUND SELECTOR BUTTONS */
+  .fund-btn {
+    flex: 1;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    border-right: 2px solid #333;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.1s;
+    min-width: 80px;
+  }
+  .fund-btn:last-child { border-right: none; }
+  .fund-btn:hover { background: #1a1a1a; color: var(--white); }
+  .fund-btn.active { background: var(--yellow); color: var(--black); }
+  .fund-ticker { font-size: 1.1rem; font-weight: 900; letter-spacing: -0.5px; }
+  .fund-name { font-size: 0.7rem; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
+  .fund-btn.active .fund-name { opacity: 0.6; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--white); }
+  ::-webkit-scrollbar-thumb { background: var(--black); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    /* Nav */
+    .header-nav { display: none; }
+    .mobile-nav {
+      display: flex !important;
+      overflow-x: auto;
+      border-bottom: var(--border-thick);
+      background: var(--black);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Header */
+    .header-title { font-size: 1.8rem; padding: 16px 20px; }
+
+    /* Ticker */
+    .ticker { padding: 8px 16px; font-size: 0.65rem; }
+
+    /* Panel padding reduction */
+    .input-col { padding: 20px 16px; }
+    .breakdown-section { padding: 20px 16px; }
+    .chart-area { padding: 20px 16px; }
+    .sim-control { padding: 20px 16px; }
+    .ret-control { padding: 20px 16px; }
+    .result-card { padding: 20px 16px; }
+    .legend-item { padding: 14px 16px; }
+
+    /* Setup panel */
+    .input-grid { grid-template-columns: 1fr; }
+    .input-col { border-right: none; border-bottom: var(--border); }
+    .field-label { font-size: 0.75rem; padding: 10px 12px; }
+    .field-input { width: 100px; font-size: 0.9rem; padding: 10px 10px; }
+
+    /* Results */
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .result-card:nth-child(3) { grid-column: 1 / -1; border-right: none; }
+    .result-number { font-size: 1.4rem; }
+
+    /* 50/30/20 bar */
+    .breakdown-header { flex-direction: column; gap: 10px; }
+    .bar-segment { font-size: 0.7rem; padding: 0 4px; }
+    .bar-container { height: 48px; }
+    .bar-legend { grid-template-columns: 1fr; }
+    .legend-item { border-right: none; border-bottom: var(--border); }
+    .legend-item:last-child { border-bottom: none; }
+
+    /* Calculate button */
+    .calculate-btn { font-size: 1.1rem; padding: 18px; letter-spacing: 4px; }
+
+    /* Simulation */
+    .sim-controls { grid-template-columns: 1fr; }
+    .sim-control { border-right: none; border-bottom: var(--border); }
+    .chart-title-row { flex-direction: column; gap: 10px; }
+    .sim-stats { grid-template-columns: 1fr 1fr; }
+    .sim-stat { padding: 14px 16px; }
+    .sim-stat-val { font-size: 1rem; }
+
+    /* Retirement */
+    .lifestyle-bar { flex-wrap: nowrap; }
+    .lifestyle-btn { flex: 1 1 33%; min-width: 0; padding: 14px 8px; font-size: 0.75rem; letter-spacing: 1px; }
+    .lifestyle-btn:nth-child(2) { border-right: 2px solid #333; }
+    .ls-desc { display: none; }
+
+    .retirement-controls { grid-template-columns: 1fr 1fr; }
+    .ret-control:nth-child(2n) { border-right: none; }
+    .ret-control { border-bottom: var(--border); }
+
+    .countries-grid { grid-template-columns: 1fr 1fr; }
+    .country-card:nth-child(2n) { border-right: none; }
+    .country-card { padding: 18px 14px; }
+    .retire-age { font-size: 1.8rem; }
+
+    /* Reverse panel */
+    .rv-config-grid { grid-template-columns: 1fr 1fr !important; }
+    .rv-config-grid .ret-control:nth-child(2n) { border-right: none; }
+    .rv-salary-grid { grid-template-columns: 1fr !important; }
+    .rv-salary-grid > div { border-right: none !important; border-bottom: var(--border); }
+    .rv-salary-grid > div:last-child { border-bottom: none; }
+    .rv-headline-box { padding: 20px 16px !important; }
+    .results-grid-4 { grid-template-columns: 1fr 1fr !important; }
+    .mr-adj-grid { grid-template-columns: 1fr !important; }
+    .mr-adj-grid > div { border-right: none !important; border-bottom: var(--border); }
+    .mr-adj-grid > div:last-child { border-bottom: none; }
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  .mobile-nav .nav-tab {
+    border-left: none;
+    border-right: 2px solid #333;
+    padding: 16px 20px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  .delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: #999;
+    border-left: var(--border);
+    transition: all 0.1s;
+    font-family: 'Space Mono', monospace;
+  }
+  .delete-btn:hover { background: var(--red); color: var(--white); }
+
+  .run-sim-btn {
+    width: 100%;
+    padding: 20px;
+    background: var(--black);
+    color: var(--yellow);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    border-bottom: var(--border-thick);
+    transition: all 0.1s;
+  }
+  .run-sim-btn:hover { background: var(--yellow); color: var(--black); }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--black);
+    outline: none;
+    margin-top: 12px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--yellow);
+    border: 3px solid var(--black);
+    cursor: pointer;
+  }
+
+  .ticker {
+    background: var(--yellow);
+    padding: 10px 32px;
+    border-bottom: var(--border-thick);
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 40s linear infinite;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    display: flex;
+    align-items: stretch;
+    border-bottom: var(--border-thick);
+    background: var(--black);
+    overflow: hidden;
+  }
+
+  .progress-step {
+    flex: 1;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-right: 2px solid #222;
+    position: relative;
+  }
+  .progress-step:last-child { border-right: none; }
+
+  .progress-step.done { background: #111; }
+  .progress-step.active { background: #1a1a1a; }
+  .progress-step.locked { opacity: 0.3; }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .progress-step.done .progress-dot { background: var(--yellow); border-color: var(--yellow); }
+  .progress-step.active .progress-dot { background: transparent; border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(255,230,0,0.2); }
+
+  .progress-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #555;
+    white-space: nowrap;
+  }
+  .progress-step.done .progress-label,
+  .progress-step.active .progress-label { color: var(--white); }
+
+  .progress-connector {
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 0.6rem;
+    z-index: 1;
+  }
+
+  /* STEP HEADER */
+  .step-header {
+    padding: 20px 32px;
+    border-bottom: var(--border-thick);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .step-number {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .step-title {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .step-desc {
+    font-size: 0.85rem;
+    font-weight: 700;
+    opacity: 0.6;
+    letter-spacing: 1px;
+    text-align: right;
+    max-width: 300px;
+  }
+
+  /* PANEL CTA */
+  .panel-cta {
+    border-top: var(--border-thick);
+    display: flex;
+    align-items: stretch;
+  }
+
+  .cta-summary {
+    flex: 1;
+    padding: 20px 32px;
+    background: #f5f5e8;
+    border-right: var(--border-thick);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .cta-summary-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .cta-summary-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .cta-btn {
+    padding: 20px 40px;
+    background: var(--black);
+    color: var(--yellow);
+    border: none;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.1s;
+    white-space: nowrap;
+  }
+  .cta-btn:hover { background: var(--yellow); color: var(--black); }
+  .cta-btn .cta-arrow { font-size: 1.3em; line-height: 1; }
+
+  /* SUMMARY PANEL inside panel-retirement */
+  .summary-block {
+    border-top: var(--border-thick);
+    padding: 32px;
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .summary-block-title {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 20px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 2px solid #333;
+  }
+
+  .summary-item {
+    padding: 20px 24px;
+    border-right: 2px solid #333;
+  }
+  .summary-item:last-child { border-right: none; }
+
+  .summary-item-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+  .summary-item-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .summary-item-value.highlight { color: var(--yellow); }
+
+  .cta-reverse {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: all 0.1s;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: var(--white);
+  }
+  .cta-reverse:hover { background: #1a1a1a; border-color: var(--yellow); }
+
+  .cta-reverse-label {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .cta-reverse-title {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .progress-bar { display: none; }
+    .step-header { flex-direction: column; gap: 6px; }
+    .step-desc { text-align: left; max-width: 100%; }
+    .panel-cta { flex-direction: column; }
+    .cta-summary { border-right: none; border-bottom: var(--border-thick); }
+    .cta-btn { justify-content: center; }
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+    .summary-item:nth-child(2n) { border-right: none; }
+    .summary-item { border-bottom: 2px solid #333; }
+  }
+  /* PARALLEL REALITY CARDS */
+  .rv-section-label {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .rv-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .rv-card {
+    border: 1px solid #ddd;
+    padding: 24px;
+    background: var(--white);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+
+  .rv-card:hover {
+    border-color: var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+  }
+
+  .rv-card.rv-card-best {
+    background: var(--yellow);
+    border: 3px solid var(--black);
+  }
+
+  .rv-card.rv-card-impossible {
+    opacity: 0.5;
+  }
+
+  .rv-card-flag {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .rv-card-name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .rv-card-city {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+
+  .rv-card-cost {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .rv-card-best .rv-card-cost { color: rgba(0,0,0,0.55); border-bottom-color: rgba(0,0,0,0.15); }
+
+  .rv-card-retire-label {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+
+  .rv-card-age {
+    font-family: 'Space Mono', monospace;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .rv-card-years {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.55;
+  }
+
+  .rv-card-freedom {
+    margin-top: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.45;
+  }
+
+  .rv-earliest-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--black);
+    color: var(--yellow);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+  }
+
+  @media (max-width: 768px) {
+    .rv-cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    #rv-cards-wrap { padding: 20px 16px; }
+    .rv-card-age { font-size: 2rem; }
+  }
+
+  @media (min-width: 769px) {
+    .ticker { display: none; }
+
+    .progress-bar {
+      border-bottom: 2px solid var(--black);
+    }
+
+    .progress-step {
+      padding: 7px 16px;
+    }
+
+    .progress-label {
+      font-size: 0.7rem;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    .step-header {
+      padding: 12px 24px;
+    }
+
+    .step-title {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+    }
+
+    .step-number {
+      font-size: 0.7rem;
+    }
+
+    .step-desc {
+      font-size: 0.75rem;
+    }
+
+    .result-card {
+      padding: 16px 20px;
+    }
+
+    .result-number {
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+    }
+
+    .breakdown-section {
+      padding: 16px 24px;
+    }
+
+    .bar-container {
+      height: 44px;
+      margin-bottom: 10px;
+    }
+
+    .legend-item {
+      padding: 10px 16px;
+    }
+
+    .legend-amount {
+      font-size: 0.95rem;
+    }
+
+    .add-row-btn {
+      padding: 7px;
+      font-size: 0.75rem;
+    }
+
+    .currency-symbol {
+      padding: 8px 6px 8px 0;
+      font-size: 0.85rem;
+    }
+
+    .delete-btn {
+      padding: 8px 12px;
+    }
+
+    .panel-cta {
+      border-top: 2px solid var(--black);
+    }
+
+    .cta-btn {
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+    }
+
+    .cta-summary {
+      padding: 12px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    MONEYFLOW<span>Plan your money. Without giving up living.</span>
+  </div>
+  <nav class="header-nav">
+    <button class="nav-tab active" onclick="showPanel('setup')">01 / EXPENSES</button>
+    <button class="nav-tab" onclick="showPanel('simulation')">02 / INVESTMENTS</button>
+    <button class="nav-tab" onclick="showPanel('myretirement')">03 / MY RETIREMENT</button>
+    <button class="nav-tab" onclick="showPanel('reverse')">04 / PARALLEL REALITY</button>
+  </nav>
+</header>
+
+<nav class="mobile-nav">
+  <button class="nav-tab active" onclick="showPanel('setup')">01 / EXPENSES</button>
+  <button class="nav-tab" onclick="showPanel('simulation')">02 / INVESTMENTS</button>
+  <button class="nav-tab" onclick="showPanel('myretirement')">03 / MY RETIREMENT</button>
+  <button class="nav-tab" onclick="showPanel('reverse')">04 / PARALLEL REALITY</button>
+</nav>
+
+<div class="ticker">
+  <span class="ticker-inner">
+    50% COMMITMENTS &nbsp;///&nbsp; 30% YOUR LIFE — NO GUILT &nbsp;///&nbsp; 20% YOUR FUTURE — HALF INVESTED, HALF SAVED &nbsp;///&nbsp; YOU DON'T HAVE TO CHOOSE BETWEEN LIVING TODAY AND HAVING MONEY TOMORROW &nbsp;///&nbsp; TIME IN THE MARKET BEATS TIMING THE MARKET &nbsp;///&nbsp; START NOW. ENJOY NOW. &nbsp;///&nbsp;
+  </span>
+</div>
+
+
+<!-- PANEL 1: EXPENSES -->
+<div class="panel active" id="panel-setup">
+
+  <div class="step-header">
+    <div>
+      <div class="step-number">Step 1 of 4</div>
+      <div class="step-title">Expenses</div>
+    </div>
+    <div class="step-desc">Start with what comes in and what's already committed each month.</div>
+  </div>
+
+  <div class="input-grid">
+    <div class="input-col">
+      <div class="col-label">Monthly net income</div>
+      <div id="income-rows">
+        <div class="field-row">
+          <div class="field-label">Salary</div>
+          <input class="field-input income-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+      </div>
+      <button class="add-row-btn" onclick="addRow('income')">+ ADD INCOME</button>
+    </div>
+
+    <div class="input-col">
+      <div class="col-label">Monthly fixed expenses</div>
+      <div id="expense-rows">
+        <div class="field-row">
+          <div class="field-label">Rent / Mortgage</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+        <div class="field-row">
+          <div class="field-label">Utilities</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+        <div class="field-row">
+          <div class="field-label">Transport</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+        <div class="field-row">
+          <div class="field-label">Food</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+        <div class="field-row">
+          <div class="field-label">School</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+        <div class="field-row">
+          <div class="field-label">Claude</div>
+          <input class="field-input expense-input" type="number" placeholder="0" min="0">
+          <span class="currency-symbol">€</span>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+        </div>
+      </div>
+      <button class="add-row-btn" onclick="addRow('expense')">+ ADD EXPENSE</button>
+    </div>
+  </div>
+
+  <div class="calculate-bar">
+    <button class="calculate-btn" onclick="calculate()">
+      CALCULATE <span class="arrow">→</span>
+    </button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results-section">
+
+    <div id="warning-banner" class="warning-banner">
+      ⚠ YOUR FIXED EXPENSES EXCEED THE RECOMMENDED 50% — REVIEW YOUR BUDGET
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-label">Monthly income</div>
+        <div class="result-number" id="res-income">€0</div>
+        <div class="result-sub">Monthly net</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">Committed expenses</div>
+        <div class="result-number" id="res-expenses">€0</div>
+        <div class="result-sub" id="res-expenses-pct">0% of total</div>
+      </div>
+      <div class="result-card highlight">
+        <div class="result-label">Yours to live with</div>
+        <div class="result-number" id="res-available">€0</div>
+        <div class="result-sub">After fixed expenses</div>
+      </div>
+    </div>
+
+    <!-- Hero message -->
+    <div id="hero-message" style="display:none; padding: 24px 32px; border-bottom: var(--border-thick); background: var(--yellow);">
+      <div style="font-size:0.7rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.6; margin-bottom:6px;">Your monthly guilt-free budget</div>
+      <div style="font-family:'Space Mono',monospace; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-1px; line-height:1; color:var(--black);" id="hero-text">—</div>
+      <div style="font-size:0.9rem; font-weight:700; margin-top:10px; color:var(--black); opacity:0.65; letter-spacing:0.5px;">To spend on whatever makes life worth it. No justification needed.</div>
+    </div>
+
+    <div class="breakdown-section">
+      <div class="breakdown-header">
+        <div class="breakdown-title">How it breaks down</div>
+        <div class="breakdown-status" id="breakdown-status">— ENTER YOUR DATA</div>
+      </div>
+
+      <div class="bar-container">
+        <div class="bar-segment fixed" id="bar-fixed" style="width:50%">50%</div>
+        <div class="bar-segment fun" id="bar-fun" style="width:30%">30%</div>
+        <div class="bar-segment savings" id="bar-savings" style="width:20%">20%</div>
+      </div>
+
+      <div class="bar-legend">
+        <div class="legend-item">
+          <div class="legend-dot fixed"></div>
+          <div class="legend-label">Commitments (50%)</div>
+          <div class="legend-amount" id="leg-fixed">€0</div>
+          <div class="legend-pct" id="leg-fixed-pct" style="opacity:0.6;">Already spoken for before the month starts</div>
+          <div class="chips">
+            <span class="chip chip-fixed">Rent</span>
+            <span class="chip chip-fixed">Bills</span>
+            <span class="chip chip-fixed">Transport</span>
+            <span class="chip chip-fixed">Food</span>
+            <span class="chip chip-fixed">Insurance</span>
+            <span class="chip chip-fixed">School</span>
+          </div>
+        </div>
+        <div class="legend-item" style="background:#fffef0;">
+          <div class="legend-dot fun"></div>
+          <div class="legend-label" style="color:#000;">Your life (30%)</div>
+          <div class="legend-amount" id="leg-fun" style="font-size:1.4rem;">€0</div>
+          <div style="font-size:0.75rem; font-weight:700; margin-top:4px; color:#444; line-height:1.5;" id="leg-fun-pct">No justification needed.</div>
+          <div class="chips">
+            <span class="chip chip-fun">Dinners</span>
+            <span class="chip chip-fun">Travel</span>
+            <span class="chip chip-fun">Concerts</span>
+            <span class="chip chip-fun">Clothes</span>
+            <span class="chip chip-fun">Spa</span>
+            <span class="chip chip-fun">Hobbies</span>
+            <span class="chip chip-fun">Gifts</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot savings"></div>
+          <div class="legend-label">Your future (20%)</div>
+          <div class="legend-amount" id="leg-savings">€0</div>
+          <div style="font-size:0.72rem; font-weight:700; opacity:0.65; margin-top:4px; line-height:1.5;" id="leg-savings-pct">Half invested. Half saved for your next goal.</div>
+          <div class="chips">
+            <span class="chip chip-savings">Index funds</span>
+            <span class="chip chip-savings">Emergency fund</span>
+            <span class="chip chip-savings">Holiday</span>
+            <span class="chip chip-savings">Car</span>
+            <span class="chip chip-savings">Down payment</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attribution -->
+      <div style="margin-top: 16px; font-size:0.65rem; letter-spacing:2px; font-weight:700; text-transform:uppercase; opacity:0.35;">
+        Inspired by Ramit Sethi's Conscious Spending Plan
+      </div>
+
+      <!-- The promise line -->
+      <div style="margin-top: 20px; padding: 16px 20px; border: 2px solid var(--black); background: var(--white); display:flex; align-items:center; gap:16px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <div style="font-size:0.95rem; font-weight:700; letter-spacing:0.5px;">You don't have to choose between living today and having money tomorrow.</div>
+      </div>
+    </div>
+
+    <!-- CTA to next panel -->
+    <div class="panel-cta" id="setup-cta" style="display:none;">
+      <div class="cta-summary">
+        <div class="cta-summary-label">Your monthly investment</div>
+        <div class="cta-summary-value" id="cta-savings-val">—</div>
+      </div>
+      <button class="cta-btn" onclick="showPanel('simulation')">
+        STEP 2: INVESTMENTS <span class="cta-arrow">→</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+<!-- PANEL 2: INVESTMENTS -->
+<div class="panel" id="panel-simulation">
+
+  <div class="step-header">
+    <div>
+      <div class="step-number">Step 2 of 4</div>
+      <div class="step-title">Investments</div>
+    </div>
+    <div class="step-desc">Pick a fund and simulate how your savings grow over time.</div>
+  </div>
+
+  <!-- FUND SELECTOR -->
+  <div style="border-bottom: var(--border-thick); overflow-x: auto; -webkit-overflow-scrolling: touch;">
+    <div style="display:flex; min-width: 500px;">
+      <div style="background:var(--black); color:#666; padding: 14px 20px; font-size:0.65rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; border-right:2px solid #333; white-space:nowrap; display:flex; align-items:center;">FUND</div>
+      <button class="fund-btn active" id="fund-sp500" onclick="selectFund('sp500')">
+        <span class="fund-ticker">S&P 500</span>
+        <span class="fund-name">CAGR ~10%</span>
+      </button>
+      <button class="fund-btn" id="fund-qqq" onclick="selectFund('qqq')">
+        <span class="fund-ticker">QQQ</span>
+        <span class="fund-name">CAGR ~14%</span>
+      </button>
+      <button class="fund-btn" id="fund-vti" onclick="selectFund('vti')">
+        <span class="fund-ticker">VTI</span>
+        <span class="fund-name">CAGR ~10%</span>
+      </button>
+      <button class="fund-btn" id="fund-vwrl" onclick="selectFund('vwrl')">
+        <span class="fund-ticker">VWRL</span>
+        <span class="fund-name">CAGR ~9%</span>
+      </button>
+      <button class="fund-btn" id="fund-bnd" onclick="selectFund('bnd')">
+        <span class="fund-ticker">BND</span>
+        <span class="fund-name">CAGR ~3%</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- FUND INFO BAR -->
+  <div id="fund-info-bar" style="border-bottom: var(--border-thick); padding: 16px 32px; background: var(--yellow); display:flex; flex-wrap:wrap; gap: 24px; align-items:baseline;">
+    <div>
+      <span style="font-size:0.6rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.6;">Fund</span>
+      <div style="font-size:1.3rem; font-weight:900; letter-spacing:-0.5px;" id="fi-name">—</div>
+    </div>
+    <div>
+      <span style="font-size:0.6rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.6;">What it is</span>
+      <div style="font-size:0.85rem; font-weight:700;" id="fi-desc">—</div>
+    </div>
+    <div style="margin-left:auto; display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="text-align:right;">
+        <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6; display:block;">Historical CAGR</span>
+        <span style="font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700;" id="fi-cagr">—</span>
+      </div>
+      <div style="text-align:right;">
+        <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6; display:block;">Best year</span>
+        <span style="font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700; color:#16a34a;" id="fi-best">—</span>
+      </div>
+      <div style="text-align:right;">
+        <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6; display:block;">Worst year</span>
+        <span style="font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700; color:#dc2626;" id="fi-worst">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORICAL RETURNS DRAWER -->
+  <div style="border-bottom: var(--border-thick);">
+    <button onclick="toggleHistory()" id="history-toggle-btn" style="width:100%; padding:16px 32px; background:var(--black); color:var(--white); border:none; cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:4px; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center; transition: background 0.1s;">
+      <span>↗ SEE REAL YEAR-BY-YEAR RETURNS</span>
+      <span id="history-arrow" style="font-size:1.2rem; transition: transform 0.2s;">▼</span>
+    </button>
+    <div id="history-drawer" style="display:none; overflow:hidden;">
+      <div style="padding: 12px 32px 8px; background:#111; color:#888; font-size:0.65rem; letter-spacing:3px; font-weight:700; text-transform:uppercase;">
+        Real annual return data · Source: Yahoo Finance / FinanceCharts · Not adjusted for inflation
+      </div>
+      <div id="history-bars" style="padding: 24px 32px; background: #0f0f0f;"></div>
+    </div>
+  </div>
+
+  <div class="sim-controls">
+    <div class="sim-control">
+      <div class="sim-label">Monthly investment</div>
+      <input class="sim-input" type="number" id="sim-monthly" value="200" min="0" oninput="updateSim(); updateMyRetirement(); updateReverse();">
+      <div class="sim-unit">€ / month</div>
+    </div>
+    <div class="sim-control">
+      <div class="sim-label">Years investing</div>
+      <input type="range" id="sim-years" min="1" max="40" value="20" oninput="updateSim(); document.getElementById('sim-years-val').textContent = this.value">
+      <div style="display:flex; justify-content:space-between; margin-top:8px;">
+        <span style="font-size:0.7rem; letter-spacing:2px; opacity:0.5; font-weight:700;">1 YEAR</span>
+        <span style="font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700;" id="sim-years-val">20</span>
+        <span style="font-size:0.7rem; letter-spacing:2px; opacity:0.5; font-weight:700;">40 YEARS</span>
+      </div>
+    </div>
+    <div class="sim-control">
+      <div class="sim-label">Annual return <span style="opacity:0.5; font-size:0.75em;">(adjustable)</span></div>
+      <input type="range" id="sim-rate" min="1" max="20" value="10" step="0.5" oninput="updateSim(); updateReverse(); document.getElementById('sim-rate-val').textContent = this.value + '%'">
+      <div style="display:flex; justify-content:space-between; margin-top:8px;">
+        <span style="font-size:0.7rem; letter-spacing:2px; opacity:0.5; font-weight:700;">1%</span>
+        <span style="font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700;" id="sim-rate-val">10%</span>
+        <span style="font-size:0.7rem; letter-spacing:2px; opacity:0.5; font-weight:700;">20%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-area">
+    <div class="chart-title-row">
+      <div class="chart-title">Portfolio projection</div>
+      <div class="chart-final" id="chart-final-val">—</div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="simChart"></canvas>
+    </div>
+    <div class="sim-stats">
+      <div class="sim-stat">
+        <div class="sim-stat-label">Total invested</div>
+        <div class="sim-stat-val" id="stat-invested">—</div>
+      </div>
+      <div class="sim-stat">
+        <div class="sim-stat-label">Final value</div>
+        <div class="sim-stat-val" id="stat-final">—</div>
+      </div>
+      <div class="sim-stat">
+        <div class="sim-stat-label">Gains</div>
+        <div class="sim-stat-val" id="stat-gains">—</div>
+      </div>
+      <div class="sim-stat">
+        <div class="sim-stat-label">Multiplier</div>
+        <div class="sim-stat-val" id="stat-mult">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 20px 32px; opacity:0.5; font-size:0.7rem; letter-spacing:2px; font-weight:700; text-transform:uppercase; border-top: var(--border);">
+    ⚠ Educational simulation. Not financial advice. Past returns do not guarantee future results.
+  </div>
+
+  <div class="panel-cta">
+    <div class="cta-summary">
+      <div class="cta-summary-label">Estimated value in <span id="cta-sim-years">20</span> years</div>
+      <div class="cta-summary-value" id="cta-sim-val">—</div>
+    </div>
+    <button class="cta-btn" onclick="showPanel('myretirement')">
+      STEP 3: MY RETIREMENT <span class="cta-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- PANEL 3: MY RETIREMENT -->
+<div class="panel" id="panel-myretirement">
+
+  <div class="step-header">
+    <div>
+      <div class="step-number">Step 3 of 4</div>
+      <div class="step-title">My Retirement</div>
+    </div>
+    <div class="step-desc">You decide when and how much. We tell you if your numbers get you there.</div>
+  </div>
+
+  <!-- INPUTS -->
+  <div class="retirement-controls" style="grid-template-columns: repeat(3,1fr);">
+    <div class="ret-control">
+      <div class="sim-label">Your current age</div>
+      <input class="sim-input" type="number" id="mr-age" value="30" min="18" max="70" oninput="updateMyRetirement(); updateReverse()">
+      <div class="sim-unit">Years old</div>
+    </div>
+    <div class="ret-control">
+      <div class="sim-label">I want to retire at</div>
+      <input class="sim-input" type="number" id="mr-target-age" value="60" min="30" max="80" oninput="updateMyRetirement()">
+      <div class="sim-unit">Years old</div>
+    </div>
+    <div class="ret-control">
+      <div class="sim-label">Monthly budget in retirement</div>
+      <input class="sim-input" type="number" id="mr-monthly-need" value="3000" min="0" oninput="updateMyRetirement()">
+      <div class="sim-unit">€ / month</div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div id="mr-verdict-section">
+
+    <!-- Big verdict -->
+    <div id="mr-verdict-bar" style="padding: 28px 32px; border-bottom: var(--border-thick); border-top: var(--border-thick); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+      <div>
+        <div style="font-size:0.6rem; letter-spacing:5px; font-weight:700; text-transform:uppercase; opacity:0.5; margin-bottom:6px;">Verdict</div>
+        <div style="font-size:clamp(1.4rem,3vw,2.2rem); font-weight:900; letter-spacing:-1px; text-transform:uppercase; line-height:1;" id="mr-verdict-text">Enter your details above</div>
+      </div>
+      <div id="mr-verdict-badge" style="padding: 10px 20px; font-size:0.75rem; font-weight:900; letter-spacing:3px; text-transform:uppercase; border: var(--border-thick);">—</div>
+    </div>
+
+    <!-- 4 key numbers -->
+    <div class="results-grid results-grid-4" style="grid-template-columns: repeat(4,1fr);">
+      <div class="result-card">
+        <div class="result-label">Years to retire</div>
+        <div class="result-number" id="mr-years-left">—</div>
+        <div class="result-sub" id="mr-retire-at">—</div>
+      </div>
+      <div class="result-card highlight">
+        <div class="result-label">Your freedom number</div>
+        <div class="result-number" id="mr-freedom-number">—</div>
+        <div class="result-sub">Capital needed (4% rule)</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">On track to reach</div>
+        <div class="result-number" id="mr-projected">—</div>
+        <div class="result-sub">With current savings rate</div>
+      </div>
+      <div class="result-card" id="mr-gap-card">
+        <div class="result-label" id="mr-gap-label">Monthly gap</div>
+        <div class="result-number" id="mr-gap">—</div>
+        <div class="result-sub" id="mr-gap-sub">—</div>
+      </div>
+    </div>
+
+    <!-- Adjustments -->
+    <div class="breakdown-section" id="mr-adjustments">
+      <div class="breakdown-header">
+        <div class="breakdown-title" id="mr-adj-title">What needs to change</div>
+      </div>
+      <div id="mr-adj-content" class="mr-adj-grid" style="display:grid; grid-template-columns: repeat(3,1fr); border: var(--border-thick);">
+        <div style="padding:24px; border-right: var(--border);">
+          <div style="font-size:0.6rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.5; margin-bottom:8px;">Save this per month</div>
+          <div style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:700;" id="mr-needed-savings">—</div>
+          <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.5; margin-top:6px;">To hit your number</div>
+        </div>
+        <div style="padding:24px; border-right: var(--border); background:#f5f5e8;">
+          <div style="font-size:0.6rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.5; margin-bottom:8px;">You currently save</div>
+          <div style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:700;" id="mr-current-savings">—</div>
+          <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.5; margin-top:6px;">Per month</div>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-size:0.6rem; letter-spacing:4px; font-weight:700; text-transform:uppercase; opacity:0.5; margin-bottom:8px;">Alternative: retire at</div>
+          <div style="font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:700;" id="mr-alt-age">—</div>
+          <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.5; margin-top:6px;">With current savings rate</div>
+        </div>
+      </div>
+
+      <!-- Reality message -->
+      <div id="mr-reality-msg" style="margin-top: 24px; font-size:1rem; font-weight:700; line-height:1.6; max-width:700px;"></div>
+    </div>
+
+  </div>
+
+  <div style="padding: 20px 32px; opacity:0.5; font-size:0.7rem; letter-spacing:2px; font-weight:700; text-transform:uppercase; border-top: var(--border);">
+    ⚠ Based on a 7% annual investment return and 4% withdrawal rule. Indicative only. Does not account for inflation or pension income.
+  </div>
+
+  <div class="panel-cta">
+    <div class="cta-summary" style="flex-direction:column; gap:2px;">
+      <div class="cta-summary-label">Curious what changes if you move abroad?</div>
+      <div class="cta-summary-value" style="font-size:0.9rem; font-weight:700; opacity:0.7;">Same numbers. Different country. Different answer.</div>
+    </div>
+    <button class="cta-btn" onclick="showPanel('reverse')">
+      EXPLORE PARALLEL REALITY <span class="cta-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- PANEL 4: PARALLEL REALITY -->
+<div class="panel" id="panel-reverse">
+
+  <div class="step-header">
+    <div>
+      <div class="step-number">Optional · Step 4 of 4</div>
+      <div class="step-title">Parallel Reality</div>
+    </div>
+    <div class="step-desc">Your numbers, different country. See where your savings take you.</div>
+  </div>
+
+  <!-- Lifestyle filter -->
+  <div class="lifestyle-bar" id="rv-lifestyle-bar">
+    <button class="lifestyle-btn active" onclick="setRvLifestyle('normal')" id="rv-ls-normal">
+      <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="11" rx="1"/><path d="M9 21V12h6v9"/><path d="M1 10l11-7 11 7"/></svg>
+      STANDARD
+      <span class="ls-desc">Good life, smart budget</span>
+    </button>
+    <button class="lifestyle-btn" onclick="setRvLifestyle('rich')" id="rv-ls-rich">
+      <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M3 17l2-6h14l2 6M3 17v3h18v-3"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="5" r="1"/></svg>
+      PREMIUM
+      <span class="ls-desc">No awkward moments checking the bill</span>
+    </button>
+    <button class="lifestyle-btn" onclick="setRvLifestyle('famous')" id="rv-ls-famous">
+      <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+      DIVA
+      <span class="ls-desc">Money is not the conversation</span>
+    </button>
+  </div>
+
+  <!-- Context bar: shows what numbers are being used -->
+  <div id="rv-context-bar" style="border-bottom: var(--border-thick); padding: 14px 32px; background: var(--yellow); display:flex; gap:32px; flex-wrap:wrap; align-items:baseline;">
+    <div>
+      <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6;">Monthly savings used</span>
+      <div style="font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700;" id="rv-ctx-savings">—</div>
+    </div>
+    <div>
+      <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6;">Return rate</span>
+      <div style="font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700;" id="rv-ctx-rate">—</div>
+    </div>
+    <div>
+      <span style="font-size:0.6rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.6;">Your current age</span>
+      <div style="font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700;" id="rv-ctx-age">—</div>
+    </div>
+    <div style="margin-left:auto; font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; opacity:0.5; align-self:center;">
+      From your steps 1–3 ↑
+    </div>
+  </div>
+
+  <!-- Empty state if no data -->
+  <div id="rv-empty" style="display:none; padding:60px 32px; text-align:center; border-bottom: var(--border-thick);">
+    <div style="font-size:2rem; font-weight:900; text-transform:uppercase; letter-spacing:-1px; opacity:0.15; margin-bottom:12px;">No data yet</div>
+    <div style="font-size:0.75rem; letter-spacing:3px; font-weight:700; text-transform:uppercase; opacity:0.5;">Complete steps 1 and 2 first, then come back here.</div>
+  </div>
+
+  <!-- Cards -->
+  <div id="rv-cards-wrap" style="padding: 32px; display:none;">
+    <div id="rv-section-smart"></div>
+    <div id="rv-section-dream" style="margin-top: 40px;"></div>
+  </div>
+
+  <div style="padding: 16px 32px; border-top: 1px solid #ddd; font-size:0.75rem; letter-spacing:2px; font-weight:700; text-transform:uppercase; opacity:0.5;">
+    Numbers are estimates. Real life costs vary. Use this as a starting point, not a guarantee.
+  </div>
+
+  <div class="panel-cta">
+    <div class="cta-summary" style="flex-direction:column; gap:2px;">
+      <div class="cta-summary-label">That's your full financial picture.</div>
+      <div class="cta-summary-value" style="font-size:0.9rem; font-weight:700; opacity:0.7;">Change your numbers anytime. The plan updates instantly.</div>
+    </div>
+    <button class="cta-btn" onclick="showPanel('setup')">
+      START OVER <span class="cta-arrow">↺</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ============ STATE ============
+let state = {
+  income: 0,
+  expenses: 0,
+  available: 0,
+  savingsAmount: 0
+};
+
+// ============ NAVIGATION ============
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const tabMap = { setup: '01', simulation: '02', myretirement: '03', reverse: '04' };
+  const code = tabMap[name];
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.textContent.trim().startsWith(code)) t.classList.add('active');
+  });
+  if (name === 'simulation') {
+    chartCtx = null;
+    requestAnimationFrame(() => {
+      selectFund(currentFund);
+      updateSim();
+    });
+  }
+  if (name === 'myretirement') { updateMyRetirement(); }
+  if (name === 'reverse') { updateReverse(); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgressBar(active) {
+  const order = ['setup', 'simulation', 'myretirement', 'reverse'];
+  const idx = order.indexOf(active);
+  order.forEach((name, i) => {
+    const el = document.getElementById('prog-' + name);
+    if (!el) return;
+    el.classList.remove('done', 'active', 'locked');
+    if (i < idx) el.classList.add('done');
+    else if (i === idx) el.classList.add('active');
+    else el.classList.add('locked');
+    el.style.opacity = (name === 'reverse' && i > idx) ? '0.4' : '';
+  });
+}
+
+// ============ ADD/DELETE ROWS ============
+const rowLabels = {
+  income: ['Freelance', 'Investments', 'Rental income', 'Other income', 'Bonus', 'Pension'],
+  expense: ['Groceries', 'Internet', 'Subscriptions', 'Insurance', 'Gym', 'Loan', 'Other expenses']
+};
+let rowCounts = { income: 1, expense: 3 };
+
+function addRow(type) {
+  const container = document.getElementById(type === 'income' ? 'income-rows' : 'expense-rows');
+  const labels = rowLabels[type];
+  const label = labels[rowCounts[type] % labels.length];
+  rowCounts[type]++;
+
+  const row = document.createElement('div');
+  row.className = 'field-row';
+  row.innerHTML = `
+    <div class="field-label" contenteditable="true" style="outline:none">${label}</div>
+    <input class="${type}-input field-input" type="number" placeholder="0" min="0">
+    <span class="currency-symbol">€</span>
+    <button class="delete-btn" onclick="deleteRow(this)" title="Remove">×</button>
+  `;
+  container.appendChild(row);
+}
+
+function deleteRow(btn) {
+  const row = btn.closest('.field-row');
+  const container = row.parentElement;
+  if (container.querySelectorAll('.field-row').length > 1) {
+    row.remove();
+  }
+}
+
+// ============ CALCULATE ============
+function fmt(n) {
+  return '€' + Math.round(n).toLocaleString('es-ES');
+}
+
+function calculate() {
+  const incomes = [...document.querySelectorAll('.income-input')].map(i => parseFloat(i.value) || 0);
+  const expenses = [...document.querySelectorAll('.expense-input')].map(i => parseFloat(i.value) || 0);
+
+  const totalIncome = incomes.reduce((a, b) => a + b, 0);
+  const totalExpenses = expenses.reduce((a, b) => a + b, 0);
+  const available = totalIncome - totalExpenses;
+
+  state.income = totalIncome;
+  state.expenses = totalExpenses;
+  state.available = available;
+
+  if (totalIncome === 0) return;
+
+  // Show results
+  document.getElementById('results-section').classList.add('visible');
+
+  // Summary cards
+  document.getElementById('res-income').textContent = fmt(totalIncome);
+  document.getElementById('res-expenses').textContent = fmt(totalExpenses);
+  const expPct = Math.round((totalExpenses / totalIncome) * 100);
+  document.getElementById('res-expenses-pct').textContent = expPct + '% of total';
+
+  // Available
+  document.getElementById('res-available').textContent = fmt(Math.max(available, 0));
+
+  // 50/30/20
+  const recommended50 = totalIncome * 0.5;
+  const recommended30 = totalIncome * 0.3;
+  const recommended20 = totalIncome * 0.2;
+
+  // Real distribution
+  const fixedPct = Math.min((totalExpenses / totalIncome) * 100, 100);
+  const remaining = Math.max(totalIncome - totalExpenses, 0);
+  const funAmount = remaining * (30 / 50); // 30 parts of remaining 50
+  const savingsAmount = remaining * (20 / 50); // 20 parts of remaining 50
+
+  state.savingsAmount = savingsAmount;
+
+  const funPct = (funAmount / totalIncome) * 100;
+  const savingsPct = (savingsAmount / totalIncome) * 100;
+
+  // Warning
+  const warningEl = document.getElementById('warning-banner');
+  if (totalExpenses > recommended50) {
+    warningEl.classList.add('visible');
+  } else {
+    warningEl.classList.remove('visible');
+  }
+
+  // Bar
+  if (totalExpenses <= recommended50) {
+    document.getElementById('bar-fixed').style.width = fixedPct + '%';
+    document.getElementById('bar-fixed').textContent = Math.round(fixedPct) + '%';
+    document.getElementById('bar-fun').style.width = funPct + '%';
+    document.getElementById('bar-fun').textContent = Math.round(funPct) + '%';
+    document.getElementById('bar-savings').style.width = savingsPct + '%';
+    document.getElementById('bar-savings').textContent = Math.round(savingsPct) + '%';
+    document.getElementById('bar-savings').className = 'bar-segment savings';
+  } else {
+    // overflow
+    document.getElementById('bar-fixed').style.width = '100%';
+    document.getElementById('bar-fixed').textContent = Math.round(fixedPct) + '%';
+    document.getElementById('bar-fun').style.width = '0%';
+    document.getElementById('bar-fun').textContent = '';
+    document.getElementById('bar-savings').style.width = '0%';
+    document.getElementById('bar-savings').textContent = '';
+  }
+
+  // Status
+  const statusEl = document.getElementById('breakdown-status');
+  if (totalExpenses <= recommended50) {
+    statusEl.textContent = '✓ ON TRACK';
+    statusEl.style.background = '#4ADE80';
+    statusEl.style.border = '3px solid #22c55e';
+  } else {
+    statusEl.textContent = '✗ OUT OF RANGE';
+    statusEl.style.background = '#FF2B2B';
+    statusEl.style.color = '#fff';
+    statusEl.style.border = '3px solid #cc0000';
+  }
+
+  // Legend
+  // Legend amounts
+  document.getElementById('leg-fixed').textContent = fmt(totalExpenses);
+  document.getElementById('leg-fun').textContent = fmt(funAmount);
+  document.getElementById('leg-savings').textContent = fmt(savingsAmount);
+  document.getElementById('leg-savings-pct').textContent = `Half invested (${fmt(Math.round(savingsAmount/2))}). Half saved for your next goal (${fmt(Math.round(savingsAmount/2))}).`;
+
+  // Hero message
+  const heroEl = document.getElementById('hero-message');
+  const heroText = document.getElementById('hero-text');
+  if (heroEl && heroText && funAmount > 0) {
+    heroEl.style.display = 'block';
+    heroText.textContent = fmt(funAmount) + ' / month';
+  }
+
+  // Sync savings to simulation (panel 2 will update on open)
+  document.getElementById('sim-monthly').value = Math.round(savingsAmount);
+
+  // Show CTA
+  const cta = document.getElementById('setup-cta');
+  cta.style.display = 'flex';
+  document.getElementById('cta-savings-val').textContent = fmt(savingsAmount) + ' / month going to work for you';
+
+  // Mark step 1 done in progress
+  const prog = document.getElementById('prog-setup');
+  if (prog) { prog.classList.remove('active'); prog.classList.add('done'); }
+  const progSim = document.getElementById('prog-simulation');
+  if (progSim) { progSim.classList.remove('locked'); progSim.classList.add('active'); }
+
+  // Scroll to CTA
+  cta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ============ SIMULATION CHART ============
+let chartCtx, chartData;
+
+function initChart() {
+  const canvas = document.getElementById('simChart');
+  if (!canvas) return;
+  chartCtx = canvas.getContext('2d');
+}
+
+function updateSim() {
+  initChart();
+  if (!chartCtx) return;
+
+  const monthly = parseFloat(document.getElementById('sim-monthly').value) || 0;
+  const years = parseInt(document.getElementById('sim-years').value) || 20;
+  const rate = parseFloat(document.getElementById('sim-rate').value) / 100;
+  const monthlyRate = rate / 12;
+
+  const labels = [];
+  const invested = [];
+  const portfolio = [];
+
+  for (let y = 0; y <= years; y++) {
+    const months = y * 12;
+    let fv = 0;
+    for (let m = 0; m < months; m++) {
+      fv = (fv + monthly) * (1 + monthlyRate);
+    }
+    labels.push(y === 0 ? 'Today' : 'Year ' + y);
+    invested.push(monthly * months);
+    portfolio.push(Math.round(fv));
+  }
+
+  const finalVal = portfolio[portfolio.length - 1];
+  const totalInvested = monthly * years * 12;
+  const gains = finalVal - totalInvested;
+  const mult = totalInvested > 0 ? (finalVal / totalInvested).toFixed(1) : '—';
+
+  document.getElementById('chart-final-val').textContent = '€' + finalVal.toLocaleString('es-ES');
+  document.getElementById('stat-invested').textContent = '€' + Math.round(totalInvested).toLocaleString('es-ES');
+  document.getElementById('stat-final').textContent = '€' + finalVal.toLocaleString('es-ES');
+  document.getElementById('stat-gains').textContent = '€' + Math.round(gains).toLocaleString('es-ES');
+  document.getElementById('stat-mult').textContent = mult + 'x';
+
+  // Sync CTA panel 2
+  const ctaYears = document.getElementById('cta-sim-years');
+  const ctaVal = document.getElementById('cta-sim-val');
+  if (ctaYears) ctaYears.textContent = years;
+  if (ctaVal) ctaVal.textContent = '€' + finalVal.toLocaleString('es-ES');
+
+  drawChart(labels, invested, portfolio);
+}
+
+function drawChart(labels, invested, portfolio) {
+  const canvas = document.getElementById('simChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const wrapper = canvas.parentElement;
+  const W = wrapper.offsetWidth || wrapper.getBoundingClientRect().width || 800;
+  const H = 260;
+  canvas.width = W;
+  canvas.height = H;
+  if (W === 0) return;
+
+  const maxVal = Math.max(...portfolio) * 1.05;
+  const pad = { top: 20, right: 20, bottom: 40, left: 70 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+  const n = labels.length;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid lines
+  ctx.strokeStyle = '#e0e0d8';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + chartH - (i / 4) * chartH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(pad.left + chartW, y);
+    ctx.stroke();
+    const val = (maxVal / 4) * i;
+    ctx.fillStyle = '#888';
+    ctx.font = '700 10px Space Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('€' + Math.round(val / 1000) + 'k', pad.left - 8, y + 4);
+  }
+
+  // Invested area
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const x = pad.left + (i / (n - 1)) * chartW;
+    const y = pad.top + chartH - (invested[i] / maxVal) * chartH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.lineTo(pad.left + chartW, pad.top + chartH);
+  ctx.lineTo(pad.left, pad.top + chartH);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(10,10,10,0.12)';
+  ctx.fill();
+
+  // Portfolio area
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const x = pad.left + (i / (n - 1)) * chartW;
+    const y = pad.top + chartH - (portfolio[i] / maxVal) * chartH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.lineTo(pad.left + chartW, pad.top + chartH);
+  ctx.lineTo(pad.left, pad.top + chartH);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(255, 230, 0, 0.5)';
+  ctx.fill();
+
+  // Portfolio line
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const x = pad.left + (i / (n - 1)) * chartW;
+    const y = pad.top + chartH - (portfolio[i] / maxVal) * chartH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = '#0a0a0a';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // X labels
+  ctx.fillStyle = '#888';
+  ctx.font = '700 9px Barlow Condensed, sans-serif';
+  ctx.textAlign = 'center';
+  const step = Math.max(1, Math.floor(n / 8));
+  for (let i = 0; i < n; i += step) {
+    const x = pad.left + (i / (n - 1)) * chartW;
+    ctx.fillText(labels[i], x, H - 8);
+  }
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('panel-simulation').classList.contains('active')) {
+    chartCtx = null;
+    initChart();
+    updateSim();
+  }
+});
+
+// ============ RETIREMENT ============
+// costs: { humble, normal, rich, famous } — monthly in EUR
+const COUNTRIES = [
+  { flag: '🇪🇸', name: 'Spain',     city: 'Madrid',      costs: { humble: 900,  normal: 1800, rich: 3500,  famous: 8000  } },
+  { flag: '🇵🇹', name: 'Portugal',  city: 'Lisbon',      costs: { humble: 750,  normal: 1400, rich: 2800,  famous: 6500  } },
+  { flag: '🇲🇽', name: 'Mexico',    city: 'Mexico City', costs: { humble: 500,  normal: 900,  rich: 2000,  famous: 5500  } },
+  { flag: '🇹🇭', name: 'Thailand',  city: 'Chiang Mai',  costs: { humble: 400,  normal: 700,  rich: 1600,  famous: 4500  } },
+  { flag: '🇨🇴', name: 'Colombia',  city: 'Medellín',    costs: { humble: 450,  normal: 800,  rich: 1800,  famous: 5000  } },
+  { flag: '🇩🇪', name: 'Germany',   city: 'Berlin',      costs: { humble: 1200, normal: 2400, rich: 4500,  famous: 10000 } },
+  { flag: '🇫🇷', name: 'France',    city: 'Paris',       costs: { humble: 1400, normal: 2800, rich: 5500,  famous: 14000 } },
+  { flag: '🇯🇵', name: 'Japan',     city: 'Tokyo',       costs: { humble: 1000, normal: 1900, rich: 3800,  famous: 9000  } },
+  { flag: '🇺🇾', name: 'Uruguay',   city: 'Montevideo',  costs: { humble: 600,  normal: 1200, rich: 2500,  famous: 6000  } },
+];
+
+const LIFESTYLE_LABELS = {
+  normal: { label: 'STANDARD', desc: 'Own flat, occasional dining out, yearly trips', emoji: '🏡' },
+  rich:   { label: 'PREMIUM',  desc: 'Great neighborhood, frequent travel, dining and leisure without limits', emoji: '🏖️' },
+  famous: { label: 'DIVA',     desc: 'Penthouse, staff, business class, all the good stuff', emoji: '🛥️' },
+};
+
+let currentLifestyle = 'normal';
+
+function setLifestyle(ls) {
+  currentLifestyle = ls;
+  document.querySelectorAll('#panel-retirement .lifestyle-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('ls-' + ls).classList.add('active');
+  updateRetirement();
+}
+
+function updateRetirement() {
+  const age = parseInt(document.getElementById('ret-age').value) || 30;
+  const monthlySavings = parseFloat(document.getElementById('ret-savings').value) || 0;
+  const currentSavings = parseFloat(document.getElementById('ret-current').value) || 0;
+  const rate = 0.07;
+  const withdrawalRate = 0.04;
+  const monthlyRate = rate / 12;
+  const ls = currentLifestyle;
+
+  const results = COUNTRIES.map(c => {
+    const cost = c.costs[ls];
+    const annualCost = cost * 12;
+    const neededNestEgg = annualCost / withdrawalRate;
+
+    let months = 0;
+    let portfolio = currentSavings;
+
+    if (monthlySavings <= 0 && currentSavings < neededNestEgg) {
+      return { ...c, cost, retireAge: null, years: null, nestEgg: neededNestEgg };
+    }
+
+    while (portfolio < neededNestEgg && months < 600) {
+      portfolio = (portfolio + monthlySavings) * (1 + monthlyRate);
+      months++;
+    }
+
+    const retireAge = age + Math.ceil(months / 12);
+    return { ...c, cost, retireAge, years: Math.ceil(months / 12), nestEgg: neededNestEgg };
+  });
+
+  const valid = results.filter(r => r.retireAge !== null);
+  const minAge = valid.length > 0 ? Math.min(...valid.map(r => r.retireAge)) : null;
+
+  const lsInfo = LIFESTYLE_LABELS[ls];
+
+  const grid = document.getElementById('countries-grid');
+  grid.innerHTML = results.map(r => {
+    const isBest = r.retireAge === minAge && minAge !== null;
+    const isImpossible = r.retireAge === null;
+    const isOld = r.retireAge > 80;
+    let cardClass = 'country-card';
+    if (isBest) cardClass += ' highlight-card';
+    if (isImpossible || isOld) cardClass += ' danger-card';
+
+    const ageDisplay = isImpossible ? '∞' : r.retireAge;
+    const yearsDisplay = isImpossible
+      ? 'Not possible with current savings'
+      : r.years === 0 ? 'You can already!'
+      : `In ${r.years} years`;
+
+    const nestEggFmt = '€' + Math.round(r.nestEgg / 1000) + 'k needed';
+
+    return `
+      <div class="${cardClass}">
+        ${isBest ? '<div class="best-badge">BEST OPTION</div>' : ''}
+        <div class="country-flag">${r.flag}</div>
+        <div class="country-name">${r.name}</div>
+        <div class="country-cost">€${r.cost.toLocaleString('en-US')}/mo · ${r.city}</div>
+        <div class="retire-age-label">Retirement age</div>
+        <div class="retire-age">${ageDisplay}</div>
+        <div class="retire-years">${yearsDisplay}</div>
+        <div style="font-size:0.65rem; letter-spacing:2px; font-weight:700; opacity:0.45; margin-top:8px; text-transform:uppercase;">${nestEggFmt}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============ PARALLEL REALITY ============
+let rvLifestyle = 'normal';
+
+function setRvLifestyle(ls) {
+  rvLifestyle = ls;
+  document.querySelectorAll('#rv-lifestyle-bar .lifestyle-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('rv-ls-' + ls).classList.add('active');
+  updateReverse();
+}
+
+const RV_COSTS = {
+  // SMART MOVE countries
+  'Georgia':   { flag:'🇬🇪', city:'Tbilisi',     cat:'smart', costs:[1200, 2200, 5000]  },
+  'Thailand':  { flag:'🇹🇭', city:'Chiang Mai',  cat:'smart', costs:[1800, 3200, 6500]  },
+  'Colombia':  { flag:'🇨🇴', city:'Medellín',    cat:'smart', costs:[1800, 3200, 6500]  },
+  'Bali':      { flag:'🇮🇩', city:'Canggu',      cat:'smart', costs:[1600, 3000, 6500]  },
+  'Mexico':    { flag:'🇲🇽', city:'Mexico City', cat:'smart', costs:[2000, 3500, 7000]  },
+  'Portugal':  { flag:'🇵🇹', city:'Lisbon',      cat:'smart', costs:[2500, 4200, 8500]  },
+  'Costa Rica':{ flag:'🇨🇷', city:'San José',    cat:'smart', costs:[2200, 4000, 8000]  },
+  'Uruguay':   { flag:'🇺🇾', city:'Montevideo',  cat:'smart', costs:[2200, 3800, 7500]  },
+  // DREAM DESTINATION countries
+  'Japan':     { flag:'🇯🇵', city:'Tokyo',       cat:'dream', costs:[3200, 5200, 10500] },
+  'Spain':     { flag:'🇪🇸', city:'Madrid',      cat:'dream', costs:[3000, 5000, 10000] },
+  'Bahamas':   { flag:'🇧🇸', city:'Nassau',      cat:'dream', costs:[3800, 6500, 14000] },
+  'Maldives':  { flag:'🇲🇻', city:'Malé',        cat:'dream', costs:[4500, 8000, 18000] },
+  'Switzerland':{ flag:'🇨🇭', city:'Geneva',     cat:'dream', costs:[5500, 9000, 18000] },
+  'Iceland':   { flag:'🇮🇸', city:'Reykjavik',   cat:'dream', costs:[4200, 7000, 15000] },
+};
+
+const LS_IDX = { normal: 0, rich: 1, famous: 2 };
+
+function updateReverse() {
+  const monthlySavings = parseFloat(document.getElementById('sim-monthly').value) || 0;
+  const rateSlider = document.getElementById('sim-rate');
+  const annualRate = rateSlider ? parseFloat(rateSlider.value) / 100 : 0.07;
+  const monthlyRate = annualRate / 12;
+  const mrAge = document.getElementById('mr-age');
+  const currentAge = mrAge ? parseInt(mrAge.value) || 30 : 30;
+  const lsIdx = LS_IDX[rvLifestyle];
+  const hasData = monthlySavings > 0;
+
+  // Context bar
+  const ctxSavings = document.getElementById('rv-ctx-savings');
+  const ctxRate = document.getElementById('rv-ctx-rate');
+  const ctxAge = document.getElementById('rv-ctx-age');
+  if (ctxSavings) ctxSavings.textContent = hasData ? fmt(monthlySavings) + '/mo' : 'Not set';
+  if (ctxRate) ctxRate.textContent = rateSlider ? rateSlider.value + '%/yr' : '7%/yr';
+  if (ctxAge) ctxAge.textContent = currentAge + ' yrs';
+
+  const emptyEl = document.getElementById('rv-empty');
+  const cardsWrap = document.getElementById('rv-cards-wrap');
+
+  if (!hasData) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (cardsWrap) cardsWrap.style.display = 'none';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+  if (cardsWrap) cardsWrap.style.display = 'block';
+
+  // Calculate retire age for each country
+  const results = Object.entries(RV_COSTS).map(([name, data]) => {
+    const monthlyCost = data.costs[lsIdx];
+    const freedomNumber = (monthlyCost * 12) / 0.04;
+    let yearsToRetire = null;
+    let portfolio = 0;
+    for (let m = 1; m <= 720; m++) {
+      portfolio = (portfolio + monthlySavings) * (1 + monthlyRate);
+      if (portfolio >= freedomNumber) {
+        yearsToRetire = Math.ceil(m / 12);
+        break;
+      }
+    }
+    const retireAge = yearsToRetire !== null ? currentAge + yearsToRetire : null;
+    return { name, ...data, monthlyCost, freedomNumber, yearsToRetire, retireAge };
+  });
+
+  // Find earliest overall
+  const allValid = results.filter(r => r.retireAge !== null);
+  const earliestAge = allValid.length > 0 ? Math.min(...allValid.map(r => r.retireAge)) : null;
+
+  // Split by category and sort within each
+  const smart = results.filter(r => r.cat === 'smart').sort((a,b) => {
+    if (!a.retireAge) return 1;
+    if (!b.retireAge) return -1;
+    return a.retireAge - b.retireAge;
+  });
+  const dream = results.filter(r => r.cat === 'dream').sort((a,b) => {
+    if (!a.retireAge) return 1;
+    if (!b.retireAge) return -1;
+    return a.retireAge - b.retireAge;
+  });
+
+  function renderCard(r) {
+    const isBest = r.retireAge === earliestAge && earliestAge !== null;
+    const isImpossible = r.retireAge === null;
+    let cardClass = 'rv-card';
+    if (isBest) cardClass += ' rv-card-best';
+    if (isImpossible) cardClass += ' rv-card-impossible';
+
+    const ageDisplay = isImpossible ? '—' : r.retireAge;
+    const yearsDisplay = isImpossible
+      ? 'Keep saving'
+      : r.yearsToRetire === 0 ? 'Already there'
+      : `in ${r.yearsToRetire} year${r.yearsToRetire !== 1 ? 's' : ''}`;
+
+    return `
+      <div class="${cardClass}">
+        ${isBest ? '<div class="rv-earliest-badge">EARLIEST</div>' : ''}
+        <div class="rv-card-flag">${r.flag}</div>
+        <div class="rv-card-name">${r.name}</div>
+        <div class="rv-card-city">${r.city}</div>
+        <div class="rv-card-cost">${fmt(r.monthlyCost)}<span style="font-size:0.7rem; opacity:0.6;">/mo</span></div>
+        <div class="rv-card-retire-label">Retire at</div>
+        <div class="rv-card-age">${ageDisplay}</div>
+        <div class="rv-card-years">${yearsDisplay}</div>
+        <div class="rv-card-freedom">Freedom number: €${Math.round(r.freedomNumber/1000)}k</div>
+      </div>
+    `;
+  }
+
+  const sectionSmart = document.getElementById('rv-section-smart');
+  const sectionDream = document.getElementById('rv-section-dream');
+
+  if (sectionSmart) sectionSmart.innerHTML = `
+    <div class="rv-section-label">Smart Move — Your money goes further here</div>
+    <div class="rv-cards-grid">${smart.map(renderCard).join('')}</div>
+  `;
+
+  if (sectionDream) sectionDream.innerHTML = `
+    <div class="rv-section-label">Dream Destination — Worth knowing the number</div>
+    <div class="rv-cards-grid">${dream.map(renderCard).join('')}</div>
+  `;
+}
+
+// ============ FUND DATA ============
+const FUNDS = {
+  sp500: {
+    name: 'S&P 500 (SPY)',
+    desc: 'Top 500 US companies. The most tracked index in the world.',
+    cagr: 10.0,
+    color: '#FFE600',
+    returns: {
+      2000: -9.1, 2001: -11.9, 2002: -22.1, 2003: 28.7, 2004: 10.9,
+      2005: 4.9,  2006: 15.8,  2007: 5.1,   2008: -37.0, 2009: 26.5,
+      2010: 15.1, 2011: 2.1,   2012: 16.0,  2013: 32.4,  2014: 13.7,
+      2015: 1.4,  2016: 12.0,  2017: 21.8,  2018: -4.4,  2019: 31.5,
+      2020: 18.4, 2021: 28.7,  2022: -18.2, 2023: 26.3,  2024: 25.0,
+      2025: 17.7
+    }
+  },
+  qqq: {
+    name: 'QQQ (Nasdaq 100)',
+    desc: 'Top 100 non-financial Nasdaq companies. High tech exposure.',
+    cagr: 14.0,
+    color: '#60a5fa',
+    returns: {
+      2000: -36.1, 2001: -33.3, 2002: -37.4, 2003: 49.7, 2004: 10.5,
+      2005: 1.6,   2006: 7.1,   2007: 19.0,  2008: -41.7, 2009: 54.7,
+      2010: 20.0,  2011: 3.4,   2012: 18.1,  2013: 36.6,  2014: 19.2,
+      2015: 9.5,   2016: 7.1,   2017: 32.7,  2018: -0.1,  2019: 39.0,
+      2020: 48.6,  2021: 27.4,  2022: -32.6, 2023: 54.9,  2024: 25.7,
+      2025: 19.5
+    }
+  },
+  vti: {
+    name: 'VTI (Total US Market)',
+    desc: 'The entire US stock market: large, mid and small cap.',
+    cagr: 10.0,
+    color: '#4ade80',
+    returns: {
+      2005: 6.0,  2006: 15.6, 2007: 5.5,  2008: -37.0, 2009: 28.8,
+      2010: 17.3, 2011: 1.0,  2012: 16.4, 2013: 33.5,  2014: 12.6,
+      2015: 0.4,  2016: 12.7, 2017: 21.2, 2018: -5.2,  2019: 30.7,
+      2020: 21.0, 2021: 25.7, 2022: -19.5, 2023: 26.1, 2024: 23.8,
+      2025: 15.5
+    }
+  },
+  vwrl: {
+    name: 'VWRL (FTSE All-World)',
+    desc: 'Over 4,000 companies across 45 countries. Total global diversification.',
+    cagr: 9.0,
+    color: '#f97316',
+    returns: {
+      2013: 24.1, 2014: 5.3,  2015: -2.6, 2016: 7.8,  2017: 24.4,
+      2018: -9.7, 2019: 25.7, 2020: 16.1, 2021: 18.5, 2022: -18.2,
+      2023: 22.3, 2024: 17.7, 2025: 22.4
+    }
+  },
+  bnd: {
+    name: 'BND (Total Bond Market)',
+    desc: 'High-quality US bonds. Low risk, low return.',
+    cagr: 3.0,
+    color: '#a78bfa',
+    returns: {
+      2008: 6.9,  2009: 3.6,  2010: 6.2,  2011: 7.9,  2012: 3.9,
+      2013: -2.1, 2014: 5.8,  2015: 0.6,  2016: 2.5,  2017: 3.6,
+      2018: -0.1, 2019: 8.8,  2020: 7.7,  2021: -1.9, 2022: -13.1,
+      2023: 5.7,  2024: 1.4
+    }
+  }
+};
+
+let currentFund = 'sp500';
+
+function selectFund(id) {
+  currentFund = id;
+  document.querySelectorAll('.fund-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('fund-' + id);
+  if (btn) btn.classList.add('active');
+
+  const f = FUNDS[id];
+  const nameEl = document.getElementById('fi-name');
+  const descEl = document.getElementById('fi-desc');
+  const cagrEl = document.getElementById('fi-cagr');
+  const bestEl = document.getElementById('fi-best');
+  const worstEl = document.getElementById('fi-worst');
+
+  if (nameEl) nameEl.textContent = f.name;
+  if (descEl) descEl.textContent = f.desc;
+  if (cagrEl) cagrEl.textContent = f.cagr.toFixed(1) + '%/yr';
+
+  const vals = Object.values(f.returns);
+  const best = Math.max(...vals);
+  const worst = Math.min(...vals);
+  const bestYear = Object.keys(f.returns).find(y => f.returns[y] === best);
+  const worstYear = Object.keys(f.returns).find(y => f.returns[y] === worst);
+  if (bestEl) bestEl.textContent = '+' + best.toFixed(1) + '% (' + bestYear + ')';
+  if (worstEl) worstEl.textContent = worst.toFixed(1) + '% (' + worstYear + ')';
+
+  // Sync slider to fund default
+  const rateSlider = document.getElementById('sim-rate');
+  const rateVal = document.getElementById('sim-rate-val');
+  if (rateSlider) rateSlider.value = f.cagr;
+  if (rateVal) rateVal.textContent = f.cagr + '%';
+
+  // Only draw if panel is visible
+  if (document.getElementById('panel-simulation').classList.contains('active')) {
+    updateSim();
+    renderHistoryBars(id);
+  }
+}
+
+function toggleHistory() {
+  const drawer = document.getElementById('history-drawer');
+  const arrow = document.getElementById('history-arrow');
+  const btn = document.getElementById('history-toggle-btn');
+  const isOpen = drawer.style.display !== 'none';
+  drawer.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  btn.style.background = isOpen ? 'var(--black)' : '#1a1a1a';
+  if (!isOpen) renderHistoryBars(currentFund);
+}
+
+function renderHistoryBars(id) {
+  const f = FUNDS[id];
+  const returns = f.returns;
+  const years = Object.keys(returns).sort();
+  const color = f.color;
+  const container = document.getElementById('history-bars');
+
+  container.innerHTML = `
+    <canvas id="historyCanvas" style="width:100%; display:block;"></canvas>
+    <div style="display:flex; gap:20px; margin-top:16px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div style="width:12px; height:12px; background:${color};"></div>
+        <span style="font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#666;">Positive year</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div style="width:12px; height:12px; background:#FF2B2B;"></div>
+        <span style="font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#666;">Negative year</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div style="width:12px; height:12px; background:${color}; opacity:0.5;"></div>
+        <span style="font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#666;">2025 (through April)</span>
+      </div>
+    </div>
+  `;
+
+  const canvas = document.getElementById('historyCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  const W = container.offsetWidth || 800;
+  const H = 260;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const n = years.length;
+  const pad = { top: 28, right: 10, bottom: 36, left: 10 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+  const barW = Math.floor(chartW / n) - 2;
+  const gap = Math.floor(chartW / n);
+
+  const maxAbs = Math.max(...Object.values(returns).map(Math.abs));
+  const zeroY = pad.top + chartH * (maxAbs / (maxAbs * 2)); // midline
+
+  // Zero line
+  ctx.strokeStyle = '#444';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, zeroY);
+  ctx.lineTo(W - pad.right, zeroY);
+  ctx.stroke();
+
+  years.forEach((y, i) => {
+    const val = returns[y];
+    const isPos = val >= 0;
+    const is2025 = String(y) === '2025';
+    const barColor = isPos ? color : '#FF2B2B';
+    const barH = Math.max(2, Math.abs(val) / maxAbs * (chartH / 2 - 4));
+    const x = pad.left + i * gap;
+    const barX = x + (gap - barW) / 2;
+
+    // Bar
+    ctx.globalAlpha = is2025 ? 0.55 : 1;
+    ctx.fillStyle = barColor;
+    if (isPos) {
+      ctx.fillRect(barX, zeroY - barH, barW, barH);
+    } else {
+      ctx.fillRect(barX, zeroY, barW, barH);
+    }
+    ctx.globalAlpha = 1;
+
+    // Value label — inside bar if tall enough, outside if not
+    const labelVal = (isPos ? '+' : '') + val.toFixed(0) + '%';
+    ctx.font = `700 ${Math.max(8, Math.min(10, barW - 2))}px Space Mono, monospace`;
+    ctx.textAlign = 'center';
+    const labelX = barX + barW / 2;
+
+    if (barH > 16) {
+      // Inside bar
+      ctx.fillStyle = isPos ? '#000' : '#fff';
+      if (isPos) {
+        ctx.fillText(labelVal, labelX, zeroY - barH + 10);
+      } else {
+        ctx.fillText(labelVal, labelX, zeroY + barH - 4);
+      }
+    } else {
+      // Outside bar, above/below
+      ctx.fillStyle = barColor;
+      if (isPos) {
+        ctx.fillText(labelVal, labelX, zeroY - barH - 3);
+      } else {
+        ctx.fillText(labelVal, labelX, zeroY + barH + 10);
+      }
+    }
+
+    // Year label
+    ctx.fillStyle = '#666';
+    ctx.font = '700 9px Barlow Condensed, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(y, barX + barW / 2, H - pad.bottom + 14);
+  });
+}
+
+// ============ MY RETIREMENT ============
+function updateMyRetirement() {
+  const currentAge = parseInt(document.getElementById('mr-age').value) || 30;
+  const targetAge = parseInt(document.getElementById('mr-target-age').value) || 60;
+  const monthlyNeed = parseFloat(document.getElementById('mr-monthly-need').value) || 0;
+  const currentSavings = 0; // no longer collected separately
+  const monthlySavings = parseFloat(document.getElementById('sim-monthly').value) || 0;
+
+  const yearsLeft = Math.max(targetAge - currentAge, 1);
+  const monthsLeft = yearsLeft * 12;
+  const monthlyRate = 0.07 / 12; // 7% annual, conservative
+  const withdrawalRate = 0.04;
+
+  // Freedom number: capital needed
+  const freedomNumber = (monthlyNeed * 12) / withdrawalRate;
+
+  // What current savings rate projects to at target age
+  const growth = Math.pow(1 + monthlyRate, monthsLeft);
+  const projectedPortfolio = currentSavings * growth +
+    monthlySavings * ((growth - 1) / monthlyRate);
+
+  // Required monthly savings to hit freedom number
+  let requiredSavings = 0;
+  const pvGrown = currentSavings * growth;
+  if (freedomNumber > pvGrown) {
+    requiredSavings = (freedomNumber - pvGrown) * monthlyRate / (growth - 1);
+  }
+
+  // Alternative: at what age can they retire with current savings?
+  let altAge = null;
+  for (let y = yearsLeft + 1; y <= 50; y++) {
+    const m = y * 12;
+    const g = Math.pow(1 + monthlyRate, m);
+    const proj = currentSavings * g + monthlySavings * ((g - 1) / monthlyRate);
+    if (proj >= freedomNumber) {
+      altAge = currentAge + y;
+      break;
+    }
+  }
+  if (!altAge && projectedPortfolio >= freedomNumber) altAge = targetAge;
+
+  const gap = requiredSavings - monthlySavings;
+  const canRetire = projectedPortfolio >= freedomNumber && freedomNumber > 0;
+
+  // Update UI — guard every element
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+  set('mr-years-left', yearsLeft);
+  set('mr-retire-at', 'Retiring at ' + targetAge);
+  set('mr-freedom-number', '€' + Math.round(freedomNumber / 1000) + 'k');
+  set('mr-projected', '€' + Math.round(projectedPortfolio / 1000) + 'k');
+  set('mr-needed-savings', fmt(requiredSavings));
+  set('mr-current-savings', fmt(monthlySavings));
+  set('mr-alt-age', altAge ? altAge : '65+');
+
+  const verdictText  = document.getElementById('mr-verdict-text');
+  const verdictBadge = document.getElementById('mr-verdict-badge');
+  const verdictBar   = document.getElementById('mr-verdict-bar');
+  const gapCard      = document.getElementById('mr-gap-card');
+  const gapLabel     = document.getElementById('mr-gap-label');
+  const gapEl        = document.getElementById('mr-gap');
+  const gapSub       = document.getElementById('mr-gap-sub');
+  const adjTitle     = document.getElementById('mr-adj-title');
+  const realityMsg   = document.getElementById('mr-reality-msg');
+
+  if (!verdictText || !verdictBadge || !verdictBar) return;
+
+  if (monthlyNeed === 0) {
+    verdictText.textContent = 'Enter your retirement budget above';
+    verdictBadge.textContent = '—';
+    verdictBadge.style.background = 'transparent';
+    verdictBadge.style.color = '#000';
+    verdictBadge.style.border = '3px solid #ccc';
+    verdictBar.style.background = 'transparent';
+    if (gapEl) { gapEl.textContent = '—'; gapEl.style.color = 'inherit'; }
+    if (gapSub) gapSub.textContent = '—';
+    return;
+  }
+
+  if (canRetire) {
+    verdictText.textContent = 'You\'re on track to retire at ' + targetAge;
+    verdictBadge.textContent = '✓ ON TRACK';
+    verdictBadge.style.background = '#4ADE80';
+    verdictBadge.style.color = '#000';
+    verdictBadge.style.border = '3px solid #22c55e';
+    verdictBar.style.background = '#f0fdf4';
+
+    gapLabel.textContent = 'Monthly surplus';
+    gapEl.textContent = fmt(Math.abs(gap));
+    gapEl.style.color = '#16a34a';
+    gapSub.textContent = 'You save more than needed';
+    gapCard.style.background = '#f0fdf4';
+
+    adjTitle.textContent = 'You\'re good — here\'s the breakdown';
+
+    const surplusPct = Math.round((projectedPortfolio / freedomNumber - 1) * 100);
+    realityMsg.innerHTML = `<div style="padding-left:16px; border-left:4px solid #4ADE80; margin-bottom:10px;">
+      Your projected portfolio covers ${surplusPct > 0 ? surplusPct + '% more than' : 'exactly'} your freedom number. Keep the pace and don't touch the investments.
+    </div>
+    ${monthlySavings < requiredSavings * 1.2 ? `<div style="padding-left:16px; border-left:4px solid #0a0a0a; margin-bottom:10px;">
+      You're close to the minimum. A small income increase or expense cut gives you much more cushion.
+    </div>` : ''}`;
+
+  } else {
+    verdictText.textContent = 'Not enough with current savings to retire at ' + targetAge;
+    verdictBadge.textContent = '✗ GAP TO CLOSE';
+    verdictBadge.style.background = '#FF2B2B';
+    verdictBadge.style.color = '#fff';
+    verdictBadge.style.border = '3px solid #cc0000';
+    verdictBar.style.background = '#fff5f5';
+
+    gapLabel.textContent = 'Monthly gap';
+    gapEl.textContent = fmt(Math.max(gap, 0));
+    gapEl.style.color = '#FF2B2B';
+    gapSub.textContent = 'Extra you need to save per month';
+    gapCard.style.background = '#fff5f5';
+
+    adjTitle.textContent = 'Two ways to close the gap';
+
+    realityMsg.innerHTML = `
+      <div style="padding-left:16px; border-left:4px solid #FF2B2B; margin-bottom:10px;">
+        You need ${fmt(requiredSavings)}/month to hit your freedom number. You're currently saving ${fmt(monthlySavings)}/month — a gap of ${fmt(gap)}.
+      </div>
+      <div style="padding-left:16px; border-left:4px solid #0a0a0a; margin-bottom:10px;">
+        Option A: Increase your monthly savings by ${fmt(gap)} and retire at ${targetAge} as planned.
+      </div>
+      <div style="padding-left:16px; border-left:4px solid #0a0a0a; margin-bottom:10px;">
+        Option B: Keep your current savings rate and retire at ${altAge || '65+'} instead.
+      </div>
+    `;
+  }
+}
+
+// ============ SUMMARY ============
+function updateSummary() {
+  const income = state.income;
+  const monthlySavings = parseFloat(document.getElementById('sim-monthly').value) || 0;
+
+  // Portfolio from sim
+  const monthly = parseFloat(document.getElementById('sim-monthly').value) || 0;
+  const years = parseInt(document.getElementById('sim-years').value) || 20;
+  const rate = parseFloat(document.getElementById('sim-rate').value) / 100;
+  const monthlyRate = rate / 12;
+  let fv = 0;
+  for (let m = 0; m < years * 12; m++) {
+    fv = (fv + monthly) * (1 + monthlyRate);
+  }
+
+  const sumIncome = document.getElementById('sum-income');
+  const sumSavings = document.getElementById('sum-savings');
+  const sumPortfolio = document.getElementById('sum-portfolio');
+  const sumRetire = document.getElementById('sum-retire');
+
+  if (sumIncome) sumIncome.textContent = income > 0 ? fmt(income) + '/mo' : '—';
+  if (sumSavings) sumSavings.textContent = monthlySavings > 0 ? fmt(monthlySavings) + '/mo' : '—';
+  if (sumPortfolio) sumPortfolio.textContent = fv > 0 ? '€' + Math.round(fv / 1000) + 'k' : '—';
+  if (sumRetire) sumRetire.textContent = '—';
+}
+
+// ============ INIT ============
+updateMyRetirement();
+updateReverse();
+selectFund('sp500');
+</script>
+</body>
+</html>
