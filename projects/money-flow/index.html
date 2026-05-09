@@ -2310,6 +2310,11 @@ window.addEventListener('resize', () => {
     initChart();
     updateSim();
   }
+  // Re-render year-by-year chart if it's open
+  const drawer = document.getElementById('history-drawer');
+  if (drawer && drawer.style.display !== 'none') {
+    renderHistoryBars(currentFund);
+  }
 });
 
 // ============ RETIREMENT ============
@@ -2690,7 +2695,9 @@ function renderHistoryBars(id) {
   const canvas = document.getElementById('historyCanvas');
   const dpr = window.devicePixelRatio || 1;
   const W = container.offsetWidth || 800;
-  const H = 260;
+  const isMobile = W < 540;
+  const H = isMobile ? 300 : 260;
+  const bottomPad = isMobile ? 54 : 36;
   canvas.width = W * dpr;
   canvas.height = H * dpr;
   canvas.style.width = W + 'px';
@@ -2700,7 +2707,7 @@ function renderHistoryBars(id) {
   ctx.scale(dpr, dpr);
 
   const n = years.length;
-  const pad = { top: 28, right: 10, bottom: 36, left: 10 };
+  const pad = { top: 28, right: 10, bottom: bottomPad, left: 10 };
   const chartW = W - pad.left - pad.right;
   const chartH = H - pad.top - pad.bottom;
   const barW = Math.floor(chartW / n) - 2;
@@ -2736,35 +2743,48 @@ function renderHistoryBars(id) {
     }
     ctx.globalAlpha = 1;
 
-    // Value label — inside bar if tall enough, outside if not
-    const labelVal = (isPos ? '+' : '') + val.toFixed(0) + '%';
-    ctx.font = `700 ${Math.max(8, Math.min(10, barW - 2))}px Space Mono, monospace`;
-    ctx.textAlign = 'center';
-    const labelX = barX + barW / 2;
-
-    if (barH > 16) {
-      // Inside bar
-      ctx.fillStyle = isPos ? '#000' : '#fff';
-      if (isPos) {
-        ctx.fillText(labelVal, labelX, zeroY - barH + 10);
+    // Value label: only show when bar is wide enough
+    if (barW >= 12) {
+      const labelVal = (isPos ? '+' : '') + val.toFixed(0) + '%';
+      ctx.font = `700 ${Math.max(7, Math.min(10, barW - 2))}px Space Mono, monospace`;
+      ctx.textAlign = 'center';
+      const labelX = barX + barW / 2;
+      if (barH > 16) {
+        ctx.fillStyle = isPos ? '#000' : '#fff';
+        if (isPos) {
+          ctx.fillText(labelVal, labelX, zeroY - barH + 10);
+        } else {
+          ctx.fillText(labelVal, labelX, zeroY + barH - 4);
+        }
       } else {
-        ctx.fillText(labelVal, labelX, zeroY + barH - 4);
-      }
-    } else {
-      // Outside bar, above/below
-      ctx.fillStyle = barColor;
-      if (isPos) {
-        ctx.fillText(labelVal, labelX, zeroY - barH - 3);
-      } else {
-        ctx.fillText(labelVal, labelX, zeroY + barH + 10);
+        ctx.fillStyle = barColor;
+        if (isPos) {
+          ctx.fillText(labelVal, labelX, zeroY - barH - 3);
+        } else {
+          ctx.fillText(labelVal, labelX, zeroY + barH + 10);
+        }
       }
     }
 
-    // Year label
-    ctx.fillStyle = '#666';
-    ctx.font = '700 9px Barlow Condensed, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(y, barX + barW / 2, H - pad.bottom + 14);
+    // Year label: on mobile show only every 5 years + last, rotated
+    const yr = parseInt(y);
+    const showLabel = barW >= 16 || yr % 5 === 0 || i === n - 1;
+    if (showLabel) {
+      ctx.fillStyle = '#666';
+      ctx.font = '700 9px Barlow Condensed, sans-serif';
+      const labelX = barX + barW / 2;
+      if (isMobile) {
+        ctx.save();
+        ctx.translate(labelX, H - pad.bottom + 8);
+        ctx.rotate(-Math.PI / 3);
+        ctx.textAlign = 'right';
+        ctx.fillText(y, 0, 0);
+        ctx.restore();
+      } else {
+        ctx.textAlign = 'center';
+        ctx.fillText(y, labelX, H - pad.bottom + 14);
+      }
+    }
   });
 }
 
