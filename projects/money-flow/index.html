@@ -1327,59 +1327,95 @@
     }
   }
 
-  /* ── Vote widget ── */
-  .vote-widget {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 900;
+
+  /* ── Topbar ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1.4rem;
     background: var(--black);
-    border: 3px solid var(--black);
-    padding: 0.65rem 1rem;
-    text-align: right;
+    border-bottom: var(--border-thick);
+  }
+  .back-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--yellow); }
+
+  /* ── Footer ── */
+  .site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.4rem;
+    background: var(--black);
+    border-top: var(--border-thick);
+    flex-wrap: wrap;
+  }
+  .footer-tagline {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .footer-tagline a { color: var(--yellow); text-decoration: none; }
+  .footer-tagline a:hover { text-decoration: underline; }
+
+  /* ── Vote widget (footer) ── */
+  .vote-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
   .vote-label {
-    display: block;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 0.4rem;
+    color: rgba(245,245,240,0.5);
   }
-  .vote-nums {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+  .vote-nums { display: inline-flex; align-items: center; gap: 0.35rem; }
   .vote-num {
     cursor: pointer;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.7rem;
+    height: 1.7rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--white);
-    border: 2px solid rgba(245,245,240,0.3);
+    border: 2px solid rgba(245,245,240,0.25);
     transition: border-color 0.15s, color 0.15s;
   }
   .vote-num:hover { border-color: var(--yellow); color: var(--yellow); }
   .vote-num.vote-selected { color: var(--yellow); border-color: var(--yellow); }
   .vote-num.vote-grey { color: rgba(245,245,240,0.2); border-color: rgba(245,245,240,0.1); cursor: default; }
   .vote-thanks {
-    display: block;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--yellow);
-    margin-top: 0.35rem;
   }
 </style>
 </head>
 <body>
+  <nav class="topbar">
+    <a href="/" class="back-link">&larr; AI Proto Lab</a>
+  </nav>
 
 <header>
   <div class="header-title">
@@ -2892,17 +2928,21 @@ updateReverse();
 selectFund('sp500');
 </script>
 
-  <div class="vote-widget" data-project="money-flow" aria-label="Rate this prototype">
-    <span class="vote-label">Rate this prototype</span>
-    <span class="vote-nums">
-      <span class="vote-num" data-value="1">1</span>
-      <span class="vote-num" data-value="2">2</span>
-      <span class="vote-num" data-value="3">3</span>
-      <span class="vote-num" data-value="4">4</span>
-      <span class="vote-num" data-value="5">5</span>
-    </span>
-    <span class="vote-thanks" id="vote-thanks" aria-live="polite" style="display:none">Thanks ✓</span>
-  </div>
+
+  <footer class="site-footer">
+    <p class="footer-tagline">Part of <a href="/">AI Proto Lab</a>. Your money, your rules.</p>
+    <div class="vote-widget" data-project="money-flow" aria-label="Rate this prototype">
+      <span class="vote-label">Rate this prototype</span>
+      <span class="vote-nums">
+        <span class="vote-num" data-value="1">1</span>
+        <span class="vote-num" data-value="2">2</span>
+        <span class="vote-num" data-value="3">3</span>
+        <span class="vote-num" data-value="4">4</span>
+        <span class="vote-num" data-value="5">5</span>
+      </span>
+      <span class="vote-thanks" id="vote-thanks" aria-live="polite" style="display:none">Thanks ✓</span>
+    </div>
+  </footer>
 
   <script src="/rating-vote.js"></script>
   <script>
@@ -2921,7 +2961,7 @@ selectFund('sp500');
           n.classList.toggle('vote-selected', val === v);
           n.classList.toggle('vote-grey', val !== v);
         });
-        thanks.style.display = 'block';
+        thanks.style.display = 'inline';
       }
       nums.forEach(function (n) {
         n.addEventListener('click', function () {
@@ -2933,7 +2973,7 @@ selectFund('sp500');
             x.classList.toggle('vote-selected', val === v);
             x.classList.toggle('vote-grey', val !== v);
           });
-          thanks.style.display = 'block';
+          thanks.style.display = 'inline';
         });
       });
     }
