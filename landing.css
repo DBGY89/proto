@@ -790,23 +790,36 @@ body.landing-tab-posters-active .hero-subtitle {
   display: block;
   width: 100%;
   margin: 0;
-  padding: 10px 14px;
+  padding: 0.7rem 0.75rem 0.85rem;
+  min-height: 44px;
+  box-sizing: border-box;
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.07);
-  background: #15152a;
-  color: rgba(232,232,240,0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text-secondary);
   font-family: var(--font-main);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: color 0.2s var(--ease-out), background 0.2s var(--ease-out);
 }
 
 .poster-entry-open:hover {
-  background: #1e1e3a;
   color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.poster-entry-open:active {
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.poster-entry-open:focus-visible {
+  outline: 1px solid rgba(180, 77, 255, 0.45);
+  outline-offset: -1px;
 }
 
 body.poster-group-screen-open {
