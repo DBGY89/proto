@@ -219,9 +219,11 @@
 
     <div class="hero-content">
       <h1 class="hero-title">
-        <span class="neon neon-pink">AI</span>
-        <span class="neon neon-cyan">Proto</span>
-        <span class="neon neon-purple">Lab</span>
+        <a href="/" class="hero-brand-link" aria-label="AI Proto Lab · Home">
+          <span class="neon neon-pink">AI</span>
+          <span class="neon neon-cyan">Proto</span>
+          <span class="neon neon-purple">Lab</span>
+        </a>
       </h1>
       <p class="hero-subtitle">Prototypes I build with AI: late nights, wild ideas, and living in 2075 already.</p>
     </div>
@@ -395,13 +397,64 @@
 
     <div id="panel-posters" class="landing-tab-panel" role="tabpanel" aria-labelledby="landing-tab-posters" hidden>
     <!--
-      ── ADD A POSTER ──
-      Copy one <div class="poster-card"> block.
-      Replace img src with the poster image path.
-      Replace href in .poster-download with the PDF path.
-      Update both title and tool text in the overlay and the bar.
+      ── POSTERS ──
+      Outer layer: one .poster-entry per series (carousel + open to variants).
+      Group screen: full-viewport layer with grid of .poster-card (same blocks as before).
     -->
-    <div class="poster-grid">
+    <div class="poster-hub" id="poster-hub">
+
+      <div class="poster-layer poster-layer--pick" id="poster-layer-pick">
+      <div class="poster-pick-grid">
+        <article class="poster-entry" aria-labelledby="poster-entry-motherhood-title">
+          <div class="poster-carousel" data-poster-carousel tabindex="0">
+            <div class="poster-carousel-viewport">
+              <div class="poster-carousel-track">
+                <div class="poster-carousel-slide"><img src="/projects/posters/mom-daughter-blue.png" alt="Mom &amp; Daughter, blue variant"></div>
+                <div class="poster-carousel-slide"><img src="/projects/posters/mom-daughter-green.png" alt="Mom &amp; Daughter, green variant"></div>
+                <div class="poster-carousel-slide"><img src="/projects/posters/mom-daughter-pink.png" alt="Mom &amp; Daughter, pink variant"></div>
+                <div class="poster-carousel-slide"><img src="/projects/posters/mom-daughter-yellow.png" alt="Mom &amp; Daughter, yellow variant"></div>
+                <div class="poster-carousel-slide"><img src="/projects/posters/mom-daughter-arms.png" alt="Mom &amp; Daughter, arms variant"></div>
+              </div>
+            </div>
+            <button type="button" class="poster-carousel-btn poster-carousel-btn--prev" aria-label="Previous slide">‹</button>
+            <button type="button" class="poster-carousel-btn poster-carousel-btn--next" aria-label="Next slide">›</button>
+          </div>
+          <div class="poster-bar">
+            <div class="poster-bar-title" id="poster-entry-motherhood-title">Motherhood</div>
+            <div class="poster-bar-tool">AI</div>
+          </div>
+          <button type="button" class="poster-entry-open" data-poster-open-detail data-poster-detail-target="poster-detail-motherhood">Explore poster</button>
+        </article>
+
+        <article class="poster-entry" aria-labelledby="poster-entry-chulapo-title">
+          <div class="poster-carousel poster-carousel--single" data-poster-carousel tabindex="0">
+            <div class="poster-carousel-viewport">
+              <div class="poster-carousel-track">
+                <div class="poster-carousel-slide">
+                  <img src="/projects/posters/muy-chulapo-muy-gato.png" alt="MUY CHULAPO, MUY GATO poster">
+                </div>
+              </div>
+            </div>
+            <button type="button" class="poster-carousel-btn poster-carousel-btn--prev" aria-label="Previous slide">‹</button>
+            <button type="button" class="poster-carousel-btn poster-carousel-btn--next" aria-label="Next slide">›</button>
+          </div>
+          <div class="poster-bar">
+            <div class="poster-bar-title poster-bar-title--long" id="poster-entry-chulapo-title">MUY CHULAPO, MUY GATO</div>
+            <div class="poster-bar-tool">AI</div>
+          </div>
+          <button type="button" class="poster-entry-open" data-poster-open-detail data-poster-detail-target="poster-detail-chulapo">Explore poster</button>
+        </article>
+      </div>
+      </div>
+
+      <div class="poster-layer poster-layer--detail poster-group-screen" id="poster-detail-motherhood" hidden>
+        <div class="poster-group-screen-inner">
+          <header class="poster-group-screen-head">
+            <button type="button" class="poster-detail-back" data-poster-back>← Back</button>
+            <h2 class="poster-group-screen-title">Motherhood</h2>
+            <p class="poster-group-screen-sub">Pick a poster to download the PDF.</p>
+          </header>
+          <div class="poster-grid poster-grid--group">
 
       <div class="poster-card">
         <img src="/projects/posters/mom-daughter-blue.png" alt="Mom & Daughter — Blue">
@@ -468,7 +521,36 @@
         </div>
       </div>
 
+          </div>
         </div>
+      </div>
+
+      <div class="poster-layer poster-layer--detail poster-group-screen" id="poster-detail-chulapo" hidden>
+        <div class="poster-group-screen-inner">
+          <header class="poster-group-screen-head">
+            <button type="button" class="poster-detail-back" data-poster-back>← Back</button>
+            <h2 class="poster-group-screen-title poster-group-screen-title--long">MUY CHULAPO, MUY GATO</h2>
+            <p class="poster-group-screen-sub">Pick a poster to download the PDF.</p>
+          </header>
+          <div class="poster-grid poster-grid--group poster-grid--chulapo">
+
+      <div class="poster-card">
+        <img src="/projects/posters/muy-chulapo-muy-gato.png" alt="MUY CHULAPO, MUY GATO">
+        <div class="poster-overlay">
+          <span class="poster-overlay-title">MUY CHULAPO, MUY GATO</span>
+          <span class="poster-overlay-tool">Made with AI</span>
+          <a href="/projects/posters/muy-chulapo-muy-gato.pdf" download class="poster-download">Download PDF</a>
+        </div>
+        <div class="poster-bar">
+          <div class="poster-bar-title poster-bar-title--long">MUY CHULAPO, MUY GATO</div>
+          <div class="poster-bar-tool">AI</div>
+        </div>
+      </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </main>
 

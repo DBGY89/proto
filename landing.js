@@ -24,6 +24,11 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const posterHub = {
+    reset: function () {},
+    startCarouselIfPick: function () {},
+  };
+
   // Ocultar tarjetas de proyectos no publicados
   document.querySelectorAll('.card[data-project]').forEach((card) => {
     const id = card.getAttribute('data-project');
@@ -82,7 +87,7 @@
   }
 
   if (reducedMotion) {
-    document.querySelectorAll('.card:not(.card--hidden), .poster-card').forEach((c) => c.classList.add('is-visible'));
+    document.querySelectorAll('.card:not(.card--hidden), .poster-card, .poster-entry').forEach((c) => c.classList.add('is-visible'));
   }
 
   let cardObserver = null;
@@ -104,7 +109,7 @@
     if (reducedMotion) return;
     const panel = getActivePanel();
     if (!panel) return;
-    const panelCards = panel.querySelectorAll('.card:not(.card--hidden), .poster-card');
+    const panelCards = panel.querySelectorAll('.card:not(.card--hidden), .poster-card, .poster-entry');
     if (!cardObserver) {
       panelCards.forEach((c) => c.classList.add('is-visible'));
       return;
@@ -139,10 +144,13 @@
     });
     document.querySelectorAll('.card.card--tease').forEach((c) => c.classList.remove('card--tease'));
     teaseIndex = 0;
+    if (which !== 'posters') posterHub.reset();
+    else posterHub.startCarouselIfPick();
     initRevealForActivePanel();
 
     // Hide snake entirely on the Posters tab
     const onPosters = which === 'posters';
+    document.body.classList.toggle('landing-tab-posters-active', onPosters);
     const snakeCanvas = document.getElementById('snake-canvas');
     const snakeHud    = document.getElementById('snake-hud');
     const snakeRevive = document.getElementById('snake-revive');
@@ -180,6 +188,209 @@
       }
     });
   });
+
+  // ───────────────────────────────────────────
+  //  Posters: carousel cards → full-screen detail per series (#poster-detail-*)
+  // ───────────────────────────────────────────
+  (function initPosterHub() {
+    const posterHubRoot = document.getElementById('poster-hub');
+    const pickLayer = document.getElementById('poster-layer-pick');
+
+    if (!posterHubRoot || !pickLayer) return;
+
+    const SCREEN_LOCK_CLASS = 'poster-group-screen-open';
+    const AUTO_MS = 5000;
+
+    const detailPanels = Array.from(posterHubRoot.querySelectorAll('.poster-group-screen'));
+    const carouselStopFns = [];
+
+    /** @returns {HTMLElement|null} */
+    function getVisibleDetailPanel() {
+      return detailPanels.find(function (p) {
+        return !p.hidden;
+      }) || null;
+    }
+
+    function lockBodyScroll() {
+      document.body.classList.add(SCREEN_LOCK_CLASS);
+    }
+
+    function unlockBodyScroll() {
+      document.body.classList.remove(SCREEN_LOCK_CLASS);
+    }
+
+    function hideAllDetailPanels() {
+      detailPanels.forEach(function (p) {
+        p.hidden = true;
+      });
+    }
+
+    function stopAllCarousels() {
+      carouselStopFns.forEach(function (fn) {
+        fn();
+      });
+    }
+
+    function revealDetailCards(panel) {
+      panel.querySelectorAll('.poster-card').forEach(function (c) {
+        c.classList.add('is-visible');
+      });
+    }
+
+    let lastCarouselFocused = null;
+
+    function closeDetail() {
+      if (!getVisibleDetailPanel()) return;
+      hideAllDetailPanels();
+      pickLayer.hidden = false;
+      unlockBodyScroll();
+      stopAllCarousels();
+      carouselControllersStartPick();
+      if (lastCarouselFocused) lastCarouselFocused.focus();
+      else {
+        var firstCarousel = pickLayer.querySelector('[data-poster-carousel]');
+        if (firstCarousel) firstCarousel.focus();
+      }
+    }
+
+    posterHub.reset = function () {
+      hideAllDetailPanels();
+      pickLayer.hidden = false;
+      unlockBodyScroll();
+      stopAllCarousels();
+    };
+
+    function carouselControllersStartPick() {
+      pickLayer.querySelectorAll('[data-poster-carousel]').forEach(function (el, idx) {
+        if (carouselControllers[idx] && carouselControllers[idx].start) carouselControllers[idx].start();
+      });
+    }
+
+    const carouselControllers = [];
+
+    posterHub.startCarouselIfPick = function () {
+      if (getVisibleDetailPanel()) return;
+      carouselControllersStartPick();
+    };
+
+    pickLayer.querySelectorAll('[data-poster-carousel]').forEach(function (carouselEl) {
+      var track = carouselEl.querySelector('.poster-carousel-track');
+      var slides = carouselEl.querySelectorAll('.poster-carousel-slide');
+      var prevBtn = carouselEl.querySelector('.poster-carousel-btn--prev');
+      var nextBtn = carouselEl.querySelector('.poster-carousel-btn--next');
+      if (!track || slides.length === 0) return;
+
+      var n = slides.length;
+      var index = 0;
+      var autoplayTimer = null;
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        if (reducedMotion || n < 2 || getVisibleDetailPanel()) return;
+        autoplayTimer = setInterval(function () {
+          goTo(index + 1);
+        }, AUTO_MS);
+      }
+
+      carouselStopFns.push(stopAutoplay);
+
+      track.style.width = n * 100 + '%';
+      slides.forEach(function (s) {
+        s.style.width = 100 / n + '%';
+      });
+
+      function goTo(i) {
+        index = ((i % n) + n) % n;
+        track.style.transform = 'translateX(-' + index * (100 / n) + '%)';
+      }
+
+      carouselControllers.push({ start: startAutoplay });
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goTo(index - 1);
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          goTo(index + 1);
+        });
+      }
+
+      carouselEl.addEventListener('keydown', function (e) {
+        if (n < 2) return;
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goTo(index - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          goTo(index + 1);
+        }
+      });
+
+      var touchStartX = 0;
+      carouselEl.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].clientX;
+      }, { passive: true });
+
+      carouselEl.addEventListener('touchend', function (e) {
+        if (n < 2) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) < 40) return;
+        if (dx > 0) goTo(index - 1);
+        else goTo(index + 1);
+      }, { passive: true });
+    });
+
+    posterHubRoot.addEventListener('click', function (e) {
+      var back = e.target.closest('[data-poster-back]');
+      if (back) {
+        closeDetail();
+        return;
+      }
+      if (e.target.closest('.poster-carousel-btn')) return;
+
+      var opener = e.target.closest('[data-poster-open-detail]');
+      if ((!opener || !posterHubRoot.contains(opener)) && pickLayer.contains(e.target)) {
+        var card = e.target.closest('.poster-entry');
+        if (card && pickLayer.contains(card)) opener = card.querySelector('[data-poster-open-detail]');
+      }
+      if (!opener || !posterHubRoot.contains(opener)) return;
+      var targetId = opener.getAttribute('data-poster-detail-target');
+      if (!targetId) return;
+      var panel = document.getElementById(targetId);
+      if (!panel || !detailPanels.includes(panel)) return;
+
+      stopAllCarousels();
+      var openedEntry = opener.closest('.poster-entry');
+      lastCarouselFocused = openedEntry ? openedEntry.querySelector('[data-poster-carousel]') : null;
+
+      hideAllDetailPanels();
+      pickLayer.hidden = true;
+      panel.hidden = false;
+      panel.scrollTop = 0;
+      lockBodyScroll();
+      revealDetailCards(panel);
+      var fb = panel.querySelector('[data-poster-back]');
+      if (fb) fb.focus();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (!panelPosters || panelPosters.hidden) return;
+      if (!getVisibleDetailPanel()) return;
+      closeDetail();
+    });
+  })();
 
   initRevealForActivePanel();
 

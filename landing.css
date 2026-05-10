@@ -142,6 +142,19 @@ body {
   animation: fadeInDown .8s .15s var(--ease-out) both;
 }
 
+.hero-brand-link {
+  display: inline;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.hero-brand-link:focus-visible {
+  outline: 2px solid rgba(207, 143, 255, 0.85);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
 .neon {
   display: inline-block;
 }
@@ -201,6 +214,11 @@ body {
     0 0 2px rgba(0, 0, 0, 1),
     0 1px 4px rgba(0, 0, 0, .8),
     0 2px 8px rgba(0, 0, 0, .5);
+}
+
+/* Posters tab: subtitle overlaps poster cards in the fold */
+body.landing-tab-posters-active .hero-subtitle {
+  display: none;
 }
 
 @keyframes fadeInDown {
@@ -615,6 +633,257 @@ body {
 }
 
 /* ─── Poster grid ─── */
+.poster-hub {
+  width: 100%;
+}
+
+.poster-layer--pick {
+  width: 100%;
+}
+
+.poster-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: 1.25rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.poster-entry {
+  position: relative;
+  width: 100%;
+  max-width: min(320px, 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #1a1a30;
+  opacity: 0;
+  transform: translateY(30px);
+  cursor: pointer;
+}
+
+.poster-entry.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+
+.poster-pick-grid .poster-entry:nth-child(2).is-visible {
+  transition-delay: .08s;
+}
+
+.poster-carousel {
+  position: relative;
+  width: 100%;
+  outline: none;
+}
+
+.poster-carousel:focus-visible {
+  box-shadow: 0 0 0 2px rgba(207,143,255,0.65);
+}
+
+.poster-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: #12121f;
+}
+
+.poster-carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.poster-carousel-slide {
+  flex-shrink: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.poster-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.poster-carousel--single .poster-carousel-btn {
+  display: none;
+}
+
+.poster-carousel-slide--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(160deg, #1a1530 0%, #12121f 55%, #1a2535 100%);
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.poster-carousel-slide--placeholder:last-child {
+  border-right: none;
+}
+
+.poster-slide-placeholder-text {
+  font-size: clamp(0.72rem, 2.6vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.35;
+  color: rgba(232,232,240,0.35);
+}
+
+.poster-bar-title--long {
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+
+.poster-group-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  border: 1px dashed rgba(255,255,255,0.12);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+}
+
+.poster-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 36px;
+  height: 44px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(10,8,20,0.55);
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.poster-carousel-btn:hover {
+  background: rgba(10,8,20,0.82);
+}
+
+.poster-carousel-btn--prev { left: 6px; }
+.poster-carousel-btn--next { right: 6px; }
+
+.poster-entry > .poster-bar {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+}
+
+.poster-entry-open {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  background: #15152a;
+  color: rgba(232,232,240,0.92);
+  font-family: var(--font-main);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.poster-entry-open:hover {
+  background: #1e1e3a;
+  color: var(--text-primary);
+}
+
+body.poster-group-screen-open {
+  overflow: hidden;
+}
+
+.poster-group-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 980;
+  background: var(--bg-deep);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.poster-group-screen-inner {
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 0 auto;
+  /* Sit poster title/back below hero so "AI Proto Lab" and series title do not share one band */
+  padding-top: calc(env(safe-area-inset-top) + clamp(7.75rem, 22vh + 2rem, 13.5rem));
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  padding-bottom: 3rem;
+  min-height: 100%;
+}
+
+.poster-group-screen-head {
+  margin-bottom: 1.75rem;
+  padding-top: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--bg-card-border);
+}
+
+.poster-group-screen-title {
+  font-size: clamp(1.2rem, 2.8vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-top: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.poster-group-screen-title--long {
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  letter-spacing: 0.045em;
+  line-height: 1.35;
+}
+
+.poster-group-screen-sub {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: 36rem;
+  line-height: 1.5;
+}
+
+.poster-detail-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: .85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.poster-detail-back:hover {
+  border-color: rgba(207,143,255,0.45);
+  color: var(--text-primary);
+}
+
 .poster-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -743,8 +1012,10 @@ body {
   .card--soon { opacity: .25; }
   .card-border { display: none; }
   .poster-card { opacity: 1; transform: none; }
+  .poster-entry { opacity: 1; transform: none; }
   .poster-card img { transition: none; }
   .poster-overlay { transition: none; }
+  .poster-carousel-track { transition: none; }
 }
 
 /* ─── Responsive ─── */
