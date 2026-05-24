@@ -12,6 +12,8 @@
   ],
   "rewrites": [
     { "source": "/config.html", "destination": "/config.html" },
+    { "source": "/sops/:brand/", "destination": "/sops/:brand/index.html" },
+    { "source": "/sops/:brand/:path*", "destination": "/sops/:brand/:path*" },
     { "source": "/:project/", "destination": "/projects/:project/index.html" },
     { "source": "/:project/:path*", "destination": "/projects/:project/:path*" }
   ]

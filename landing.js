@@ -65,14 +65,17 @@
   const panelProjects = document.getElementById('panel-projects');
   const panelTools = document.getElementById('panel-tools');
   const panelPosters = document.getElementById('panel-posters');
+  const panelSops = document.getElementById('panel-sops');
   const tabProjectsBtn = document.querySelector('[data-landing-tab="projects"]');
   const tabToolsBtn = document.querySelector('[data-landing-tab="tools"]');
   const tabPostersBtn = document.querySelector('[data-landing-tab="posters"]');
+  const tabSopsBtn = document.querySelector('[data-landing-tab="sops"]');
 
   const allPanels = [
     { id: 'projects', panel: panelProjects, btn: tabProjectsBtn },
     { id: 'tools',    panel: panelTools,    btn: tabToolsBtn },
     { id: 'posters',  panel: panelPosters,  btn: tabPostersBtn },
+    { id: 'sops',     panel: panelSops,     btn: tabSopsBtn },
   ];
 
   function getActivePanel() {
@@ -151,6 +154,10 @@
     // Hide snake entirely on the Posters tab
     const onPosters = which === 'posters';
     document.body.classList.toggle('landing-tab-posters-active', onPosters);
+
+    // Hide hero subtitle and footer copy on the SOPs tab
+    const onSops = which === 'sops';
+    document.body.classList.toggle('landing-tab-sops-active', onSops);
     const snakeCanvas = document.getElementById('snake-canvas');
     const snakeHud    = document.getElementById('snake-hud');
     const snakeRevive = document.getElementById('snake-revive');

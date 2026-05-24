@@ -7,8 +7,80 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css">
+  <link rel="stylesheet" href="/shared.css">
+  <link rel="stylesheet" href="/landing.css">
+  <style>
+    /* ── SOPs card in home panel ── */
+    .sop-entry-card {
+      width: 100%; max-width: 380px;
+      background: #13162a;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none;
+      display: block;
+    }
+    .sop-entry-card:hover { transform: translateY(-4px); border-color: rgba(178,102,255,0.45); }
+    .sop-entry-image {
+      position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden;
+    }
+    .sop-entry-image img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+    }
+    .sop-entry-image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(19,22,42,1) 0%, rgba(19,22,42,0.4) 50%, rgba(19,22,42,0.05) 100%);
+    }
+    .sop-entry-body { padding: 1.25rem 1.4rem 1.5rem; }
+    .sop-entry-tag {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: #B266FF; margin-bottom: 0.5rem; display: block;
+    }
+    .sop-entry-title {
+      font-family: "Courier Prime", monospace;
+      font-size: 28px; font-weight: 700;
+      line-height: 1.0; color: #f0f0f8; margin-bottom: 0.6rem;
+    }
+    .sop-entry-hash {
+      background: linear-gradient(90deg, #FF4D9E, #B266FF, #00E5FF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .sop-entry-desc { font-size: 14px; color: #b8bcd4; line-height: 1.65; margin-bottom: 1.25rem; }
+    .sop-entry-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1rem; border-top: 0.5px solid rgba(255,255,255,0.08);
+    }
+    .sop-entry-meta { display: flex; gap: 1.25rem; }
+    .sop-entry-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .sop-entry-meta-label {
+      font-family: "Space Grotesk", sans-serif; font-size: 9px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #9599b8;
+    }
+    .sop-entry-meta-val { font-family: "Courier Prime", monospace; font-size: 13px; color: #f0f0f8; }
+    .sop-entry-btn {
+      font-family: "Space Grotesk", sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #f0f0f8;
+      border: 1px solid #B266FF;
+      padding: 7px 16px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(178,102,255,0.5), 0 0 18px rgba(178,102,255,0.25);
+      animation: sop-neon-pulse 2s ease-in-out infinite;
+      transition: box-shadow 0.2s, color 0.2s;
+    }
+    .sop-entry-card:hover .sop-entry-btn {
+      color: #B266FF;
+      box-shadow: 0 0 12px rgba(178,102,255,0.9), 0 0 30px rgba(178,102,255,0.5), 0 0 50px rgba(178,102,255,0.2);
+    }
+    @keyframes sop-neon-pulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(178,102,255,0.4), 0 0 14px rgba(178,102,255,0.2); }
+      50%       { box-shadow: 0 0 12px rgba(178,102,255,0.8), 0 0 28px rgba(178,102,255,0.4), 0 0 45px rgba(178,102,255,0.15); }
+    }
+  </style>
 </head>
 <body>
 
@@ -236,6 +308,7 @@
         <button type="button" class="landing-tab is-active" role="tab" id="landing-tab-projects" aria-selected="true" aria-controls="panel-projects" data-landing-tab="projects">Projects</button>
         <button type="button" class="landing-tab" role="tab" id="landing-tab-tools" aria-selected="false" aria-controls="panel-tools" data-landing-tab="tools" tabindex="-1">Tools</button>
         <button type="button" class="landing-tab" role="tab" id="landing-tab-posters" aria-selected="false" aria-controls="panel-posters" data-landing-tab="posters" tabindex="-1">Posters</button>
+        <button type="button" class="landing-tab" role="tab" id="landing-tab-sops" aria-selected="false" aria-controls="panel-sops" data-landing-tab="sops" tabindex="-1" style="text-transform:none;">SOPs</button>
       </div>
     </div>
     <!--
@@ -551,6 +624,37 @@
         </div>
       </div>
     </div>
+    </div>
+
+    <div id="panel-sops" class="landing-tab-panel" role="tabpanel" aria-labelledby="landing-tab-sops" hidden>
+      <div class="grid">
+
+        <a href="/sops/shipitsolo/" class="sop-entry-card">
+          <div class="sop-entry-image">
+            <img src="/sops/shipitsolo/card-cover.png" alt="#shipitsolo card cover">
+            <div class="sop-entry-image-overlay"></div>
+          </div>
+          <div class="sop-entry-body">
+            <span class="sop-entry-tag">SOP Bundle</span>
+            <div class="sop-entry-title"><span class="sop-entry-hash">#</span>shipitsolo</div>
+            <p class="sop-entry-desc">From idea to live product. Solo. 13 step-by-step guides covering every tool you need to build, deploy, and ship on the internet.</p>
+            <div class="sop-entry-footer">
+              <div class="sop-entry-meta">
+                <div class="sop-entry-meta-item">
+                  <span class="sop-entry-meta-label" style="text-transform:none;">SOPs</span>
+                  <span class="sop-entry-meta-val">13 guides</span>
+                </div>
+                <div class="sop-entry-meta-item">
+                  <span class="sop-entry-meta-label">Cost</span>
+                  <span class="sop-entry-meta-val">Free</span>
+                </div>
+              </div>
+              <span class="sop-entry-btn">Start now</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
     </div>
   </main>
 

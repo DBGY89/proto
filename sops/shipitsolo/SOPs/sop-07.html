@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supabase — store and read data — AIProtoLab SOPs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --pink: #ff2d78; --cyan: #00f0ff; --purple: #b24dff;
+  --mid1: #d45acd; --mid2: #9b62e0; --green: #5DCAA5; --amber: #F5A623;
+  --bg: #0a0a1a; --text: #e8e8f0; --muted: #9090b0; --label: #9599b8;
+  --border: rgba(255,255,255,0.1); --surface: #111128; --surface2: #1e2238;
+  --font-title: 'Courier Prime', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --font-ui: 'Space Grotesk', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+.hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 1rem; }
+.hero-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+.hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.hero-label-num { font-family: var(--font-ui); font-size: 10px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; }
+.block00 { color: var(--amber); } .block00 .hero-label-num { background: rgba(245,166,35,0.1); border: 0.5px solid rgba(245,166,35,0.3); color: var(--amber); }
+.block01 { color: var(--pink); } .block01 .hero-label-num { background: rgba(255,77,158,0.1); border: 0.5px solid rgba(255,77,158,0.3); color: var(--pink); }
+.block02 { color: var(--mid1); } .block02 .hero-label-num { background: rgba(212,90,205,0.1); border: 0.5px solid rgba(212,90,205,0.3); color: var(--mid1); }
+.block03 { color: var(--mid2); } .block03 .hero-label-num { background: rgba(155,98,224,0.1); border: 0.5px solid rgba(155,98,224,0.3); color: var(--mid2); }
+.block04 { color: var(--purple); } .block04 .hero-label-num { background: rgba(178,102,255,0.1); border: 0.5px solid rgba(178,102,255,0.3); color: var(--purple); }
+.block05 { color: var(--cyan); } .block05 .hero-label-num { background: rgba(0,229,255,0.1); border: 0.5px solid rgba(0,229,255,0.3); color: var(--cyan); }
+.block06 { color: var(--green); } .block06 .hero-label-num { background: rgba(93,202,165,0.1); border: 0.5px solid rgba(93,202,165,0.3); color: var(--green); }
+h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 1.5rem; max-width: 640px; }
+.hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 520px; padding-left: 1.5rem; border-left: 2px solid rgba(255,255,255,0.12); }
+.content { max-width: 760px; margin: 0 auto; padding: 0 2rem 6rem; }
+.section-break { display: flex; align-items: center; gap: 14px; margin: 3.5rem 0 2rem; }
+.section-break-label { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
+.section-break-line { flex: 1; height: 1px; background: var(--border); }
+.body-text { font-size: 17px; color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
+.body-text strong { color: var(--text); font-weight: 500; }
+.pull-quote { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.4; border-left: 3px solid var(--amber); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
+.two-col-left { border-right: 1px solid var(--border); }
+.two-col-cell { padding: 1.75rem; }
+.col-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.col-tag::before { content: ''; width: 22px; height: 2px; border-radius: 1px; }
+.col-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; line-height: 1.2; }
+.col-body { font-size: 15px; color: var(--muted); line-height: 1.7; }
+.item-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
+.item-list li { font-size: 15px; color: var(--muted); line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; }
+.item-list li .bul { font-family: var(--font-title); font-weight: 700; flex-shrink: 0; }
+.raw-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+.raw-table thead th { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.18); }
+.raw-table tbody tr { border-bottom: 1px solid var(--border); }
+.raw-table tbody tr:last-child { border-bottom: none; }
+.raw-table td { padding: 14px 16px; font-size: 15px; color: var(--muted); line-height: 1.5; vertical-align: top; }
+.raw-table td:first-child { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
+.raw-table td:nth-child(2) { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.v-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-right: 8px; }
+.v-good { color: var(--cyan); } .v-bad { color: var(--pink); } .v-neutral { color: var(--label); }
+.steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.step-row { display: grid; grid-template-columns: 44px 1fr; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+.step-row:last-child { border-bottom: none; }
+.step-num { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--amber); line-height: 1; padding-top: 3px; }
+.step-body { padding-left: 0.5rem; }
+.step-title { font-family: var(--font-title); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+.step-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.step-desc strong { color: var(--text); font-weight: 500; }
+.code-block { font-family: var(--font-title); font-size: 14px; background: var(--surface2); border: 0.5px solid rgba(255,255,255,0.18); border-radius: 6px; padding: 12px 16px; padding-right: 76px; color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; position: relative; line-height: 1.5; }
+.copy-code-btn { position: absolute; top: 8px; right: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--label); background: transparent; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 5px; padding: 3px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+.copy-code-btn:hover { color: var(--cyan); border-color: rgba(0,229,255,0.4); }
+.copy-code-btn.copied { color: var(--green); border-color: var(--green); }
+code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
+.os-tabs { display: flex; gap: 4px; margin: 10px 0 14px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 8px; padding: 4px; width: fit-content; }
+.os-tab { font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 5px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
+.os-tab.active { background: rgba(0,229,255,0.14); color: var(--cyan); }
+.os-content { display: none; } .os-content.visible { display: block; }
+.pricing-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
+.pricing-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+.pricing-header-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
+.pricing-rows { display: flex; flex-direction: column; }
+.pricing-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--border); }
+.pricing-row:last-child { border-bottom: none; }
+.pricing-tier { padding: 1rem 1.25rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+.pricing-tier-label { font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text); }
+.pricing-tier-url { font-family: var(--font-title); font-size: 12px; color: var(--label); font-style: italic; }
+.pricing-tier-price { font-family: var(--font-title); font-size: 12px; color: var(--label); }
+.pricing-content { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.6; }
+.pricing-content strong { color: var(--text); font-weight: 500; }
+.verdict-tag { display: inline-block; font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; margin-top: 6px; }
+.verdict-enough { background: rgba(93,202,165,0.1); color: var(--green); }
+.verdict-paid { background: rgba(245,166,35,0.1); color: var(--amber); }
+.note-block { background: var(--surface); border: 0.5px solid var(--border); border-left: 3px solid var(--amber); padding: 1rem 1.25rem; margin: 1.5rem 0; }
+.note-block p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.note-block strong { color: var(--text); font-weight: 500; }
+.done-list { list-style: none; }
+.done-list li { display: grid; grid-template-columns: 44px 1fr; font-size: 16px; color: var(--muted); padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; line-height: 1.55; }
+.done-list li:last-child { border-bottom: none; }
+.done-num { font-family: var(--font-title); font-size: 14px; font-weight: 700; font-style: italic; padding-top: 1px; color: var(--amber); }
+.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
+.next-body { padding: 1.5rem 1.75rem; }
+.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
+.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
+.next-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
+.next-link:hover { border-color: var(--amber); color: var(--amber); }
+.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
+footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
+.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  .hero { padding: 3rem 1.25rem 1rem; }
+  .content { padding: 0 1.25rem 4rem; }
+  .two-col { grid-template-columns: 1fr; }
+  .two-col-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .pricing-row { grid-template-columns: 1fr; }
+  .pricing-tier { border-right: none; border-bottom: 1px solid var(--border); }
+  .next-wrap { grid-template-columns: 1fr; }
+  .next-cta { border-left: none; border-top: 1px solid var(--border); }
+  .step-row { grid-template-columns: 36px 1fr; }
+  .raw-table td:first-child { display: none; }
+  h1 { font-size: 28px; }
+  .hero-sub { font-size: 16px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+.task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
+.task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
+.task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
+.task-block-sop { font-family: var(--font-title); font-size: 12px; font-style: italic; color: var(--label); }
+.task-block-body { padding: 1.4rem; }
+.task-title { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.2; }
+.task-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+.task-desc strong { color: var(--text); font-weight: 500; }
+.task-outcome { background: var(--surface); border: 0.5px solid var(--border); padding: 0.875rem 1.1rem; display: flex; align-items: flex-start; gap: 12px; }
+.task-outcome-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5DCAA5; flex-shrink: 0; padding-top: 2px; }
+.task-outcome-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+.task-outcome-text strong { color: var(--text); font-weight: 500; }
+.task-share { margin-top: 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+.task-share-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); display: block; margin-bottom: 4px; }
+.task-share-text { font-size: 13px; color: var(--muted); line-height: 1.55; font-style: italic; }
+.pm-voice { border-left: 3px solid var(--purple); padding-left: 1.25rem; font-style: italic; }
+.decision-block { border: 1px solid var(--border); border-left: 3px solid var(--cyan); padding: 1rem 1.25rem; margin-bottom: 2rem; background: rgba(0,240,255,0.03); }
+.decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
+.decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.decision-block strong { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+<nav class="topbar"><a href="../index.html" class="back-link">&larr; SOPs / #shipitsolo</a></nav>
+<div class="hero">
+  <div class="hero-label block02">Block 02 — Data <span class="hero-label-num">07</span></div>
+  <h1>Supabase — store and read data</h1>
+  <p class="hero-sub">A real database for your project without building a backend. Free to start, and the free tier goes further than you think.</p>
+</div>
+<div class="content">
+
+  <div class="decision-block">
+    <span class="decision-block-label">Is this SOP for you?</span>
+    <p>Use this SOP if your project needs to store data between visits. For a landing page, that means saving contact form messages. If your project only shows static information, skip this for now.</p>
+  </div>
+
+  <p class="body-text">Without a database, data disappears the moment someone closes the browser. Supabase gives you a PostgreSQL database, an API to read and write data, and a dashboard — without writing a single line of backend code.</p>
+
+  <p class="body-text"><em>A few years ago, adding a database to a personal project meant setting up a server, configuring PostgreSQL, and writing an API from scratch. Supabase made that a 20-minute task.</em></p>
+
+  <p class="body-text pm-voice">A database is the right next step when your project needs to remember something between visits. If your contact form needs to save messages somewhere you can read them later, you need this.</p>
+
+  <div class="pricing-block">
+    <div class="pricing-header"><span class="pricing-header-label">What this costs</span></div>
+    <div class="pricing-rows">
+      <div class="pricing-row">
+        <div class="pricing-tier"><span class="pricing-tier-label">Supabase</span><span class="pricing-tier-url">supabase.com</span><span class="pricing-tier-price">Free plan</span></div>
+        <div class="pricing-content">Two projects, 500MB storage, 50,000 monthly users. Free projects pause after one week of inactivity but resume as soon as someone visits.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-tier"><span class="pricing-tier-label">Pro plan</span><span class="pricing-tier-price">$25 / month</span></div>
+        <div class="pricing-content">No pausing, 8GB storage, daily backups. Only when you have real users who cannot tolerate downtime.<div><span class="verdict-tag verdict-paid">When you have real users</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Create a Supabase account and a new project</div>
+        <div class="step-desc">Go to supabase.com and sign up. Click "New project," give it a name, set a database password, choose a region. Takes about a minute to provision.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Create your messages table</div>
+        <div class="step-desc">Go to the Table Editor. Click "New table." Name it "messages." Add columns for name, email, and message. Supabase creates an ID and timestamps automatically.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Get your project URL and API key</div>
+        <div class="step-desc">Go to Settings, then API. Copy your Project URL and your public anon key. <strong>Never use the service role key in frontend code.</strong></div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Ask your AI coding assistant to connect your project</div>
+        <div class="step-desc">Paste your PRD, your Supabase URL, and anon key. Ask it to add the Supabase JavaScript client and write code to insert form submissions into the messages table.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Set row level security policies</div>
+        <div class="step-desc">Go to Authentication, then Policies. Enable insert for anonymous users so your contact form can write data. Your AI assistant can write these policies if you describe the rules.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-block"><p><strong>Move your keys to environment variables before deploying.</strong> SOP 08 explains exactly how.</p></div>
+
+  <div class="task-block">
+    <div class="task-block-header">
+      <span class="task-block-label">Your task this week</span>
+      <span class="task-block-sop">SOP 07</span>
+    </div>
+    <div class="task-block-body">
+      <div class="task-title">Save your contact form submissions to Supabase.</div>
+      <p class="task-desc">Create a Supabase project, add a messages table, connect your contact form. Test it by submitting the form and verifying the data appears in the Supabase dashboard. <strong>Move your API keys to environment variables before deploying.</strong></p>
+      <div class="task-outcome">
+        <span class="task-outcome-label">When done</span>
+        <span class="task-outcome-text"><strong>A working contact form that saves submissions to a real database you can log into and read.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-wrap">
+    <div class="next-body">
+      <div class="next-eyebrow">Next — SOP 08</div>
+      <div class="next-title">Environment variables</div>
+      <p class="next-desc">You have API keys in your code. Now learn how to keep them out of the public eye.</p>
+    </div>
+    <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
+  </div>
+
+</div>
+<footer>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 02</div>
+  <div class="footer-right"><a href="/sops/shipitsolo">← back to index</a></div>
+</footer>
+</body>
+</html>

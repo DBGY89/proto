@@ -1,45 +1,9 @@
 /* =============================================
    AI Proto Lab — Neon Landing Page
+   Base tokens, reset and fonts → shared.css
    ============================================= */
 
-:root {
-  --bg-deep:    #0a0a1a;
-  --bg-card:    #111128;
-  --bg-card-border: #1e1e3a;
-
-  --neon-pink:   #ff2d78;
-  --neon-cyan:   #00f0ff;
-  --neon-purple: #b24dff;
-  --neon-gold:   #ffd700;
-  --neon-green:  #39ff14;
-
-  --text-primary:   #e8e8f0;
-  --text-secondary: #9090b0;
-  --text-muted:     #555580;
-
-  --font-main: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-
-  --radius: 16px;
-  --radius-sm: 10px;
-  --ease-out: cubic-bezier(.23, 1, .32, 1);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  font-family: var(--font-main);
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-  line-height: 1.6;
-}
+@import url('/shared.css');
 
 /* ─── File protocol notice (when opening index.html directly from disk) ─── */
 .file-protocol-notice {
@@ -159,50 +123,10 @@ body {
   display: inline-block;
 }
 
-.neon-pink {
-  color: var(--neon-pink);
-  text-shadow:
-    0 0 2px rgba(0, 0, 0, 1),
-    0 0 4px rgba(0, 0, 0, .9),
-    0 0 7px  var(--neon-pink),
-    0 0 20px var(--neon-pink),
-    0 0 42px #ff2d7888,
-    0 0 80px #ff2d7844;
-  animation: flicker 4s ease-in-out infinite alternate;
-}
-
-.neon-cyan {
-  color: var(--neon-cyan);
-  text-shadow:
-    0 0 2px rgba(0, 0, 0, 1),
-    0 0 4px rgba(0, 0, 0, .9),
-    0 0 7px  var(--neon-cyan),
-    0 0 20px var(--neon-cyan),
-    0 0 42px #00f0ff88,
-    0 0 80px #00f0ff44;
-  animation: flicker 5s 1s ease-in-out infinite alternate;
-}
-
-.neon-purple {
-  color: var(--neon-purple);
-  text-shadow:
-    0 0 2px rgba(0, 0, 0, 1),
-    0 0 4px rgba(0, 0, 0, .9),
-    0 0 7px  var(--neon-purple),
-    0 0 20px var(--neon-purple),
-    0 0 42px #b24dff88,
-    0 0 80px #b24dff44;
-  animation: flicker 6s 2s ease-in-out infinite alternate;
-}
-
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 1;
-  }
-  20%, 24%, 55% {
-    opacity: .85;
-  }
-}
+/* neon-pink / neon-cyan / neon-purple → shared.css (with flicker animation added per element) */
+.neon-pink  { animation: flicker 4s ease-in-out infinite alternate; }
+.neon-cyan  { animation: flicker 5s 1s ease-in-out infinite alternate; }
+.neon-purple{ animation: flicker 6s 2s ease-in-out infinite alternate; }
 
 .hero-subtitle {
   font-size: clamp(.85rem, 1.5vw, 1.05rem);
@@ -221,10 +145,14 @@ body.landing-tab-posters-active .hero-subtitle {
   display: none;
 }
 
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* SOPs tab: hide hero subtitle and footer copy */
+body.landing-tab-sops-active .hero-subtitle,
+body.landing-tab-sops-active .footer-line,
+body.landing-tab-sops-active .footer-cta {
+  display: none;
 }
+
+/* fadeInDown → shared.css */
 
 /* ─── Projects section ─── */
 .projects {

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to write a PRD with AI — AIProtoLab SOPs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --pink: #ff2d78;
+  --cyan: #00f0ff;
+  --purple: #b24dff;
+  --mid1:   #d45acd;
+  --mid2:   #9b62e0;
+  --green:  #5DCAA5;
+  --amber:  #F5A623;
+  --bg:     #0a0a1a;
+  --text:   #e8e8f0;
+  --muted:  #9090b0;
+  --label:  #9599b8;
+  --border: rgba(255,255,255,0.1);
+  --surface: #111128;
+  --surface2: #1e2238;
+  --font-title: 'Courier Prime', monospace;
+  --font-body:  'DM Sans', sans-serif;
+  --font-ui:    'Space Grotesk', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,26,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-decoration: none;
+}
+.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+
+.hero {
+  max-width: 760px; margin: 0 auto;
+  padding: 5rem 2rem 1rem;
+}
+.hero-label {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;
+}
+.hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.hero-label-num {
+  font-family: var(--font-ui); font-size: 10px;
+  background: rgba(245,166,35,0.1); border: 0.5px solid rgba(245,166,35,0.3);
+  color: var(--amber); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em;
+}
+h1 {
+  font-family: var(--font-title);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700; line-height: 1.1; color: var(--text);
+  margin-bottom: 1.5rem; max-width: 640px;
+}
+.hero-sub {
+  font-size: 18px; color: var(--muted); line-height: 1.7;
+  max-width: 520px; padding-left: 1.5rem;
+  border-left: 2px solid rgba(255,255,255,0.12);
+}
+
+.content { max-width: 760px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+.section-break {
+  display: flex; align-items: center; gap: 14px;
+  margin: 3.5rem 0 2rem;
+}
+.section-break-label {
+  font-family: var(--font-title); font-size: 13px; font-style: italic;
+  color: var(--label); white-space: nowrap;
+}
+.section-break-line { flex: 1; height: 1px; background: var(--border); }
+
+.body-text {
+  font-size: 17px; color: var(--muted); line-height: 1.85;
+  margin-bottom: 1.25rem;
+}
+.body-text strong { color: var(--text); font-weight: 500; }
+.body-text:last-child { margin-bottom: 0; }
+
+.pull-quote {
+  font-family: var(--font-title); font-size: 22px; font-weight: 700;
+  color: var(--text); line-height: 1.4;
+  border-left: 3px solid var(--amber);
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  margin: 2rem 0;
+}
+
+/* FIELD LIST */
+.field-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.field-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 0; gap: 1.5rem; align-items: start;
+}
+.field-item:last-child { border-bottom: none; }
+.field-name {
+  font-family: var(--font-title); font-size: 15px; font-weight: 700;
+  color: var(--text); padding-top: 1px;
+}
+.field-desc { font-size: 15px; color: var(--muted); line-height: 1.6; }
+.field-desc strong { color: var(--text); font-weight: 500; }
+
+/* PRICING BLOCK — multi-tool */
+.pricing-block {
+  border: 1px solid var(--border);
+  margin: 2rem 0; overflow: hidden;
+}
+.pricing-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.pricing-header-label {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--label);
+}
+.pricing-rows { display: flex; flex-direction: column; }
+.pricing-row {
+  display: grid; grid-template-columns: 160px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.pricing-row:last-child { border-bottom: none; }
+.pricing-tier {
+  padding: 1rem 1.25rem;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 4px;
+  justify-content: center;
+}
+.pricing-tier-label {
+  font-family: var(--font-title); font-size: 14px; font-weight: 700;
+  color: var(--text);
+}
+.pricing-tier-url {
+  font-family: var(--font-title); font-size: 12px; color: var(--label);
+  font-style: italic;
+}
+.pricing-content {
+  padding: 1rem 1.25rem;
+  font-size: 14px; color: var(--muted); line-height: 1.6;
+}
+.pricing-content strong { color: var(--text); font-weight: 500; }
+.verdict-tag {
+  display: inline-block;
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 3px; margin-top: 6px;
+}
+.verdict-enough { background: rgba(93,202,165,0.1); color: var(--green); }
+
+/* EXAMPLE BLOCK */
+.example-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
+.example-header {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--label);
+}
+.example-content {
+  padding: 1.5rem 1.75rem;
+  font-family: var(--font-title); font-size: 14px;
+  color: var(--muted); line-height: 2;
+  white-space: pre-wrap;
+}
+.example-content .field-label { color: var(--cyan); font-weight: 700; }
+.example-content .field-value { color: var(--text); }
+
+/* TEMPLATE BLOCK */
+.template-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
+.template-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.template-header-label {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--label);
+}
+.copy-btn {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text); background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 4px 14px; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.copy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.copy-btn.copied { color: var(--green); border-color: var(--green); }
+.template-content {
+  padding: 1.5rem 1.75rem;
+  font-family: var(--font-title); font-size: 14px;
+  color: var(--muted); line-height: 2;
+  white-space: pre-wrap;
+}
+.template-content .tpl-field { color: var(--cyan); font-weight: 700; }
+.template-content .tpl-hint { color: var(--label); font-style: italic; }
+
+/* STEPS */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.step-row {
+  display: grid; grid-template-columns: 44px 1fr;
+  padding: 1.5rem 0; border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.step-row:last-child { border-bottom: none; }
+.step-num {
+  font-family: var(--font-title); font-size: 22px; font-weight: 700;
+  color: var(--amber); line-height: 1; padding-top: 3px;
+}
+.step-body { padding-left: 0.5rem; }
+.step-title {
+  font-family: var(--font-title); font-size: 17px; font-weight: 700;
+  color: var(--text); margin-bottom: 6px; line-height: 1.2;
+}
+.step-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.step-desc strong { color: var(--text); font-weight: 500; }
+
+/* NEXT SOP */
+.next-wrap {
+  border: 1px solid var(--border); margin-top: 3.5rem;
+  display: grid; grid-template-columns: 1fr auto;
+}
+.next-body { padding: 1.5rem 1.75rem; }
+.next-eyebrow {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--label); margin-bottom: 6px;
+}
+.next-title {
+  font-family: var(--font-title); font-size: 20px; font-weight: 700;
+  color: var(--text); margin-bottom: 6px; line-height: 1.2;
+}
+.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.next-cta {
+  padding: 1.5rem 1.75rem; display: flex; align-items: center;
+  border-left: 1px solid var(--border);
+}
+.next-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; text-decoration: none; color: var(--text);
+  border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px;
+  transition: border-color 0.15s, color 0.15s; white-space: nowrap;
+}
+.next-link:hover { border-color: var(--amber); color: var(--amber); }
+.next-link-disabled {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--label);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 20px; white-space: nowrap; cursor: default;
+}
+.next-link svg { width: 13px; height: 13px; }
+
+/* DONE LIST */
+.done-list { list-style: none; }
+.done-list li {
+  display: grid; grid-template-columns: 44px 1fr;
+  font-size: 16px; color: var(--muted);
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  align-items: start; line-height: 1.55;
+}
+.done-list li:last-child { border-bottom: none; }
+.done-num {
+  font-family: var(--font-title); font-size: 14px; font-weight: 700;
+  font-style: italic; padding-top: 1px; color: var(--amber);
+}
+
+footer {
+  border-top: 1px solid var(--border); padding: 1.75rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-left {
+  font-family: var(--font-title); font-size: 13px;
+  font-style: italic; color: var(--label);
+}
+.footer-right a {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-decoration: none;
+}
+
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  .hero { padding: 3rem 1.25rem 1rem; }
+  .content { padding: 0 1.25rem 4rem; }
+  .field-item { grid-template-columns: 1fr; gap: 4px; }
+  .pricing-row { grid-template-columns: 1fr; }
+  .pricing-tier { border-right: none; border-bottom: 1px solid var(--border); }
+  .next-wrap { grid-template-columns: 1fr; }
+  .next-cta { border-left: none; border-top: 1px solid var(--border); }
+  .step-row { grid-template-columns: 36px 1fr; }
+  h1 { font-size: 28px; }
+  .hero-sub { font-size: 16px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+.task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
+.task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
+.task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
+.task-block-sop { font-family: var(--font-title); font-size: 12px; font-style: italic; color: var(--label); }
+.task-block-body { padding: 1.4rem; }
+.task-title { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.2; }
+.task-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+.task-desc strong { color: var(--text); font-weight: 500; }
+.task-outcome { background: var(--surface); border: 0.5px solid var(--border); padding: 0.875rem 1.1rem; display: flex; align-items: flex-start; gap: 12px; }
+.task-outcome-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5DCAA5; flex-shrink: 0; padding-top: 2px; }
+.task-outcome-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+.task-outcome-text strong { color: var(--text); font-weight: 500; }
+.task-share { margin-top: 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+.task-share-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); display: block; margin-bottom: 4px; }
+.task-share-text { font-size: 13px; color: var(--muted); line-height: 1.55; font-style: italic; }
+.pm-voice { border-left: 3px solid var(--purple); padding-left: 1.25rem; font-style: italic; }
+.decision-block { border: 1px solid var(--border); border-left: 3px solid var(--cyan); padding: 1rem 1.25rem; margin-bottom: 2rem; background: rgba(0,240,255,0.03); }
+.decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
+.decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.decision-block strong { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="../index.html" class="back-link">&larr; SOPs / #shipitsolo</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">
+    Block 00 — Before you start
+    <span class="hero-label-num">01</span>
+  </div>
+  <h1>How to write a PRD with AI</h1>
+  <p class="hero-sub">A PRD is not a document for engineers. It is a thinking tool. Use it before you open any other tool in this bundle.</p>
+</div>
+
+<div class="content">
+
+  <p class="body-text">A PRD is a single page that answers the questions you should answer before building anything: what is this, who is it for, what does it do, and what does it not do.</p>
+
+  <p class="body-text"><em>Ten minutes of clarity here saves you hours of frustration later. Every time. Without exception.</em></p>
+
+  <p class="body-text">Most people skip this and open the AI coding assistant with a vague idea. Two hours later they have something that is almost right but does not hold together. <strong>The PRD exists to prevent that.</strong></p>
+
+  <div class="section-break"><span class="section-break-label">the seven fields</span><div class="section-break-line"></div></div>
+
+  <ul class="field-list">
+    <li class="field-item">
+      <div class="field-name">What it does</div>
+      <div class="field-desc">One sentence. If you cannot say it in one sentence, you have not defined it yet. <strong>Do not move on until this is clear.</strong></div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">Who it is for</div>
+      <div class="field-desc">Be specific. Not "anyone who wants to" but "a designer who works solo and needs to test ideas fast."</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">The problem it solves</div>
+      <div class="field-desc">What is the situation before this exists? What friction does it remove?</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">What it includes in v1</div>
+      <div class="field-desc">List only what is in the first version. <strong>This list should be shorter than you think.</strong></div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">What it does not include</div>
+      <div class="field-desc">Every feature you explicitly exclude is a decision not to get distracted. Write it down.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">The tech stack</div>
+      <div class="field-desc">What tools will you use? At this stage: an AI coding assistant, GitHub, and GitHub Pages. If unsure, leave blank and ask your AI assistant.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">Edge cases</div>
+      <div class="field-desc">What happens when something goes wrong? Empty form submissions. No data to show. API failures.</div>
+    </li>
+  </ul>
+
+  <div class="section-break"><span class="section-break-label">what it costs</span><div class="section-break-line"></div></div>
+
+  <div class="pricing-block">
+    <div class="pricing-header"><span class="pricing-header-label">Pick any of these — all free to start</span></div>
+    <div class="pricing-rows">
+      <div class="pricing-row">
+        <div class="pricing-tier"><span class="pricing-tier-label">Claude</span><span class="pricing-tier-url">claude.ai</span></div>
+        <div class="pricing-content">Strong at structured thinking and pushing back when your scope is too broad.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-tier"><span class="pricing-tier-label">ChatGPT</span><span class="pricing-tier-url">chatgpt.com</span></div>
+        <div class="pricing-content">Works well for structured documents and iterating on text.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-tier"><span class="pricing-tier-label">Gemini</span><span class="pricing-tier-url">gemini.google.com</span></div>
+        <div class="pricing-content">Good if you already live in the Google ecosystem.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">how to fill it in</span><div class="section-break-line"></div></div>
+
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Paste the paragraph you wrote in SOP 00</div>
+        <div class="step-desc">Open your AI assistant. Paste your landing page description. That is your starting point.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Paste the template and ask for help</div>
+        <div class="step-desc">Copy the template below and add it to the conversation. Then say: <strong>"Help me fill this in based on what I just described. Push back if anything is vague."</strong></div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Do not skip "what it does not include"</div>
+        <div class="step-desc">For your landing page: no blog, no CMS, no animations unless they serve a purpose. Every item keeps you focused.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Save the final PRD</div>
+        <div class="step-desc">A notes app, a document, anywhere. You will paste it into your AI coding assistant in SOP 03.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">what your PRD might look like</span><div class="section-break-line"></div></div>
+
+  <div class="example-block">
+    <div class="example-header">Example PRD — Personal landing page</div>
+    <div class="example-content"><span class="example-field">What it does:</span><span class="example-value">A personal page that introduces who I am, what I do, and lets people contact me.</span>
+<span class="example-field">Who it is for:</span><span class="example-value">Potential clients or collaborators who want to know more after a first contact.</span>
+<span class="example-field">The problem it solves:</span><span class="example-value">Right now when someone searches for me they find nothing or something outdated.</span>
+<span class="example-field">What it includes in v1:</span><span class="example-value">My name and what I do. A short bio. Selected work or skills. A contact form. Social links.</span>
+<span class="example-field">What it does not include:</span><span class="example-value">A blog. A CMS. Animations. Multiple languages. A dark mode toggle.</span>
+<span class="example-field">Tech stack:</span><span class="example-value">AI coding assistant, GitHub Pages for hosting, Supabase for saving contact form messages.</span>
+<span class="example-field">Edge cases:</span><span class="example-value">Form submitted empty: show a validation error. Submission fails: show a retry message.</span></div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">the template</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">This is one way to structure a PRD. Not the only way. As you build more you will notice which fields you actually use and what you wish you had written down. For now, use this one.</p>
+
+  <div class="template-block">
+    <div class="template-header">
+      <span class="template-label">PRD Template</span>
+      <button class="copy-btn" id="copyBtn" onclick="copyTemplate()">Copy</button>
+    </div>
+    <div class="template-content"><span class="tpl-field">WHAT IT DOES:</span>
+<span class="tpl-hint">[One sentence. What does this product do?]</span>
+
+<span class="tpl-field">WHO IT IS FOR:</span>
+<span class="tpl-hint">[Be specific. Describe the person, not a market segment.]</span>
+
+<span class="tpl-field">THE PROBLEM IT SOLVES:</span>
+<span class="tpl-hint">[What is the situation before this exists?]</span>
+
+<span class="tpl-field">WHAT IT INCLUDES IN V1:</span>
+<span class="tpl-hint">[List only what ships on day one. Keep it short.]</span>
+
+<span class="tpl-field">WHAT IT DOES NOT INCLUDE:</span>
+<span class="tpl-hint">[Explicitly list what you are not building.]</span>
+
+<span class="tpl-field">TECH STACK:</span>
+<span class="tpl-hint">[What tools will you use? If unsure, ask your AI assistant.]</span>
+
+<span class="tpl-field">EDGE CASES:</span>
+<span class="tpl-hint">[What happens when something goes wrong?]</span></div>
+  </div>
+
+  <div class="task-block">
+    <div class="task-block-header">
+      <span class="task-block-label">Your task this week</span>
+      <span class="task-block-sop">SOP 01</span>
+    </div>
+    <div class="task-block-body">
+      <div class="task-title">Write the PRD for your personal landing page.</div>
+      <p class="task-desc">Take the paragraph from SOP 00, open your AI assistant, paste the template, and fill in all seven fields. Do not skip "what it does not include." <strong>Save it. You will use it in every SOP from here on.</strong></p>
+      <div class="task-outcome">
+        <span class="task-outcome-label">When done</span>
+        <span class="task-outcome-text"><strong>A completed PRD. Seven fields filled. Saved and ready to paste into your AI coding assistant next week.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-wrap">
+    <div class="next-body">
+      <div class="next-eyebrow">Next — SOP 02</div>
+      <div class="next-title">How to prompt an AI coding assistant effectively</div>
+      <p class="next-desc">You have the PRD. Now learn how to turn it into instructions that actually produce what you want.</p>
+    </div>
+    <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
+  </div>
+
+  <script>
+  function copyTemplate() {
+    const text = "WHAT IT DOES:
+[One sentence.]
+
+WHO IT IS FOR:
+[Be specific.]
+
+THE PROBLEM IT SOLVES:
+[What friction does it remove?]
+
+WHAT IT INCLUDES IN V1:
+[Keep it short.]
+
+WHAT IT DOES NOT INCLUDE:
+[Explicitly list what you are not building.]
+
+TECH STACK:
+[What tools?]
+
+EDGE CASES:
+[What happens when something goes wrong?]";
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("copyBtn");
+      btn.textContent = "Copied";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2000);
+    });
+  }
+  </script>
+
+</div>
+<footer>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 00</div>
+  <div class="footer-right"><a href="/sops/shipitsolo">← back to index</a></div>
+</footer>
+
+<script>
+function copyTemplate() {
+  const text = `WHAT IT DOES:
+[One sentence. What does this product do?]
+
+WHO IT IS FOR:
+[Be specific. Describe the person, not a market segment.]
+
+THE PROBLEM IT SOLVES:
+[What is the situation before this product exists? What friction does it remove?]
+
+WHAT IT INCLUDES IN V1:
+[List only what ships on day one. Keep it short.]
+
+WHAT IT DOES NOT INCLUDE:
+[Explicitly list what you are not building. Every item here is a decision to stay focused.]
+
+TECH STACK:
+[What tools will you use? If you are not sure, leave this blank and ask your AI assistant.]
+
+EDGE CASES:
+[What happens when something goes wrong? Think about empty states, errors, and unexpected inputs.]`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

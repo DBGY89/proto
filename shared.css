@@ -1,0 +1,145 @@
+/* =============================================
+   AI Proto Lab — Shared Foundation
+   Imported by: landing.css (home) + all SOPs pages
+   ============================================= */
+
+/* ─── Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@500;700&display=swap');
+
+/* ─── Canonical design tokens ─── */
+:root {
+  /* Core palette */
+  --neon-pink:   #ff2d78;
+  --neon-cyan:   #00f0ff;
+  --neon-purple: #b24dff;
+  --neon-gold:   #ffd700;
+  --neon-green:  #39ff14;
+
+  /* SOPs alias names → same canonical values */
+  --pink:   var(--neon-pink);
+  --cyan:   var(--neon-cyan);
+  --purple: var(--neon-purple);
+
+  /* Backgrounds */
+  --bg-deep:        #0a0a1a;
+  --bg-card:        #111128;
+  --bg-card-border: #1e1e3a;
+
+  /* SOPs alias names */
+  --bg:      var(--bg-deep);
+  --surface: var(--bg-card);
+  --border:  rgba(255, 255, 255, 0.08);
+
+  /* Text */
+  --text-primary:   #e8e8f0;
+  --text-secondary: #9090b0;
+  --text-muted:     #555580;
+
+  /* SOPs alias names */
+  --text:  var(--text-primary);
+  --muted: var(--text-secondary);
+  --label: #9599b8;
+
+  /* Typography */
+  --font-main:  'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ui:    'Space Grotesk', sans-serif;
+  --font-body:  'DM Sans', sans-serif;
+  --font-title: 'Courier Prime', monospace;
+
+  /* Radius & easing */
+  --radius:    16px;
+  --radius-sm: 10px;
+  --ease-out:  cubic-bezier(.23, 1, .32, 1);
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base ─── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── Topbar — same pattern as all AIProtoLab projects ─── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.25rem;
+  background: rgba(10, 10, 26, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--bg-card-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.back-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--neon-cyan); }
+.topbar-section {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ─── Shared neon text utilities ─── */
+.neon-pink {
+  color: var(--neon-pink);
+  text-shadow:
+    0 0 7px  var(--neon-pink),
+    0 0 20px var(--neon-pink),
+    0 0 42px #ff2d7888;
+}
+.neon-cyan {
+  color: var(--neon-cyan);
+  text-shadow:
+    0 0 7px  var(--neon-cyan),
+    0 0 20px var(--neon-cyan),
+    0 0 42px #00f0ff88;
+}
+.neon-purple {
+  color: var(--neon-purple);
+  text-shadow:
+    0 0 7px  var(--neon-purple),
+    0 0 20px var(--neon-purple),
+    0 0 42px #b24dff88;
+}
+
+/* ─── Shared keyframes ─── */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: .85; }
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

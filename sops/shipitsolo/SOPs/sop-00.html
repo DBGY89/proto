@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What can you actually build with this stack? — AIProtoLab SOPs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --pink: #ff2d78; --cyan: #00f0ff; --purple: #b24dff;
+  --mid1: #d45acd; --mid2: #9b62e0; --green: #5DCAA5; --amber: #F5A623;
+  --bg: #0a0a1a; --text: #e8e8f0; --muted: #9090b0; --label: #9599b8;
+  --border: rgba(255,255,255,0.1); --surface: #181b2e; --surface2: #1e2238;
+  --font-title: 'Courier Prime', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --font-ui: 'Space Grotesk', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+.hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 1rem; }
+.hero-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+.hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.hero-label-num { font-family: var(--font-ui); font-size: 10px; background: rgba(245,166,35,0.1); border: 0.5px solid rgba(245,166,35,0.3); color: var(--amber); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; }
+h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 1.5rem; max-width: 640px; }
+.hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 520px; padding-left: 1.5rem; border-left: 2px solid rgba(255,255,255,0.12); }
+.content { max-width: 760px; margin: 0 auto; padding: 0 2rem 6rem; }
+.section-break { display: flex; align-items: center; gap: 14px; margin: 3.5rem 0 2rem; }
+.section-break-label { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
+.section-break-line { flex: 1; height: 1px; background: var(--border); }
+.body-text { font-size: 17px; color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
+.body-text strong { color: var(--text); font-weight: 500; }
+
+/* PROJECT EXAMPLES */
+.examples-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 2rem 0; }
+.example-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1.25rem 1.4rem; }
+.example-card-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+.example-card-title { font-family: var(--font-title); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; line-height: 1.2; }
+.example-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.timeline-row { display: grid; grid-template-columns: 160px 1fr; gap: 0; border-bottom: 1px solid var(--border); padding: 1.25rem 0; align-items: start; }
+.timeline-row:last-child { border-bottom: none; }
+.timeline-time { font-family: var(--font-title); font-size: 14px; font-weight: 700; font-style: italic; color: var(--amber); padding-top: 2px; padding-right: 1.5rem; }
+.timeline-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* EXAMPLE BLOCK */
+.example-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
+.example-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
+.example-content { padding: 1.25rem 1.5rem; font-family: var(--font-title); font-size: 14px; color: var(--muted); line-height: 1.9; white-space: pre-wrap; }
+
+/* TASK BLOCK */
+.task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
+.task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
+.task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
+.task-block-sop { font-family: var(--font-title); font-size: 12px; font-style: italic; color: var(--label); }
+.task-block-body { padding: 1.4rem; }
+.task-title { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.2; }
+.task-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+.task-desc strong { color: var(--text); font-weight: 500; }
+.task-outcome { background: var(--surface2); border: 0.5px solid var(--border); padding: 0.875rem 1.1rem; display: flex; align-items: flex-start; gap: 12px; }
+.task-outcome-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); flex-shrink: 0; padding-top: 2px; }
+.task-outcome-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+.task-outcome-text strong { color: var(--text); font-weight: 500; }
+
+/* NEXT */
+.next-wrap { border: 1px solid var(--border); margin-top: 2rem; display: grid; grid-template-columns: 1fr auto; }
+.next-body { padding: 1.5rem 1.75rem; }
+.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
+.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
+.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
+
+footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
+.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  .hero { padding: 3rem 1.25rem 1rem; }
+  .content { padding: 0 1.25rem 4rem; }
+  .examples-grid { grid-template-columns: 1fr; }
+  .next-wrap { grid-template-columns: 1fr; }
+  .next-cta { border-left: none; border-top: 1px solid var(--border); }
+  .timeline-row { grid-template-columns: 120px 1fr; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="../index.html" class="back-link">&larr; SOPs / #shipitsolo</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Block 00 — Before you start <span class="hero-label-num">00</span></div>
+  <h1>What can you actually build with this stack?</h1>
+  <p class="hero-sub">A lot. And faster than you think. This SOP shows you what is possible before you write a single line of code.</p>
+</div>
+
+<div class="content">
+
+  <p class="body-text">You probably have things you want to do but never find the time for. Train more. Cook better. Learn something new. Spend more time with the people you care about. The tools in this course will not do those things for you. <strong>But they will free up the time and energy you need to actually do them.</strong></p>
+
+  <p class="body-text"><em>Every project you build here is a tool that works for you while you are doing something else.</em></p>
+
+  <div class="section-break"><span class="section-break-label">what you will build in this course</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">Every SOP in this bundle has a task. The tasks connect. <strong>By the time you finish the mandatory SOPs, you will have built and shipped a real personal landing page.</strong> Not a tutorial exercise. Something live on the internet with your name and a URL you can share.</p>
+
+  <p class="body-text">The landing page is not the point. It is the training ground. Once you know how to build and deploy one project, you know how to build and deploy anything. The next one will take half the time. The one after that will take even less.</p>
+
+  <div class="timeline">
+    <div class="timeline-row">
+      <div class="timeline-time">SOP 00 to 02</div>
+      <div><div class="timeline-title">Before you start</div><div class="timeline-desc">Understand what you are building, write a clear PRD, and learn how to prompt an AI coding assistant effectively.</div></div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">SOP 03 to 06</div>
+      <div><div class="timeline-title">Build and publish</div><div class="timeline-desc">Build your landing page, get it live on the internet, connect your own domain, and deploy with Vercel.</div></div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">SOP 07 to 12</div>
+      <div><div class="timeline-title">Add what your project needs</div><div class="timeline-desc">Optional. Database, authentication, payments, AI. Only do these if your project needs them.</div></div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">SOP 13</div>
+      <div><div class="timeline-title">When things go wrong</div><div class="timeline-desc">How to debug with AI. The SOP you will use most often and the one that will save you the most time.</div></div>
+    </div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">see what is possible before you start</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">Before you write your PRD, try this. Open Claude, ChatGPT, or any AI assistant and paste this prompt:</p>
+
+  <div class="example-block">
+    <div class="example-header">Your first prompt — try it right now</div>
+    <div class="example-content">Build me a prototype for an animal shelter. The shelter rescues dogs and cats in [your city]. The page should feel warm, emotional, and trustworthy. Include: a hero section with a strong headline, three animals available for adoption with their names and personalities, how the adoption process works in three steps, and a contact form. Show me a preview of how it would look.</div>
+  </div>
+
+  <p class="body-text">Look at what comes back. <strong>Something that looks real appeared in seconds from a description in plain language.</strong> No code. No technical knowledge. That is what you are going to learn to build and put on the internet.</p>
+
+  <div class="task-block">
+    <div class="task-block-header">
+      <span class="task-block-label">Your task this week</span>
+      <span class="task-block-sop">SOP 00</span>
+    </div>
+    <div class="task-block-body">
+      <div class="task-title">Describe your landing page in one paragraph.</div>
+      <p class="task-desc">Answer three questions in writing: What is your name and what do you do? Who is this page for? What do you want someone to do after visiting it? Write it as a single paragraph. <strong>Just make it honest.</strong></p>
+      <div class="task-outcome">
+        <span class="task-outcome-label">When done</span>
+        <span class="task-outcome-text"><strong>A written paragraph describing your landing page. Ready to turn into a PRD in SOP 01.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">now go see what is possible</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">These are real projects built with this exact stack. Each one started as a plain language description, exactly like the paragraph you just wrote. Click any of them and explore.</p>
+
+  <div class="examples-grid">
+    <a class="example-card" href="/projects/money-flow/index.html" style="text-decoration:none;display:block;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(0,240,255,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <span class="example-card-tag" style="color:var(--cyan)">Finance</span>
+      <div class="example-card-title">Money Flow</div>
+      <p class="example-card-desc">See where your money goes and where it can take you.</p>
+    </a>
+    <a class="example-card" href="/projects/crossfit-fuel/index.html" style="text-decoration:none;display:block;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(255,45,120,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <span class="example-card-tag" style="color:var(--pink)">Fitness</span>
+      <div class="example-card-title">CrossFit Fuel</div>
+      <p class="example-card-desc">Tell it whether you are training or resting today. It tells you what to eat and why.</p>
+    </a>
+    <a class="example-card" href="/projects/learn-hangul/index.html" style="text-decoration:none;display:block;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(178,77,255,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <span class="example-card-tag" style="color:var(--purple)">Learning</span>
+      <div class="example-card-title">Learn Hangul</div>
+      <p class="example-card-desc">Learn the Korean alphabet through games. More engaging than flashcards.</p>
+    </a>
+    <a class="example-card" href="/projects/salad-bar/index.html" style="text-decoration:none;display:block;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(245,166,35,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <span class="example-card-tag" style="color:var(--amber)">Cooking</span>
+      <div class="example-card-title">Salad Bar</div>
+      <p class="example-card-desc">Pick ingredients, get a dressing that fits, plus the recipe and one chef's trick.</p>
+    </a>
+  </div>
+
+  <div class="next-wrap">
+    <div class="next-body">
+      <div class="next-eyebrow">Next — SOP 01</div>
+      <div class="next-title">How to write a PRD with AI</div>
+      <p class="next-desc">Turn what you just wrote into a proper product definition. Ten minutes of clarity that saves hours of confusion.</p>
+    </div>
+    <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 00</div>
+  <div class="footer-right"><a href="../index.html">← back to index</a></div>
+</footer>
+
+</body>
+</html>

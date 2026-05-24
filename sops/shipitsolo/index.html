@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>#shipitsolo — AIProtoLab SOPs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/shared.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --pink: #ff2d78; --cyan: #00f0ff; --purple: #b24dff;
+  --mid1: #d45acd; --mid2: #9b62e0; --green: #5DCAA5; --amber: #F5A623;
+  --bg: #0a0a1a; --surface: #111128; --surface2: #181b2e;
+  --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.05);
+  --text: #e8e8f0; --muted: #9090b0; --label: #9599b8;
+  --font-title: "Courier Prime", monospace;
+  --font-body: "DM Sans", sans-serif;
+  --font-ui: "Space Grotesk", sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; min-height: 100vh; overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,26,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-decoration: none;
+}
+.nav-tabs { display: flex; align-items: center; }
+.nav-tab {
+  font-family: var(--font-body); font-size: 13px; color: var(--label);
+  text-decoration: none; padding: 0 1rem; height: 52px;
+  display: flex; align-items: center;
+  border-bottom: 2px solid transparent; transition: color 0.15s;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--text); border-bottom-color: var(--pink); }
+
+/* HERO CARD — shipitsolo */
+.hero-section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 3rem 2rem 2rem;
+}
+.hero-card {
+  position: relative; overflow: hidden;
+  border-radius: 16px; border: 0.5px solid var(--border);
+  aspect-ratio: 21/7;
+  min-height: 200px;
+}
+.hero-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center 30%;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right,
+    rgba(13,15,26,0.97) 0%,
+    rgba(13,15,26,0.75) 50%,
+    rgba(13,15,26,0.2) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  height: 100%; display: flex; flex-direction: column;
+  justify-content: center; padding: 2rem 2.5rem;
+}
+.hero-tag {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 0.5rem;
+}
+.hero-title {
+  font-family: var(--font-title); font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700; line-height: 1.0; margin-bottom: 0.6rem;
+}
+.hash {
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-desc { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 420px; }
+
+/* GRID SECTION */
+.grid-section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+.grid-label {
+  font-family: var(--font-title); font-size: 13px; font-style: italic;
+  color: var(--label); margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.grid-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+.sop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+/* SOP CARD */
+.sop-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  transition: transform 0.15s, border-color 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.sop-card.available { cursor: pointer; }
+.sop-card.available:hover { transform: translateY(-2px); }
+.sop-card.locked { cursor: default; opacity: 0.5; }
+
+.sop-card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 0.5rem;
+}
+.sop-num {
+  font-family: var(--font-title); font-size: 13px; font-weight: 700;
+  font-style: italic; line-height: 1; flex-shrink: 0; padding-top: 2px;
+}
+.sop-block-tag {
+  font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 20px; border: 0.5px solid;
+  white-space: nowrap;
+}
+
+.sop-title {
+  font-family: var(--font-title); font-size: 15px; font-weight: 700;
+  color: var(--text); line-height: 1.25;
+}
+.sop-card.locked .sop-title { color: var(--label); }
+
+.sop-desc {
+  font-size: 13px; color: var(--label); line-height: 1.5; flex: 1;
+}
+
+.sop-pills {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto;
+}
+.pill {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; padding: 3px 9px;
+  border-radius: 20px; border: 0.5px solid;
+}
+.pill-pink { color: var(--pink); border-color: rgba(255,77,158,0.35); background: rgba(255,77,158,0.07); }
+.pill-cyan { color: var(--cyan); border-color: rgba(0,229,255,0.35); background: rgba(0,229,255,0.07); }
+.pill-purple { color: var(--purple); border-color: rgba(178,102,255,0.35); background: rgba(178,102,255,0.07); }
+.pill-mid1 { color: var(--mid1); border-color: rgba(212,90,205,0.35); background: rgba(212,90,205,0.07); }
+.pill-mid2 { color: var(--mid2); border-color: rgba(155,98,224,0.35); background: rgba(155,98,224,0.07); }
+.pill-green { color: var(--green); border-color: rgba(93,202,165,0.35); background: rgba(93,202,165,0.07); }
+.pill-amber { color: var(--amber); border-color: rgba(245,166,35,0.35); background: rgba(245,166,35,0.07); }
+
+/* hover accent line per block */
+.sop-card.available.b00:hover { border-color: rgba(245,166,35,0.4); }
+.sop-card.available.b01:hover { border-color: rgba(255,77,158,0.4); }
+.sop-card.available.b02:hover { border-color: rgba(212,90,205,0.4); }
+.sop-card.available.b03:hover { border-color: rgba(155,98,224,0.4); }
+.sop-card.available.b04:hover { border-color: rgba(178,102,255,0.4); }
+.sop-card.available.b05:hover { border-color: rgba(0,229,255,0.4); }
+.sop-card.available.b06:hover { border-color: rgba(93,202,165,0.4); }
+
+footer {
+  border-top: 1px solid var(--border); padding: 1.5rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
+.footer-right a {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-decoration: none;
+}
+
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  .nav-tabs { display: none; }
+  .hero-section, .grid-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .hero-card { aspect-ratio: auto; min-height: 220px; }
+  .hero-overlay { background: linear-gradient(to bottom, rgba(13,15,26,0.5) 0%, rgba(13,15,26,0.97) 100%); }
+  .sop-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; align-items: flex-start; padding: 1.25rem; }
+}
+
+/* ── Two-column intro: manifesto + course card ── */
+.page-intro {
+  max-width: 1100px; margin: 0 auto;
+  padding: 3rem 2rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Manifesto */
+.manifesto {
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+.manifesto p {
+  font-family: var(--font-body); font-size: 16px;
+  color: var(--muted); line-height: 1.8;
+}
+.manifesto-sig {
+  font-family: var(--font-title) !important;
+  font-size: 20px !important; font-style: italic;
+  color: var(--text) !important;
+  margin-top: 0.5rem;
+}
+
+/* Course card (right column, sticky) */
+.course-card-wrap {
+  position: sticky;
+  top: 68px;
+}
+.course-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+}
+.course-card-image {
+  position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden;
+}
+.course-card-image img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+}
+.course-card-image-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(17,17,40,1) 0%, rgba(17,17,40,0.4) 50%, rgba(17,17,40,0.05) 100%);
+}
+.course-card-body { padding: 1.25rem 1.4rem 1.5rem; }
+.course-card-tag {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 0.5rem; display: block;
+}
+.course-card-title {
+  font-family: var(--font-title); font-size: 28px; font-weight: 700;
+  line-height: 1.0; color: var(--text); margin-bottom: 0.6rem;
+}
+.course-card-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem;
+}
+.course-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1rem; border-top: 0.5px solid var(--border);
+}
+.course-card-meta { display: flex; gap: 1.25rem; }
+.course-meta-item { display: flex; flex-direction: column; gap: 2px; }
+.course-meta-label {
+  font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--label);
+}
+.course-meta-val { font-family: var(--font-title); font-size: 13px; color: var(--text); }
+.course-card-btn {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text); border: 1px solid var(--purple);
+  padding: 7px 16px; text-decoration: none; border-radius: 6px;
+  box-shadow: 0 0 8px rgba(178,102,255,0.4), 0 0 18px rgba(178,102,255,0.2);
+  animation: sop-neon-pulse 2s ease-in-out infinite;
+  transition: box-shadow 0.2s, color 0.2s;
+}
+.course-card-btn:hover {
+  color: var(--purple);
+  box-shadow: 0 0 12px rgba(178,102,255,0.9), 0 0 30px rgba(178,102,255,0.5);
+}
+@keyframes sop-neon-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(178,102,255,0.4), 0 0 14px rgba(178,102,255,0.2); }
+  50%       { box-shadow: 0 0 12px rgba(178,102,255,0.8), 0 0 28px rgba(178,102,255,0.4); }
+}
+
+@media (max-width: 720px) {
+  .page-intro {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .course-card-wrap { position: static; }
+}
+
+
+.manifesto-closing {
+  font-family: var(--font-title);
+  font-size: 21px;
+  color: var(--text-primary);
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="/" class="back-link">&larr; AI Proto Lab</a>
+  <span class="topbar-section">SOPs / #shipitsolo</span>
+</nav>
+
+<div class="page-intro">
+
+  <div class="manifesto">
+    <p>Most people I know are afraid of AI. Not because it is complicated, but because nobody has shown them what it actually does. <strong><span style="color:var(--neon-pink)">Fear almost always comes from not knowing.</span></strong></p>
+    <p>AI does not <span style="color:var(--neon-cyan)">run marathons</span> for you. It does not <span style="color:var(--neon-cyan)">cook dinner</span> or <span style="color:var(--neon-cyan)">read books</span>. But it can help you build a plan to start running, create a site to organize your recipes and shopping list, or turn a book into a learning experience designed exactly for how you think.</p>
+    <p>I do not see AI as a robot that will take my job. <strong>I see it as a tool that <span style="color:var(--neon-purple)">gives me back time</span>.</strong> Time I used to spend on tasks I did not enjoy. Time I now spend on the things that actually matter: my family, my friends, the work I care about.</p>
+    <p>The more I use it, the faster I get. And the more I realize it is not hard. <strong><span style="color:var(--neon-cyan)">Once you knock down the wall of fear, it is actually fun.</span></strong> You have a tool that helps you, that you shape the way you want, that costs almost nothing, and that gets better the more you use it.</p>
+    <p>That is why I am sharing this. Not to talk about AI in the abstract. <strong><span style="color:var(--neon-pink)">To show you, step by step, what you can actually do with it.</span></strong></p>
+    <p class="manifesto-closing" style="font-size:28px;font-family:var(--font-title);background:linear-gradient(90deg,var(--neon-pink),var(--neon-purple),var(--neon-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:1.5rem;display:inline-block;">Starting today. Starting here.</p>
+    <p class="manifesto-sig">Diana — AIProtoLab</p>
+  </div>
+
+  <div class="course-card-wrap">
+    <div class="course-card">
+      <div class="course-card-image">
+        <img src="./card-cover.png" alt="#shipitsolo course cover">
+        <div class="course-card-image-overlay"></div>
+      </div>
+      <div class="course-card-body">
+        <span class="course-card-tag">Course</span>
+        <div class="course-card-title"><span class="hash">#</span>shipitsolo</div>
+        <p class="course-card-desc">From idea to live product. Solo. 13 step-by-step guides covering every tool you need to build, deploy, and ship on the internet. Free.</p>
+        <div class="course-card-footer">
+          <div class="course-card-meta">
+            <div class="course-meta-item">
+              <span class="course-meta-label">Guides</span>
+              <span class="course-meta-val">13</span>
+            </div>
+            <div class="course-meta-item">
+              <span class="course-meta-label">Cost</span>
+              <span class="course-meta-val">Free</span>
+            </div>
+          </div>
+          <a href="./list.html" class="course-card-btn">Start now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
