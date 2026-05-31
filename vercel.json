@@ -1,5 +1,4 @@
 {
-  "cleanUrls": true,
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/hangul", "destination": "/learn-hangul/", "permanent": true },
