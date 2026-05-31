@@ -42,22 +42,7 @@ body {
   overflow-x: hidden;
 }
 
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(13,15,26,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem; height: 52px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-logo {
-  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  background: linear-gradient(90deg, var(--pink), var(--cyan));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; text-decoration: none;
-}
-.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+/* nav → .topbar handled by shared.css */
 
 .hero {
   max-width: 760px; margin: 0 auto;
@@ -186,11 +171,18 @@ h1 {
   letter-spacing: 0.15em; text-transform: uppercase; color: var(--label);
 }
 .example-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding: 1.5rem 1.75rem;
   font-family: var(--font-title); font-size: 14px;
   color: var(--muted); line-height: 2;
   white-space: pre-wrap;
 }
+.example-content .example-field { color: var(--cyan); font-weight: 700; display: block; margin-bottom: 2px; }
+.example-content .example-value { color: var(--text); display: block; }
+.example-content .field-label { color: var(--cyan); font-weight: 700; }
+.example-content .field-value { color: var(--text); }
 .example-content .field-label { color: var(--cyan); font-weight: 700; }
 .example-content .field-value { color: var(--text); }
 
@@ -348,6 +340,27 @@ footer {
 .decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
 .decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
 .decision-block strong { color: var(--text); font-weight: 500; }
+.sop-abbr {
+    border-bottom: 1px dashed currentColor;
+    cursor: help;
+    position: relative;
+    display: inline-block;
+  }
+  .sop-abbr:hover::after {
+    content: "Standard Operating Procedure";
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+  }
 </style>
 </head>
 <body>
@@ -362,54 +375,50 @@ footer {
     <span class="hero-label-num">01</span>
   </div>
   <h1>How to write a PRD with AI</h1>
-  <p class="hero-sub">A PRD is not a document for engineers. It is a thinking tool. Use it before you open any other tool in this bundle.</p>
+  <p class="hero-sub">A PRD (Product Requirements Document) is the way you organize your idea before you start building it. Think of it like a recipe: you can throw ingredients together and see what happens, but when you follow a recipe you know what you are making, what you need, and what to expect when it is done.</p>
 </div>
 
 <div class="content">
 
-  <p class="body-text">A PRD is a single page that answers the questions you should answer before building anything: what is this, who is it for, what does it do, and what does it not do.</p>
-
-  <p class="body-text"><em>Ten minutes of clarity here saves you hours of frustration later. Every time. Without exception.</em></p>
-
-  <p class="body-text">Most people skip this and open the AI coding assistant with a vague idea. Two hours later they have something that is almost right but does not hold together. <strong>The PRD exists to prevent that.</strong></p>
+  <p class="body-text">A PRD answers a set of questions that take your idea from a single line and open it up to the world where it will actually live. Who will use it. What it solves. What it includes. What it does not. Once you have those answers, you have more than an idea. You have a project.</p>
 
   <div class="section-break"><span class="section-break-label">the seven fields</span><div class="section-break-line"></div></div>
 
   <ul class="field-list">
     <li class="field-item">
       <div class="field-name">What it does</div>
-      <div class="field-desc">One sentence. If you cannot say it in one sentence, you have not defined it yet. <strong>Do not move on until this is clear.</strong></div>
+      <div class="field-desc">One sentence. Take your time with this one. When this is clear, everything else follows naturally.</div>
     </li>
     <li class="field-item">
       <div class="field-name">Who it is for</div>
-      <div class="field-desc">Be specific. Not "anyone who wants to" but "a designer who works solo and needs to test ideas fast."</div>
+      <div class="field-desc">The more specific, the better. Think of a real person, not a category. "A freelancer who wants to get their first client" is much more useful than "anyone interested in working with me."</div>
     </li>
     <li class="field-item">
       <div class="field-name">The problem it solves</div>
-      <div class="field-desc">What is the situation before this exists? What friction does it remove?</div>
+      <div class="field-desc">What is the situation before this exists? What changes for the person once they have it?</div>
     </li>
     <li class="field-item">
-      <div class="field-name">What it includes in v1</div>
-      <div class="field-desc">List only what is in the first version. <strong>This list should be shorter than you think.</strong></div>
+      <div class="field-name">What it includes in the first version</div>
+      <div class="field-desc">Only what goes in the first version. Keeping this short helps you finish the first version without getting lost along the way.</div>
     </li>
     <li class="field-item">
       <div class="field-name">What it does not include</div>
-      <div class="field-desc">Every feature you explicitly exclude is a decision not to get distracted. Write it down.</div>
+      <div class="field-desc">List everything you are leaving out of this version. A blog, extra pages, features that sound nice but are not essential. Knowing this upfront keeps the first version focused and buildable.</div>
     </li>
     <li class="field-item">
       <div class="field-name">The tech stack</div>
-      <div class="field-desc">What tools will you use? At this stage: an AI coding assistant, GitHub, and GitHub Pages. If unsure, leave blank and ask your AI assistant.</div>
+      <div class="field-desc">What tools will you use? For now an AI coding assistant, GitHub, and GitHub Pages. If you are not sure, leave it blank and ask your AI assistant. It will help you decide.</div>
     </li>
     <li class="field-item">
       <div class="field-name">Edge cases</div>
-      <div class="field-desc">What happens when something goes wrong? Empty form submissions. No data to show. API failures.</div>
+      <div class="field-desc">Think about what could go wrong when someone uses your website. What happens if they fill in the contact form and forget to add their email? What if the page takes too long to load? Those situations are your edge cases. Write them down here.</div>
     </li>
   </ul>
 
   <div class="section-break"><span class="section-break-label">what it costs</span><div class="section-break-line"></div></div>
 
   <div class="pricing-block">
-    <div class="pricing-header"><span class="pricing-header-label">Pick any of these — all free to start</span></div>
+    <div class="pricing-header"><span class="pricing-header-label">Pick any of these, all free to start</span></div>
     <div class="pricing-rows">
       <div class="pricing-row">
         <div class="pricing-tier"><span class="pricing-tier-label">Claude</span><span class="pricing-tier-url">claude.ai</span></div>
@@ -421,7 +430,7 @@ footer {
       </div>
       <div class="pricing-row">
         <div class="pricing-tier"><span class="pricing-tier-label">Gemini</span><span class="pricing-tier-url">gemini.google.com</span></div>
-        <div class="pricing-content">Good if you already live in the Google ecosystem.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
+        <div class="pricing-content">Good option if you already live inside the Google ecosystem.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
       </div>
     </div>
   </div>
@@ -433,28 +442,28 @@ footer {
       <div class="step-num">1</div>
       <div class="step-body">
         <div class="step-title">Paste the paragraph you wrote in SOP 00</div>
-        <div class="step-desc">Open your AI assistant. Paste your landing page description. That is your starting point.</div>
+        <div class="step-desc">Open your AI assistant and paste your website description. That gives the AI everything it needs to help you fill in the PRD.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">2</div>
       <div class="step-body">
-        <div class="step-title">Paste the template and ask for help</div>
-        <div class="step-desc">Copy the template below and add it to the conversation. Then say: <strong>"Help me fill this in based on what I just described. Push back if anything is vague."</strong></div>
+        <div class="step-title">Paste the template and ask for help filling it in</div>
+        <div class="step-desc">Copy the template below, add it to the conversation, and say: <strong>"Help me fill this in based on what I just described. Ask me if anything needs more detail."</strong></div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">3</div>
       <div class="step-body">
-        <div class="step-title">Do not skip "what it does not include"</div>
-        <div class="step-desc">For your landing page: no blog, no CMS, no animations unless they serve a purpose. Every item keeps you focused.</div>
+        <div class="step-title">Give "what it does not include" the attention it deserves</div>
+        <div class="step-desc">For your personal website this might look like: no blog, no system to manage content, no animations unless they have a clear purpose. The more specific you are here, the less you have to explain later.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">4</div>
       <div class="step-body">
-        <div class="step-title">Save the final PRD</div>
-        <div class="step-desc">A notes app, a document, anywhere. You will paste it into your AI coding assistant in SOP 03.</div>
+        <div class="step-title">Save the final PRD somewhere you can find it</div>
+        <div class="step-desc">A notes app, a document, anywhere works. You will paste it into your AI coding assistant in <abbr class="sop-abbr">SOP</abbr> 03.</div>
       </div>
     </div>
   </div>
@@ -462,14 +471,27 @@ footer {
   <div class="section-break"><span class="section-break-label">what your PRD might look like</span><div class="section-break-line"></div></div>
 
   <div class="example-block">
-    <div class="example-header">Example PRD — Personal landing page</div>
-    <div class="example-content"><span class="example-field">What it does:</span><span class="example-value">A personal page that introduces who I am, what I do, and lets people contact me.</span>
-<span class="example-field">Who it is for:</span><span class="example-value">Potential clients or collaborators who want to know more after a first contact.</span>
-<span class="example-field">The problem it solves:</span><span class="example-value">Right now when someone searches for me they find nothing or something outdated.</span>
-<span class="example-field">What it includes in v1:</span><span class="example-value">My name and what I do. A short bio. Selected work or skills. A contact form. Social links.</span>
-<span class="example-field">What it does not include:</span><span class="example-value">A blog. A CMS. Animations. Multiple languages. A dark mode toggle.</span>
-<span class="example-field">Tech stack:</span><span class="example-value">AI coding assistant, GitHub Pages for hosting, Supabase for saving contact form messages.</span>
-<span class="example-field">Edge cases:</span><span class="example-value">Form submitted empty: show a validation error. Submission fails: show a retry message.</span></div>
+    <div class="example-header">Example PRD — Marta, dog photographer</div>
+    <div class="template-content"><span class="tpl-field">WHAT IT DOES:</span>
+A professional website for Marta, a dog photographer in Madrid. Visitors can see her work, explore her packages, and book a session.
+
+<span class="tpl-field">WHO IT IS FOR:</span>
+Dog owners in Madrid who want professional photos of their pets and are looking for a photographer they can trust.
+
+<span class="tpl-field">THE PROBLEM IT SOLVES:</span>
+Marta has no online presence. Potential clients cannot find her, see her work, or book a session without going through her personally.
+
+<span class="tpl-field">WHAT IT INCLUDES IN THE FIRST VERSION:</span>
+A home page with who she is and what she does. A public gallery with her best work. A services section with three packages: outdoor session, studio, and premium. A booking calendar. A contact form.
+
+<span class="tpl-field">WHAT IT DOES NOT INCLUDE:</span>
+Client login area. Private galleries. Online payments. Blog. Multiple languages.
+
+<span class="tpl-field">TECH STACK:</span>
+AI coding assistant, GitHub Pages for hosting.
+
+<span class="tpl-field">EDGE CASES:</span>
+What if someone tries to book a date that is already taken? What if the gallery takes too long to load on a phone? What if someone submits the contact form without filling in their email?</div>
   </div>
 
   <div class="section-break"><span class="section-break-label">the template</span><div class="section-break-line"></div></div>
@@ -491,7 +513,7 @@ footer {
 <span class="tpl-hint">[What is the situation before this exists?]</span>
 
 <span class="tpl-field">WHAT IT INCLUDES IN V1:</span>
-<span class="tpl-hint">[List only what ships on day one. Keep it short.]</span>
+<span class="tpl-hint">[Only what goes in the first version. Keep it short.]</span>
 
 <span class="tpl-field">WHAT IT DOES NOT INCLUDE:</span>
 <span class="tpl-hint">[Explicitly list what you are not building.]</span>
@@ -506,11 +528,11 @@ footer {
   <div class="task-block">
     <div class="task-block-header">
       <span class="task-block-label">Your task this week</span>
-      <span class="task-block-sop">SOP 01</span>
+      <span class="task-block-sop"><abbr class="sop-abbr">SOP</abbr> 01</span>
     </div>
     <div class="task-block-body">
-      <div class="task-title">Write the PRD for your personal landing page.</div>
-      <p class="task-desc">Take the paragraph from SOP 00, open your AI assistant, paste the template, and fill in all seven fields. Do not skip "what it does not include." <strong>Save it. You will use it in every SOP from here on.</strong></p>
+      <div class="task-title">Write the PRD for your personal website.</div>
+      <p class="task-desc">Take the paragraph from <abbr class="sop-abbr">SOP</abbr> 00, open your AI assistant, paste the template, and fill in all seven fields. <strong>Save it. You will use it in every <abbr class="sop-abbr">SOP</abbr> from here on.</strong></p>
       <div class="task-outcome">
         <span class="task-outcome-label">When done</span>
         <span class="task-outcome-text"><strong>A completed PRD. Seven fields filled. Saved and ready to paste into your AI coding assistant next week.</strong></span>
@@ -520,35 +542,16 @@ footer {
 
   <div class="next-wrap">
     <div class="next-body">
-      <div class="next-eyebrow">Next — SOP 02</div>
+      <div class="next-eyebrow">Next — <abbr class="sop-abbr">SOP</abbr> 02</div>
       <div class="next-title">How to prompt an AI coding assistant effectively</div>
-      <p class="next-desc">You have the PRD. Now learn how to turn it into instructions that actually produce what you want.</p>
+      <p class="next-desc">You have the PRD. Now you will learn how to turn it into instructions that produce exactly what you have in mind.</p>
     </div>
     <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
   </div>
 
   <script>
   function copyTemplate() {
-    const text = "WHAT IT DOES:
-[One sentence.]
-
-WHO IT IS FOR:
-[Be specific.]
-
-THE PROBLEM IT SOLVES:
-[What friction does it remove?]
-
-WHAT IT INCLUDES IN V1:
-[Keep it short.]
-
-WHAT IT DOES NOT INCLUDE:
-[Explicitly list what you are not building.]
-
-TECH STACK:
-[What tools?]
-
-EDGE CASES:
-[What happens when something goes wrong?]";
+    const text = "WHAT IT DOES:\n[One sentence.]\n\nWHO IT IS FOR:\n[Be specific.]\n\nTHE PROBLEM IT SOLVES:\n[What friction does it remove?]\n\nWHAT IT INCLUDES IN V1:\n[Keep it short.]\n\nWHAT IT DOES NOT INCLUDE:\n[Explicitly list what you are not building.]\n\nTECH STACK:\n[What tools?]\n\nEDGE CASES:\n[What happens when something goes wrong?]";
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById("copyBtn");
       btn.textContent = "Copied";
@@ -573,16 +576,16 @@ WHO IT IS FOR:
 [Be specific. Describe the person, not a market segment.]
 
 THE PROBLEM IT SOLVES:
-[What is the situation before this product exists? What friction does it remove?]
+[What is the situation before this exists? What friction does it remove?]
 
 WHAT IT INCLUDES IN V1:
-[List only what ships on day one. Keep it short.]
+[Only what goes in the first version. Keep it short.]
 
 WHAT IT DOES NOT INCLUDE:
 [Explicitly list what you are not building. Every item here is a decision to stay focused.]
 
 TECH STACK:
-[What tools will you use? If you are not sure, leave this blank and ask your AI assistant.]
+[What tools will you use? If unsure, leave this blank and ask your AI assistant.]
 
 EDGE CASES:
 [What happens when something goes wrong? Think about empty states, errors, and unexpected inputs.]`;
