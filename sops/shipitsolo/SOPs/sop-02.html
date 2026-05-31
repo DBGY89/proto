@@ -166,54 +166,127 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 .decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
 .decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
 .decision-block strong { color: var(--text); font-weight: 500; }
+.prd-details {
+    margin-top: 1rem;
+  }
+  .prd-details-toggle {
+    display: inline;
+    color: var(--text);
+    font-family: var(--font-title);
+    font-size: 13px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    text-decoration: underline;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .prd-details-toggle::-webkit-details-marker { display: none; }
+  .prd-details-toggle::after { content: " ↓"; }
+  details[open] .prd-details-toggle::after { content: " ↑"; }
+  .prd-details-content {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    font-family: var(--font-title);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 2;
+    white-space: pre-wrap;
+    border-left: 2px solid var(--border);
+  }
+  .prd-details-content .tpl-field { color: var(--cyan); font-weight: 700; }
+
+
+    border-bottom: 1px dashed currentColor;
+    cursor: help;
+    position: relative;
+    display: inline-block;
+  }
+  .sop-abbr:hover::after {
+    content: "Standard Operating Procedure";
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+  }
 </style>
 </head>
 <body>
 <nav class="topbar">
-  <a href="../index.html" class="back-link">&larr; SOPs / #shipitsolo</a>
+  <a href="/sops/shipitsolo/list.html" class="back-link">&larr; SOPs / #shipitsolo</a>
 </nav>
 <div class="hero">
   <div class="hero-label block00">Block 00 — Before you start <span class="hero-label-num">02</span></div>
   <h1>How to prompt an AI coding assistant effectively</h1>
-  <p class="hero-sub">The quality of what you build is directly proportional to the quality of what you ask for. This SOP closes that gap.</p>
+  <p class="hero-sub">The clearer you describe what you want, the better the result. This <abbr class="sop-abbr">SOP</abbr> shows you how.</p>
 </div>
 <div class="content">
 
-  <p class="body-text">When an AI coding assistant produces something wrong, most people blame the tool. Most of the time, the tool did exactly what it was asked to do. <strong>If your description is vague, the code will be vague.</strong></p>
-
-  <p class="body-text"><em>The gap between a good prompt and a bad one is not technical knowledge. It is clarity. Anyone can learn this in an afternoon.</em></p>
+  <p class="body-text">Prompting an AI is not about knowing how to code. It is about knowing how to explain. I like this four-part approach and it works well for me. As you use it more you will develop your own tricks. Pay attention to what is missing in the results you get, that is your signal to improve.</p>
 
   <div class="section-break"><span class="section-break-label">the four parts of a good prompt</span><div class="section-break-line"></div></div>
 
   <ul class="field-list">
     <li class="field-item">
       <div class="field-name">The role</div>
-      <div class="field-desc">Tell the AI what kind of expert to behave like. <strong>"You are a senior frontend developer"</strong> produces different results than no role at all.</div>
+      <div class="field-desc">Tell the AI what kind of expert to act as. <strong>"You are a web designer helping me build my personal website"</strong> gives it a frame of reference that shapes everything it produces.</div>
     </li>
     <li class="field-item">
       <div class="field-name">The context</div>
-      <div class="field-desc">What already exists? What stack are you using? Paste your PRD here. Every time.</div>
+      <div class="field-desc">What already exists? What tools are you using? Paste your PRD here so the AI has the full picture of what you are building before it starts.</div>
     </li>
     <li class="field-item">
       <div class="field-name">The task</div>
-      <div class="field-desc">One task per prompt. Not "build the whole app" but "build the contact form." Smaller tasks produce better results.</div>
+      <div class="field-desc">What do you want the AI to build? Start with the full structure using your PRD, then use follow-up prompts to refine section by section. The more specific you are about what you want to see, the closer the result will be to what you have in mind.</div>
     </li>
     <li class="field-item">
       <div class="field-name">The constraint</div>
-      <div class="field-desc">What it cannot do. No external libraries unless specified. No placeholder data. Constraints prevent the AI from making decisions you did not ask it to make.</div>
+      <div class="field-desc">What should it not do? For example: no extra pages you did not ask for, no features outside what is in your PRD, no made-up text to fill in the spaces. Telling the AI what to avoid helps it make fewer assumptions and gives you more control over the output.</div>
     </li>
   </ul>
 
   <div class="section-break"><span class="section-break-label">bad prompt vs good prompt</span><div class="section-break-line"></div></div>
 
   <div class="example-block">
-    <div class="example-header">Same task, two different prompts</div>
+    <div class="example-header">Your PRD as a starting point</div>
     <div class="example-content">
 <span class="example-label">Bad</span>
-<span class="example-value example-bad">"Build a form that takes ingredients and shows a menu."</span>
+<span class="example-value example-bad">"Build a website for a dog photographer."</span>
 
 <span class="example-label">Good</span>
-<span class="example-value example-good">"You are a senior frontend developer building a single-page web app. Here is the PRD: [paste PRD]. Build a text input where users type a comma-separated list of ingredients and a button that sends them to the Anthropic API and displays the response as a 5-day dinner menu. Use vanilla HTML, CSS, and JavaScript. No external libraries."</span>
+<span class="example-value example-good">"You are a web designer helping me build a professional website for Marta, a dog photographer in Madrid. Here is what I want to build: [paste PRD]. Build the full structure of the site with all the sections. I want to see the whole thing first and then we will go section by section to refine the details."</span>
+
+<details class="prd-details">
+  <summary class="prd-details-toggle">MY PRD</summary>
+  <div class="prd-details-content"><span class="tpl-field">WHAT IT DOES:</span>
+A professional website for Marta, a dog photographer in Madrid. Visitors can see her work, explore her packages, and book a session.
+
+<span class="tpl-field">WHO IT IS FOR:</span>
+Dog owners in Madrid who want professional photos of their pets and are looking for a photographer they can trust.
+
+<span class="tpl-field">THE PROBLEM IT SOLVES:</span>
+Marta has no online presence. Potential clients cannot find her, see her work, or book a session without going through her personally.
+
+<span class="tpl-field">WHAT IT INCLUDES IN THE FIRST VERSION:</span>
+A home page with who she is and what she does. A public gallery with her best work. A services section with three packages: outdoor session, studio, and premium. A booking calendar. A contact form.
+
+<span class="tpl-field">WHAT IT DOES NOT INCLUDE:</span>
+Client login area. Private galleries. Online payments. Blog. Multiple languages.
+
+<span class="tpl-field">TECH STACK:</span>
+AI coding assistant, GitHub Pages for hosting.
+
+<span class="tpl-field">EDGE CASES:</span>
+What if someone tries to book a date that is already taken? What if the gallery takes too long to load on a phone? What if someone submits the contact form without filling in their email?</div>
+</details>
     </div>
   </div>
 
@@ -223,36 +296,36 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
     <div class="step-row">
       <div class="step-num">1</div>
       <div class="step-body">
-        <div class="step-title">Always paste your PRD at the start of a new session</div>
-        <div class="step-desc">AI coding assistants have no memory between sessions. Paste your PRD first. It takes ten seconds and saves twenty minutes.</div>
+        <div class="step-title">Always paste your PRD at the start</div>
+        <div class="step-desc">Before you ask the AI to build anything, paste your PRD. It gives the AI the context it needs to understand what you are trying to create and make better decisions along the way.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">2</div>
       <div class="step-body">
-        <div class="step-title">One task per prompt</div>
-        <div class="step-desc">Build the form first. Then the button. Then the API call. Each step builds on the last.</div>
+        <div class="step-title">Start with the full picture, then refine</div>
+        <div class="step-desc">Give the AI your PRD and ask it to build the whole structure in one go. Once you have that, go section by section and improve. Maybe the overall layout looks great but you want the about section to show a timeline of your career. That is a new prompt, focused on that one detail. A strong first prompt, then smaller ones to shape the details.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">3</div>
       <div class="step-body">
-        <div class="step-title">When something is wrong, describe what you see</div>
-        <div class="step-desc">Not "fix the button." Say <strong>"the button is not responding when I click it. The console shows no errors. The function is defined but not being called."</strong></div>
+        <div class="step-title">When something looks wrong, debug it with the AI</div>
+        <div class="step-desc">When something looks wrong, the AI that built it can also help you fix it. This is called debugging. Describe what you expected to happen and what you are seeing instead. If you are not sure how to explain it, a screenshot works perfectly. You can also open the browser console for more detail: right-click anywhere on the page, select "Inspect", and click the "Console" tab. Share a screenshot of what you see there too. Think of it as sitting next to an expert who wants to help. The more you share, the faster you will get unstuck.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">4</div>
       <div class="step-body">
-        <div class="step-title">Ask for explanations when you do not understand</div>
-        <div class="step-desc">Not because you need to understand every line, but because understanding what was built helps you prompt the next step correctly.</div>
+        <div class="step-title">Ask for explanations when you do not understand something</div>
+        <div class="step-desc">You do not need to understand every line of code. But when something is unclear, asking "can you explain what this does?" helps you follow along and write better prompts for the next step.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">5</div>
       <div class="step-body">
-        <div class="step-title">If the result is completely wrong, start a new session</div>
-        <div class="step-desc">Close the session, paste your PRD fresh, and start again with a better prompt. Almost always faster than continuing to iterate on something broken.</div>
+        <div class="step-title">If after many tries the AI still does not get it, start fresh</div>
+        <div class="step-desc">Sometimes, after going back and forth several times, you get the feeling the AI is just not understanding what you want. When that happens, close the conversation, open a new one, paste your PRD, and try describing what you need in a different way. A fresh start is often faster than continuing down a path that is not working.</div>
       </div>
     </div>
   </div>
@@ -260,23 +333,23 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <div class="task-block">
     <div class="task-block-header">
       <span class="task-block-label">Your task this week</span>
-      <span class="task-block-sop">SOP 02</span>
+      <span class="task-block-sop"><abbr class="sop-abbr">SOP</abbr> 02</span>
     </div>
     <div class="task-block-body">
-      <div class="task-title">Write your first real prompt for your landing page.</div>
-      <p class="task-desc">Using your PRD from SOP 01, write a prompt with all four parts: role, context, task, constraint. Read it back. Would someone with no context understand exactly what you want? <strong>Save it alongside your PRD.</strong></p>
+      <div class="task-title">Write your first prompt for Marta's website.</div>
+      <p class="task-desc">Using your PRD from <abbr class="sop-abbr">SOP</abbr> 01, write a prompt with all four parts: role, context, task, constraint. Read it back. Is it clear enough that someone with no context would know exactly what to build? <strong>Save it alongside your PRD.</strong></p>
       <div class="task-outcome">
         <span class="task-outcome-label">When done</span>
-        <span class="task-outcome-text"><strong>A complete four-part prompt ready to paste into your AI coding assistant.</strong></span>
+        <span class="task-outcome-text"><strong>A complete four-part prompt, saved and ready to paste into your AI coding assistant.</strong></span>
       </div>
     </div>
   </div>
 
   <div class="next-wrap">
     <div class="next-body">
-      <div class="next-eyebrow">Next — SOP 03</div>
+      <div class="next-eyebrow">Next — <abbr class="sop-abbr">SOP</abbr> 03</div>
       <div class="next-title">Build with an AI coding assistant + GitHub + GitHub Pages</div>
-      <p class="next-desc">PRD written. Prompting understood. Time to build something real.</p>
+      <p class="next-desc">You have your PRD and you know how to prompt. Now you will use both to build and publish your personal website.</p>
     </div>
     <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
   </div>
