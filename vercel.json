@@ -15,7 +15,7 @@
     { "source": "/sops/:brand/", "destination": "/sops/:brand/index.html" },
     { "source": "/sops/shipitsolo/what-can-you-actually-build",       "destination": "/sops/shipitsolo/SOPs/sop-00.html" },
     { "source": "/sops/shipitsolo/how-to-write-a-prd-with-ai",        "destination": "/sops/shipitsolo/SOPs/sop-01.html" },
-    { "source": "/sops/shipitsolo/how-to-prompt-an-ai-coding-assistant", "destination": "/sops/shipitsolo/SOPs/sop-02.html" },
+    { "source": "/sops/shipitsolo/how-to-prompt-an-ai-coding-assistant", "destination": "/sops/shipitsolo/SOPs/sop-02_33.html" },
     { "source": "/sops/shipitsolo/build-with-ai-github-and-github-pages", "destination": "/sops/shipitsolo/SOPs/sop-03.html" },
     { "source": "/sops/shipitsolo/what-does-running-locally-mean",    "destination": "/sops/shipitsolo/SOPs/sop-04.html" },
     { "source": "/sops/shipitsolo/connect-your-own-domain",           "destination": "/sops/shipitsolo/SOPs/sop-05.html" },
