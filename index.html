@@ -306,7 +306,6 @@
     <div class="landing-tabs">
       <div class="landing-tabs-row" role="tablist" aria-label="Browse by category">
         <button type="button" class="landing-tab is-active" role="tab" id="landing-tab-projects" aria-selected="true" aria-controls="panel-projects" data-landing-tab="projects">Projects</button>
-        <button type="button" class="landing-tab" role="tab" id="landing-tab-tools" aria-selected="false" aria-controls="panel-tools" data-landing-tab="tools" tabindex="-1">Tools</button>
         <button type="button" class="landing-tab" role="tab" id="landing-tab-posters" aria-selected="false" aria-controls="panel-posters" data-landing-tab="posters" tabindex="-1">Posters</button>
         <button type="button" class="landing-tab" role="tab" id="landing-tab-sops" aria-selected="false" aria-controls="panel-sops" data-landing-tab="sops" tabindex="-1" style="text-transform:none;">SOPs</button>
       </div>
@@ -323,15 +322,7 @@
     <div id="panel-projects" class="landing-tab-panel is-active" role="tabpanel" aria-labelledby="landing-tab-projects">
     <div class="grid">
 
-      <a href="/money-flow/" class="card card--cyan" data-project="money-flow">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <span class="card-badge card-badge--corner" aria-hidden="true">New</span>
-          <h3 class="card-title">MONEY FLOW</h3>
-          <p class="card-desc">See where your money goes. And where it can take you.</p>
-          <span class="card-rating" data-project="money-flow" aria-hidden="true"></span>
-        </div>
-      </a>
+      <!-- Ordered by rating desc (Supabase avg, Jun 2026) -->
 
       <a href="/panda-diplomacy/" class="card card--purple" data-project="panda-diplomacy">
         <div class="card-border"></div>
@@ -339,6 +330,15 @@
           <h3 class="card-title">PANDA DIPLOMACY</h3>
           <p class="card-desc">Every panda outside China is a diplomatic move. Explore the board.</p>
           <span class="card-rating" data-project="panda-diplomacy" aria-hidden="true"></span>
+        </div>
+      </a>
+
+      <a href="/money-flow/" class="card card--cyan" data-project="money-flow">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">MONEY FLOW</h3>
+          <p class="card-desc">See where your money goes. And where it can take you.</p>
+          <span class="card-rating" data-project="money-flow" aria-hidden="true"></span>
         </div>
       </a>
 
@@ -351,12 +351,21 @@
         </div>
       </a>
 
-      <a href="/pawmap/" class="card card--pink" data-project="pawmap">
+      <a href="/salad-bar/" class="card card--pink" data-project="salad-bar">
         <div class="card-border"></div>
         <div class="card-body">
-          <h3 class="card-title">PAWMAP</h3>
-          <p class="card-desc">Spain with your dog. Walk the map and discover dog-friendly spots.</p>
-          <span class="card-rating" data-project="pawmap" aria-hidden="true"></span>
+          <h3 class="card-title">SALAD BAR</h3>
+          <p class="card-desc">Pick ingredients, get a dressing that fits, plus the recipe and one chef's trick.</p>
+          <span class="card-rating" data-project="salad-bar" aria-hidden="true"></span>
+        </div>
+      </a>
+
+      <a href="/bubbles/" class="card card--cyan" data-project="bubbles">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">BUBBLES</h3>
+          <p class="card-desc">Mini game: pop soap bubbles before they float away. Special ones burst into glitter.</p>
+          <span class="card-rating" data-project="bubbles" aria-hidden="true"></span>
         </div>
       </a>
 
@@ -369,6 +378,33 @@
         </div>
       </a>
 
+      <a href="/pawmap/" class="card card--pink" data-project="pawmap">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">PAWMAP</h3>
+          <p class="card-desc">Spain with your dog. Walk the map and discover dog-friendly spots.</p>
+          <span class="card-rating" data-project="pawmap" aria-hidden="true"></span>
+        </div>
+      </a>
+
+      <a href="/movie-palette/" class="card card--purple" data-project="movie-palette">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">MOVIE PALETTE</h3>
+          <p class="card-desc">Warning: your projects may start looking like movies.</p>
+          <span class="card-rating" data-project="movie-palette" aria-hidden="true"></span>
+        </div>
+      </a>
+
+      <a href="/design-system-generator/" class="card card--cyan" data-project="design-system-generator">
+        <div class="card-border"></div>
+        <div class="card-body">
+          <h3 class="card-title">DESIGN SYSTEM GENERATOR</h3>
+          <p class="card-desc">Pick three colors, a typeface, and a stack. We generate tokens, component previews, and CSS or Tailwind you can download.</p>
+          <span class="card-rating" data-project="design-system-generator" aria-hidden="true"></span>
+        </div>
+      </a>
+
       <a href="/crossfit-fuel/" class="card card--pink" data-project="crossfit-fuel">
         <div class="card-border"></div>
         <div class="card-body">
@@ -378,14 +414,7 @@
         </div>
       </a>
 
-      <a href="/bubbles/" class="card card--cyan" data-project="bubbles">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">BUBBLES</h3>
-          <p class="card-desc">Mini game: pop soap bubbles before they float away. Special ones burst into glitter.</p>
-          <span class="card-rating" data-project="bubbles" aria-hidden="true"></span>
-        </div>
-      </a>
+      <!-- No votes yet -->
 
       <a href="/nighty-night/" class="card card--purple" data-project="nighty-night">
         <div class="card-border"></div>
@@ -402,15 +431,6 @@
           <h3 class="card-title">PATRONUS GENERATOR</h3>
           <p class="card-desc">Answer two questions and discover which magical creature guards you, or represents you on the feed.</p>
           <span class="card-rating" data-project="patronus-generator" aria-hidden="true"></span>
-        </div>
-      </a>
-
-      <a href="/salad-bar/" class="card card--pink" data-project="salad-bar">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">SALAD BAR</h3>
-          <p class="card-desc">Pick ingredients, get a dressing that fits, plus the recipe and one chef's trick.</p>
-          <span class="card-rating" data-project="salad-bar" aria-hidden="true"></span>
         </div>
       </a>
 
@@ -438,30 +458,6 @@
           <h3 class="card-title">TEMPERATURE PAINTER</h3>
           <p class="card-desc">Un ciclo del agua que conduces con el dedo. Pinta calor sobre el agua y desencadena evaporación, nube y lluvia.</p>
           <span class="card-rating" data-project="temperature-painter" aria-hidden="true"></span>
-        </div>
-      </a>
-
-    </div>
-    </div>
-
-    <div id="panel-tools" class="landing-tab-panel" role="tabpanel" aria-labelledby="landing-tab-tools" hidden>
-    <div class="grid">
-
-      <a href="/design-system-generator/" class="card card--cyan" data-project="design-system-generator">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">DESIGN SYSTEM GENERATOR</h3>
-          <p class="card-desc">Pick three colors, a typeface, and a stack. We generate tokens, component previews, and CSS or Tailwind you can download.</p>
-          <span class="card-rating" data-project="design-system-generator" aria-hidden="true"></span>
-        </div>
-      </a>
-
-      <a href="/movie-palette/" class="card card--purple" data-project="movie-palette">
-        <div class="card-border"></div>
-        <div class="card-body">
-          <h3 class="card-title">MOVIE PALETTE</h3>
-          <p class="card-desc">Warning: your projects may start looking like movies.</p>
-          <span class="card-rating" data-project="movie-palette" aria-hidden="true"></span>
         </div>
       </a>
 
