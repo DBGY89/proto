@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vercel — deploy with your own URL — AIProtoLab SOPs</title>
+<title>What to do when something breaks — AIProtoLab SOPs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/shared.css">
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --pink: #ff2d78; --cyan: #00f0ff; --purple: #b24dff;
   --mid1: #d45acd; --mid2: #9b62e0; --green: #5DCAA5; --amber: #F5A623;
@@ -129,6 +130,15 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   .hero-sub { font-size: 16px; }
   footer { flex-direction: column; align-items: flex-start; }
 }
+.error-type { border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
+.error-type-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+.error-type-title { font-family: var(--font-title); font-size: 15px; font-weight: 700; color: var(--text); }
+.error-type-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+.tag-common { background: rgba(255,77,158,0.1); color: var(--pink); }
+.tag-sometimes { background: rgba(245,166,35,0.1); color: var(--amber); }
+.error-type-body { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.error-type-body strong { color: var(--text); font-weight: 500; }
+
 .task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
 .task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
 .task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
@@ -154,55 +164,74 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 <body>
 <nav class="topbar"><a href="/sops/shipitsolo/list.html" class="back-link">&larr; SOPs / #shipitsolo</a></nav>
 <div class="hero">
-  <div class="hero-label block01">Block 01 — Build &amp; Publish <span class="hero-label-num">06</span></div>
-  <h1>Vercel — deploy with your own URL</h1>
-  <p class="hero-sub">Automatic deploys, a free custom domain, and support for projects that go beyond static HTML. Still free for everything in this bundle.</p>
+  <div class="hero-label block06">Block 03 — When things go wrong <span class="hero-label-num">06</span></div>
+  <h1>What to do when something breaks</h1>
+  <p class="hero-sub">Things break. This SOP gives you a process for when they do.</p>
 </div>
 <div class="content">
 
-  <p class="body-text">GitHub Pages is excellent for static projects. Vercel does everything GitHub Pages does, and more: automatic deploys every time you push code, environment variables managed securely through a dashboard, and preview deployments for every branch.</p>
+  <p class="body-text">Things break. This SOP gives you a process for when they do.</p>
 
-  <p class="body-text"><em>Vercel gives you infrastructure that used to cost thousands of dollars a month. For free. For personal projects.</em></p>
+  <p class="body-text"><em>Every builder breaks things. The ones who ship consistently are not the ones who break things less. They are the ones who know what to do when something breaks.</em></p>
 
-  <p class="body-text pm-voice">Switch from GitHub Pages to Vercel when your project needs automatic deploys or when you add a backend function that cannot live in the browser. Until then, GitHub Pages is fine.</p>
+  <p class="body-text"><strong>The process is always the same:</strong> read the error, understand what it is saying, find where it is coming from, fix the specific thing that is broken, verify the fix. In that order.</p>
 
-  <div class="pricing-block">
-    <div class="pricing-header"><span class="pricing-header-label">What this costs</span></div>
-    <div class="pricing-rows">
-      <div class="pricing-row">
-        <div class="pricing-tier"><span class="pricing-tier-label">Vercel</span><span class="pricing-tier-url">vercel.com</span><span class="pricing-tier-price">Free / Hobby plan</span></div>
-        <div class="pricing-content"><strong>The free Hobby plan covers everything in this bundle.</strong> Unlimited personal projects, automatic HTTPS, custom domains, generous bandwidth.<div><span class="verdict-tag verdict-enough">Free tier is enough</span></div></div>
-      </div>
-    </div>
+  <div class="section-break"><span class="section-break-label">step one: open the browser console</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">Press <code>F12</code> on Windows or Linux, or <code>Command + Option + I</code> on Mac. Click the "Console" tab. If there is an error, it will be there in red. Read the full message, not just the first line.</p>
+
+  <div class="section-break"><span class="section-break-label">the most common errors</span><div class="section-break-line"></div></div>
+
+  <div class="error-type">
+    <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">Cannot read properties of undefined</span></div>
+    <div class="error-type-body">Your code is trying to access something that does not exist yet. Usually because data has not loaded or a variable is empty. Check what the variable contains at the point of the error.</div>
   </div>
+  <div class="error-type">
+    <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">Failed to fetch / Network error</span></div>
+    <div class="error-type-body">An API call failed. Check your environment variables first. Then the API key. Then the URL. CORS errors almost always mean you need to make the API call from a server function, not from the browser.</div>
+  </div>
+  <div class="error-type">
+    <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">404 Not Found</span></div>
+    <div class="error-type-body">Something is looking for a file that does not exist at that URL. Check the path is spelled correctly. Case matters: <code>Index.html</code> and <code>index.html</code> are different files.</div>
+  </div>
+  <div class="error-type">
+    <div class="error-type-header"><span class="error-type-tag tag-sometimes">Sometimes</span><span class="error-type-title">SyntaxError / Unexpected token</span></div>
+    <div class="error-type-body">A mistake in the code syntax. A missing bracket, a comma in the wrong place. The error message tells you which line. Your AI assistant is very good at spotting these.</div>
+  </div>
+  <div class="error-type">
+    <div class="error-type-header"><span class="error-type-tag tag-sometimes">Sometimes</span><span class="error-type-title">401 Unauthorized / 403 Forbidden</span></div>
+    <div class="error-type-body">An API is rejecting your request. Check your API key is correct and being sent. For Supabase, check your row level security policies allow the action.</div>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">how to ask your AI assistant for help</span><div class="section-break-line"></div></div>
 
   <div class="steps">
     <div class="step-row">
       <div class="step-num">1</div>
       <div class="step-body">
-        <div class="step-title">Create a Vercel account</div>
-        <div class="step-desc">Go to vercel.com and sign up with your GitHub account. This lets Vercel access your repositories and deploy automatically when you push code.</div>
+        <div class="step-title">Copy the full error message from the console</div>
+        <div class="step-desc">Do not paraphrase. Copy the exact text. The specific wording often contains the answer.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">2</div>
       <div class="step-body">
-        <div class="step-title">Import your GitHub repository</div>
-        <div class="step-desc">From the Vercel dashboard, click "Add New" then "Project." Select your repository. Vercel detects the project type automatically.</div>
+        <div class="step-title">Paste the relevant code alongside it</div>
+        <div class="step-desc">Include the function where the error is happening. Not the entire file. Just the relevant part.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">3</div>
       <div class="step-body">
-        <div class="step-title">Deploy</div>
-        <div class="step-desc">Click "Deploy." About one minute later you get a URL on vercel.app. From now on, every push to GitHub triggers an automatic redeploy.</div>
+        <div class="step-title">Describe what you expected and what happened instead</div>
+        <div class="step-desc">"I expected the button to send the form data to the API. Instead I see this error and nothing happens." That sentence alone rules out half the possible causes.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">4</div>
       <div class="step-body">
-        <div class="step-title">Add your custom domain (optional)</div>
-        <div class="step-desc">In project settings go to "Domains." Type your domain. Vercel shows you the DNS records to add. Vercel handles HTTPS automatically.</div>
+        <div class="step-title">If the fix does not work, start a new session</div>
+        <div class="step-desc">Close the session, paste your PRD and the relevant code fresh, and describe the problem again. Almost always faster than continuing to iterate.</div>
       </div>
     </div>
   </div>
@@ -213,27 +242,24 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
       <span class="task-block-sop">SOP 06</span>
     </div>
     <div class="task-block-body">
-      <div class="task-title">Migrate your landing page from GitHub Pages to Vercel.</div>
-      <p class="task-desc">Create a Vercel account, connect your GitHub repo, and deploy. Transfer your domain if you have one. <strong>The whole process should take under 30 minutes.</strong></p>
+      <div class="task-title">Break something in your project on purpose and fix it.</div>
+      <p class="task-desc">Open your index.html. Remove a closing tag, introduce a typo in a function name, or delete a semicolon. Save, refresh, open the console, read the error, fix it without asking the AI first. <strong>The goal is to feel what debugging feels like before you need it for real.</strong></p>
       <div class="task-outcome">
         <span class="task-outcome-label">When done</span>
-        <span class="task-outcome-text"><strong>Your landing page on Vercel with automatic deploys. Every future push to GitHub updates your live site.</strong></span>
+        <span class="task-outcome-text"><strong>An error introduced and fixed. A first-hand understanding of what the browser console looks like when something goes wrong.</strong></span>
       </div>
     </div>
   </div>
 
-  <div class="next-wrap">
-    <div class="next-body">
-      <div class="next-eyebrow">Next — SOP 07</div>
-      <div class="next-title">Supabase — store and read data</div>
-      <p class="next-desc">Your project is live. Now give it memory.</p>
-    </div>
-    <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
+  <div style="border: 1px solid var(--border); margin-top: 3.5rem; padding: 2rem 1.75rem; text-align: center;">
+    <div style="font-family: var(--font-title); font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem;">That is the bundle.</div>
+    <p style="font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 1.5rem;">You now have everything you need to go from idea to a live product with users, data, payments, and AI. Solo. Go build something.</p>
+    <a href="/sops/shipitsolo/list.html" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; transition: border-color 0.15s, color 0.15s;">Back to the index</a>
   </div>
 
 </div>
 <footer>
-  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 01</div>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 06</div>
   <div class="footer-right"><a href="/sops/shipitsolo">← back to index</a></div>
 </footer>
 </body>

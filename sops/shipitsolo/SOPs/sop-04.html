@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What does running locally actually mean? — AIProtoLab SOPs</title>
+<title>Your own domain + Vercel — AIProtoLab SOPs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/shared.css">
@@ -21,48 +21,26 @@
 }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
-nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+/* nav → .topbar handled by shared.css */
 .hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 1rem; }
 .hero-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
 .hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .hero-label-num { font-family: var(--font-ui); font-size: 10px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; }
-.block00 { color: var(--amber); } .block00 .hero-label-num { background: rgba(245,166,35,0.1); border: 0.5px solid rgba(245,166,35,0.3); color: var(--amber); }
 .block01 { color: var(--pink); } .block01 .hero-label-num { background: rgba(255,77,158,0.1); border: 0.5px solid rgba(255,77,158,0.3); color: var(--pink); }
-.block02 { color: var(--mid1); } .block02 .hero-label-num { background: rgba(212,90,205,0.1); border: 0.5px solid rgba(212,90,205,0.3); color: var(--mid1); }
-.block03 { color: var(--mid2); } .block03 .hero-label-num { background: rgba(155,98,224,0.1); border: 0.5px solid rgba(155,98,224,0.3); color: var(--mid2); }
-.block04 { color: var(--purple); } .block04 .hero-label-num { background: rgba(178,102,255,0.1); border: 0.5px solid rgba(178,102,255,0.3); color: var(--purple); }
-.block05 { color: var(--cyan); } .block05 .hero-label-num { background: rgba(0,229,255,0.1); border: 0.5px solid rgba(0,229,255,0.3); color: var(--cyan); }
-.block06 { color: var(--green); } .block06 .hero-label-num { background: rgba(93,202,165,0.1); border: 0.5px solid rgba(93,202,165,0.3); color: var(--green); }
 h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 1.5rem; max-width: 640px; }
-.hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 520px; padding-left: 1.5rem; border-left: 2px solid rgba(255,255,255,0.12); }
 .content { max-width: 760px; margin: 0 auto; padding: 0 2rem 6rem; }
 .section-break { display: flex; align-items: center; gap: 14px; margin: 3.5rem 0 2rem; }
 .section-break-label { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
 .section-break-line { flex: 1; height: 1px; background: var(--border); }
 .body-text { font-size: 17px; color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
 .body-text strong { color: var(--text); font-weight: 500; }
-.pull-quote { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.4; border-left: 3px solid var(--amber); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
-.two-col-left { border-right: 1px solid var(--border); }
-.two-col-cell { padding: 1.75rem; }
-.col-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-.col-tag::before { content: ''; width: 22px; height: 2px; border-radius: 1px; }
-.col-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; line-height: 1.2; }
-.col-body { font-size: 15px; color: var(--muted); line-height: 1.7; }
-.item-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
-.item-list li { font-size: 15px; color: var(--muted); line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; }
-.item-list li .bul { font-family: var(--font-title); font-weight: 700; flex-shrink: 0; }
-.raw-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
-.raw-table thead th { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.18); }
-.raw-table tbody tr { border-bottom: 1px solid var(--border); }
-.raw-table tbody tr:last-child { border-bottom: none; }
-.raw-table td { padding: 14px 16px; font-size: 15px; color: var(--muted); line-height: 1.5; vertical-align: top; }
-.raw-table td:first-child { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
-.raw-table td:nth-child(2) { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-.v-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-right: 8px; }
-.v-good { color: var(--cyan); } .v-bad { color: var(--pink); } .v-neutral { color: var(--label); }
+.field-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.field-item { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border); padding: 1.25rem 0; gap: 1.5rem; align-items: start; }
+.field-item:last-child { border-bottom: none; }
+.field-name { font-family: var(--font-title); font-size: 15px; font-weight: 700; color: var(--text); padding-top: 1px; }
+.field-desc { font-size: 15px; color: var(--muted); line-height: 1.6; }
+.field-desc strong { color: var(--text); font-weight: 500; }
+.field-desc code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
 .steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
 .step-row { display: grid; grid-template-columns: 44px 1fr; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .step-row:last-child { border-bottom: none; }
@@ -71,72 +49,7 @@ h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-wei
 .step-title { font-family: var(--font-title); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
 .step-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
 .step-desc strong { color: var(--text); font-weight: 500; }
-.code-block { font-family: var(--font-title); font-size: 14px; background: var(--surface2); border: 0.5px solid rgba(255,255,255,0.18); border-radius: 6px; padding: 12px 16px; padding-right: 76px; color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; position: relative; line-height: 1.5; }
-.copy-code-btn { position: absolute; top: 8px; right: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--label); background: transparent; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 5px; padding: 3px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-.copy-code-btn:hover { color: var(--cyan); border-color: rgba(0,229,255,0.4); }
-.copy-code-btn.copied { color: var(--green); border-color: var(--green); }
 code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
-.os-tabs { display: flex; gap: 4px; margin: 10px 0 14px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 8px; padding: 4px; width: fit-content; }
-.os-tab { font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 5px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
-.os-tab.active { background: rgba(0,229,255,0.14); color: var(--cyan); }
-.os-content { display: none; } .os-content.visible { display: block; }
-.pricing-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
-.pricing-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-.pricing-header-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
-.pricing-rows { display: flex; flex-direction: column; }
-.pricing-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--border); }
-.pricing-row:last-child { border-bottom: none; }
-.pricing-tier { padding: 1rem 1.25rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; justify-content: center; }
-.pricing-tier-label { font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text); }
-.pricing-tier-url { font-family: var(--font-title); font-size: 12px; color: var(--label); font-style: italic; }
-.pricing-tier-price { font-family: var(--font-title); font-size: 12px; color: var(--label); }
-.pricing-content { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.6; }
-.pricing-content strong { color: var(--text); font-weight: 500; }
-.verdict-tag { display: inline-block; font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; margin-top: 6px; }
-.verdict-enough { background: rgba(93,202,165,0.1); color: var(--green); }
-.verdict-paid { background: rgba(245,166,35,0.1); color: var(--amber); }
-.note-block { background: var(--surface); border: 0.5px solid var(--border); border-left: 3px solid var(--amber); padding: 1rem 1.25rem; margin: 1.5rem 0; }
-.note-block p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.note-block strong { color: var(--text); font-weight: 500; }
-.done-list { list-style: none; }
-.done-list li { display: grid; grid-template-columns: 44px 1fr; font-size: 16px; color: var(--muted); padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; line-height: 1.55; }
-.done-list li:last-child { border-bottom: none; }
-.done-num { font-family: var(--font-title); font-size: 14px; font-weight: 700; font-style: italic; padding-top: 1px; color: var(--amber); }
-.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
-.next-body { padding: 1.5rem 1.75rem; }
-.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
-.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
-.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
-.next-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
-.next-link:hover { border-color: var(--amber); color: var(--amber); }
-.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
-footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
-.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-@media (max-width: 620px) {
-  nav { padding: 0 1.25rem; }
-  .hero { padding: 3rem 1.25rem 1rem; }
-  .content { padding: 0 1.25rem 4rem; }
-  .two-col { grid-template-columns: 1fr; }
-  .two-col-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .pricing-row { grid-template-columns: 1fr; }
-  .pricing-tier { border-right: none; border-bottom: 1px solid var(--border); }
-  .next-wrap { grid-template-columns: 1fr; }
-  .next-cta { border-left: none; border-top: 1px solid var(--border); }
-  .step-row { grid-template-columns: 36px 1fr; }
-  .raw-table td:first-child { display: none; }
-  h1 { font-size: 28px; }
-  .hero-sub { font-size: 16px; }
-  footer { flex-direction: column; align-items: flex-start; }
-}
-.localhost-wrap { display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start; margin: 2rem 0; }
-.localhost-stamp { font-family: var(--font-title); font-size: 13px; font-weight: 700; color: var(--cyan); border: 2px solid var(--cyan); padding: 10px 14px; line-height: 1.3; letter-spacing: 0.05em; transform: rotate(-2deg); white-space: nowrap; }
-.localhost-text p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 12px; }
-.localhost-text p:last-child { margin-bottom: 0; }
-.localhost-text strong { color: var(--text); font-weight: 500; }
-@media (max-width: 620px) { .localhost-wrap { grid-template-columns: 1fr; } .localhost-stamp { transform: none; display: inline-block; margin-bottom: 0.5rem; } }
-
 .task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
 .task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
 .task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
@@ -152,11 +65,28 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 .task-share { margin-top: 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
 .task-share-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); display: block; margin-bottom: 4px; }
 .task-share-text { font-size: 13px; color: var(--muted); line-height: 1.55; font-style: italic; }
-.pm-voice { border-left: 3px solid var(--purple); padding-left: 1.25rem; font-style: italic; }
-.decision-block { border: 1px solid var(--border); border-left: 3px solid var(--cyan); padding: 1rem 1.25rem; margin-bottom: 2rem; background: rgba(0,240,255,0.03); }
-.decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
-.decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
-.decision-block strong { color: var(--text); font-weight: 500; }
+.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
+.next-body { padding: 1.5rem 1.75rem; }
+.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
+.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
+.next-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
+.next-link:hover { border-color: var(--amber); color: var(--amber); }
+.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
+footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
+.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+@media (max-width: 620px) {
+  .hero { padding: 3rem 1.25rem 1rem; }
+  .content { padding: 0 1.25rem 4rem; }
+  .field-item { grid-template-columns: 1fr; gap: 4px; }
+  .next-wrap { grid-template-columns: 1fr; }
+  .next-cta { border-left: none; border-top: 1px solid var(--border); }
+  .step-row { grid-template-columns: 36px 1fr; }
+  h1 { font-size: 28px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
@@ -165,47 +95,99 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 </nav>
 <div class="hero">
   <div class="hero-label block01">Block 01 — Build &amp; Publish <span class="hero-label-num">04</span></div>
-  <h1>What does running locally actually mean?</h1>
-  <p class="hero-sub">Cloud vs. local, what localhost is, and when each option makes sense. Explained without assuming you are an engineer.</p>
+  <h1>Your own domain + Vercel</h1>
 </div>
 <div class="content">
 
-  <p class="body-text">Running something locally means your computer does all the work, not a server somewhere else on the internet.</p>
+  <p class="body-text">The URL you share is part of the first impression. <code>yourusername.github.io/my-project</code> tells people you are experimenting. <code>yourproject.com</code> tells them this is real. A custom domain costs around ten dollars a year. Vercel is free. Together they take your project from a side experiment to something that looks and feels like a real product.</p>
 
-  <p class="body-text"><em>Once you understand this, you will never be confused by the difference between something working on your machine and something working for everyone else. It sounds technical. It turns out to be obvious.</em></p>
+  <div class="section-break"><span class="section-break-label">what you will use</span><div class="section-break-line"></div></div>
 
-  <div class="section-break"><span class="section-break-label">the cloud vs. local</span><div class="section-break-line"></div></div>
+  <ul class="field-list">
+    <li class="field-item">
+      <div class="field-name">A domain registrar</div>
+      <div class="field-desc">A domain registrar is where you buy and manage your domain name. Good options are Namecheap, Porkbun, and Cloudflare. A <code>.com</code> domain costs between $8 and $15 per year. Pick whichever you prefer — the process is the same on all of them.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">Vercel</div>
+      <div class="field-desc">Vercel is a hosting platform that connects directly to your GitHub repository. Every time you push an update to GitHub, Vercel redeploys your site automatically. The free plan covers everything you need. Think of it as GitHub Pages but with more room to grow.</div>
+    </li>
+  </ul>
 
-  <p class="body-text">Think of it like food. The cloud is a restaurant: someone else has the kitchen, you place an order, you get the result. Running locally is cooking at home: you own the kitchen, nothing leaves your house.</p>
+  <div class="section-break"><span class="section-break-label">the steps</span><div class="section-break-line"></div></div>
 
-  <div class="two-col">
-    <div class="two-col-cell two-col-left">
-      <div class="col-tag" style="color:var(--purple)">The cloud</div>
-      <div class="col-title">Someone else's kitchen.</div>
-      <p class="col-body">You send a request to a server. They process it, send back the result. You pay per use. ChatGPT, Google, Notion — all cloud. Fast and powerful, but your data goes through their pipes.</p>
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Buy your domain</div>
+        <div class="step-desc">Go to Namecheap, Porkbun, or Cloudflare. Search for the domain name you want. If the <code>.com</code> is taken, try <code>.co</code> or <code>.io</code> — both work just as well. Add it to your cart and complete the purchase. You now own a domain name. Next you will point it to your project.</div>
+      </div>
     </div>
-    <div class="two-col-cell">
-      <div class="col-tag" style="color:var(--cyan)">Local</div>
-      <div class="col-title">Your kitchen.</div>
-      <p class="col-body">Everything runs on your machine. No request leaves. No one else sees your data. No subscription, no usage limits, no internet needed after setup.</p>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Create a Vercel account</div>
+        <div class="step-desc">Go to vercel.com and click Sign Up. Choose the option to continue with GitHub. This connects Vercel to your repositories so it can deploy your project automatically. The free Hobby plan covers everything in this course.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Import your GitHub repository</div>
+        <div class="step-desc">From the Vercel dashboard, click Add New, then Project. You will see a list of your GitHub repositories. Find the one with your landing page and click Import. Vercel detects the project type automatically. Click Deploy.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Check your Vercel URL</div>
+        <div class="step-desc">After about a minute, Vercel gives you a URL that looks like <code>your-project.vercel.app</code>. Open it and confirm your site is there. From now on, every time you push a change to GitHub, Vercel updates your live site automatically. No more manual uploads.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Add your domain to Vercel</div>
+        <div class="step-desc">In your Vercel project, go to Settings, then Domains. Type your domain name and click Add. Vercel will show you the exact DNS records you need to add in the next step. Keep this page open.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Update your DNS settings</div>
+        <div class="step-desc">Go to your domain registrar and open the DNS settings for your domain. Add the records Vercel showed you in the previous step — usually an A record and a CNAME record. Copy the values exactly as Vercel gives them to you, do not type them manually. Save the changes.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title">Wait for your domain to go live</div>
+        <div class="step-desc">DNS changes take time to spread across the internet. It can be as fast as 15 minutes or as long as 24 hours. Vercel will show a green checkmark next to your domain once everything is connected. Test it from an incognito tab. HTTPS is handled automatically by Vercel.</div>
+      </div>
     </div>
   </div>
 
-  <table class="raw-table">
-    <thead>
-      <tr><th></th><th style="color:var(--purple)">Cloud</th><th style="color:var(--cyan)">Local</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Setup</td><td><span class="v-label v-good">Easy</span>Create an account, start immediately</td><td><span class="v-label v-bad">Takes time</span>Install and configure on your machine</td></tr>
-      <tr><td>Cost</td><td><span class="v-label v-bad">Ongoing</span>Subscription or pay per use</td><td><span class="v-label v-good">Free</span>No cost after setup</td></tr>
-      <tr><td>Privacy</td><td><span class="v-label v-bad">Shared</span>Your data goes through their servers</td><td><span class="v-label v-good">Private</span>Nothing leaves your computer</td></tr>
-      <tr><td>Internet</td><td><span class="v-label v-bad">Required</span>Always needs a connection</td><td><span class="v-label v-good">Optional</span>Works offline after setup</td></tr>
-    </tbody>
-  </table>
+  <div class="section-break"><span class="section-break-label">if something does not look right</span><div class="section-break-line"></div></div>
 
-  <div class="section-break"><span class="section-break-label">what localhost means</span><div class="section-break-line"></div></div>
+  <p class="body-text">DNS is the part that most people find frustrating. It is not difficult. It just requires patience.</p>
 
-  <p class="body-text"><strong>Localhost is just the name your computer uses to talk to itself.</strong> The number after the colon, like 3000 or 8080, is the port — think of it as the door number. When you see localhost:3000 in your browser it means: open the app running on my machine, through door 3000. Nothing is on the internet. Only you can see it.</p>
+  <ul class="field-list">
+    <li class="field-item">
+      <div class="field-name">The domain is not loading yet</div>
+      <div class="field-desc">This is almost always DNS propagation. It can take up to 24 hours. Wait and try again in an incognito tab. Do not keep changing the settings — that resets the clock.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">Vercel shows an error on your domain</div>
+      <div class="field-desc">Go back to Vercel's Domains settings and compare the DNS records it asks for against what you entered at your registrar. A single typo will break it. Copy and paste the values, do not type them manually.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">HTTPS is not working</div>
+      <div class="field-desc">Vercel handles HTTPS automatically, but it needs the domain to be fully connected first. Once the green checkmark appears next to your domain in Vercel, HTTPS will activate on its own within a few minutes.</div>
+    </li>
+  </ul>
+
+  <p class="body-text">That is your project with a real address on the internet. A domain that is yours.</p>
 
   <div class="task-block">
     <div class="task-block-header">
@@ -213,11 +195,15 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
       <span class="task-block-sop">SOP 04</span>
     </div>
     <div class="task-block-body">
-      <div class="task-title">Run your landing page locally and compare it to the live version.</div>
-      <p class="task-desc">Open index.html directly in your browser. Notice the URL says file:// instead of http://. That is local. Now open your GitHub Pages URL. Look at both side by side. <strong>If something looks different, that is your first debugging exercise.</strong></p>
+      <div class="task-title">Give your project its own domain.</div>
+      <p class="task-desc">Buy a domain, create a Vercel account, connect your GitHub repository, and point your domain to Vercel. <strong>Test it from an incognito tab before calling it done.</strong></p>
       <div class="task-outcome">
         <span class="task-outcome-label">When done</span>
-        <span class="task-outcome-text"><strong>A real understanding of the difference between local and live that comes from experience, not from reading about it.</strong></span>
+        <span class="task-outcome-text"><strong>Your landing page live at yourname.com, loading over HTTPS, deploying automatically every time you push to GitHub.</strong></span>
+      </div>
+      <div class="task-share">
+        <span class="task-share-label">Share it</span>
+        <span class="task-share-text">Send the new URL to someone. Not the vercel.app one. The real one. That is the difference.</span>
       </div>
     </div>
   </div>
@@ -225,8 +211,8 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <div class="next-wrap">
     <div class="next-body">
       <div class="next-eyebrow">Next — SOP 05</div>
-      <div class="next-title">Connect your own domain</div>
-      <p class="next-desc">Your project is live on github.io. Now make it yours with a real domain name.</p>
+      <div class="next-title">Add a booking form with Supabase</div>
+      <p class="next-desc">Your project is live. Now give it memory. Let people leave their information and actually store it somewhere.</p>
     </div>
     <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
   </div>

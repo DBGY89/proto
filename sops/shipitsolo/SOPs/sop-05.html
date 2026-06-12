@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connect your own domain — AIProtoLab SOPs</title>
+<title>Add a booking form with Supabase — AIProtoLab SOPs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/shared.css">
@@ -21,48 +21,25 @@
 }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
-nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
 .hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 1rem; }
 .hero-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
 .hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .hero-label-num { font-family: var(--font-ui); font-size: 10px; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.1em; }
-.block00 { color: var(--amber); } .block00 .hero-label-num { background: rgba(245,166,35,0.1); border: 0.5px solid rgba(245,166,35,0.3); color: var(--amber); }
-.block01 { color: var(--pink); } .block01 .hero-label-num { background: rgba(255,77,158,0.1); border: 0.5px solid rgba(255,77,158,0.3); color: var(--pink); }
 .block02 { color: var(--mid1); } .block02 .hero-label-num { background: rgba(212,90,205,0.1); border: 0.5px solid rgba(212,90,205,0.3); color: var(--mid1); }
-.block03 { color: var(--mid2); } .block03 .hero-label-num { background: rgba(155,98,224,0.1); border: 0.5px solid rgba(155,98,224,0.3); color: var(--mid2); }
-.block04 { color: var(--purple); } .block04 .hero-label-num { background: rgba(178,102,255,0.1); border: 0.5px solid rgba(178,102,255,0.3); color: var(--purple); }
-.block05 { color: var(--cyan); } .block05 .hero-label-num { background: rgba(0,229,255,0.1); border: 0.5px solid rgba(0,229,255,0.3); color: var(--cyan); }
-.block06 { color: var(--green); } .block06 .hero-label-num { background: rgba(93,202,165,0.1); border: 0.5px solid rgba(93,202,165,0.3); color: var(--green); }
 h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 1.5rem; max-width: 640px; }
-.hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 520px; padding-left: 1.5rem; border-left: 2px solid rgba(255,255,255,0.12); }
 .content { max-width: 760px; margin: 0 auto; padding: 0 2rem 6rem; }
 .section-break { display: flex; align-items: center; gap: 14px; margin: 3.5rem 0 2rem; }
 .section-break-label { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
 .section-break-line { flex: 1; height: 1px; background: var(--border); }
 .body-text { font-size: 17px; color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
 .body-text strong { color: var(--text); font-weight: 500; }
-.pull-quote { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.4; border-left: 3px solid var(--amber); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
-.two-col-left { border-right: 1px solid var(--border); }
-.two-col-cell { padding: 1.75rem; }
-.col-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-.col-tag::before { content: ''; width: 22px; height: 2px; border-radius: 1px; }
-.col-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; line-height: 1.2; }
-.col-body { font-size: 15px; color: var(--muted); line-height: 1.7; }
-.item-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
-.item-list li { font-size: 15px; color: var(--muted); line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; }
-.item-list li .bul { font-family: var(--font-title); font-weight: 700; flex-shrink: 0; }
-.raw-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
-.raw-table thead th { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.18); }
-.raw-table tbody tr { border-bottom: 1px solid var(--border); }
-.raw-table tbody tr:last-child { border-bottom: none; }
-.raw-table td { padding: 14px 16px; font-size: 15px; color: var(--muted); line-height: 1.5; vertical-align: top; }
-.raw-table td:first-child { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
-.raw-table td:nth-child(2) { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-.v-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-right: 8px; }
-.v-good { color: var(--cyan); } .v-bad { color: var(--pink); } .v-neutral { color: var(--label); }
+.field-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+.field-item { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border); padding: 1.25rem 0; gap: 1.5rem; align-items: start; }
+.field-item:last-child { border-bottom: none; }
+.field-name { font-family: var(--font-title); font-size: 15px; font-weight: 700; color: var(--text); padding-top: 1px; }
+.field-desc { font-size: 15px; color: var(--muted); line-height: 1.6; }
+.field-desc strong { color: var(--text); font-weight: 500; }
+.field-desc code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
 .steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
 .step-row { display: grid; grid-template-columns: 44px 1fr; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .step-row:last-child { border-bottom: none; }
@@ -71,66 +48,11 @@ h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-wei
 .step-title { font-family: var(--font-title); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
 .step-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
 .step-desc strong { color: var(--text); font-weight: 500; }
-.code-block { font-family: var(--font-title); font-size: 14px; background: var(--surface2); border: 0.5px solid rgba(255,255,255,0.18); border-radius: 6px; padding: 12px 16px; padding-right: 76px; color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; position: relative; line-height: 1.5; }
-.copy-code-btn { position: absolute; top: 8px; right: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--label); background: transparent; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 5px; padding: 3px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-.copy-code-btn:hover { color: var(--cyan); border-color: rgba(0,229,255,0.4); }
-.copy-code-btn.copied { color: var(--green); border-color: var(--green); }
 code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
-.os-tabs { display: flex; gap: 4px; margin: 10px 0 14px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 8px; padding: 4px; width: fit-content; }
-.os-tab { font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 5px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
-.os-tab.active { background: rgba(0,229,255,0.14); color: var(--cyan); }
-.os-content { display: none; } .os-content.visible { display: block; }
-.pricing-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
-.pricing-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-.pricing-header-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
-.pricing-rows { display: flex; flex-direction: column; }
-.pricing-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--border); }
-.pricing-row:last-child { border-bottom: none; }
-.pricing-tier { padding: 1rem 1.25rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; justify-content: center; }
-.pricing-tier-label { font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text); }
-.pricing-tier-url { font-family: var(--font-title); font-size: 12px; color: var(--label); font-style: italic; }
-.pricing-tier-price { font-family: var(--font-title); font-size: 12px; color: var(--label); }
-.pricing-content { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.6; }
-.pricing-content strong { color: var(--text); font-weight: 500; }
-.verdict-tag { display: inline-block; font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; margin-top: 6px; }
-.verdict-enough { background: rgba(93,202,165,0.1); color: var(--green); }
-.verdict-paid { background: rgba(245,166,35,0.1); color: var(--amber); }
-.note-block { background: var(--surface); border: 0.5px solid var(--border); border-left: 3px solid var(--amber); padding: 1rem 1.25rem; margin: 1.5rem 0; }
-.note-block p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.note-block strong { color: var(--text); font-weight: 500; }
-.done-list { list-style: none; }
-.done-list li { display: grid; grid-template-columns: 44px 1fr; font-size: 16px; color: var(--muted); padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; line-height: 1.55; }
-.done-list li:last-child { border-bottom: none; }
-.done-num { font-family: var(--font-title); font-size: 14px; font-weight: 700; font-style: italic; padding-top: 1px; color: var(--amber); }
-.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
-.next-body { padding: 1.5rem 1.75rem; }
-.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
-.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
-.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
-.next-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
-.next-link:hover { border-color: var(--amber); color: var(--amber); }
-.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
-footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
-.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-@media (max-width: 620px) {
-  nav { padding: 0 1.25rem; }
-  .hero { padding: 3rem 1.25rem 1rem; }
-  .content { padding: 0 1.25rem 4rem; }
-  .two-col { grid-template-columns: 1fr; }
-  .two-col-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .pricing-row { grid-template-columns: 1fr; }
-  .pricing-tier { border-right: none; border-bottom: 1px solid var(--border); }
-  .next-wrap { grid-template-columns: 1fr; }
-  .next-cta { border-left: none; border-top: 1px solid var(--border); }
-  .step-row { grid-template-columns: 36px 1fr; }
-  .raw-table td:first-child { display: none; }
-  h1 { font-size: 28px; }
-  .hero-sub { font-size: 16px; }
-  footer { flex-direction: column; align-items: flex-start; }
-}
-
+.example-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
+.example-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
+.example-content { padding: 1.5rem 1.75rem; font-family: var(--font-title); font-size: 14px; color: var(--muted); line-height: 2; }
+.example-content strong { color: var(--text); font-weight: 700; }
 .task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
 .task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
 .task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
@@ -146,11 +68,26 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 .task-share { margin-top: 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
 .task-share-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); display: block; margin-bottom: 4px; }
 .task-share-text { font-size: 13px; color: var(--muted); line-height: 1.55; font-style: italic; }
-.pm-voice { border-left: 3px solid var(--purple); padding-left: 1.25rem; font-style: italic; }
-.decision-block { border: 1px solid var(--border); border-left: 3px solid var(--cyan); padding: 1rem 1.25rem; margin-bottom: 2rem; background: rgba(0,240,255,0.03); }
-.decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
-.decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
-.decision-block strong { color: var(--text); font-weight: 500; }
+.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
+.next-body { padding: 1.5rem 1.75rem; }
+.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
+.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
+.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
+footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
+.footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+@media (max-width: 620px) {
+  .hero { padding: 3rem 1.25rem 1rem; }
+  .content { padding: 0 1.25rem 4rem; }
+  .field-item { grid-template-columns: 1fr; gap: 4px; }
+  .next-wrap { grid-template-columns: 1fr; }
+  .next-cta { border-left: none; border-top: 1px solid var(--border); }
+  .step-row { grid-template-columns: 36px 1fr; }
+  h1 { font-size: 28px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
@@ -158,69 +95,106 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <a href="/sops/shipitsolo/list.html" class="back-link">&larr; SOPs / #shipitsolo</a>
 </nav>
 <div class="hero">
-  <div class="hero-label block01">Block 01 — Build &amp; Publish <span class="hero-label-num">05</span></div>
-  <h1>Connect your own domain</h1>
-  <p class="hero-sub">Go from yourusername.github.io/project to yourproject.com. One afternoon, ten dollars a year.</p>
+  <div class="hero-label block02">Block 02 — Data <span class="hero-label-num">05</span></div>
+  <h1>Add a booking form with Supabase</h1>
 </div>
 <div class="content">
 
-  <p class="body-text">A github.io URL works. But when you share your project, the URL is part of the first impression. <strong>yourproject.com</strong> signals that this is real. <strong>yourusername.github.io/yourproject</strong> signals a side project someone has not finished yet.</p>
+  <p class="body-text">Marta's website is live. People find her, scroll through her photos of dogs in Madrid, and leave. Nothing happens. A booking form changes that. Someone fills in their name, their pet's name, and a preferred date for their session. Marta wakes up the next morning with requests waiting for her.</p>
 
-  <p class="body-text"><em>A custom domain costs around ten dollars a year and takes an afternoon to set up.</em></p>
+  <p class="body-text">That is what this SOP builds. A form on Marta's site connected to Supabase, a database where all the bookings get stored. Marta logs in, sees the requests, and contacts her clients. No email required, no third-party booking tool, no monthly fee.</p>
 
-  <p class="body-text pm-voice">Your URL is part of your brand. github.io/yourname signals a project. yourname.com signals a person. If you are building something you want people to take seriously, the domain is non-negotiable.</p>
+  <div class="section-break"><span class="section-break-label">what you will use</span><div class="section-break-line"></div></div>
 
-  <div class="pricing-block">
-    <div class="pricing-header"><span class="pricing-header-label">What this costs</span></div>
-    <div class="pricing-rows">
-      <div class="pricing-row">
-        <div class="pricing-tier"><span class="pricing-tier-label">Domain registrar</span><span class="pricing-tier-url">namecheap.com / cloudflare.com / porkbun.com</span></div>
-        <div class="pricing-content">A .com domain costs between $8 and $15 per year. Connecting it to GitHub Pages is free.<div><span class="verdict-tag verdict-paid">~$10 per year</span></div></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-tier"><span class="pricing-tier-label">GitHub Pages</span><span class="pricing-tier-url">pages.github.com</span></div>
-        <div class="pricing-content">Hosting a custom domain on GitHub Pages is completely free.<div><span class="verdict-tag verdict-enough">Always free</span></div></div>
-      </div>
+  <ul class="field-list">
+    <li class="field-item">
+      <div class="field-name">Supabase</div>
+      <div class="field-desc">Supabase is a database — a place where your project stores information. Think of it as a spreadsheet that lives on the internet and that your website can write to automatically. Every time someone submits the booking form, that information goes to Supabase. The free plan is more than enough to start.</div>
+    </li>
+  </ul>
+
+  <div class="section-break"><span class="section-break-label">what we are building</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">A booking form on Marta's landing page with five fields. When someone submits it, the data goes directly to Supabase and Marta can see it in her dashboard.</p>
+
+  <div class="example-block">
+    <div class="example-header">The booking form fields</div>
+    <div class="example-content">
+      <strong>Name</strong> — the client's full name<br>
+      <strong>Email</strong> — so Marta can get back to them<br>
+      <strong>Pet's name</strong> — because Marta loves knowing who she is going to meet<br>
+      <strong>Preferred date</strong> — a rough idea of when they want the session<br>
+      <strong>Message</strong> — anything else they want to add
     </div>
   </div>
+
+  <div class="section-break"><span class="section-break-label">the steps</span><div class="section-break-line"></div></div>
 
   <div class="steps">
     <div class="step-row">
       <div class="step-num">1</div>
       <div class="step-body">
-        <div class="step-title">Buy your domain</div>
-        <div class="step-desc">Go to Namecheap, Cloudflare, or Porkbun. Search for your domain. Buy it. You now have access to the DNS settings for that domain.</div>
+        <div class="step-title">Create a Supabase account and a new project</div>
+        <div class="step-desc">Go to supabase.com and sign up. Once inside, click New project. Give it a name, set a database password (save it somewhere safe), and choose the region closest to you. Supabase takes about a minute to get everything ready.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">2</div>
       <div class="step-body">
-        <div class="step-title">Add four A records pointing to GitHub Pages</div>
-        <div class="step-desc">In your registrar's DNS settings, add four A records with host set to <code>@</code> pointing to: <code>185.199.108.153</code>, <code>185.199.109.153</code>, <code>185.199.110.153</code>, <code>185.199.111.153</code>.</div>
+        <div class="step-title">Create your bookings table</div>
+        <div class="step-desc">In your Supabase project, go to the Table Editor and click New table. Name it <code>bookings</code>. Add five columns: <code>name</code>, <code>email</code>, <code>pet_name</code>, <code>preferred_date</code>, and <code>message</code>, all as text type. Supabase adds an ID and timestamps automatically. Save the table.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">3</div>
       <div class="step-body">
-        <div class="step-title">Add a CNAME record for www</div>
-        <div class="step-desc">Add a CNAME record. Host: <code>www</code>. Value: <code>yourusername.github.io</code>.</div>
+        <div class="step-title">Get your project credentials and store them safely</div>
+        <div class="step-desc">Go to Settings, then API. You will see two things: your Project URL and your public anon key. These connect your website to Supabase. <strong>Never paste them directly into your code.</strong> They are like passwords — if they end up on GitHub, anyone can access your database. Instead, go to your Vercel project, open Settings, find Environment Variables, and add them as <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code>. Your code will read them from there.</div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">4</div>
       <div class="step-body">
-        <div class="step-title">Add your domain to GitHub Pages settings</div>
-        <div class="step-desc">Go to your repository, Settings, then Pages. In "Custom domain," type your domain and click Save.</div>
+        <div class="step-title">Ask your AI assistant to add the booking form</div>
+        <div class="step-desc">Open your AI coding assistant with Marta's project. Use this prompt: <strong>"Add a booking form to this landing page with fields for name, email, pet's name, preferred date, and message. Connect it to Supabase using the Supabase JavaScript client. Read the credentials from SUPABASE_URL and SUPABASE_ANON_KEY environment variables. When the form is submitted, insert the data into a table called bookings and show a confirmation message."</strong></div>
       </div>
     </div>
     <div class="step-row">
       <div class="step-num">5</div>
       <div class="step-body">
-        <div class="step-title">Enable HTTPS and verify</div>
-        <div class="step-desc">Check "Enforce HTTPS." DNS changes can take up to 24 hours. Test from an incognito tab. If it still does not work after 24 hours, check that all four A records are correct.</div>
+        <div class="step-title">Allow the form to write to your table</div>
+        <div class="step-desc">By default, Supabase blocks all writes to your tables. You need to tell it that the booking form is allowed. Go to Authentication, then Policies, and find your bookings table. Click New policy and enable inserts for anonymous users. If you are not sure how to write it, ask your AI assistant: <strong>"Write a Supabase row level security policy that allows anonymous users to insert rows into the bookings table."</strong></div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Test it end to end</div>
+        <div class="step-desc">Push the updated project to GitHub. Vercel will redeploy automatically. Open your live site, fill in the booking form, and submit it. Then go to your Supabase dashboard, open the Table Editor, and check the bookings table. The submission should be there. That is the whole loop working.</div>
       </div>
     </div>
   </div>
+
+  <div class="section-break"><span class="section-break-label">if something does not look right</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">Most issues here come from permissions or environment variables. Both are easy to fix once you know where to look.</p>
+
+  <ul class="field-list">
+    <li class="field-item">
+      <div class="field-name">The form submits but nothing appears in Supabase</div>
+      <div class="field-desc">Check your table policies. If there is no policy that allows anonymous inserts, Supabase silently rejects the submission without showing an error. Go to Authentication, then Policies, and confirm the bookings table has an insert policy for anonymous users.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">The form works locally but not on the live site</div>
+      <div class="field-desc">The environment variables are probably missing in Vercel. Go to your Vercel project settings, confirm <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> are there, and trigger a new deployment.</div>
+    </li>
+    <li class="field-item">
+      <div class="field-name">The AI put the keys directly in the code</div>
+      <div class="field-desc">This happens. Before you push to GitHub, scan the code for any string that looks like a URL or a long random key. If you find one, remove it, add it to Vercel environment variables, and ask the AI to update the code to use <code>process.env.SUPABASE_URL</code> and <code>process.env.SUPABASE_ANON_KEY</code> instead.</div>
+    </li>
+  </ul>
+
+  <p class="body-text">Marta's site now does something. It is not just a portfolio anymore. It is a tool that works for her while she is out photographing dogs in the park.</p>
 
   <div class="task-block">
     <div class="task-block-header">
@@ -228,11 +202,15 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
       <span class="task-block-sop">SOP 05</span>
     </div>
     <div class="task-block-body">
-      <div class="task-title">Connect a custom domain to your landing page.</div>
-      <p class="task-desc">Buy a domain, follow the DNS steps, enable HTTPS. <strong>Test it from an incognito tab before calling it done.</strong></p>
+      <div class="task-title">Add a booking form and connect it to Supabase.</div>
+      <p class="task-desc">Create your Supabase project, build the bookings table, store your keys safely in Vercel, and ask your AI assistant to wire it all together. <strong>Do not move on until you see a real submission appear in your Supabase dashboard.</strong></p>
       <div class="task-outcome">
         <span class="task-outcome-label">When done</span>
-        <span class="task-outcome-text"><strong>Your landing page live at yourname.com, loading over HTTPS.</strong></span>
+        <span class="task-outcome-text"><strong>A working form on your live site that saves real data to a real database. Log in to Supabase and see it there.</strong></span>
+      </div>
+      <div class="task-share">
+        <span class="task-share-label">Try it yourself first</span>
+        <span class="task-share-text">Fill in your own form before you share it. Then send it to a friend. That first real submission in your Supabase dashboard is a good moment.</span>
       </div>
     </div>
   </div>
@@ -240,15 +218,15 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <div class="next-wrap">
     <div class="next-body">
       <div class="next-eyebrow">Next — SOP 06</div>
-      <div class="next-title">Vercel — deploy with your own URL</div>
-      <p class="next-desc">When your project needs more than GitHub Pages can offer. Still free.</p>
+      <div class="next-title">What to do when something breaks</div>
+      <p class="next-desc">Things break. Knowing how to read an error and fix it is the skill that keeps every other SOP moving.</p>
     </div>
     <div class="next-cta"><span class="next-link-disabled">Next week</span></div>
   </div>
 
 </div>
 <footer>
-  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 01</div>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 02</div>
   <div class="footer-right"><a href="/sops/shipitsolo">← back to index</a></div>
 </footer>
 </body>
