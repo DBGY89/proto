@@ -109,7 +109,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <ul class="field-list">
     <li class="field-item">
       <div class="field-name">Supabase</div>
-      <div class="field-desc">Supabase is a database — a place where your project stores information. Think of it as a spreadsheet that lives on the internet and that your website can write to automatically. Every time someone submits the booking form, that information goes to Supabase. The free plan is more than enough to start.</div>
+      <div class="field-desc">Supabase is a database, a place where your project stores information. Think of it as a spreadsheet that lives on the internet and that your website can write to automatically. Every time someone submits the booking form, that information goes to Supabase. The free plan is more than enough to start.</div>
     </li>
   </ul>
 
@@ -120,11 +120,11 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   <div class="example-block">
     <div class="example-header">The booking form fields</div>
     <div class="example-content">
-      <strong>Name</strong> — the client's full name<br>
-      <strong>Email</strong> — so Marta can get back to them<br>
-      <strong>Pet's name</strong> — because Marta loves knowing who she is going to meet<br>
-      <strong>Preferred date</strong> — a rough idea of when they want the session<br>
-      <strong>Message</strong> — anything else they want to add
+      <strong>Name:</strong> the client's full name<br>
+      <strong>Email:</strong> so Marta can get back to them<br>
+      <strong>Pet's name:</strong> because Marta loves knowing who she is going to meet<br>
+      <strong>Preferred date:</strong> a rough idea of when they want the session<br>
+      <strong>Message:</strong> anything else they want to add
     </div>
   </div>
 
@@ -149,7 +149,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
       <div class="step-num">3</div>
       <div class="step-body">
         <div class="step-title">Get your project credentials and store them safely</div>
-        <div class="step-desc">Go to Settings, then API. You will see two things: your Project URL and your public anon key. These connect your website to Supabase. <strong>Never paste them directly into your code.</strong> They are like passwords — if they end up on GitHub, anyone can access your database. Instead, go to your Vercel project, open Settings, find Environment Variables, and add them as <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code>. Your code will read them from there.</div>
+        <div class="step-desc">Go to Settings, then API. You will see two things: your Project URL and your public anon key. These connect your website to Supabase. <strong>Never paste them directly into your code.</strong> They are like passwords. If they end up on GitHub, anyone can access your database. Instead, go to your Vercel project, open Settings, find Environment Variables, and add them as <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code>. Your code will read them from there.</div>
       </div>
     </div>
     <div class="step-row">
@@ -190,7 +190,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
     </li>
     <li class="field-item">
       <div class="field-name">The AI put the keys directly in the code</div>
-      <div class="field-desc">This happens. Before you push to GitHub, scan the code for any string that looks like a URL or a long random key. If you find one, remove it, add it to Vercel environment variables, and ask the AI to update the code to use <code>process.env.SUPABASE_URL</code> and <code>process.env.SUPABASE_ANON_KEY</code> instead.</div>
+      <div class="field-desc">This happens. Before you save your changes to GitHub, look through the code for anything that looks like a long web address or a string of random characters. Those are your credentials sitting exposed in the code. If you find them, delete them, add them to Vercel as environment variables following the steps above, and tell the AI to read them from there instead.</div>
     </li>
   </ul>
 
