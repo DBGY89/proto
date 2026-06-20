@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What to do when something breaks — AIProtoLab SOPs</title>
+<title>You made it — AIProtoLab SOPs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/shared.css">
@@ -21,9 +21,7 @@
 }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
-nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-.nav-right { font-family: var(--font-title); font-size: 13px; color: var(--label); }
+/* nav → .topbar handled by shared.css */
 .hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 1rem; }
 .hero-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
 .hero-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -43,26 +41,7 @@ h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-wei
 .section-break-line { flex: 1; height: 1px; background: var(--border); }
 .body-text { font-size: 17px; color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
 .body-text strong { color: var(--text); font-weight: 500; }
-.pull-quote { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.4; border-left: 3px solid var(--amber); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
-.two-col-left { border-right: 1px solid var(--border); }
-.two-col-cell { padding: 1.75rem; }
-.col-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-.col-tag::before { content: ''; width: 22px; height: 2px; border-radius: 1px; }
-.col-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; line-height: 1.2; }
-.col-body { font-size: 15px; color: var(--muted); line-height: 1.7; }
-.item-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
-.item-list li { font-size: 15px; color: var(--muted); line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; }
-.item-list li .bul { font-family: var(--font-title); font-weight: 700; flex-shrink: 0; }
-.raw-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
-.raw-table thead th { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.18); }
-.raw-table tbody tr { border-bottom: 1px solid var(--border); }
-.raw-table tbody tr:last-child { border-bottom: none; }
-.raw-table td { padding: 14px 16px; font-size: 15px; color: var(--muted); line-height: 1.5; vertical-align: top; }
-.raw-table td:first-child { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); white-space: nowrap; }
-.raw-table td:nth-child(2) { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-.v-label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-right: 8px; }
-.v-good { color: var(--cyan); } .v-bad { color: var(--pink); } .v-neutral { color: var(--label); }
+.pull-quote { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.4; border-left: 3px solid var(--green); padding: 0.5rem 0 0.5rem 1.5rem; margin: 2rem 0; }
 .steps { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
 .step-row { display: grid; grid-template-columns: 44px 1fr; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .step-row:last-child { border-bottom: none; }
@@ -71,177 +50,147 @@ h1 { font-family: var(--font-title); font-size: clamp(28px, 5vw, 48px); font-wei
 .step-title { font-family: var(--font-title); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
 .step-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
 .step-desc strong { color: var(--text); font-weight: 500; }
-.code-block { font-family: var(--font-title); font-size: 14px; background: var(--surface2); border: 0.5px solid rgba(255,255,255,0.18); border-radius: 6px; padding: 12px 16px; padding-right: 76px; color: var(--cyan); display: block; margin: 10px 0; word-break: break-all; position: relative; line-height: 1.5; }
-.copy-code-btn { position: absolute; top: 8px; right: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--label); background: transparent; border: 0.5px solid rgba(255,255,255,0.18); border-radius: 5px; padding: 3px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-.copy-code-btn:hover { color: var(--cyan); border-color: rgba(0,229,255,0.4); }
-.copy-code-btn.copied { color: var(--green); border-color: var(--green); }
 code { font-family: var(--font-title); font-size: 14px; background: rgba(0,229,255,0.08); border: 0.5px solid rgba(0,229,255,0.2); border-radius: 5px; padding: 2px 7px; color: var(--cyan); }
-.os-tabs { display: flex; gap: 4px; margin: 10px 0 14px; background: var(--surface2); border: 0.5px solid var(--border); border-radius: 8px; padding: 4px; width: fit-content; }
-.os-tab { font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 5px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
-.os-tab.active { background: rgba(0,229,255,0.14); color: var(--cyan); }
-.os-content { display: none; } .os-content.visible { display: block; }
-.pricing-block { border: 1px solid var(--border); margin: 2rem 0; overflow: hidden; }
-.pricing-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-.pricing-header-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); }
-.pricing-rows { display: flex; flex-direction: column; }
-.pricing-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--border); }
-.pricing-row:last-child { border-bottom: none; }
-.pricing-tier { padding: 1rem 1.25rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; justify-content: center; }
-.pricing-tier-label { font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text); }
-.pricing-tier-url { font-family: var(--font-title); font-size: 12px; color: var(--label); font-style: italic; }
-.pricing-tier-price { font-family: var(--font-title); font-size: 12px; color: var(--label); }
-.pricing-content { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.6; }
-.pricing-content strong { color: var(--text); font-weight: 500; }
-.verdict-tag { display: inline-block; font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; margin-top: 6px; }
-.verdict-enough { background: rgba(93,202,165,0.1); color: var(--green); }
-.verdict-paid { background: rgba(245,166,35,0.1); color: var(--amber); }
-.note-block { background: var(--surface); border: 0.5px solid var(--border); border-left: 3px solid var(--amber); padding: 1rem 1.25rem; margin: 1.5rem 0; }
-.note-block p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.note-block strong { color: var(--text); font-weight: 500; }
-.done-list { list-style: none; }
-.done-list li { display: grid; grid-template-columns: 44px 1fr; font-size: 16px; color: var(--muted); padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; line-height: 1.55; }
-.done-list li:last-child { border-bottom: none; }
-.done-num { font-family: var(--font-title); font-size: 14px; font-weight: 700; font-style: italic; padding-top: 1px; color: var(--amber); }
-.next-wrap { border: 1px solid var(--border); margin-top: 3.5rem; display: grid; grid-template-columns: 1fr auto; }
-.next-body { padding: 1.5rem 1.75rem; }
-.next-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--label); margin-bottom: 6px; }
-.next-title { font-family: var(--font-title); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
-.next-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.next-cta { padding: 1.5rem 1.75rem; display: flex; align-items: center; border-left: 1px solid var(--border); }
-.next-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
-.next-link:hover { border-color: var(--amber); color: var(--amber); }
-.next-link-disabled { display: inline-flex; align-items: center; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--label); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; white-space: nowrap; cursor: default; }
 footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
 .footer-left { font-family: var(--font-title); font-size: 13px; font-style: italic; color: var(--label); }
 .footer-right a { font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
 @media (max-width: 620px) {
-  nav { padding: 0 1.25rem; }
   .hero { padding: 3rem 1.25rem 1rem; }
   .content { padding: 0 1.25rem 4rem; }
-  .two-col { grid-template-columns: 1fr; }
-  .two-col-left { border-right: none; border-bottom: 1px solid var(--border); }
-  .pricing-row { grid-template-columns: 1fr; }
-  .pricing-tier { border-right: none; border-bottom: 1px solid var(--border); }
-  .next-wrap { grid-template-columns: 1fr; }
-  .next-cta { border-left: none; border-top: 1px solid var(--border); }
   .step-row { grid-template-columns: 36px 1fr; }
-  .raw-table td:first-child { display: none; }
   h1 { font-size: 28px; }
   .hero-sub { font-size: 16px; }
   footer { flex-direction: column; align-items: flex-start; }
 }
-.error-type { border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
-.error-type-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-.error-type-title { font-family: var(--font-title); font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* Skill recap list */
+.skill-list { list-style: none; margin: 2rem 0; display: flex; flex-direction: column; }
+.skill-item { display: grid; grid-template-columns: 52px 1fr; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+.skill-item:last-child { border-bottom: none; }
+.skill-num { font-family: var(--font-title); font-size: 12px; font-style: italic; color: var(--green); padding-top: 3px; }
+.skill-body { padding-left: 0.5rem; }
+.skill-title { font-family: var(--font-title); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 5px; line-height: 1.2; }
+.skill-desc { font-size: 15px; color: var(--muted); line-height: 1.65; }
+
+/* Marta block */
+.marta-block { border: 1px solid rgba(93,202,165,0.2); background: rgba(93,202,165,0.03); padding: 1.75rem; margin: 2rem 0; }
+.marta-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: block; }
+.marta-block p { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 0.75rem; }
+.marta-block p:last-child { margin-bottom: 0; }
+.marta-block strong { color: var(--text); font-weight: 500; }
+
+/* Error types (condensed) */
+.error-type { border: 1px solid var(--border); margin-bottom: 10px; overflow: hidden; }
+.error-type-header { display: flex; align-items: center; gap: 12px; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+.error-type-title { font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text); }
 .error-type-tag { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
 .tag-common { background: rgba(255,77,158,0.1); color: var(--pink); }
 .tag-sometimes { background: rgba(245,166,35,0.1); color: var(--amber); }
-.error-type-body { padding: 1rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.error-type-body { padding: 0.875rem 1.25rem; font-size: 14px; color: var(--muted); line-height: 1.7; }
 .error-type-body strong { color: var(--text); font-weight: 500; }
 
-.task-block { border: 1px solid var(--border); border-top: 3px solid var(--pink); margin: 3.5rem 0 0; overflow: hidden; }
-.task-block-header { padding: 0.875rem 1.4rem; border-bottom: 1px solid var(--border); background: rgba(255,45,120,0.04); display: flex; align-items: center; justify-content: space-between; }
-.task-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); }
-.task-block-sop { font-family: var(--font-title); font-size: 12px; font-style: italic; color: var(--label); }
-.task-block-body { padding: 1.4rem; }
-.task-title { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.2; }
-.task-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
-.task-desc strong { color: var(--text); font-weight: 500; }
-.task-outcome { background: var(--surface); border: 0.5px solid var(--border); padding: 0.875rem 1.1rem; display: flex; align-items: flex-start; gap: 12px; }
-.task-outcome-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5DCAA5; flex-shrink: 0; padding-top: 2px; }
-.task-outcome-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
-.task-outcome-text strong { color: var(--text); font-weight: 500; }
-.task-share { margin-top: 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
-.task-share-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); display: block; margin-bottom: 4px; }
-.task-share-text { font-size: 13px; color: var(--muted); line-height: 1.55; font-style: italic; }
-.pm-voice { border-left: 3px solid var(--purple); padding-left: 1.25rem; font-style: italic; }
-.decision-block { border: 1px solid var(--border); border-left: 3px solid var(--cyan); padding: 1rem 1.25rem; margin-bottom: 2rem; background: rgba(0,240,255,0.03); }
-.decision-block-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; display: block; }
-.decision-block p { font-size: 15px; color: var(--muted); line-height: 1.65; }
-.decision-block strong { color: var(--text); font-weight: 500; }
+/* Final closing block */
+.final-block { border: 1px solid rgba(93,202,165,0.3); border-top: 3px solid var(--green); margin-top: 3.5rem; padding: 2.5rem 2rem; text-align: center; }
+.final-title { font-family: var(--font-title); font-size: 32px; font-weight: 700; color: var(--text); margin-bottom: 1rem; line-height: 1.2; }
+.final-desc { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 460px; margin: 0 auto 1.75rem; }
+.final-cta { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; transition: border-color 0.15s, color 0.15s; }
+.final-cta:hover { border-color: var(--green); color: var(--green); }
 </style>
 </head>
 <body>
 <nav class="topbar"><a href="/sops/shipitsolo/list.html" class="back-link">&larr; SOPs / #shipitsolo</a></nav>
 <div class="hero">
-  <div class="hero-label block06">Block 03 — When things go wrong <span class="hero-label-num">06</span></div>
-  <h1>What to do when something breaks</h1>
+  <div class="hero-label block06">Block 03 — Final SOP <span class="hero-label-num">06</span></div>
+  <h1>You made it.</h1>
+  <p class="hero-sub">You started this course without knowing how to put something online. You just finished it.</p>
 </div>
 <div class="content">
 
-  <p class="body-text">Things break. Not because you did something wrong. Because building is a process. The people who keep going are not the ones who never break things. They are the ones who know what to look for when something goes wrong.</p>
+  <p class="body-text">Six SOPs ago you had an idea and a blank page. Now you have the tools, the process, and the experience of having built something and made it visible on the internet. That is not a small thing.</p>
 
-  <p class="body-text"><strong>The process is always the same:</strong> read the error, understand what it is saying, find where it is coming from, fix the specific thing that is broken, verify the fix. In that order.</p>
+  <p class="body-text">Here is everything you can do now.</p>
 
-  <div class="section-break"><span class="section-break-label">step one: open the browser console</span><div class="section-break-line"></div></div>
+  <div class="section-break"><span class="section-break-label">what you learned</span><div class="section-break-line"></div></div>
 
-  <p class="body-text">Press <code>F12</code> on Windows or Linux, or <code>Command + Option + I</code> on Mac. Click the "Console" tab. If there is an error, it will be there in red. Read the full message, not just the first line.</p>
+  <ul class="skill-list">
+    <li class="skill-item">
+      <span class="skill-num">SOP 01</span>
+      <div class="skill-body">
+        <div class="skill-title">Describe what you want to build so an AI can actually help you</div>
+        <div class="skill-desc">Not a vague idea, but a document with enough detail that the work can start. You know what to include, what to leave out, and how to get from an idea to a brief that works.</div>
+      </div>
+    </li>
+    <li class="skill-item">
+      <span class="skill-num">SOP 02</span>
+      <div class="skill-body">
+        <div class="skill-title">Have a real conversation with an AI coding assistant</div>
+        <div class="skill-desc">You know how to give it context, how to guide it when it goes in the wrong direction, and how to go from a first rough version to something you actually want to show people.</div>
+      </div>
+    </li>
+    <li class="skill-item">
+      <span class="skill-num">SOP 03</span>
+      <div class="skill-body">
+        <div class="skill-title">Take a project from your computer and put it online</div>
+        <div class="skill-desc">You know how to use GitHub to save your work and GitHub Pages to make it visible. Anyone with the link can see what you built.</div>
+      </div>
+    </li>
+    <li class="skill-item">
+      <span class="skill-num">SOP 04</span>
+      <div class="skill-body">
+        <div class="skill-title">Give your site a real address and keep it updated automatically</div>
+        <div class="skill-desc">You know how to buy a domain and connect it through Vercel so your site lives at an address that belongs to you, and updates on its own every time you make a change.</div>
+      </div>
+    </li>
+    <li class="skill-item">
+      <span class="skill-num">SOP 05</span>
+      <div class="skill-body">
+        <div class="skill-title">Let people contact you through your site</div>
+        <div class="skill-desc">You know how to add a form that saves information into a database. Every submission goes straight to you. No third-party service, no monthly fee.</div>
+      </div>
+    </li>
+  </ul>
 
-  <div class="section-break"><span class="section-break-label">the most common errors</span><div class="section-break-line"></div></div>
+  <div class="section-break"><span class="section-break-label">what this looks like in practice</span><div class="section-break-line"></div></div>
+
+  <div class="marta-block">
+    <span class="marta-label">Marta's story, complete</span>
+    <p>Marta started this course with an idea: a simple website for her photography business. Something professional, something that felt like her.</p>
+    <p>She now has a portfolio online, a domain that is hers, and a contact form where potential clients can reach her directly. <strong>She did not need a developer. She did not need a budget beyond the cost of the domain.</strong> She needed to know what steps to take, in what order, and why.</p>
+    <p>That is exactly what this course gave her. And you now have the same knowledge she does.</p>
+  </div>
+
+  <div class="section-break"><span class="section-break-label">when something breaks</span><div class="section-break-line"></div></div>
+
+  <p class="body-text">Things will break. Not because you did something wrong, but because building is a process. When something stops working, the steps are always the same: open the browser console by pressing <code>F12</code> on Windows or <code>Command + Option + I</code> on Mac, read the error in red, and follow the process below.</p>
 
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">Cannot read properties of undefined</span></div>
-    <div class="error-type-body">Your code is trying to access something that does not exist yet. Usually because data has not loaded or a variable is empty. Check what the variable contains at the point of the error.</div>
+    <div class="error-type-body">Your code is trying to access something that does not exist yet. Usually because data has not loaded or a variable is empty.</div>
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">Failed to fetch / Network error</span></div>
-    <div class="error-type-body">A connection failed. Check your environment variables in Vercel first. Make sure the values are there and spelled correctly, then trigger a new deployment and test again.</div>
+    <div class="error-type-body">A connection failed. Check your credentials in Vercel first. Make sure the values are there and spelled correctly, then trigger a new deployment and test again.</div>
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">404 Not Found</span></div>
-    <div class="error-type-body">Something is looking for a file that does not exist at that URL. Check the path is spelled correctly. Case matters: <code>Index.html</code> and <code>index.html</code> are different files.</div>
-  </div>
-  <div class="error-type">
-    <div class="error-type-header"><span class="error-type-tag tag-sometimes">Sometimes</span><span class="error-type-title">SyntaxError / Unexpected token</span></div>
-    <div class="error-type-body">A mistake in the code syntax. A missing bracket, a comma in the wrong place. The error message tells you which line. Your AI assistant is very good at spotting these.</div>
+    <div class="error-type-body">Something is looking for a file that does not exist at that address. Check the path is spelled correctly. Case matters: <code>Index.html</code> and <code>index.html</code> are different files.</div>
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-sometimes">Sometimes</span><span class="error-type-title">401 Unauthorized / 403 Forbidden</span></div>
-    <div class="error-type-body">Something is rejecting the request. In Supabase, this usually means a permission is missing. Go to Authentication, then Policies, and check that the action is allowed for your table.</div>
+    <div class="error-type-body">Something is rejecting the request. In Supabase, go to Authentication, then Policies, and check that the action is allowed for your table.</div>
   </div>
 
-  <div class="section-break"><span class="section-break-label">how to ask your AI assistant for help</span><div class="section-break-line"></div></div>
+  <p class="body-text" style="margin-top: 1.5rem;">When you need help, copy the exact error from the console, paste it to your AI assistant alongside the relevant section of your code, and describe what you expected to happen versus what actually happened. That is usually enough to fix it fast.</p>
 
-  <div class="steps">
-    <div class="step-row">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Copy the full error message from the console</div>
-        <div class="step-desc">Do not paraphrase. Copy the exact text. The specific wording often contains the answer.</div>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Paste the relevant code alongside it</div>
-        <div class="step-desc">The error message usually shows you a file name and a line number. Share just that section with your AI assistant, not the entire file. If you are not sure which part to share, ask the AI directly: paste the error and say "which part of my code do you need to see to fix this?"</div>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Describe what you expected and what happened instead</div>
-        <div class="step-desc">"I expected the form to submit and store the data in Supabase. Instead I see this error and nothing happens." That sentence alone rules out half the possible causes.</div>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <div class="step-title">If the fix does not work, start a new session</div>
-        <div class="step-desc">Close the session, paste your PRD and the relevant code fresh, and describe the problem again. Almost always faster than continuing to iterate.</div>
-      </div>
-    </div>
-  </div>
-
-  <div style="border: 1px solid var(--border); margin-top: 3.5rem; padding: 2rem 1.75rem; text-align: center;">
-    <div style="font-family: var(--font-title); font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem;">That is the course.</div>
-    <p style="font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 1.5rem;">You know how to build a page, give it a real domain, connect a database so people can reach you, and fix it when something goes wrong. That is enough to ship something real. Go build it.</p>
-    <a href="/sops/shipitsolo/list.html" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; transition: border-color 0.15s, color 0.15s;">Back to the index</a>
+  <div class="final-block">
+    <div class="final-title">Now go build something.</div>
+    <p class="final-desc">You have everything you need. A site, a domain, a way for people to reach you, and a process for when things go wrong. The only thing left is to use it.</p>
+    <a href="/sops/shipitsolo/list.html" class="final-cta">Back to the index</a>
   </div>
 
 </div>
 <footer>
-  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, Block 06</div>
+  <div class="footer-left">AIProtoLab SOPs — #shipitsolo, SOP 06</div>
   <div class="footer-right"><a href="/sops/shipitsolo">← back to index</a></div>
 </footer>
 </body>
