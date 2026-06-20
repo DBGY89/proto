@@ -166,13 +166,10 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
 <div class="hero">
   <div class="hero-label block06">Block 03 — When things go wrong <span class="hero-label-num">06</span></div>
   <h1>What to do when something breaks</h1>
-  <p class="hero-sub">Things break. This SOP gives you a process for when they do.</p>
 </div>
 <div class="content">
 
-  <p class="body-text">Things break. This SOP gives you a process for when they do.</p>
-
-  <p class="body-text"><em>Every builder breaks things. The ones who ship consistently are not the ones who break things less. They are the ones who know what to do when something breaks.</em></p>
+  <p class="body-text">Things break. Not because you did something wrong. Because building is a process. The people who keep going are not the ones who never break things. They are the ones who know what to look for when something goes wrong.</p>
 
   <p class="body-text"><strong>The process is always the same:</strong> read the error, understand what it is saying, find where it is coming from, fix the specific thing that is broken, verify the fix. In that order.</p>
 
@@ -188,7 +185,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">Failed to fetch / Network error</span></div>
-    <div class="error-type-body">An API call failed. Check your environment variables first. Then the API key. Then the URL. CORS errors almost always mean you need to make the API call from a server function, not from the browser.</div>
+    <div class="error-type-body">A connection failed. Check your environment variables in Vercel first. Make sure the values are there and spelled correctly, then trigger a new deployment and test again.</div>
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-common">Very common</span><span class="error-type-title">404 Not Found</span></div>
@@ -200,7 +197,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   </div>
   <div class="error-type">
     <div class="error-type-header"><span class="error-type-tag tag-sometimes">Sometimes</span><span class="error-type-title">401 Unauthorized / 403 Forbidden</span></div>
-    <div class="error-type-body">An API is rejecting your request. Check your API key is correct and being sent. For Supabase, check your row level security policies allow the action.</div>
+    <div class="error-type-body">Something is rejecting the request. In Supabase, this usually means a permission is missing. Go to Authentication, then Policies, and check that the action is allowed for your table.</div>
   </div>
 
   <div class="section-break"><span class="section-break-label">how to ask your AI assistant for help</span><div class="section-break-line"></div></div>
@@ -224,7 +221,7 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
       <div class="step-num">3</div>
       <div class="step-body">
         <div class="step-title">Describe what you expected and what happened instead</div>
-        <div class="step-desc">"I expected the button to send the form data to the API. Instead I see this error and nothing happens." That sentence alone rules out half the possible causes.</div>
+        <div class="step-desc">"I expected the form to submit and store the data in Supabase. Instead I see this error and nothing happens." That sentence alone rules out half the possible causes.</div>
       </div>
     </div>
     <div class="step-row">
@@ -252,8 +249,8 @@ footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: fl
   </div>
 
   <div style="border: 1px solid var(--border); margin-top: 3.5rem; padding: 2rem 1.75rem; text-align: center;">
-    <div style="font-family: var(--font-title); font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem;">That is the bundle.</div>
-    <p style="font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 1.5rem;">You now have everything you need to go from idea to a live product with users, data, payments, and AI. Solo. Go build something.</p>
+    <div style="font-family: var(--font-title); font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem;">That is the course.</div>
+    <p style="font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 1.5rem;">You know how to build a page, give it a real domain, connect a database so people can reach you, and fix it when something goes wrong. That is enough to ship something real. Go build it.</p>
     <a href="/sops/shipitsolo/list.html" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--text); border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; transition: border-color 0.15s, color 0.15s;">Back to the index</a>
   </div>
 
