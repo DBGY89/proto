@@ -361,13 +361,19 @@
       drawStall(t);
       for (const b of L.bs) {
         if (b.lit <= .02 || b.construction) continue;
-        // Phones: the auto-tease lights the building but shows no name label (it would crowd the subtitle)
-        if (S.W <= 600 && isAuto()) continue;
         const lab = S.labels[b.pid], top = S.g - b.h - (b.antenna ? 30 : 0);
         let lx = b.x + b.w / 2 - lab.w / 2;
         lx = Math.max(-ox - lab.m + 6, Math.min(S.W - ox - lab.w + lab.m - 6, lx));
+        let ly = top - lab.h + lab.m - 8 - (1 - b.lit) * 6;
+        if (S.W <= 600) {
+          // Phones: never above subtitle bottom + 1.5em (the line the roofs already respect)
+          ly = Math.max(ly, S.g - S.avail - oy - lab.m);
+          // …and never over BUILD YOURS: if it would touch the sign, leave it out
+          const sb = S.signBox, vx = lx + lab.m, vy = ly + lab.m;
+          if (sb && vx < sb.x1 && vx + lab.vw > sb.x0 && vy < sb.y1 && vy + lab.vh > sb.y0) continue;
+        }
         const fl = !reduce && b.tgt > 0 && b.lit < b.tgt * .85 && Math.random() < .35 ? .35 : 1;
-        ctx.globalAlpha = b.lit * fl; ctx.drawImage(lab.cv, lx, top - lab.h + lab.m - 8 - (1 - b.lit) * 6, lab.w, lab.h); ctx.globalAlpha = 1;
+        ctx.globalAlpha = b.lit * fl; ctx.drawImage(lab.cv, lx, ly, lab.w, lab.h); ctx.globalAlpha = 1;
       }
     }
     ctx.restore();
@@ -415,6 +421,8 @@
     ctx.fillStyle = '#3d4080'; ctx.fillRect(hookX - 5, jibY + 3, 10, 4);
     // BUILD YOURS sign hanging from the hook: sway + soft pulse, no random flicker
     const sway = reduce ? 0 : Math.sin(t * .0011) * .05 + lit * Math.sin(t * .005) * .02;
+    // Sign box (+6px for the sway), so phone name labels can keep clear of it
+    S.signBox = { x0: hookX - lab.vw / 2 - 6, x1: hookX + lab.vw / 2 + 6, y0: jibY + 25 - 6, y1: jibY + 25 + lab.vh + 6 };
     ctx.save(); ctx.translate(hookX, jibY + 7); ctx.rotate(sway);
     ctx.strokeStyle = '#6a6da8'; ctx.lineWidth = 1; ctx.beginPath();
     ctx.moveTo(0, 0); ctx.lineTo(0, 9); ctx.lineTo(-lab.vw * .35, 18); ctx.moveTo(0, 9); ctx.lineTo(lab.vw * .35, 18); ctx.stroke();
