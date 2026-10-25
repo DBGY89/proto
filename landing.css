@@ -58,59 +58,83 @@
   background: rgba(255,255,255,.08);
 }
 
-/* ─── Hero — compact so cards peek into view ─── */
+/* ─── Hero — Seoul at night: canvas scene (seoul-scene.js) + title on top ─── */
 .hero {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 25vh;
-  max-height: 30vh;
-  text-align: center;
+  height: clamp(420px, 62vh, 620px);
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 30% 20%, #ff2d7812 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, #00f0ff0a 0%, transparent 50%),
-    var(--bg-deep);
+  background: #06071a;
 }
 
-.skyline {
+.hero-canvas {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
-  opacity: .55;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
+}
+
+/* Keyboard access to the BUILD YOURS building: hidden until focused */
+.hero-course-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 3;
+  padding: .55rem 1rem;
+  font-size: .85rem;
+  font-weight: 700;
+  color: #0a0a1a;
+  background: var(--neon-gold);
+  border-radius: 4px;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 1.5rem));
+}
+
+.hero-course-link:focus,
+.hero-course-link:focus-visible {
+  transform: none;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.hero-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
   pointer-events: none;
 }
 
-.skyline svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .hero-content {
-  position: relative;
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   padding: 2rem 2.5rem;
-  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(10, 10, 26, .75) 0%, rgba(10, 10, 26, .4) 50%, transparent 70%);
-  border-radius: 20px;
+  text-align: center;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(10, 10, 26, .8) 0%, rgba(10, 10, 26, .45) 50%, transparent 72%);
 }
 
 .hero-title {
-  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-size: clamp(2.6rem, 7vw, 5rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -.03em;
-  margin-bottom: 1rem;
   animation: fadeInDown .8s .15s var(--ease-out) both;
 }
 
 .hero-brand-link {
-  display: inline;
+  display: inline-flex;
+  gap: .25em;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .hero-brand-link:focus-visible {
@@ -119,20 +143,42 @@
   border-radius: 4px;
 }
 
-.neon {
+/* Neon tube lettering: light core + saturated stroke + one faint halo */
+.neon-tube {
   display: inline-block;
+  -webkit-text-stroke-width: 1.5px;
+}
+.neon-tube--pink {
+  color: #ffc2db;
+  -webkit-text-stroke-color: var(--neon-pink);
+  text-shadow: 0 0 14px rgba(255, 45, 120, .32);
+}
+.neon-tube--cyan {
+  color: #bff9ff;
+  -webkit-text-stroke-color: #00d8e6;
+  text-shadow: 0 0 14px rgba(0, 240, 255, .28);
+}
+.neon-tube--purple {
+  color: #e2c6ff;
+  -webkit-text-stroke-color: var(--neon-purple);
+  text-shadow: 0 0 14px rgba(178, 77, 255, .32);
+}
+/* Only the first "o" of Proto flickers */
+.neon-tube-flicker {
+  animation: tubeFlicker 11s 4s linear infinite;
 }
 
-/* neon-pink / neon-cyan / neon-purple → shared.css (with flicker animation added per element) */
-.neon-pink  { animation: flicker 4s ease-in-out infinite alternate; }
-.neon-cyan  { animation: flicker 5s 1s ease-in-out infinite alternate; }
-.neon-purple{ animation: flicker 6s 2s ease-in-out infinite alternate; }
+@keyframes tubeFlicker {
+  0%, 91%, 93.5%, 95%, 100% { opacity: 1; }
+  92% { opacity: .45; }
+  94% { opacity: .7; }
+}
 
 .hero-subtitle {
-  font-size: clamp(.85rem, 1.5vw, 1.05rem);
+  font-size: clamp(.95rem, 1.5vw, 1.1rem);
   color: var(--text-primary);
   max-width: 440px;
-  margin: 0 auto;
+  text-wrap: pretty;
   animation: fadeInDown .8s .3s var(--ease-out) both;
   text-shadow:
     0 0 2px rgba(0, 0, 0, 1),
@@ -160,7 +206,7 @@ body.landing-tab-sops-active .footer-cta {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1.75rem 1.75rem 1.5rem;
+  padding: .75rem 1.75rem 1.5rem;
   text-align: left;
 }
 
@@ -183,7 +229,7 @@ body.landing-tab-sops-active .footer-cta {
 .landing-tabs {
   position: relative;
   z-index: 5;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
 }
 .landing-tabs-row {
   display: flex;
@@ -228,6 +274,14 @@ body.landing-tab-sops-active .footer-cta {
 }
 .landing-tab-panel[hidden] {
   display: none !important;
+}
+/* Runs each time a panel is shown (display: none → block restarts it) */
+.landing-tab-panel.is-active {
+  animation: tabIn .35s ease-out;
+}
+@keyframes tabIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ─── Card grid: tarjetas compactas, mismas proporciones ─── */
@@ -379,7 +433,7 @@ body.landing-tab-sops-active .footer-cta {
 .card-rating {
   display: block;
   font-size: .75rem;
-  color: #666;
+  color: #7a7a8c; /* 4.6:1 on --bg-deep (was #666, 3.4:1) */
   text-align: right;
   margin-top: auto;
   padding-top: 0.35rem;
@@ -450,88 +504,6 @@ body.landing-tab-sops-active .footer-cta {
 
 .card:nth-child(2).is-visible { transition-delay: .1s; }
 .card:nth-child(3).is-visible { transition-delay: .2s; }
-
-/* ─── Snake: fullscreen canvas on the page ─── */
-.snake-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 500;
-  pointer-events: none;
-}
-
-/* ─── Snake: solo estas cajas, no las de proyectos ─── */
-.snake-hud {
-  position: fixed;
-  top: 1.2rem;
-  right: 1.5rem;
-  z-index: 510;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .5rem 1rem;
-  background: var(--bg-deep);
-  border: 1px solid var(--bg-card-border);
-  border-radius: 2px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, .35);
-  pointer-events: none;
-  animation: hudIn .4s var(--ease-out) both;
-}
-
-.snake-hud[hidden] { display: none; }
-
-@keyframes hudIn {
-  from { opacity: 0; transform: translateY(-12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.snake-hud-label {
-  font-size: 1rem;
-  opacity: .9;
-}
-
-.snake-hud-score {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--neon-cyan);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 8px rgba(0, 240, 255, .4);
-}
-
-.snake-revive {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 510;
-  padding: .65rem 1.35rem;
-  font-family: var(--font-main);
-  font-size: .88rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: var(--bg-deep);
-  border: 1px solid var(--bg-card-border);
-  border-radius: 2px;
-  cursor: pointer;
-  min-height: 44px;
-  transition: border-color .25s ease, color .25s ease, box-shadow .25s ease, transform .15s ease;
-  animation: reviveIn .4s var(--ease-out) both;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, .35);
-}
-
-.snake-revive[hidden] { display: none; }
-
-@keyframes reviveIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.snake-revive:hover {
-  color: var(--neon-cyan);
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 20px rgba(0, 240, 255, .15), inset 0 0 40px rgba(0, 240, 255, .06);
-  transform: translateY(-1px);
-}
 
 /* ─── Footer: memorable ending (Peak-End Rule) ─── */
 .footer {
@@ -960,30 +932,26 @@ body.poster-group-screen-open {
 }
 
 /* ─── Responsive ─── */
-@media (max-width: 640px) {
-  .hero { min-height: 20vh; }
-  .hero-title { letter-spacing: -.02em; }
-  .hero-subtitle {
-    font-size: .95rem;
-  }
+/* Desktop: title block close to the top so the subtitle clears the central roofs */
+@media (min-width: 601px) {
+  .hero-overlay { top: 0; }
+  .hero-content { padding-top: clamp(1.5rem, 4vh, 2.5rem); }
+}
 
+/* Phones: title close to the top, shorter hero so tabs and first card peek in.
+   seoul-scene.js keeps every roof ≥ 1.5em under the subtitle at these widths. */
+@media (max-width: 600px) {
+  .hero { height: clamp(380px, 56vh, 500px); }
+  .hero-overlay { top: 0; }
+  .hero-content { padding: clamp(1.5rem, 3.6vh, 2rem) 1rem 0; }
+}
+
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
   }
-  .projects { padding: 1.75rem 1.25rem 1.25rem; }
-
-  /* Skyline más alta en mobile: edificios alargados hacia abajo; menos hueco hasta la pill */
-  .hero .skyline {
-    height: 140px;
-    opacity: 0.65;
-  }
-  .hero .skyline svg {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center bottom;
-  }
+  .projects { padding: .75rem 1.25rem 1.25rem; }
 
   /* Projects como pill: ocupa poco espacio, estilo etiqueta */
   .section-heading {
@@ -1034,33 +1002,5 @@ body.poster-group-screen-open {
   /* File notice breathing room on small widths */
   .file-protocol-notice {
     padding: .75rem 1.25rem;
-  }
-
-  /* Snake HUD + revive button respect safe areas on mobile */
-  .snake-hud {
-    top: calc(1rem + env(safe-area-inset-top));
-    right: 1rem;
-  }
-
-  /* Opción 2: barra ancha — botón ocupa el ancho con márgenes, no choca con el footer */
-  .snake-revive {
-    bottom: calc(1rem + env(safe-area-inset-bottom));
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    text-align: center;
-    animation: reviveInMobileBar .4s var(--ease-out) both;
-  }
-  .snake-revive:hover {
-    transform: translateY(-1px);
-  }
-  @keyframes reviveInMobileBar {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Reservar espacio para el CTA sticky: todo el texto del footer (incl. el rojo) queda visible con margen */
-  .footer {
-    padding-bottom: calc(5rem + 44px + env(safe-area-inset-bottom));
   }
 }
