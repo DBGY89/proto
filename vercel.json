@@ -5,6 +5,7 @@
     { "source": "/hangul/", "destination": "/learn-hangul/", "permanent": true },
     { "source": "/projects/hangul", "destination": "/learn-hangul/", "permanent": true },
     { "source": "/projects/hangul/", "destination": "/learn-hangul/", "permanent": true },
+    { "source": "/sops/shipitsolo/what-to-do-when-something-breaks", "destination": "/sops/shipitsolo/you-made-it", "permanent": true },
     { "source": "/projects/:project/index.html", "destination": "/:project/", "permanent": true },
     { "source": "/projects/:project", "destination": "/:project/", "permanent": true },
     { "source": "/projects/:project/", "destination": "/:project/", "permanent": true },
@@ -19,7 +20,7 @@
     { "source": "/sops/shipitsolo/from-your-laptop-to-a-live-url",      "destination": "/sops/shipitsolo/SOPs/sop-03.html" },
     { "source": "/sops/shipitsolo/your-own-domain-and-vercel",         "destination": "/sops/shipitsolo/SOPs/sop-04.html" },
     { "source": "/sops/shipitsolo/add-a-booking-form-with-supabase",  "destination": "/sops/shipitsolo/SOPs/sop-05.html" },
-    { "source": "/sops/shipitsolo/what-to-do-when-something-breaks",  "destination": "/sops/shipitsolo/SOPs/sop-06.html" },
+    { "source": "/sops/shipitsolo/you-made-it",                        "destination": "/sops/shipitsolo/SOPs/sop-06.html" },
     { "source": "/sops/:brand/:path*", "destination": "/sops/:brand/:path*" },
     { "source": "/:project/", "destination": "/projects/:project/index.html" },
     { "source": "/:project/:path*", "destination": "/projects/:project/:path*" }
